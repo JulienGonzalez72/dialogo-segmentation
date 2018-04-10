@@ -16,7 +16,7 @@ public class Fenetre extends JFrame{
 		setResizable(true);
 		Panneau pan = null;
 		try {
-			pan = new Panneau();
+			pan = new Panneau(tailleX,tailleY);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

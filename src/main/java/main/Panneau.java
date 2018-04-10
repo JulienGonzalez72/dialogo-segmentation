@@ -3,23 +3,35 @@ package main;
 import java.awt.*;
 import java.io.*;
 import javax.swing.*;
+import javax.swing.text.BadLocationException;
+
 
 public class Panneau extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	public Panneau() throws IOException {
-		this.setLayout(new GridLayout(1, 1));
-		JEditorPane editorPane = new JEditorPane();
-		editorPane.setText(getTextFromFile("ressources/textes/dameDeFoix.txt"));
-		editorPane.setEditable(false);
-		Font font = new Font("TimesRoman", Font.BOLD, 18);
-		editorPane.setFont(font);
+	//panneau du texte
+	public JTextPane panelText;
+
+	public Panneau() throws IOException, BadLocationException {
 		
-		this.add(editorPane);
+		ControlerMouse controlerMouse = new ControlerMouse(this);
+		
+		setLayout(new GridLayout(1, 1));
+		
+		//panel of text
+		panelText = new JTextPane();
+		panelText.setText(getTextFromFile("ressources/textes/dameDeFoix.txt"));
+		panelText.setEditable(false);
+		panelText.addMouseListener(controlerMouse);
+		
+		this.add(panelText);
 	}
 	
-	private String getTextFromFile(String emplacement) throws IOException{
+	/**
+	 * retourne le contenu du fichier .txt situé à l'emplacement du paramètre
+	 *
+	 */ String getTextFromFile(String emplacement) throws IOException{
 		File fichierTxt = new File(emplacement);
 		InputStream ips = null;
 		ips = new FileInputStream(fichierTxt);

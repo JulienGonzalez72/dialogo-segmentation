@@ -12,6 +12,7 @@ public class Panneau extends JPanel {
 		this.setLayout(new GridLayout(1, 1));
 		TextPane editorPane = new TextPane();
 		editorPane.setText(getTextFromFile("ressources/textes/dameDeFoix.txt"));
+		editorPane.insert(editorPane.getText().indexOf(""), "/");
 		editorPane.setEditable(false);
 		
 		this.add(editorPane);

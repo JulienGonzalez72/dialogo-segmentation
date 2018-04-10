@@ -12,4 +12,10 @@ public class TextPane extends JTextPane {
 		setBackground(new Color(255, 255, 150));
 	}
 	
+	public void insert(int offset, String str) {
+		StringBuilder builder = new StringBuilder(getText());
+		builder.insert(offset, str);
+		setText(builder.toString());
+	}
+	
 }

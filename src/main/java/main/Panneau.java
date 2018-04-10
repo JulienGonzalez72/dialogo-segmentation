@@ -23,6 +23,7 @@ public class Panneau extends JPanel {
 		String chaine = "";
 		Stream<String> lignes = br.lines();
 		br.close();
+		//commentaire de roman
 	}
 
 }

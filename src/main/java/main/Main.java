@@ -18,7 +18,7 @@ public class Main {
 			e.printStackTrace();
 		}
 		
-		new Fenetre("Lexidia", 500, 500);
+		new Fenetre("Lexidia", 1200, 500);
 	}
 	
 }

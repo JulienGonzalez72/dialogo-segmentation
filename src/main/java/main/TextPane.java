@@ -13,7 +13,7 @@ import javax.swing.text.StyledDocument;
 public class TextPane extends JTextPane {
 	
 	private static final long serialVersionUID = 1L;
-
+	
 	public TextPane() {
 		setFont(new Font("OpenDyslexic", Font.BOLD, 20));
 		setBackground(new Color(255, 255, 150));
@@ -28,7 +28,7 @@ public class TextPane extends JTextPane {
 	int indiceDernierCaractereSurligne;
 	
 	/**
-	 * surligne tout jusqu'à positionClic avec la couleur couleur
+	 * surligne tout jusqu'à positionClic avec la couleur spécifiée
 	 *
 	 */
 	public void surlignerPhrase(int positionClic, Color couleur) {
@@ -61,4 +61,12 @@ public class TextPane extends JTextPane {
 
 	}
 	
+	/**
+	 * surligne en rouge jusqu'à la position attendue et incrémente de 1 le nombre d'erreurs
+	 *
+	 */
+	public void gererErreur(int bonnePosition){
+		surlignerPhrase(bonnePosition,Color.RED);
+		ControlerMouse.nbErreurs++;
+	}
 }

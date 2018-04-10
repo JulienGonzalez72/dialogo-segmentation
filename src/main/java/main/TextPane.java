@@ -52,7 +52,7 @@ public class TextPane extends JTextPane {
 				}
 			} else {
 				try {
-					doc.insertString(i,""+chaine.toCharArray()[i], doc.getStyle("autre"));
+					doc.insertString(i,""+chaine.toCharArray()[i], doc.getStyle(""));
 				} catch (BadLocationException e) {
 					e.printStackTrace();
 				}

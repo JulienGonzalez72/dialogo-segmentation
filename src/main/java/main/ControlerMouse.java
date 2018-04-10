@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -14,8 +15,8 @@ public class ControlerMouse implements MouseListener {
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		if (handler.correctPause(view.editorPane.getCaretPosition()))
-			view.editorPane.insert(view.editorPane.getCaretPosition(), "/");
+		if (handler.wordPause(view.editorPane.getCaretPosition()))
+			view.editorPane.surlignerPhrase(handler.endWordPosition(view.editorPane.getCaretPosition()) + 1, Color.GREEN);
 	}
 
 	public void mouseEntered(MouseEvent e) {

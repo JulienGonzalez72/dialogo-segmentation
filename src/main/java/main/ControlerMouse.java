@@ -1,64 +1,51 @@
 package main;
 
+import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import javax.swing.text.*;
 
-import javax.swing.JTextPane;
-import javax.swing.text.BadLocationException;
+public class ControlerMouse implements MouseListener {
 
-public class ControlerMouse implements MouseListener{
-	
 	Panneau view;
-	
-	public ControlerMouse(Panneau p){
+
+	public ControlerMouse(Panneau p) {
 		view = p;
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		JTextPane panel = view.editorPane;
+		String texteAvecCesure = view.texteAvecCesure;
+		TextPane panel = view.editorPane;
 		int positionClic = panel.getCaretPosition();
-		int longueur = 1;
-		String word = " ";
+		TextPane panelCesure = new TextPane();
+		panelCesure.setText(texteAvecCesure);
 		try {
-			if ( Character.isAlphabetic(panel.getText(positionClic+1, 1).toCharArray()[0])){
-				word += panel.getText(positionClic+1, 1);
-			}
-		} catch (BadLocationException e2) {
-			
-		}
-		while( Character.isAlphabetic(word.toCharArray()[word.length()-1])){
-			longueur++;
-			try {
-				word += panel.getText(positionClic+longueur, 1);
-			} catch (BadLocationException e1) {
-				break;
-			}
-		}
-		try {
-			System.out.println(panel.getText(positionClic, longueur));
+			System.out.println(panel.getText(positionClic, 1));
 		} catch (BadLocationException e1) {
-			
+			e1.printStackTrace();
 		}
+		view.editorPane.surlignerPhrase(positionClic, Color.green);
 	}
 
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
+
 
 }

@@ -8,8 +8,11 @@ public class Panneau extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	//panneau du texte
-	public JTextPane editorPane;
+	//panneau du texte sans cesure
+	public TextPane editorPane;
+
+	//contient le texte avec cesure
+	public String texteAvecCesure;
 
 	public Panneau() throws IOException {
 		
@@ -18,10 +21,12 @@ public class Panneau extends JPanel {
 		this.setLayout(new GridLayout(1, 1));
 		
 		editorPane = new TextPane();
-		editorPane.setText(getTextFromFile("ressources/textes/dameDeFoix.txt"));
+		editorPane.setText(getTextFromFile("ressources/textes/Ah les crocodiles"));
 		editorPane.setEditable(false);	
 		editorPane.addMouseListener(controlerMouse);
 		this.add(editorPane);
+
+		texteAvecCesure = getTextFromFile("ressources/textes/Ah les crocodiles C");
 	}
 	
 	/**

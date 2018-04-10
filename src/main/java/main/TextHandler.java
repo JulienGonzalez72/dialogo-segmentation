@@ -5,6 +5,7 @@ public class TextHandler {
 	private String ctxt;
 	private String txt;
 	
+	
 	public TextHandler(String texteOriginal, String texteAvecCesures) {
 		this.txt = texteOriginal;
 		this.ctxt = texteAvecCesures;
@@ -33,6 +34,6 @@ public class TextHandler {
 	 */
 	public void markPause(int offset) {
 		
-	}
+	} 
 	
 }

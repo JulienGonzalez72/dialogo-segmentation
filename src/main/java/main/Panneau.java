@@ -9,16 +9,20 @@ public class Panneau extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	//panneau du texte
-	public JTextPane editorPane;
+	public TextPane editorPane;
 
 	public Panneau() throws IOException {
+
+		String texte = getTextFromFile("ressources/textes/Ah les crocodiles");
+		String texteCesures = getTextFromFile("ressources/textes/Ah les crocodiles C");
 		
-		ControlerMouse controlerMouse = new ControlerMouse(this);
+		ControlerMouse controlerMouse = new ControlerMouse(this, new TextHandler(texte, texteCesures));
 		
 		this.setLayout(new GridLayout(1, 1));
 		
 		editorPane = new TextPane();
-		editorPane.setText(getTextFromFile("ressources/textes/dameDeFoix.txt"));
+		
+		editorPane.setText(texte);
 		editorPane.setEditable(false);	
 		editorPane.addMouseListener(controlerMouse);
 		this.add(editorPane);

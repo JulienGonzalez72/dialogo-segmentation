@@ -10,8 +10,6 @@ public class Main {
 	
 	public static void main(String[] args) {
 
-		new Fenetre("Lexidia", 500, 500);
-
 		try {
 			GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("ressources/fonts/OpenDyslexic-Bold.otf")));
 		} catch (FontFormatException e) {
@@ -19,6 +17,8 @@ public class Main {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		new Fenetre("Lexidia", 500, 500);
 	}
 	
 }

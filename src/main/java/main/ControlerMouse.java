@@ -1,6 +1,5 @@
 package main;
 
-import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -16,16 +15,18 @@ public class ControlerMouse implements MouseListener{
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		JTextPane panel = view.panelText;
+		JTextPane panel = view.editorPane;
 		int positionClic = panel.getCaretPosition();
 		int longueur = 1;
 		String word = " ";
 		try {
-			word += panel.getText(positionClic+1, 1);
+			if ( Character.isAlphabetic(panel.getText(positionClic+1, 1).toCharArray()[0])){
+				word += panel.getText(positionClic+1, 1);
+			}
 		} catch (BadLocationException e2) {
 			
 		}
-		while( word.toCharArray()[word.length()-1] != ' '){
+		while( Character.isAlphabetic(word.toCharArray()[word.length()-1])){
 			longueur++;
 			try {
 				word += panel.getText(positionClic+longueur, 1);

@@ -3,7 +3,6 @@ package main;
 import java.io.IOException;
 
 import javax.swing.*;
-import javax.swing.text.BadLocationException;
 
 public class Fenetre extends JFrame{
 
@@ -19,8 +18,6 @@ public class Fenetre extends JFrame{
 		try {
 			pan = new Panneau();
 		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (BadLocationException e) {
 			e.printStackTrace();
 		}
 		setContentPane(pan);		

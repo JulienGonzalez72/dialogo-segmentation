@@ -3,38 +3,25 @@ package main;
 import java.awt.*;
 import java.io.*;
 import javax.swing.*;
-import javax.swing.text.BadLocationException;
-
 
 public class Panneau extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-<<<<<<< HEAD
 	//panneau du texte
-	public JTextPane panelText;
+	public JTextPane editorPane;
 
-	public Panneau() throws IOException, BadLocationException {
+	public Panneau() throws IOException {
 		
 		ControlerMouse controlerMouse = new ControlerMouse(this);
 		
-		setLayout(new GridLayout(1, 1));
-		
-		//panel of text
-		panelText = new JTextPane();
-		panelText.setText(getTextFromFile("ressources/textes/dameDeFoix.txt"));
-		panelText.setEditable(false);
-		panelText.addMouseListener(controlerMouse);
-=======
-	public Panneau() throws IOException {
 		this.setLayout(new GridLayout(1, 1));
-		TextPane editorPane = new TextPane();
-		editorPane.setText(getTextFromFile("ressources/textes/dameDeFoix.txt"));
-		editorPane.insert(editorPane.getText().indexOf(""), "/");
-		editorPane.setEditable(false);
->>>>>>> 5603b221d1bb0520aa95df5b149907bf3acf1ef3
 		
-		this.add(panelText);
+		editorPane = new TextPane();
+		editorPane.setText(getTextFromFile("ressources/textes/dameDeFoix.txt"));
+		editorPane.setEditable(false);	
+		editorPane.addMouseListener(controlerMouse);
+		this.add(editorPane);
 	}
 	
 	/**

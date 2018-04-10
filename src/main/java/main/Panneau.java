@@ -10,11 +10,9 @@ public class Panneau extends JPanel {
 
 	public Panneau() throws IOException {
 		this.setLayout(new GridLayout(1, 1));
-		JEditorPane editorPane = new JEditorPane();
+		TextPane editorPane = new TextPane();
 		editorPane.setText(getTextFromFile("ressources/textes/dameDeFoix.txt"));
 		editorPane.setEditable(false);
-		Font font = new Font("TimesRoman", Font.BOLD, 18);
-		editorPane.setFont(font);
 		
 		this.add(editorPane);
 	}

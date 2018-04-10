@@ -13,7 +13,7 @@ import javax.swing.text.StyledDocument;
 public class TextPane extends JTextPane {
 	
 	private static final long serialVersionUID = 1L;
-
+	
 	public TextPane() {
 		setFont(new Font("OpenDyslexic", Font.BOLD, 20));
 		setBackground(new Color(255, 255, 150));
@@ -28,14 +28,14 @@ public class TextPane extends JTextPane {
 	int indiceDernierCaractereSurligne;
 	
 	/**
-	 * surligne tout jusqu'à positionClic avec la couleur couleur
+	 * surligne tout jusqu'à positionClic avec la couleur spécifiée
 	 *
 	 */
-	public void surlignerPhrase(int positionClic, Color couleur) {
-		if ( positionClic < indiceDernierCaractereSurligne){
-			positionClic = indiceDernierCaractereSurligne;
+	public void surlignerPhrase(int debut, int fin, Color couleur) {
+		if ( debut < indiceDernierCaractereSurligne){
+			debut = indiceDernierCaractereSurligne;
 		}
-		indiceDernierCaractereSurligne = positionClic;
+		indiceDernierCaractereSurligne = debut;
 		StyledDocument doc = this.getStyledDocument();
 		Style def = StyleContext.getDefaultStyleContext().getStyle(StyleContext.DEFAULT_STYLE);
 		Style regular = doc.addStyle("regular", def);
@@ -44,7 +44,7 @@ public class TextPane extends JTextPane {
 		String chaine = this.getText();
 		this.setText("");
 		for (int i = 0; i < chaine.length(); i++) {
-			if (i < positionClic) {
+			if (i >= debut && i <= fin) {
 				try {
 					doc.insertString(i, ""+chaine.toCharArray()[i], doc.getStyle("surligner"));
 				} catch (BadLocationException e) {
@@ -61,4 +61,12 @@ public class TextPane extends JTextPane {
 
 	}
 	
+	/**
+	 * surligne en rouge jusqu'à la position attendue et incrémente de 1 le nombre d'erreurs
+	 *
+	 */
+	public void gererErreur(int debut, int fin){
+		surlignerPhrase(debut,fin,Color.RED);
+		ControlerMouse.nbErreurs++;
+	}
 }

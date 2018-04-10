@@ -13,6 +13,7 @@ public class TextHandler {
 	
 	public TextHandler(String texteOriginal) {
 		this.txt = texteOriginal;
+		this.phrases = new HashMap<Integer, String>();
 		for (String phrase : texteOriginal.split("/")) {
 			phrases.put(phrases.size(), phrase);
 		}

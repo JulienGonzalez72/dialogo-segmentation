@@ -4,11 +4,11 @@ import java.io.IOException;
 
 import javax.swing.*;
 
-public class Fenetre extends JFrame{
+public class Fenetre extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	
-	public Fenetre(String titre, int tailleX, int tailleY){
+
+	public Fenetre(String titre, int tailleX, int tailleY) {
 		setTitle(titre);
 		setSize(tailleX, tailleY);
 		setLocationRelativeTo(null);
@@ -20,7 +20,7 @@ public class Fenetre extends JFrame{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		setContentPane(pan);		
+		setContentPane(pan);
 		setVisible(true);
 	}
 

@@ -10,6 +10,8 @@ import javax.swing.*;
 
 public class Panneau extends JPanel {
 
+	public static final int defautNBSegmentsParPage = 2;
+	
 	private static final long serialVersionUID = 1L;
 
 	// panneau du texte
@@ -17,6 +19,7 @@ public class Panneau extends JPanel {
 	public TextHandler textHandler;
 	public int pageActuelle;
 	public int nbPages;
+	public int nbSegmentsParPage = defautNBSegmentsParPage;
 	
 	public Panneau(int w, int h) throws IOException {
 
@@ -26,10 +29,10 @@ public class Panneau extends JPanel {
 		ControlerMouse controlerMouse = new ControlerMouse(this, textHandler);
 
 		String texteAfficher = "";
-		//on recuepre les segments a afficher dans la apge
-		String[] tab = textHandler.getPhrases((pageActuelle-1)*textHandler.nbSegmentParPage,pageActuelle*textHandler.nbSegmentParPage);
+		//on recuepre les segments a afficher dans la page
+		String[] tab = textHandler.getPhrases((pageActuelle-1)*nbSegmentsParPage-1,pageActuelle*nbSegmentsParPage-1);
 		for (String string : tab) {
-			texteAfficher += tab;
+			texteAfficher += string;
 		}
 		
 		
@@ -60,6 +63,17 @@ public class Panneau extends JPanel {
 		}
 		br.close();
 		return toReturn;
+	}
+	
+	public void afficherPageSuivante(){
+		pageActuelle++;
+		String texteAfficher = "";
+		//on recuepre les segments a afficher dans la page
+		String[] tab = textHandler.getPhrases((pageActuelle-1)*nbSegmentsParPage,pageActuelle*nbSegmentsParPage);
+		for (String string : tab) {
+			texteAfficher += string;
+		}
+		editorPane.setText(texteAfficher);
 	}
 
 }

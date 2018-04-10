@@ -6,23 +6,17 @@ import java.awt.event.MouseListener;
 
 public class ControlerMouse implements MouseListener {
 
-	public static int nbErreurs;
-	public Panneau view;
+	Panneau view;
 	TextHandler handler;
-
 
 	public ControlerMouse(Panneau p, TextHandler handler) {
 		view = p;
 		this.handler = handler;
-		nbErreurs = 0;
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		if (handler.correctPause(view.editorPane.getCaretPosition())){
-			//view.editorPane.surlignerPhrase(debut,fin, Color.GREEN);
-		} else {
-			//view.editorPane.gererErreur(bonnePosition);
-		}
+		if (handler.wordPause(view.editorPane.getCaretPosition()))
+			view.editorPane.surlignerPhrase(handler.endWordPosition(view.editorPane.getCaretPosition()) + 1, Color.GREEN);
 	}
 
 	public void mouseEntered(MouseEvent e) {

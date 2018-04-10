@@ -17,7 +17,11 @@ public class Main {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> a759dec80509cf7b562d839c99832cfd29bb5bdc
 		new Fenetre("Lexidia", 500, 500);
 	}
 	

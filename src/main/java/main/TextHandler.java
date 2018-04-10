@@ -1,10 +1,11 @@
 package main;
 
-import java.time.chrono.IsoChronology;
+import java.util.*;
 
 public class TextHandler {
 	
 	private String txt;
+	private Map<Integer, String> phrases;
 	/**
 	 * Numéro de la césure courante
 	 */
@@ -12,6 +13,9 @@ public class TextHandler {
 	
 	public TextHandler(String texteOriginal) {
 		this.txt = texteOriginal;
+		for (String phrase : texteOriginal.split("/")) {
+			phrases.put(phrases.size(), phrase);
+		}
 	}
 	
 	/**
@@ -19,6 +23,18 @@ public class TextHandler {
 	 */
 	public String getShowText() {
 		return txt.replaceAll("\\", "");
+	}
+	
+	public String[] getPhrases(int start, int end) {
+		List<String> list = new ArrayList<String>();
+		Iterator<Integer> keys = phrases.keySet().iterator();
+		while (keys.hasNext()) {
+			int key = keys.next();
+			if (key >= start && key <= end) {
+				list.add(phrases.get(key));
+			}
+		}
+		return list.toArray(new String[0]);
 	}
 	
 	/**
@@ -33,7 +49,7 @@ public class TextHandler {
 	 * Enlève les césures du texte avec césures jusqu'à la position indiquée.
 	 */
 	private String getTextWithCutPauses(int endOffset) {
-		StringBuilder b = new StringBuilder(ctxt);
+		StringBuilder b = new StringBuilder(txt);
 		for (int i = 0; i < b.length(); i++) {
 			if (i >= endOffset) {
 				break;

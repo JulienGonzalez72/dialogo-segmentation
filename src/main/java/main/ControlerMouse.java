@@ -24,24 +24,6 @@ public class ControlerMouse implements MouseListener {
 	}
 
 	public void mouseClicked(MouseEvent e) {
-<<<<<<< HEAD
-		if (view.editorPane.getCaretPosition() > view.editorPane.indiceDernierCaractereSurligne) {
-			/// cherche la position exacte dans le texte ///
-			int offset = handler.getAbsoluteOffset(view.getNumeroPremierSegmentAffiché(), view.editorPane.getCaretPosition());
-			
-			//si le clic est juste
-			System.out.println(handler.getPhraseIndex(offset));
-			if (handler.wordPause(offset) && handler.getPhraseIndex(offset) == view.segmentActuel) {
-				int pauseOffset = handler.endWordPosition(offset);
-				view.editorPane.surlignerPhrase(handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(), pauseOffset + 1),
-						Color.GREEN);
-				view.segmentActuel++;
-				
-				// on restaure le nombre d'essais
-				view.nbEssaisRestantPourLeSegmentCourant = Panneau.defautNBEssaisParSegment;
-				
-=======
-
 		// on ne fait rien si le clic est sur un mot déjà surligné en vert
 		if (view.editorPane.getCaretPosition() > view.editorPane.indiceDernierCaractereSurligne) {
 			/// cherche la position exacte dans le texte ///
@@ -49,7 +31,7 @@ public class ControlerMouse implements MouseListener {
 					view.editorPane.getCaretPosition());
 
 			// si le clic est juste
-			if (handler.wordPause(offset)) {
+			if (handler.wordPause(offset) && handler.getPhraseIndex(offset) == view.segmentActuel) {
 				int pauseOffset = handler.endWordPosition(offset);
 				// on restaure le nombre d'essais
 				view.nbEssaisRestantPourLeSegmentCourant = Panneau.defautNBEssaisParSegment;
@@ -57,7 +39,6 @@ public class ControlerMouse implements MouseListener {
 						handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(), pauseOffset + 1), Color.GREEN);
 				System.out.println(handler.getPauseIndex(pauseOffset + 1));
 				view.segmentActuel++;
->>>>>>> c95e28049ad3fc498922688554e5c34ad81305ee
 				// si la page est finis on affiche la suivante
 				if (view.pageFinis()) {
 
@@ -73,15 +54,12 @@ public class ControlerMouse implements MouseListener {
 						}
 					}.execute();
 				}
-<<<<<<< HEAD
-			// si le clic est faux
-=======
 				// si le clic est faux
->>>>>>> c95e28049ad3fc498922688554e5c34ad81305ee
 			} else {
 				view.nbEssaisRestantPourLeSegmentCourant--;
 				if (view.nbEssaisRestantPourLeSegmentCourant > 0) {
-					view.indiquerErreur(handler.startWordPosition(offset),handler.endWordPosition(offset));
+					view.indiquerErreur(handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(), handler.startWordPosition(offset)),
+							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(), handler.endWordPosition(offset)));
 				} else {
 					view.indiquerEtCorrigerErreur();
 				}

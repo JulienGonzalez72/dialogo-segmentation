@@ -18,16 +18,13 @@ public class ControlerMouse implements MouseListener {
 	}
 
 	public void mouseClicked(MouseEvent e) {
-<<<<<<< HEAD
 		if (handler.wordPause(view.editorPane.getCaretPosition()))
-			view.editorPane.surlignerPhrase(handler.endWordPosition(view.editorPane.getCaretPosition()) + 1, Color.GREEN);
-=======
+			view.editorPane.surlignerPhrase(0, handler.endWordPosition(view.editorPane.getCaretPosition()) + 1, Color.GREEN);
 		if (handler.correctPause(view.editorPane.getCaretPosition())){
 			//view.editorPane.surlignerPhrase(debut,fin, Color.GREEN);
 		} else {
 			//view.editorPane.gererErreur(bonnePosition);
 		}
->>>>>>> 9dd8d22856a7fd5c1a9630037843d77792ad3bc1
 	}
 
 	public void mouseEntered(MouseEvent e) {

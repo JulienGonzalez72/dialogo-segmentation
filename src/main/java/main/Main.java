@@ -18,14 +18,8 @@ public class Main {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-<<<<<<< HEAD
 		
-		new Fenetre("Lexidia", 500, 500);
-=======
-
 		new Fenetre("Lexidia", 1200, 600);
-
->>>>>>> 9dd8d22856a7fd5c1a9630037843d77792ad3bc1
 	}
 
 }

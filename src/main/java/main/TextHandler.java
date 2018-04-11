@@ -45,6 +45,12 @@ public class TextHandler {
 		String b = getTextWithCutPauses(offset);
 		return b.charAt(offset + 1) == '/';
 	}
+	
+	public int getPauseIndex(int offset) {
+		if (!correctPause(offset))
+			return -1;
+		return 0;
+	}
 
 	/**
 	 * Enlève les césures du texte avec césures jusqu'à la position indiquée.

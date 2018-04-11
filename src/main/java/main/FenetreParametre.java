@@ -1,24 +1,26 @@
 package main;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
-import java.awt.GridLayout;
+import java.awt.*;
 import javax.swing.*;
 
 public class FenetreParametre extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	public static String police = "Arial";
+	public static String police = "ressources/fonts/Arial-Regular.otf";
 	public static int taillePolice = 12;
-	public static Color couleurFond = Color.yellow;
+	public static Color couleurFond = new Color(255, 255, 150);
+	public static String titre;
+	public static int tailleX;
+	public static int tailleY;
 
 	public static void main(String[] args) {
 		new FenetreParametre("Parametres", 500, 500);
 	}
 
 	public FenetreParametre(String titre, int tailleX, int tailleY) {
+		FenetreParametre.titre = titre;
+		FenetreParametre.tailleX = tailleX;
+		FenetreParametre.tailleY = tailleY;
 		setTitle(titre);
 		setSize(tailleX, tailleY);
 		setLocationRelativeTo(null);
@@ -66,10 +68,10 @@ public class FenetreParametre extends JFrame {
 
 			ControleurParam controleur = new ControleurParam(this);
 			valider.addActionListener(controleur);
-			
-			JPanel panneauListe1 = new JPanel(new GridLayout(1,3));
-			JPanel panneauListe2 = new JPanel(new GridLayout(1,3));
-			JPanel panneauListe3 = new JPanel(new GridLayout(1,3));
+
+			JPanel panneauListe1 = new JPanel(new GridLayout(1, 3));
+			JPanel panneauListe2 = new JPanel(new GridLayout(1, 3));
+			JPanel panneauListe3 = new JPanel(new GridLayout(1, 3));
 
 			listePolices = new JComboBox<Object>(polices);
 			((JLabel) listePolices.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
@@ -94,7 +96,7 @@ public class FenetreParametre extends JFrame {
 			panneauListe3.add(new JLabel());
 			panneauListe3.add(listeCouleurs);
 			panneauListe3.add(new JLabel());
-			
+
 			add(police);
 			add(panneauListe1);
 			add(taillePolice);
@@ -106,6 +108,10 @@ public class FenetreParametre extends JFrame {
 
 		}
 
+	}
+
+	public static void lancerExercice() {
+		new Fenetre(titre, tailleX, tailleY);
 	}
 
 }

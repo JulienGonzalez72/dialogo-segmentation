@@ -19,7 +19,7 @@ public class Main {
 			e.printStackTrace();
 		}
 
-		new Fenetre("Lexidia", 1200, 600);
+		new FenetreParametre("Lexidia", 1200, 600);
 	}
 
 }

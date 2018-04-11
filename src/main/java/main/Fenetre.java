@@ -1,7 +1,6 @@
 package main;
 
 import java.io.IOException;
-
 import javax.swing.*;
 
 public class Fenetre extends JFrame {
@@ -16,7 +15,7 @@ public class Fenetre extends JFrame {
 		setResizable(true);
 		Panneau pan = null;
 		try {
-			pan = new Panneau(tailleX,tailleY,this);
+			pan = new Panneau(tailleX, tailleY, this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

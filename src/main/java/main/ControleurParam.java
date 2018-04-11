@@ -16,15 +16,15 @@ public class ControleurParam implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
-		JComboBox jcb = null;
+		JComboBox<?> jcb = null;
 		if (arg0.getSource() instanceof JComboBox) {
-			jcb = (JComboBox) arg0.getSource();
+			jcb = (JComboBox<?>) arg0.getSource();
 		}
 		if (jcb == panneau.listeCouleurs) {
 			String s = (String) jcb.getSelectedItem();
 			if (s == "Jaune") {
-				FenetreParametre.couleurFond = Color.YELLOW;
-				panneau.listeCouleurs.setBackground(Color.yellow);
+				FenetreParametre.couleurFond = new Color(255, 255, 150);
+				panneau.listeCouleurs.setBackground(new Color(255, 255, 150));
 			}
 			if (s == "Orange") {
 				FenetreParametre.couleurFond = Color.orange;
@@ -38,18 +38,15 @@ public class ControleurParam implements ActionListener {
 		if (jcb == panneau.listeTailles) {
 			int taille = Integer.valueOf((String) jcb.getSelectedItem());
 			FenetreParametre.taillePolice = taille;
-			panneau.listeTailles.setFont(new Font("Arial",Font.PLAIN,taille));
+			panneau.listeTailles.setFont(new Font("Arial", Font.PLAIN, taille));
 		}
 		if (jcb == panneau.listePolices) {
 			String police = (String) jcb.getSelectedItem();
-			FenetreParametre.police = police;
-			panneau.listeTailles.setFont(new Font(police,Font.PLAIN,12));
+			FenetreParametre.police = "ressources/fonts/" + police + "-Regular.otf";
+			// TODO mettre la police du selecteur de police sur la police selectionnée
 		}
 		if (arg0.getSource() == panneau.valider) {
-			System.out.println("Validation : ");
-			System.out.println("Police : "+FenetreParametre.police);
-			System.out.println("Taille : "+FenetreParametre.taillePolice);
-			System.out.println("Couleur : "+FenetreParametre.couleurFond);
+			FenetreParametre.lancerExercice();
 		}
 	}
 

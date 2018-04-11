@@ -8,19 +8,14 @@ public class Panneau extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-<<<<<<< HEAD
-	public static final int defautNBSegmentsParPage = 3;
-	public static final int defautNBEssaisParSegment = 1;
-=======
 	public static final int defautNBSegmentsParPage = 4;
 	public static final int defautNBEssaisParSegment = 2;
->>>>>>> d54d602e0ba3ade45a1714d4ff1b826198610d97
 
 	// panneau du texte
 	public TextPane editorPane;
 	public TextHandler textHandler;
 	public int pageActuelle;
-	public int nbPages = 2;
+	public int nbPages = 3;
 	public int nbSegmentsParPage = defautNBSegmentsParPage;
 	public int nbEssaisParSegment = defautNBEssaisParSegment;
 	public int nbEssaisRestantPourLeSegmentCourant = defautNBEssaisParSegment;
@@ -36,6 +31,7 @@ public class Panneau extends JPanel {
 		String texteCesures = getTextFromFile("ressources/textes/Ah les crocodiles C");
 		textHandler = new TextHandler(texteCesures);
 		ControlerMouse controlerMouse = new ControlerMouse(this, textHandler);
+		//nbPages = textHandler.getPhrasesCount()/nbSegmentsParPage+1;
 
 		this.setLayout(new BorderLayout());
 		editorPane = new TextPane();
@@ -91,8 +87,9 @@ public class Panneau extends JPanel {
 		return segmentActuel % nbSegmentsParPage == 0;
 	}
 
-	public void indiquerErreur() {
+	public void indiquerErreur(int debut, int fin) {
 		nbErreurs++;
+		editorPane.surlignerPhrase(debut,fin,Color.red);
 	}
 
 	public void indiquerEtCorrigerErreur() {

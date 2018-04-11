@@ -3,14 +3,14 @@ package main;
 import java.util.*;
 
 public class TextHandler {
-	
+
 	private String txt;
 	private Map<Integer, String> phrases;
 	/**
 	 * Numéro de la césure courante
 	 */
 	private int currentPause;
-	
+
 	public TextHandler(String texteOriginal) {
 		this.txt = texteOriginal;
 		this.phrases = new HashMap<Integer, String>();
@@ -18,14 +18,14 @@ public class TextHandler {
 			phrases.put(phrases.size(), phrase);
 		}
 	}
-	
+
 	/**
 	 * Retourne le texte sans slash
 	 */
 	public String getShowText() {
 		return txt.replaceAll("\\", "");
 	}
-	
+
 	public String[] getPhrases(int start, int end) {
 		List<String> list = new ArrayList<String>();
 		Iterator<Integer> keys = phrases.keySet().iterator();
@@ -37,7 +37,7 @@ public class TextHandler {
 		}
 		return list.toArray(new String[0]);
 	}
-	
+
 	/**
 	 * Indique si la césure est placée au bon endroit.
 	 */
@@ -45,7 +45,7 @@ public class TextHandler {
 		String b = getTextWithCutPauses(offset);
 		return b.charAt(offset + 1) == '/';
 	}
-	
+
 	/**
 	 * Enlève les césures du texte avec césures jusqu'à la position indiquée.
 	 */
@@ -64,10 +64,7 @@ public class TextHandler {
 		System.out.println(b);
 		return b.toString();
 	}
-	
-	/**
-	 * Retourne la position du caractère après le premier espace de l'endroit cliqué.
-	 */
+
 	public int endWordPosition(int offset) {
 		for (int i = offset; i < txt.length(); i++) {
 			if (Character.isWhitespace(txt.charAt(i)) || isPunctuation(txt.charAt(i))) {
@@ -76,13 +73,14 @@ public class TextHandler {
 		}
 		return -1;
 	}
-	
+
 	private static boolean isPunctuation(char c) {
 		return c == ',' || c == '.' || c == ';' || c == ':' || c == '!' || c == '?';
 	}
-	
+
 	/**
-	 * Indique si le mot sur lequel a cliqué l'utilisateur correspond bien à une césure. 
+	 * Indique si le mot sur lequel a cliqué l'utilisateur correspond bien à une
+	 * césure.
 	 */
 	public boolean wordPause(int offset) {
 		int err = 0;
@@ -98,7 +96,7 @@ public class TextHandler {
 			}
 		}
 		return false;
-		//return correctPause(endWordPosition(offset) + 1);
+		// return correctPause(endWordPosition(offset) + 1);
 	}
-	
+
 }

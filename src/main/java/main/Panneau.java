@@ -10,7 +10,7 @@ import javax.swing.*;
 
 public class Panneau extends JPanel {
 
-	public static final int defautNBSegmentsParPage = 2;
+	public static final int defautNBSegmentsParPage = 5;
 	
 	private static final long serialVersionUID = 1L;
 
@@ -20,27 +20,31 @@ public class Panneau extends JPanel {
 	public int pageActuelle;
 	public int nbPages;
 	public int nbSegmentsParPage = defautNBSegmentsParPage;
+
 	
 	public Panneau(int w, int h) throws IOException {
 
-		pageActuelle = 1;	
+		pageActuelle = 0;	
 		String texteCesures = getTextFromFile("ressources/textes/Ah les crocodiles C");	
-		TextHandler textHandler = new TextHandler(texteCesures);
+		textHandler = new TextHandler(texteCesures);
 		ControlerMouse controlerMouse = new ControlerMouse(this, textHandler);
 
-		String texteAfficher = "";
+		/*String texteAfficher = "";
 		//on recuepre les segments a afficher dans la page
 		String[] tab = textHandler.getPhrases((pageActuelle-1)*nbSegmentsParPage-1,pageActuelle*nbSegmentsParPage-1);
 		for (String string : tab) {
 			texteAfficher += string;
-		}
+		}*/
+		
+		
 		
 		
 		this.setLayout(new BorderLayout());
 		editorPane = new TextPane();
-		editorPane.setText(texteAfficher);
+		//editorPane.setText(texteAfficher);
 		editorPane.setEditable(false);
 		editorPane.addMouseListener(controlerMouse);
+		afficherPageSuivante();
 		this.add(editorPane, BorderLayout.CENTER);
 
 	}
@@ -65,6 +69,10 @@ public class Panneau extends JPanel {
 		return toReturn;
 	}
 	
+	/**
+	 * passe a la page suivante et l'affiche
+	 *
+	 */
 	public void afficherPageSuivante(){
 		pageActuelle++;
 		String texteAfficher = "";

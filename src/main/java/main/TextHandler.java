@@ -111,6 +111,15 @@ public class TextHandler {
 		}
 		return -1;
 	}
+	
+	public int startWordPosition(int offset) {
+		for (int i = offset; i >= 0; i--) {
+			if (Character.isWhitespace(getShowText().charAt(i)) || isPunctuation(getShowText().charAt(i))) {
+				return i;
+			}
+		}
+		return -1;
+	}
 
 	private static boolean isPunctuation(char c) {
 		return c == ',' || c == '.' || c == ';' || c == ':' || c == '!' || c == '?';

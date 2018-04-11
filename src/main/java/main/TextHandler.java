@@ -80,6 +80,7 @@ public class TextHandler {
 		for (int i = 0; i < offset; i++) {
 			if (txt.charAt(i) == '/') {
 				index++;
+				offset +=2;
 			}
 		}
 		return index;

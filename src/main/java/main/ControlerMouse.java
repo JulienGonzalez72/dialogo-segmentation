@@ -1,6 +1,5 @@
 package main;
 
-import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -35,8 +34,12 @@ public class ControlerMouse implements MouseListener {
 				int pauseOffset = handler.endWordPosition(offset);
 				// on restaure le nombre d'essais
 				view.nbEssaisRestantPourLeSegmentCourant = Panneau.defautNBEssaisParSegment;
-				view.editorPane.surlignerPhrase(
-						handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(), pauseOffset + 1), Color.GREEN);
+
+				/// surlignage ///
+				view.editorPane.surlignerPhrase(0, handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(), pauseOffset + 1),
+						Panneau.RIGHT_COLOR);
+				view.editorPane.enleverSurlignageRouge();
+
 				view.segmentActuel++;
 				// si la page est finis on affiche la suivante
 				if (view.pageFinis()) {
@@ -76,22 +79,18 @@ public class ControlerMouse implements MouseListener {
 
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-
 	}
 
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-
 	}
 
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-
 	}
 
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-
 	}
 
 }

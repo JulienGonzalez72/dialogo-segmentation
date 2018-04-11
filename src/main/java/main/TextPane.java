@@ -25,7 +25,7 @@ public class TextPane extends JTextPane {
 		setText(builder.toString());
 	}
 
-	int indiceDernierCaractereSurligne;
+	public int indiceDernierCaractereSurligne;
 
 	/**
 	 * surligne tout jusqu'à positionClic avec la couleur spécifiée
@@ -45,6 +45,35 @@ public class TextPane extends JTextPane {
 		this.setText("");
 		for (int i = 0; i < chaine.length(); i++) {
 			if (i < positionClic) {
+				try {
+					doc.insertString(i, "" + chaine.toCharArray()[i], doc.getStyle("surligner"));
+				} catch (BadLocationException e) {
+					e.printStackTrace();
+				}
+			} else {
+				try {
+					doc.insertString(i, "" + chaine.toCharArray()[i], doc.getStyle(""));
+				} catch (BadLocationException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	/**
+	 * surligne tout de début à fin avec la couleur spécifiée
+	 *
+	 */
+	public void surlignerPhrase(int debut, int fin , Color couleur) {
+		StyledDocument doc = this.getStyledDocument();
+		Style def = StyleContext.getDefaultStyleContext().getStyle(StyleContext.DEFAULT_STYLE);
+		Style regular = doc.addStyle("regular", def);
+		Style s = doc.addStyle("surligner", regular);
+		StyleConstants.setBackground(s, couleur);
+		String chaine = this.getText();
+		this.setText("");
+		for (int i = 0; i < chaine.length(); i++) {
+			if (i <= fin && i >= debut) {
 				try {
 					doc.insertString(i, "" + chaine.toCharArray()[i], doc.getStyle("surligner"));
 				} catch (BadLocationException e) {

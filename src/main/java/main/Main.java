@@ -18,7 +18,7 @@ public class Main {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		new Fenetre("Lexidia", 1200, 600);
 	}
 

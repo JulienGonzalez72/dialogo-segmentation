@@ -8,26 +8,23 @@ import javax.swing.SwingWorker;
 
 public class ControlerMouse implements MouseListener {
 
-<<<<<<< HEAD
 	public static int nbErreurs;
-=======
->>>>>>> d9c00f713c3d321be3bd3859b94593d0d47e63ce
 	Panneau view;
 	TextHandler handler;
 
+
 	public ControlerMouse(Panneau p, TextHandler handler) {
-
 		view = p;
-		view.nbErreurs = 0;
 		this.handler = handler;
-
+		nbErreurs = 0;
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		// si le clic est juste
-		if (handler.wordPause(view.editorPane.getCaretPosition())) {
+		//si le clic est juste
+		if (handler.wordPause(view.getNumeroPremierSegmentAffiché(), view.editorPane.getCaretPosition())) {
 			int pauseOffset = handler.endWordPosition(view.editorPane.getCaretPosition());
-			view.editorPane.surlignerPhrase(pauseOffset + 1, Color.GREEN);
+			view.editorPane.surlignerPhrase(pauseOffset + 1,
+					Color.GREEN);
 			System.out.println(handler.getPauseIndex(pauseOffset + 1));
 			view.segmentActuel++;
 			// si la page est finis on affiche la suivante
@@ -48,10 +45,10 @@ public class ControlerMouse implements MouseListener {
 				}.execute();
 
 			}
-			// si le clic est faux
+		//si le clic est faux 
 		} else {
 			view.nbEssaisRestantPourLeSegmentCourant--;
-			if (view.nbEssaisRestantPourLeSegmentCourant > 0) {
+			if ( view.nbEssaisRestantPourLeSegmentCourant > 0 ){
 				view.indiquerErreur();
 			} else {
 				view.indiquerEtCorrigerErreur();

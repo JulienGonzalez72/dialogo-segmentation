@@ -16,13 +16,21 @@ public class TextHandler {
 	private Map<Integer, String> phrases;
 
 	public TextHandler(String texteOriginal) {
-		this.txt = texteOriginal;
+		txt = format(texteOriginal);
 		this.phrases = new HashMap<Integer, String>();
-		for (String phrase : texteOriginal.split(PAUSE)) {
+		for (String phrase : txt.split(PAUSE)) {
 			phrases.put(phrases.size(), phrase);
 		}
 	}
+<<<<<<< HEAD
+	
+	private String format(String str) {
+		return str.replace(" /", "/");
+	}
+	
+=======
 
+>>>>>>> 6607d4520a12caee76af8b231931a1300f403e20
 	/**
 	 * Retourne le texte sans slash
 	 */
@@ -136,7 +144,6 @@ public class TextHandler {
 	public boolean wordPause(int offset) {
 		int err = 0;
 		for (int i = offset; i < getShowText().length(); i++) {
-			System.out.print(getShowText().charAt(i));
 			if (correctPause(i)) {
 				return true;
 			}

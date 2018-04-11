@@ -62,6 +62,9 @@ public class ControleurParam implements ActionListener {
 				//TODO mettre la bonne police
 			}
 		}
+		if ( arg0.getSource() == panneau.champNbFautesTolerees) {
+			FenetreParametre.nbFautesTolerees = Math.max(0, Integer.valueOf(panneau.champNbFautesTolerees.getText()));
+		}
 	}
 
 }

@@ -29,6 +29,7 @@ public class Panneau extends JPanel {
 
 	public Panneau(int w, int h, JFrame fenetre) throws IOException {
 		this.fenetre = fenetre;
+		nbErreursTolerees = FenetreParametre.nbFautesTolerees;
 		segmentActuel = 0;
 		pageActuelle = 0;
 		String texteCesures = getTextFromFile("ressources/textes/20 000 lieux sous les mers");

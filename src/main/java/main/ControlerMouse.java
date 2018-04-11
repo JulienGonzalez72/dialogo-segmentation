@@ -103,11 +103,15 @@ public class ControlerMouse implements MouseListener, KeyListener {
 			FenetreParametre.fenExercice = view.editorPane;
 			FenetreParametre.fen.setVisible(true);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).listeSegments.setEnabled(false);
+			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).champNbFautesTolerees
+					.setEnabled(false);
 		} else if (e.getKeyCode() == KeyEvent.VK_R) {
 			FenetreParametre.fenExercice = null;
 			view.fenetre.setVisible(false);
 			FenetreParametre.fen.setVisible(true);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).listeSegments.setEnabled(true);
+			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).champNbFautesTolerees
+					.setEnabled(true);
 		}
 	}
 

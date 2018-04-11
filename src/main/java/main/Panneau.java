@@ -1,16 +1,12 @@
 package main;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class Panneau extends JPanel {
 
-	public static final int defautNBSegmentsParPage = 5;
+	public static final int defautNBSegmentsParPage = 2;
 	
 	private static final long serialVersionUID = 1L;
 
@@ -28,22 +24,12 @@ public class Panneau extends JPanel {
 		String texteCesures = getTextFromFile("ressources/textes/Ah les crocodiles C");	
 		textHandler = new TextHandler(texteCesures);
 		ControlerMouse controlerMouse = new ControlerMouse(this, textHandler);
-
-		/*String texteAfficher = "";
-		//on recuepre les segments a afficher dans la page
-		String[] tab = textHandler.getPhrases((pageActuelle-1)*nbSegmentsParPage-1,pageActuelle*nbSegmentsParPage-1);
-		for (String string : tab) {
-			texteAfficher += string;
-		}*/
-		
-		
-		
 		
 		this.setLayout(new BorderLayout());
 		editorPane = new TextPane();
-		//editorPane.setText(texteAfficher);
 		editorPane.setEditable(false);
 		editorPane.addMouseListener(controlerMouse);
+		afficherPageSuivante();
 		afficherPageSuivante();
 		this.add(editorPane, BorderLayout.CENTER);
 
@@ -77,7 +63,7 @@ public class Panneau extends JPanel {
 		pageActuelle++;
 		String texteAfficher = "";
 		//on recuepre les segments a afficher dans la page
-		String[] tab = textHandler.getPhrases((pageActuelle-1)*nbSegmentsParPage,pageActuelle*nbSegmentsParPage);
+		String[] tab = textHandler.getPhrases((pageActuelle-1)*nbSegmentsParPage,pageActuelle*nbSegmentsParPage-1);
 		for (String string : tab) {
 			texteAfficher += string;
 		}

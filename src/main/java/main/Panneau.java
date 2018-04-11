@@ -83,10 +83,16 @@ public class Panneau extends JPanel {
 
 	public void indiquerErreur() {
 		nbErreurs++;
+		int position = editorPane.getCaretPosition();
+		editorPane.surlignerPhrase(position, Color.RED);
 	}
 
 	public void indiquerEtCorrigerErreur() {
 		nbErreurs++;
+	}
+	
+	public int getNumeroPremierSegmentAffiché() {
+		return (pageActuelle-1)*nbSegmentsParPage;
 	}
 
 }

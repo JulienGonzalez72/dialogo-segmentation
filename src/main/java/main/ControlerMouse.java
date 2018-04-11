@@ -35,9 +35,12 @@ public class ControlerMouse implements MouseListener {
 				int pauseOffset = handler.endWordPosition(offset);
 				// on restaure le nombre d'essais
 				view.nbEssaisRestantPourLeSegmentCourant = Panneau.defautNBEssaisParSegment;
+				
+				/// surlignage ///
 				view.editorPane.surlignerPhrase(
-						handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(), pauseOffset + 1), Color.GREEN);
-				System.out.println(handler.getPauseIndex(pauseOffset + 1));
+						0, handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(), pauseOffset + 1), Panneau.RIGHT_COLOR);
+				view.editorPane.enleverSurlignageRouge();
+				
 				view.segmentActuel++;
 				// si la page est finis on affiche la suivante
 				if (view.pageFinis()) {

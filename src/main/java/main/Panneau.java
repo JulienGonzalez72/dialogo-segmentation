@@ -10,6 +10,9 @@ public class Panneau extends JPanel {
 
 	public static final int defautNBSegmentsParPage = 4;
 	public static final int defautNBEssaisParSegment = 2;
+	
+	public static final Color WRONG_COLOR = Color.RED;
+	public static final Color RIGHT_COLOR = Color.GREEN;
 
 	// panneau du texte
 	public TextPane editorPane;
@@ -89,7 +92,7 @@ public class Panneau extends JPanel {
 
 	public void indiquerErreur(int debut, int fin) {
 		nbErreurs++;
-		editorPane.surlignerPhrase(debut,fin,Color.red);
+		editorPane.surlignerPhrase(debut,fin, WRONG_COLOR);
 	}
 
 	public void indiquerEtCorrigerErreur() {

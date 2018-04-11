@@ -32,7 +32,7 @@ public class ControlerMouse implements MouseListener {
 				view.segmentActuel++;
 				// si la page est finis on affiche la suivante
 				if (view.pageFinis()) {
-
+					
 					new SwingWorker<Object, Object>() {
 
 						// Ce traitement sera exécuté dans un autre thread :

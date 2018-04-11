@@ -15,7 +15,7 @@ public class Panneau extends JPanel {
 	public TextPane editorPane;
 	public TextHandler textHandler;
 	public int pageActuelle;
-	public int nbPages;
+	public int nbPages = 2;
 	public int nbSegmentsParPage = defautNBSegmentsParPage;
 	public int nbEssaisParSegment = defautNBEssaisParSegment;
 	public int nbEssaisRestantPourLeSegmentCourant = defautNBEssaisParSegment;
@@ -24,7 +24,6 @@ public class Panneau extends JPanel {
 	public JFrame fenetre;
 
 	public Panneau(int w, int h, JFrame fenetre) throws IOException {
-		afficherCompteRendu();
 		this.fenetre = fenetre;
 		segmentActuel = 0;
 		pageActuelle = 0;
@@ -65,17 +64,21 @@ public class Panneau extends JPanel {
 	 *
 	 */
 	public void afficherPageSuivante() {
-		pageActuelle++;
-		fenetre.setTitle("Lexidia - Page " + pageActuelle);
-		String texteAfficher = "";
-		// on recuepre les segments a afficher dans la page
-		String[] tab = textHandler.getPhrases((pageActuelle - 1) * nbSegmentsParPage,
-				pageActuelle * nbSegmentsParPage - 1);
-		for (String string : tab) {
-			texteAfficher += string;
+		if (pageActuelle == nbPages) {
+			afficherCompteRendu();
+		} else {
+			pageActuelle++;
+			fenetre.setTitle("Lexidia - Page " + pageActuelle);
+			String texteAfficher = "";
+			// on recuepre les segments a afficher dans la page
+			String[] tab = textHandler.getPhrases((pageActuelle - 1) * nbSegmentsParPage,
+					pageActuelle * nbSegmentsParPage - 1);
+			for (String string : tab) {
+				texteAfficher += string;
+			}
+			editorPane.setText(texteAfficher);
+			editorPane.désurlignerTout();
 		}
-		editorPane.setText(texteAfficher);
-		editorPane.désurlignerTout();
 	}
 
 	public boolean pageFinis() {
@@ -101,7 +104,7 @@ public class Panneau extends JPanel {
 			UIManager.put("OptionPane.background", Color.WHITE);
 			UIManager.put("Panel.background", Color.WHITE);
 			JOptionPane.showMessageDialog(this,
-					"Le patient a fait : " + nbErreurs + " erreur" + (nbErreurs > 1 ? "s" : "") + ".", "Compte Rendu",
+					"L'exercice est terminé."+"\n"+"Le patient a fait : " + nbErreurs + " erreur" + (nbErreurs > 1 ? "s" : "") + ".", "Compte Rendu",
 					JOptionPane.INFORMATION_MESSAGE);
 		} finally {
 			UIManager.put("OptionPane.background", optionPaneBG);

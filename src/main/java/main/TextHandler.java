@@ -22,15 +22,11 @@ public class TextHandler {
 			phrases.put(phrases.size(), phrase);
 		}
 	}
-<<<<<<< HEAD
-	
+
 	private String format(String str) {
 		return str.replace(" /", "/");
 	}
-	
-=======
 
->>>>>>> 6607d4520a12caee76af8b231931a1300f403e20
 	/**
 	 * Retourne le texte sans slash
 	 */

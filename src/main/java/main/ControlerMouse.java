@@ -76,10 +76,6 @@ public class ControlerMouse implements MouseListener, KeyListener {
 									handler.startWordPosition(offset) + 1),
 							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(),
 									handler.endWordPosition(offset)));
-<<<<<<< HEAD
-=======
-
->>>>>>> 6607d4520a12caee76af8b231931a1300f403e20
 				}
 			}
 		}

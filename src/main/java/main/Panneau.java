@@ -23,7 +23,8 @@ public class Panneau extends JPanel {
 	public int nbErreurs;
 	public JFrame fenetre;
 
-	public Panneau(int w, int h,JFrame fenetre) throws IOException {
+	public Panneau(int w, int h, JFrame fenetre) throws IOException {
+		afficherCompteRendu();
 		this.fenetre = fenetre;
 		segmentActuel = 0;
 		pageActuelle = 0;
@@ -65,7 +66,7 @@ public class Panneau extends JPanel {
 	 */
 	public void afficherPageSuivante() {
 		pageActuelle++;
-		fenetre.setTitle("Lexidia - Page "+pageActuelle);
+		fenetre.setTitle("Lexidia - Page " + pageActuelle);
 		String texteAfficher = "";
 		// on recuepre les segments a afficher dans la page
 		String[] tab = textHandler.getPhrases((pageActuelle - 1) * nbSegmentsParPage,
@@ -88,9 +89,25 @@ public class Panneau extends JPanel {
 	public void indiquerEtCorrigerErreur() {
 		nbErreurs++;
 	}
-	
+
 	public int getNumeroPremierSegmentAffiché() {
-		return (pageActuelle-1)*nbSegmentsParPage;
+		return (pageActuelle - 1) * nbSegmentsParPage;
+	}
+
+	public void afficherCompteRendu() {
+		Object optionPaneBG = UIManager.get("OptionPane.background");
+		Object panelBG = UIManager.get("Panel.background");
+		try {
+			UIManager.put("OptionPane.background", Color.WHITE);
+			UIManager.put("Panel.background", Color.WHITE);
+			JOptionPane.showMessageDialog(this,
+					"Le patient a fait : " + nbErreurs + " erreur" + (nbErreurs > 1 ? "s" : "") + ".", "Compte Rendu",
+					JOptionPane.INFORMATION_MESSAGE);
+		} finally {
+			UIManager.put("OptionPane.background", optionPaneBG);
+			UIManager.put("Panel.background", panelBG);
+		}
+
 	}
 
 }

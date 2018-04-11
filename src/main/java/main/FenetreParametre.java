@@ -48,12 +48,12 @@ public class FenetreParametre extends JFrame {
 		public PanneauParam(FenetreParametre fen) {
 			FenetreParametre.fen = fen;
 			this.fen = fen;
-			setLayout(new GridLayout(11, 1));
+			setLayout(new GridLayout(13, 1));
 			JLabel titre = new JLabel("Choississez vos parametres");
 			titre.setFont(new Font("OpenDyslexic", Font.BOLD, 20));
 			add(titre);
 			titre.setHorizontalAlignment(JLabel.CENTER);
-			titre.setBorder(BorderFactory.createLineBorder(Color.blue, 10));
+			titre.setBorder(BorderFactory.createLineBorder(Color.blue, 2));
 
 			valider = new JButton("Valider les parametres");
 			valider.setFont(new Font("OpenDyslexic", Font.BOLD, 18));
@@ -124,6 +124,13 @@ public class FenetreParametre extends JFrame {
 			add(panneauListe4);
 			add(couleurDeFond);
 			add(panneauListe3);
+			
+			JLabel nbFautesTolerees = new JLabel("Nombre de fautes tolérées : ");
+			JTextField champNbFautesTolerees = new JTextField();
+			
+			
+			add(nbFautesTolerees);
+			add(champNbFautesTolerees);
 			add(new JLabel());
 			add(valider);
 

@@ -23,7 +23,7 @@ public class Panneau extends JPanel {
 	public int nbEssaisParSegment = defautNBEssaisParSegment;
 	public int nbEssaisRestantPourLeSegmentCourant = defautNBEssaisParSegment;
 	public int segmentActuel;
-
+	public int nbErreursTolerees;
 	public int nbErreurs;
 	public JFrame fenetre;
 

@@ -25,71 +25,37 @@ public class ControlerMouse implements MouseListener {
 	}
 
 	public void mouseClicked(MouseEvent e) {
-<<<<<<< HEAD
-		/// cherche la position exacte dans le texte ///
-		int offset = handler.getAbsoluteOffset(view.getNumeroPremierSegmentAffiché(), view.editorPane.getCaretPosition());
-		
-		//si le clic est juste
-		if (handler.wordPause(offset)) {
-			int pauseOffset = handler.endWordPosition(offset);
-			view.editorPane.surlignerPhrase(handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(), pauseOffset + 1),
-					Color.GREEN);
-			view.segmentActuel++;
-			
-			// si la page est finis on affiche la suivante
-			if (view.pageFinis()) {
-
-				new SwingWorker<Object, Object>() {
-
-					// Ce traitement sera exécuté dans un autre thread :
-					protected Object doInBackground() throws Exception {
-						Thread.sleep(PAGE_WAIT_TIME);
-						return null;
-					}
-
-					// Ce traitement sera exécuté à la fin dans l'EDT
-					protected void done() {
-						view.afficherPageSuivante();
-					}
-				}.execute();
-
-			}
-		//si le clic est faux 
-		} else {
-			view.nbEssaisRestantPourLeSegmentCourant--;
-			if ( view.nbEssaisRestantPourLeSegmentCourant > 0 ){
-				view.indiquerErreur();
-=======
-		// on ne fait rien si le clic est sur un mot déjà surligné en vert
 		if (view.editorPane.getCaretPosition() > view.editorPane.indiceDernierCaractereSurligne) {
-			// si le clic est juste
-			if (handler.wordPause(view.editorPane.getCaretPosition())) {
+			/// cherche la position exacte dans le texte ///
+			int offset = handler.getAbsoluteOffset(view.getNumeroPremierSegmentAffiché(), view.editorPane.getCaretPosition());
+			
+			//si le clic est juste
+			System.out.println(handler.getPhraseIndex(offset));
+			if (handler.wordPause(offset) && handler.getPhraseIndex(offset) == view.segmentActuel) {
+				int pauseOffset = handler.endWordPosition(offset);
+				view.editorPane.surlignerPhrase(handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(), pauseOffset + 1),
+						Color.GREEN);
+				view.segmentActuel++;
+				
 				// on restaure le nombre d'essais
 				view.nbEssaisRestantPourLeSegmentCourant = Panneau.defautNBEssaisParSegment;
-				int pauseOffset = handler.endWordPosition(view.editorPane.getCaretPosition());
-				view.editorPane.surlignerPhrase(pauseOffset + 1, Color.GREEN);
-				System.out.println(handler.getPauseIndex(pauseOffset + 1));
-				view.segmentActuel++;
+				
 				// si la page est finis on affiche la suivante
 				if (view.pageFinis()) {
 					
 					new SwingWorker<Object, Object>() {
-
-						// Ce traitement sera exécuté dans un autre thread :
+							// Ce traitement sera exécuté dans un autre thread :
 						protected Object doInBackground() throws Exception {
 							Thread.sleep(3000);
 							return null;
 						}
-
-						// Ce traitement sera exécuté à la fin dans l'EDT
+							// Ce traitement sera exécuté à la fin dans l'EDT
 						protected void done() {
 							view.afficherPageSuivante();
 						}
 					}.execute();
-
 				}
-				// si le clic est faux
->>>>>>> d54d602e0ba3ade45a1714d4ff1b826198610d97
+			// si le clic est faux
 			} else {
 				view.nbEssaisRestantPourLeSegmentCourant--;
 				if (view.nbEssaisRestantPourLeSegmentCourant > 0) {

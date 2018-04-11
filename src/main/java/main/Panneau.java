@@ -8,13 +8,8 @@ public class Panneau extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-<<<<<<< HEAD
-	public static final int defautNBSegmentsParPage = 3;
-	public static final int defautNBEssaisParSegment = 1;
-=======
 	public static final int defautNBSegmentsParPage = 4;
 	public static final int defautNBEssaisParSegment = 2;
->>>>>>> d54d602e0ba3ade45a1714d4ff1b826198610d97
 
 	// panneau du texte
 	public TextPane editorPane;

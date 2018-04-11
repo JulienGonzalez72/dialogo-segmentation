@@ -7,18 +7,24 @@ import javax.swing.*;
 public class Panneau extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+<<<<<<< HEAD
 
 	public static final int defautNBSegmentsParPage = 6;
 	public static final int defautNBEssaisParSegment = 2;
 	
 	public static final Color WRONG_COLOR = new Color(255, 40, 40);
+=======
+	public static final int defautNBSegmentsParPage = 4;
+	public static final int defautNBEssaisParSegment = 2;
+	public static final Color WRONG_COLOR = Color.RED;
+>>>>>>> 5ac65215812fa38705e61cf350688d741bbd7b6d
 	public static final Color RIGHT_COLOR = Color.GREEN;
 
 	// panneau du texte
 	public TextPane editorPane;
 	public TextHandler textHandler;
 	public int pageActuelle;
-	public int nbPages = 3;
+	public int nbPages;
 	public int nbSegmentsParPage = defautNBSegmentsParPage;
 	public int nbEssaisParSegment = defautNBEssaisParSegment;
 	public int nbEssaisRestantPourLeSegmentCourant = defautNBEssaisParSegment;
@@ -31,10 +37,17 @@ public class Panneau extends JPanel {
 		this.fenetre = fenetre;
 		segmentActuel = 0;
 		pageActuelle = 0;
+<<<<<<< HEAD
 		String texteCesures = getTextFromFile("ressources/textes/20 000 lieux sous les mers");
 		textHandler = new TextHandler(texteCesures);
 		ControlerMouse controlerMouse = new ControlerMouse(this, textHandler);
 		nbPages = textHandler.getPhrasesCount()/nbSegmentsParPage+1;
+=======
+		String texteCesures = getTextFromFile("ressources/textes/Ah les crocodiles C_version_courte");
+		textHandler = new TextHandler(texteCesures);
+		ControlerMouse controlerMouse = new ControlerMouse(this, textHandler);
+		nbPages = textHandler.getPhrasesCount()/nbSegmentsParPage;
+>>>>>>> 5ac65215812fa38705e61cf350688d741bbd7b6d
 
 		this.setLayout(new BorderLayout());
 		editorPane = new TextPane();
@@ -69,7 +82,7 @@ public class Panneau extends JPanel {
 	 *
 	 */
 	public void afficherPageSuivante() {
-		if (pageActuelle == nbPages) {
+		if (pageActuelle == nbPages && pageActuelle > 0) {
 			afficherCompteRendu();
 		} else {
 			pageActuelle++;
@@ -91,13 +104,23 @@ public class Panneau extends JPanel {
 	}
 
 	public void indiquerErreur(int debut, int fin) {
+		
 		nbErreurs++;
 		editorPane.enleverSurlignageRouge();
+<<<<<<< HEAD
 		editorPane.surlignerPhrase(debut,fin, WRONG_COLOR);
 	}
 
 	public void indiquerEtCorrigerErreur(int debut, int fin) {
 		indiquerErreur(debut, fin);
+=======
+		editorPane.surlignerPhrase(debut, fin, WRONG_COLOR);
+	}
+
+	public void indiquerEtCorrigerErreur(int debut, int fin) {
+		//pour l'instant on ne corrige jamais 
+		indiquerErreur(debut,fin);
+>>>>>>> 5ac65215812fa38705e61cf350688d741bbd7b6d
 	}
 
 	public int getNumeroPremierSegmentAffiché() {
@@ -110,9 +133,8 @@ public class Panneau extends JPanel {
 		try {
 			UIManager.put("OptionPane.background", Color.WHITE);
 			UIManager.put("Panel.background", Color.WHITE);
-			JOptionPane.showMessageDialog(this,
-					"L'exercice est terminé."+"\n"+"Le patient a fait : " + nbErreurs + " erreur" + (nbErreurs > 1 ? "s" : "") + ".", "Compte Rendu",
-					JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this, "L'exercice est terminé." + "\n" + "Le patient a fait : " + nbErreurs
+					+ " erreur" + (nbErreurs > 1 ? "s" : "") + ".", "Compte Rendu", JOptionPane.INFORMATION_MESSAGE);
 		} finally {
 			UIManager.put("OptionPane.background", optionPaneBG);
 			UIManager.put("Panel.background", panelBG);

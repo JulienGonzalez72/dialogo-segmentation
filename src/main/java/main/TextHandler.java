@@ -84,7 +84,11 @@ public class TextHandler {
 		for (int i = 0; i < offset; i++) {
 			if (txt.charAt(i) == '/') {
 				index++;
+<<<<<<< HEAD
 				offset += PAUSE.length();
+=======
+				offset +=2;
+>>>>>>> 5ac65215812fa38705e61cf350688d741bbd7b6d
 			}
 		}
 		return index;

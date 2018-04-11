@@ -34,23 +34,24 @@ public class ControlerMouse implements MouseListener {
 				int pauseOffset = handler.endWordPosition(offset);
 				// on restaure le nombre d'essais
 				view.nbEssaisRestantPourLeSegmentCourant = Panneau.defautNBEssaisParSegment;
-				
+
 				/// surlignage ///
-				view.editorPane.surlignerPhrase(
-						0, handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(), pauseOffset + 1), Panneau.RIGHT_COLOR);
+				view.editorPane.surlignerPhrase(0, handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(), pauseOffset + 1),
+						Panneau.RIGHT_COLOR);
 				view.editorPane.enleverSurlignageRouge();
-				
+
 				view.segmentActuel++;
 				// si la page est finis on affiche la suivante
 				if (view.pageFinis()) {
 
 					new SwingWorker<Object, Object>() {
-							// Ce traitement sera exécuté dans un autre thread :
+						// Ce traitement sera exécuté dans un autre thread :
 						protected Object doInBackground() throws Exception {
 							Thread.sleep(PAGE_WAIT_TIME);
 							return null;
 						}
-							// Ce traitement sera exécuté à la fin dans l'EDT
+
+						// Ce traitement sera exécuté à la fin dans l'EDT
 						protected void done() {
 							view.afficherPageSuivante();
 						}
@@ -60,11 +61,25 @@ public class ControlerMouse implements MouseListener {
 			} else {
 				view.nbEssaisRestantPourLeSegmentCourant--;
 				if (view.nbEssaisRestantPourLeSegmentCourant > 0) {
+<<<<<<< HEAD
 					view.indiquerErreur(handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(), handler.startWordPosition(offset) + 1),
 							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(), handler.endWordPosition(offset)));
 				} else {
 					view.indiquerEtCorrigerErreur(handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(), handler.startWordPosition(offset) + 1),
 							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(), handler.endWordPosition(offset)));
+=======
+					view.indiquerErreur(
+							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(),
+									handler.startWordPosition(offset)),
+							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(),
+									handler.endWordPosition(offset)));
+				} else {
+					view.indiquerErreur(
+							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(),
+									handler.startWordPosition(offset)),
+							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(),
+									handler.endWordPosition(offset)));
+>>>>>>> 5ac65215812fa38705e61cf350688d741bbd7b6d
 				}
 			}
 		}
@@ -72,22 +87,18 @@ public class ControlerMouse implements MouseListener {
 
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-
 	}
 
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-
 	}
 
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-
 	}
 
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-
 	}
 
 }

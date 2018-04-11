@@ -19,7 +19,7 @@ public class TextPane extends JTextPane {
 	public static final float MARGING = 20f;
 	
 	private Object redHightlightTag;
-	
+
 	public TextPane() {
 		setFont(new Font("OpenDyslexic", Font.BOLD, 20));
 		setBackground(new Color(255, 255, 150));

@@ -20,37 +20,42 @@ public class ControlerMouse implements MouseListener {
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		// si le clic est juste
-		if (handler.wordPause(view.editorPane.getCaretPosition())) {
-			int pauseOffset = handler.endWordPosition(view.editorPane.getCaretPosition());
-			view.editorPane.surlignerPhrase(pauseOffset + 1, Color.GREEN);
-			System.out.println(handler.getPauseIndex(pauseOffset + 1));
-			view.segmentActuel++;
-			// si la page est finis on affiche la suivante
-			if (view.pageFinis()) {
+		// on ne fait rien si le clic est sur un mot déjà surligné en vert
+		if (view.editorPane.getCaretPosition() > view.editorPane.indiceDernierCaractereSurligne) {
+			// si le clic est juste
+			if (handler.wordPause(view.editorPane.getCaretPosition())) {
+				// on restaure le nombre d'essais
+				view.nbEssaisRestantPourLeSegmentCourant = Panneau.defautNBEssaisParSegment;
+				int pauseOffset = handler.endWordPosition(view.editorPane.getCaretPosition());
+				view.editorPane.surlignerPhrase(pauseOffset + 1, Color.GREEN);
+				System.out.println(handler.getPauseIndex(pauseOffset + 1));
+				view.segmentActuel++;
+				// si la page est finis on affiche la suivante
+				if (view.pageFinis()) {
 
-				new SwingWorker<Object, Object>() {
+					new SwingWorker<Object, Object>() {
 
-					// Ce traitement sera exécuté dans un autre thread :
-					protected Object doInBackground() throws Exception {
-						Thread.sleep(3000);
-						return null;
-					}
+						// Ce traitement sera exécuté dans un autre thread :
+						protected Object doInBackground() throws Exception {
+							Thread.sleep(3000);
+							return null;
+						}
 
-					// Ce traitement sera exécuté à la fin dans l'EDT
-					protected void done() {
-						view.afficherPageSuivante();
-					}
-				}.execute();
+						// Ce traitement sera exécuté à la fin dans l'EDT
+						protected void done() {
+							view.afficherPageSuivante();
+						}
+					}.execute();
 
-			}
-			// si le clic est faux
-		} else {
-			view.nbEssaisRestantPourLeSegmentCourant--;
-			if (view.nbEssaisRestantPourLeSegmentCourant > 0) {
-				view.indiquerErreur();
+				}
+				// si le clic est faux
 			} else {
-				view.indiquerEtCorrigerErreur();
+				view.nbEssaisRestantPourLeSegmentCourant--;
+				if (view.nbEssaisRestantPourLeSegmentCourant > 0) {
+					view.indiquerErreur();
+				} else {
+					view.indiquerEtCorrigerErreur();
+				}
 			}
 		}
 	}

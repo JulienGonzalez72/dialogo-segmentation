@@ -9,7 +9,7 @@ public class Panneau extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	public static final int defautNBSegmentsParPage = 4;
-	public static final int defautNBEssaisParSegment = 1;
+	public static final int defautNBEssaisParSegment = 2;
 
 	// panneau du texte
 	public TextPane editorPane;
@@ -72,8 +72,6 @@ public class Panneau extends JPanel {
 		}
 		editorPane.setText(texteAfficher);
 		editorPane.désurlignerTout();
-		// on restaure le nombre d'essais
-		nbEssaisRestantPourLeSegmentCourant = defautNBEssaisParSegment;
 	}
 
 	public boolean pageFinis() {
@@ -82,8 +80,7 @@ public class Panneau extends JPanel {
 
 	public void indiquerErreur() {
 		nbErreurs++;
-		int position = editorPane.getCaretPosition();
-		editorPane.surlignerPhrase(position, Color.RED);
+		editorPane.surlignerPhrase(10, 12, Color.ORANGE);
 	}
 
 	public void indiquerEtCorrigerErreur() {

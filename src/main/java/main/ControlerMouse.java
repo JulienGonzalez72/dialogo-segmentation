@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.SwingWorker;
+
 public class ControlerMouse implements MouseListener {
 
 	Panneau view;
@@ -19,13 +21,26 @@ public class ControlerMouse implements MouseListener {
 			view.editorPane.surlignerPhrase(handler.endWordPosition(view.editorPane.getCaretPosition()) + 1,
 					Color.GREEN);
 			view.segmentActuel++;
-			//si la page est finis on affiche la suivante
+			// si la page est finis on affiche la suivante
 			if (view.pageFinis()) {
-				view.afficherPageSuivante();
-				view.editorPane.désurlignerTout();
+
+				new SwingWorker<Object, Object>() {
+
+					// Ce traitement sera exécuté dans un autre thread :
+					protected Object doInBackground() throws Exception {
+						Thread.sleep(3000);
+						return null;
+					}
+
+					// Ce traitement sera exécuté à la fin dans l'EDT
+					protected void done() {
+						view.afficherPageSuivante();
+						view.editorPane.désurlignerTout();
+					}
+				}.execute();
+
 			}
 		}
-		
 	}
 
 	public void mouseEntered(MouseEvent e) {

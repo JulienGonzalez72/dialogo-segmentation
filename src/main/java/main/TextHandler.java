@@ -43,6 +43,13 @@ public class TextHandler {
 	}
 	
 	/**
+	 * Nombre de segments total
+	 */
+	public int getPhrasesCount() {
+		return phrases.size();
+	}
+	
+	/**
 	 * Indique si la césure est placée au bon endroit.
 	 */
 	public boolean correctPause(int offset) {
@@ -56,6 +63,19 @@ public class TextHandler {
 	public int getPauseIndex(int offset) {
 		if (!correctPause(offset))
 			return -1;
+		int index = 0;
+		for (int i = 0; i < offset; i++) {
+			if (txt.charAt(i) == '/') {
+				index++;
+			}
+		}
+		return index;
+	}
+	
+	/**
+	 * Retourne l'indice du segment à la position indiquée.
+	 */
+	public int getPhraseIndex(int offset) {
 		int index = 0;
 		for (int i = 0; i < offset; i++) {
 			if (txt.charAt(i) == '/') {

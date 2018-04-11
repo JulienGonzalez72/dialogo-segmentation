@@ -1,6 +1,5 @@
 package main;
 
-import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -48,7 +47,7 @@ public class ControlerMouse implements MouseListener {
 					new SwingWorker<Object, Object>() {
 							// Ce traitement sera exécuté dans un autre thread :
 						protected Object doInBackground() throws Exception {
-							Thread.sleep(3000);
+							Thread.sleep(PAGE_WAIT_TIME);
 							return null;
 						}
 							// Ce traitement sera exécuté à la fin dans l'EDT
@@ -61,10 +60,11 @@ public class ControlerMouse implements MouseListener {
 			} else {
 				view.nbEssaisRestantPourLeSegmentCourant--;
 				if (view.nbEssaisRestantPourLeSegmentCourant > 0) {
-					view.indiquerErreur(handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(), handler.startWordPosition(offset)),
+					view.indiquerErreur(handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(), handler.startWordPosition(offset) + 1),
 							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(), handler.endWordPosition(offset)));
 				} else {
-					view.indiquerEtCorrigerErreur();
+					view.indiquerEtCorrigerErreur(handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(), handler.startWordPosition(offset) + 1),
+							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(), handler.endWordPosition(offset)));
 				}
 			}
 		}

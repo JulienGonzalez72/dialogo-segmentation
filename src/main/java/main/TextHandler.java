@@ -4,7 +4,7 @@ import java.util.*;
 
 public class TextHandler {
 
-	public static final String PAUSE = " /";
+	public static final String PAUSE = "/";
 	
 	/**
 	 * Texte avec césures
@@ -42,6 +42,10 @@ public class TextHandler {
 		return list.toArray(new String[0]);
 	}
 	
+	public String[] getPhrases() {
+		return getPhrases(0, getPhrasesCount());
+	}
+	
 	/**
 	 * Nombre de segments total
 	 */
@@ -54,7 +58,7 @@ public class TextHandler {
 	 */
 	public boolean correctPause(int offset) {
 		String b = getTextWithCutPauses(offset);
-		return b.charAt(offset + 1) == '/';
+		return b.charAt(offset) == '/';
 	}
 	
 	/**
@@ -80,6 +84,7 @@ public class TextHandler {
 		for (int i = 0; i < offset; i++) {
 			if (txt.charAt(i) == '/') {
 				index++;
+				offset += PAUSE.length();
 			}
 		}
 		return index;
@@ -94,15 +99,14 @@ public class TextHandler {
 			if (i >= endOffset) {
 				break;
 			}
-			/// supprime le slash et l'espace avant ///
+			/// supprime le slash ///
 			if (b.charAt(i) == '/') {
 				b.deleteCharAt(i);
-				b.deleteCharAt(i - 1);
 			}
 		}
 		return b.toString();
 	}
-
+	
 	public int endWordPosition(int offset) {
 		for (int i = offset; i < getShowText().length(); i++) {
 			if (Character.isWhitespace(getShowText().charAt(i)) || isPunctuation(getShowText().charAt(i))) {
@@ -132,6 +136,7 @@ public class TextHandler {
 	public boolean wordPause(int offset) {
 		int err = 0;
 		for (int i = offset; i < getShowText().length(); i++) {
+			System.out.print(getShowText().charAt(i));
 			if (correctPause(i)) {
 				return true;
 			}
@@ -140,6 +145,9 @@ public class TextHandler {
 				if (err >= 2) {
 					return false;
 				}
+			}
+			if (Character.isAlphabetic(getShowText().charAt(i)) && err == 1) {
+				return false;
 			}
 		}
 		return false;

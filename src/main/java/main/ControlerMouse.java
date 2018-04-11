@@ -12,11 +12,10 @@ public class ControlerMouse implements MouseListener {
 	 * Temps d'attente entre chaque page
 	 */
 	public static final long PAGE_WAIT_TIME = 1000;
-	
+
 	public static int nbErreurs;
 	Panneau view;
 	TextHandler handler;
-
 
 	public ControlerMouse(Panneau p, TextHandler handler) {
 		view = p;
@@ -25,6 +24,7 @@ public class ControlerMouse implements MouseListener {
 	}
 
 	public void mouseClicked(MouseEvent e) {
+<<<<<<< HEAD
 		if (view.editorPane.getCaretPosition() > view.editorPane.indiceDernierCaractereSurligne) {
 			/// cherche la position exacte dans le texte ///
 			int offset = handler.getAbsoluteOffset(view.getNumeroPremierSegmentAffiché(), view.editorPane.getCaretPosition());
@@ -40,9 +40,27 @@ public class ControlerMouse implements MouseListener {
 				// on restaure le nombre d'essais
 				view.nbEssaisRestantPourLeSegmentCourant = Panneau.defautNBEssaisParSegment;
 				
+=======
+
+		// on ne fait rien si le clic est sur un mot déjà surligné en vert
+		if (view.editorPane.getCaretPosition() > view.editorPane.indiceDernierCaractereSurligne) {
+			/// cherche la position exacte dans le texte ///
+			int offset = handler.getAbsoluteOffset(view.getNumeroPremierSegmentAffiché(),
+					view.editorPane.getCaretPosition());
+
+			// si le clic est juste
+			if (handler.wordPause(offset)) {
+				int pauseOffset = handler.endWordPosition(offset);
+				// on restaure le nombre d'essais
+				view.nbEssaisRestantPourLeSegmentCourant = Panneau.defautNBEssaisParSegment;
+				view.editorPane.surlignerPhrase(
+						handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(), pauseOffset + 1), Color.GREEN);
+				System.out.println(handler.getPauseIndex(pauseOffset + 1));
+				view.segmentActuel++;
+>>>>>>> c95e28049ad3fc498922688554e5c34ad81305ee
 				// si la page est finis on affiche la suivante
 				if (view.pageFinis()) {
-					
+
 					new SwingWorker<Object, Object>() {
 							// Ce traitement sera exécuté dans un autre thread :
 						protected Object doInBackground() throws Exception {
@@ -55,11 +73,15 @@ public class ControlerMouse implements MouseListener {
 						}
 					}.execute();
 				}
+<<<<<<< HEAD
 			// si le clic est faux
+=======
+				// si le clic est faux
+>>>>>>> c95e28049ad3fc498922688554e5c34ad81305ee
 			} else {
 				view.nbEssaisRestantPourLeSegmentCourant--;
 				if (view.nbEssaisRestantPourLeSegmentCourant > 0) {
-					view.indiquerErreur();
+					view.indiquerErreur(handler.startWordPosition(offset),handler.endWordPosition(offset));
 				} else {
 					view.indiquerEtCorrigerErreur();
 				}

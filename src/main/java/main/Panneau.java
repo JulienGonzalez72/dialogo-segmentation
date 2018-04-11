@@ -7,9 +7,11 @@ import javax.swing.*;
 public class Panneau extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	public static final int defautNBSegmentsParPage = 4;
+
+	public static final int defautNBSegmentsParPage = 6;
 	public static final int defautNBEssaisParSegment = 2;
-	public static final Color WRONG_COLOR = Color.RED;
+
+	public static final Color WRONG_COLOR = new Color(255, 40, 40);
 	public static final Color RIGHT_COLOR = Color.GREEN;
 
 	// panneau du texte
@@ -29,10 +31,10 @@ public class Panneau extends JPanel {
 		this.fenetre = fenetre;
 		segmentActuel = 0;
 		pageActuelle = 0;
-		String texteCesures = getTextFromFile("ressources/textes/Ah les crocodiles C_version_courte");
+		String texteCesures = getTextFromFile("ressources/textes/20 000 lieux sous les mers");
 		textHandler = new TextHandler(texteCesures);
 		ControlerMouse controlerMouse = new ControlerMouse(this, textHandler);
-		nbPages = textHandler.getPhrasesCount()/nbSegmentsParPage;
+		nbPages = textHandler.getPhrasesCount() / nbSegmentsParPage + 1;
 
 		this.setLayout(new BorderLayout());
 		editorPane = new TextPane();
@@ -40,13 +42,14 @@ public class Panneau extends JPanel {
 		editorPane.addMouseListener(controlerMouse);
 		afficherPageSuivante();
 		this.add(editorPane, BorderLayout.CENTER);
+		editorPane.addKeyListener(controlerMouse);
 	}
 
 	/**
 	 * retourne le contenu du fichier .txt situé à l'emplacement du paramètre
 	 *
 	 */
-	String getTextFromFile(String emplacement) throws IOException {
+	public static String getTextFromFile(String emplacement) throws IOException {
 		File fichierTxt = new File(emplacement);
 		InputStream ips = null;
 		ips = new FileInputStream(fichierTxt);
@@ -89,15 +92,15 @@ public class Panneau extends JPanel {
 	}
 
 	public void indiquerErreur(int debut, int fin) {
-		
+
 		nbErreurs++;
 		editorPane.enleverSurlignageRouge();
 		editorPane.surlignerPhrase(debut, fin, WRONG_COLOR);
 	}
 
 	public void indiquerEtCorrigerErreur(int debut, int fin) {
-		//pour l'instant on ne corrige jamais 
-		indiquerErreur(debut,fin);
+		indiquerErreur(debut, fin);
+
 	}
 
 	public int getNumeroPremierSegmentAffiché() {

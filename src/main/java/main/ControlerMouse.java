@@ -1,11 +1,13 @@
 package main;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.SwingWorker;
 
-public class ControlerMouse implements MouseListener {
+public class ControlerMouse implements MouseListener, KeyListener {
 
 	/**
 	 * Temps d'attente entre chaque page
@@ -36,7 +38,8 @@ public class ControlerMouse implements MouseListener {
 				view.nbEssaisRestantPourLeSegmentCourant = Panneau.defautNBEssaisParSegment;
 
 				/// surlignage ///
-				view.editorPane.surlignerPhrase(0, handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(), pauseOffset + 1),
+				view.editorPane.surlignerPhrase(0,
+						handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(), pauseOffset + 1),
 						Panneau.RIGHT_COLOR);
 				view.editorPane.enleverSurlignageRouge();
 
@@ -47,7 +50,7 @@ public class ControlerMouse implements MouseListener {
 					new SwingWorker<Object, Object>() {
 						// Ce traitement sera exécuté dans un autre thread :
 						protected Object doInBackground() throws Exception {
-							Thread.sleep(3000);
+							Thread.sleep(PAGE_WAIT_TIME);
 							return null;
 						}
 
@@ -63,15 +66,16 @@ public class ControlerMouse implements MouseListener {
 				if (view.nbEssaisRestantPourLeSegmentCourant > 0) {
 					view.indiquerErreur(
 							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(),
-									handler.startWordPosition(offset)),
+									handler.startWordPosition(offset) + 1),
 							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(),
 									handler.endWordPosition(offset)));
 				} else {
-					view.indiquerErreur(
+					view.indiquerEtCorrigerErreur(
 							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(),
-									handler.startWordPosition(offset)),
+									handler.startWordPosition(offset) + 1),
 							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(),
 									handler.endWordPosition(offset)));
+
 				}
 			}
 		}
@@ -91,6 +95,30 @@ public class ControlerMouse implements MouseListener {
 
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
+	}
+
+	public void keyPressed(KeyEvent e) {
+		//p = 80, r = 82
+		if ( e.getKeyCode() == 80) {
+			FenetreParametre.fenExercice = view.editorPane;
+			FenetreParametre.fen.setVisible(true);
+		} else if ( e.getKeyCode() == 82) {
+			FenetreParametre.fenExercice = null;
+			view.fenetre.setVisible(false);
+			FenetreParametre.fen.setVisible(true);
+		}else {
+			System.out.println(e.getKeyCode());
+		}
+	}
+
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

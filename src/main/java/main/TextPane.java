@@ -6,6 +6,7 @@ import java.awt.Font;
 import javax.swing.JTextPane;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
@@ -14,12 +15,21 @@ import javax.swing.text.StyledDocument;
 public class TextPane extends JTextPane {
 
 	private static final long serialVersionUID = 1L;
-	
+
+	public static final float MARGING = 20f;
+
 	private Object redHightlightTag;
 
 	public TextPane() {
-		setFont(new Font("OpenDyslexic", Font.BOLD, 20));
+		setFont(new Font("OpenDyslexic", Font.BOLD, FenetreParametre.taillePolice));
 		setBackground(FenetreParametre.couleurFond);
+
+		SimpleAttributeSet attrs = new SimpleAttributeSet();
+		StyleConstants.setLineSpacing(attrs, 1);
+		StyleConstants.setSpaceAbove(attrs, MARGING);
+		StyleConstants.setLeftIndent(attrs, MARGING);
+		StyleConstants.setRightIndent(attrs, MARGING);
+		getStyledDocument().setParagraphAttributes(0, 0, attrs, false);
 	}
 
 	public void insert(int offset, String str) {
@@ -62,21 +72,24 @@ public class TextPane extends JTextPane {
 			}
 		}
 	}
-	
+
 	/**
 	 * surligne tout de début à fin avec la couleur spécifiée
 	 *
 	 */
-	public void surlignerPhrase(int debut, int fin , Color couleur) {
+	public void surlignerPhrase(int debut, int fin, Color couleur) {
+		if (fin <= debut)
+			return;
 		try {
-			Object tag = getHighlighter().addHighlight(debut, fin, new DefaultHighlighter.DefaultHighlightPainter(couleur));
+			Object tag = getHighlighter().addHighlight(debut, fin,
+					new DefaultHighlighter.DefaultHighlightPainter(couleur));
 			if (couleur.equals(Panneau.WRONG_COLOR))
 				redHightlightTag = tag;
 		} catch (BadLocationException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void enleverSurlignageRouge() {
 		if (redHightlightTag != null)
 			getHighlighter().removeHighlight(redHightlightTag);

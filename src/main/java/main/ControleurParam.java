@@ -38,7 +38,7 @@ public class ControleurParam implements ActionListener {
 		if (jcb == panneau.listeTailles) {
 			int taille = Integer.valueOf((String) jcb.getSelectedItem());
 			FenetreParametre.taillePolice = taille;
-			panneau.listeTailles.setFont(new Font("Arial", Font.PLAIN, taille));
+			panneau.listeTailles.setFont(new Font("OpenDyslexic", Font.PLAIN, taille));
 		}
 		if (jcb == panneau.listePolices) {
 			String police = (String) jcb.getSelectedItem();
@@ -46,7 +46,16 @@ public class ControleurParam implements ActionListener {
 			// TODO mettre la police du selecteur de police sur la police selectionnée
 		}
 		if (arg0.getSource() == panneau.valider) {
-			FenetreParametre.lancerExercice();
+			if (FenetreParametre.fenExercice == null) {
+				FenetreParametre.lancerExercice();
+				panneau.fermer();
+			} else {
+				panneau.fermer();
+				FenetreParametre.fenExercice.setBackground(FenetreParametre.couleurFond);
+				FenetreParametre.fenExercice
+						.setFont(new Font("OpenDyslexic", Font.BOLD, FenetreParametre.taillePolice));
+				//TODO mettre la bonne police
+			}
 		}
 	}
 

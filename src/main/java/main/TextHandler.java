@@ -5,7 +5,7 @@ import java.util.*;
 public class TextHandler {
 
 	public static final String PAUSE = "/";
-	
+
 	/**
 	 * Texte avec césures
 	 */
@@ -22,18 +22,22 @@ public class TextHandler {
 			phrases.put(phrases.size(), phrase);
 		}
 	}
+<<<<<<< HEAD
 	
 	private String format(String str) {
 		return str.replace(" /", "/");
 	}
 	
+=======
+
+>>>>>>> 6607d4520a12caee76af8b231931a1300f403e20
 	/**
 	 * Retourne le texte sans slash
 	 */
 	public String getShowText() {
 		return txt.replace(PAUSE, "");
 	}
-	
+
 	public String[] getPhrases(int start, int end) {
 		List<String> list = new ArrayList<String>();
 		Iterator<Integer> keys = phrases.keySet().iterator();
@@ -45,18 +49,18 @@ public class TextHandler {
 		}
 		return list.toArray(new String[0]);
 	}
-	
+
 	public String[] getPhrases() {
 		return getPhrases(0, getPhrasesCount());
 	}
-	
+
 	/**
 	 * Nombre de segments total
 	 */
 	public int getPhrasesCount() {
 		return phrases.size();
 	}
-	
+
 	/**
 	 * Indique si la césure est placée au bon endroit.
 	 */
@@ -64,7 +68,7 @@ public class TextHandler {
 		String b = getTextWithCutPauses(offset);
 		return b.charAt(offset) == '/';
 	}
-	
+
 	/**
 	 * Retourne l'indice de la pause à la position indiquée.
 	 */
@@ -79,7 +83,7 @@ public class TextHandler {
 		}
 		return index;
 	}
-	
+
 	/**
 	 * Retourne l'indice du segment à la position indiquée.
 	 */
@@ -110,7 +114,7 @@ public class TextHandler {
 		}
 		return b.toString();
 	}
-	
+
 	public int endWordPosition(int offset) {
 		for (int i = offset; i < getShowText().length(); i++) {
 			if (Character.isWhitespace(getShowText().charAt(i)) || isPunctuation(getShowText().charAt(i))) {
@@ -119,7 +123,7 @@ public class TextHandler {
 		}
 		return -1;
 	}
-	
+
 	public int startWordPosition(int offset) {
 		for (int i = offset; i >= 0; i--) {
 			if (Character.isWhitespace(getShowText().charAt(i)) || isPunctuation(getShowText().charAt(i))) {
@@ -155,21 +159,23 @@ public class TextHandler {
 		}
 		return false;
 	}
-	
+
 	/**
-	 * Retourne la position du caractère dans le texte en entier en indiquant la position d'un caractère cliqué à partir d'un segment indiqué.
+	 * Retourne la position du caractère dans le texte en entier en indiquant la
+	 * position d'un caractère cliqué à partir d'un segment indiqué.
 	 */
 	public int getAbsoluteOffset(int startPhrase, int offset) {
 		return getPhrasesLength(0, startPhrase - 1) + offset;
 	}
-	
+
 	/**
-	 * Ceci est l'opération inverse, elle permet d'obtenir la position par rapport au premier segment affiché avec la position du caractère dans tout le texte.
+	 * Ceci est l'opération inverse, elle permet d'obtenir la position par rapport
+	 * au premier segment affiché avec la position du caractère dans tout le texte.
 	 */
 	public int getRelativeOffset(int startPhrase, int offset) {
 		return offset - getPhrasesLength(0, startPhrase - 1);
 	}
-	
+
 	private int getPhrasesLength(int startPhrase, int endPhrase) {
 		int length = 0;
 		for (String phrase : getPhrases(startPhrase, endPhrase)) {
@@ -177,5 +183,5 @@ public class TextHandler {
 		}
 		return length;
 	}
-	
+
 }

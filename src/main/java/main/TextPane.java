@@ -15,15 +15,15 @@ import javax.swing.text.StyledDocument;
 public class TextPane extends JTextPane {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	public static final float MARGING = 20f;
-	
+
 	private Object redHightlightTag;
 
 	public TextPane() {
-		setFont(new Font("OpenDyslexic", Font.BOLD, 20));
-		setBackground(new Color(255, 255, 150));
-		
+		setFont(new Font("OpenDyslexic", Font.BOLD, FenetreParametre.taillePolice));
+		setBackground(FenetreParametre.couleurFond);
+
 		SimpleAttributeSet attrs = new SimpleAttributeSet();
 		StyleConstants.setLineSpacing(attrs, 1);
 		StyleConstants.setSpaceAbove(attrs, MARGING);
@@ -72,23 +72,24 @@ public class TextPane extends JTextPane {
 			}
 		}
 	}
-	
+
 	/**
 	 * surligne tout de début à fin avec la couleur spécifiée
 	 *
 	 */
-	public void surlignerPhrase(int debut, int fin , Color couleur) {
+	public void surlignerPhrase(int debut, int fin, Color couleur) {
 		if (fin <= debut)
 			return;
 		try {
-			Object tag = getHighlighter().addHighlight(debut, fin, new DefaultHighlighter.DefaultHighlightPainter(couleur));
+			Object tag = getHighlighter().addHighlight(debut, fin,
+					new DefaultHighlighter.DefaultHighlightPainter(couleur));
 			if (couleur.equals(Panneau.WRONG_COLOR))
 				redHightlightTag = tag;
 		} catch (BadLocationException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void enleverSurlignageRouge() {
 		if (redHightlightTag != null)
 			getHighlighter().removeHighlight(redHightlightTag);

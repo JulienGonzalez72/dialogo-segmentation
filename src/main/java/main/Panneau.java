@@ -7,10 +7,18 @@ import javax.swing.*;
 public class Panneau extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+<<<<<<< HEAD
 	
 	public static final int defautNBSegmentsParPage = 4;
 	public static final int defautNBEssaisParSegment = 2;
 	public static final Color WRONG_COLOR = Color.RED;
+=======
+
+	public static int defautNBSegmentsParPage = 6;
+	public static int defautNBEssaisParSegment = 2;
+
+	public static final Color WRONG_COLOR = new Color(255, 40, 40);
+>>>>>>> 6607d4520a12caee76af8b231931a1300f403e20
 	public static final Color RIGHT_COLOR = Color.GREEN;
 
 	// panneau du texte
@@ -22,7 +30,7 @@ public class Panneau extends JPanel {
 	public int nbEssaisParSegment = defautNBEssaisParSegment;
 	public int nbEssaisRestantPourLeSegmentCourant = defautNBEssaisParSegment;
 	public int segmentActuel;
-
+	public int nbErreursTolerees;
 	public int nbErreurs;
 	public JFrame fenetre;
 
@@ -30,11 +38,18 @@ public class Panneau extends JPanel {
 		this.fenetre = fenetre;
 		segmentActuel = 0;
 		pageActuelle = 0;
+<<<<<<< HEAD
 
 		String texteCesures = getTextFromFile("ressources/textes/20 000 lieux sous les mers");
 		textHandler = new TextHandler(texteCesures);
 		ControlerMouse controlerMouse = new ControlerMouse(this, textHandler);
 		nbPages = textHandler.getPhrasesCount()/nbSegmentsParPage+1;
+=======
+		String texteCesures = getTextFromFile("ressources/textes/20 000 lieux sous les mers");
+		textHandler = new TextHandler(texteCesures);
+		ControlerMouse controlerMouse = new ControlerMouse(this, textHandler);
+		nbPages = textHandler.getPhrasesCount() / nbSegmentsParPage + 1;
+>>>>>>> 6607d4520a12caee76af8b231931a1300f403e20
 
 		this.setLayout(new BorderLayout());
 		editorPane = new TextPane();
@@ -42,6 +57,7 @@ public class Panneau extends JPanel {
 		editorPane.addMouseListener(controlerMouse);
 		afficherPageSuivante();
 		this.add(editorPane, BorderLayout.CENTER);
+		editorPane.addKeyListener(controlerMouse);
 	}
 
 	/**
@@ -91,14 +107,25 @@ public class Panneau extends JPanel {
 	}
 
 	public void indiquerErreur(int debut, int fin) {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6607d4520a12caee76af8b231931a1300f403e20
 		nbErreurs++;
 		editorPane.enleverSurlignageRouge();
 		editorPane.surlignerPhrase(debut, fin, WRONG_COLOR);
 	}
+<<<<<<< HEAD
 
 	public void indiquerEtCorrigerErreur(int debut, int fin) {
 		//pour l'instant on ne corrige jamais 
 		indiquerErreur(debut,fin);
+=======
+
+	public void indiquerEtCorrigerErreur(int debut, int fin) {
+		indiquerErreur(debut, fin);
+
+>>>>>>> 6607d4520a12caee76af8b231931a1300f403e20
 	}
 
 	public int getNumeroPremierSegmentAffiché() {

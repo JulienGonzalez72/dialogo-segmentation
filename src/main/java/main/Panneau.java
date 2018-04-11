@@ -5,14 +5,6 @@ import java.io.*;
 import javax.swing.*;
 
 public class Panneau extends JPanel {
-<<<<<<< HEAD
-
-	public static final int defautNBSegmentsParPage = 5;
-	
-	private static final long serialVersionUID = 1L;
-
-	//panneau du texte
-=======
 	
 	private static final long serialVersionUID = 1L;
 
@@ -21,7 +13,6 @@ public class Panneau extends JPanel {
 	public static final int defautNBEssaisParSegment = 1;
 
 	// panneau du texte
->>>>>>> 5e3b18eb12d21f05b95175a349e8c30a877750f7
 	public TextPane editorPane;
 	public TextHandler textHandler;
 	public int pageActuelle;
@@ -30,14 +21,9 @@ public class Panneau extends JPanel {
 	public int nbEssaisParSegment = defautNBEssaisParSegment;
 	public int nbEssaisRestantPourLeSegmentCourant = defautNBEssaisParSegment;
 	public int segmentActuel;
-<<<<<<< HEAD
-
-	public Panneau(int w, int h) throws IOException {
-=======
 	
 	
 	public Panneau(int w, int h) throws IOException { 
->>>>>>> 5e3b18eb12d21f05b95175a349e8c30a877750f7
 		segmentActuel = 0;
 		pageActuelle = 0;	
 		String texteCesures = getTextFromFile("ressources/textes/Ah les crocodiles C");	
@@ -91,9 +77,6 @@ public class Panneau extends JPanel {
 	}
 
 	public boolean pageFinis() {
-<<<<<<< HEAD
-		return (segmentActuel) % nbSegmentsParPage == 0 && segmentActuel > 0;
-=======
 		return segmentActuel % nbSegmentsParPage == 0;
 	}
 
@@ -105,7 +88,6 @@ public class Panneau extends JPanel {
 	public void indiquerEtCorrigerErreur() {
 		// TODO Auto-generated method stub
 		
->>>>>>> 5e3b18eb12d21f05b95175a349e8c30a877750f7
 	}
 
 }

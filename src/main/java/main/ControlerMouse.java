@@ -9,11 +9,7 @@ import javax.swing.SwingWorker;
 public class ControlerMouse implements MouseListener {
 
 	public static int nbErreurs;
-<<<<<<< HEAD
-	public Panneau view;
-=======
 	Panneau view;
->>>>>>> 5e3b18eb12d21f05b95175a349e8c30a877750f7
 	TextHandler handler;
 
 

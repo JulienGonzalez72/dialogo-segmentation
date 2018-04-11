@@ -104,9 +104,9 @@ public class TextHandler {
 	 * Indique si le mot sur lequel a cliqué l'utilisateur correspond bien à une
 	 * césure.
 	 */
-	public boolean wordPause(int offset) {
+	public boolean wordPause(int startPhrase, int offset) {
 		int err = 0;
-		for (int i = offset; i < getShowText().length(); i++) {
+		for (int i = getPhrasesLength(startPhrase, phrases.size()) + offset; i < getShowText().length(); i++) {
 			if (correctPause(i)) {
 				return true;
 			}
@@ -118,6 +118,14 @@ public class TextHandler {
 			}
 		}
 		return false;
+	}
+	
+	private int getPhrasesLength(int startPhrase, int endPhrase) {
+		int length = 0;
+		for (String phrase : getPhrases(startPhrase, endPhrase)) {
+			length += phrase.length();
+		}
+		return length;
 	}
 	
 }

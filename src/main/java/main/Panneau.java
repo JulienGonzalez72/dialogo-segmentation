@@ -16,10 +16,12 @@ public class Panneau extends JPanel {
 	public int pageActuelle;
 	public int nbPages;
 	public int nbSegmentsParPage = defautNBSegmentsParPage;
+	public int segmentActuel;
 
 	
 	public Panneau(int w, int h) throws IOException {
 
+		segmentActuel = 0;
 		pageActuelle = 0;	
 		String texteCesures = getTextFromFile("ressources/textes/Ah les crocodiles C");	
 		textHandler = new TextHandler(texteCesures);
@@ -29,7 +31,6 @@ public class Panneau extends JPanel {
 		editorPane = new TextPane();
 		editorPane.setEditable(false);
 		editorPane.addMouseListener(controlerMouse);
-		afficherPageSuivante();
 		afficherPageSuivante();
 		this.add(editorPane, BorderLayout.CENTER);
 
@@ -68,6 +69,10 @@ public class Panneau extends JPanel {
 			texteAfficher += string;
 		}
 		editorPane.setText(texteAfficher);
+	}
+
+	public boolean pageFinis() {
+		return (segmentActuel) % nbSegmentsParPage == 0;
 	}
 
 }

@@ -11,28 +11,28 @@ import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
 public class TextPane extends JTextPane {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	public TextPane() {
 		setFont(new Font("OpenDyslexic", Font.BOLD, 20));
 		setBackground(new Color(255, 255, 150));
 	}
-	
+
 	public void insert(int offset, String str) {
 		StringBuilder builder = new StringBuilder(getText());
 		builder.insert(offset, str);
 		setText(builder.toString());
 	}
-	
+
 	int indiceDernierCaractereSurligne;
-	
+
 	/**
 	 * surligne tout jusqu'à positionClic avec la couleur couleur
 	 *
 	 */
 	public void surlignerPhrase(int positionClic, Color couleur) {
-		if ( positionClic < indiceDernierCaractereSurligne){
+		if (positionClic < indiceDernierCaractereSurligne) {
 			positionClic = indiceDernierCaractereSurligne;
 		}
 		indiceDernierCaractereSurligne = positionClic;
@@ -46,19 +46,26 @@ public class TextPane extends JTextPane {
 		for (int i = 0; i < chaine.length(); i++) {
 			if (i < positionClic) {
 				try {
-					doc.insertString(i, ""+chaine.toCharArray()[i], doc.getStyle("surligner"));
+					doc.insertString(i, "" + chaine.toCharArray()[i], doc.getStyle("surligner"));
 				} catch (BadLocationException e) {
 					e.printStackTrace();
 				}
 			} else {
 				try {
-					doc.insertString(i,""+chaine.toCharArray()[i], doc.getStyle(""));
+					doc.insertString(i, "" + chaine.toCharArray()[i], doc.getStyle(""));
 				} catch (BadLocationException e) {
 					e.printStackTrace();
 				}
 			}
 		}
-
 	}
 	
+	/**
+	 * desurligne tout entre le debut et la fin
+	 *
+	 */
+	public void désurlignerPhrase(int debut, int fin){
+		
+	}
+
 }

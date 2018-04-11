@@ -22,7 +22,8 @@ public class ControlerMouse implements MouseListener {
 		nbErreurs = 0;
 	}
 
-	public void mouseClicked(MouseEvent e) {
+	public void mousePressed(MouseEvent e) {
+		System.out.println(view.editorPane.getCaretPosition());
 		// on ne fait rien si le clic est sur un mot déjà surligné en vert
 		if (view.editorPane.getCaretPosition() > view.editorPane.indiceDernierCaractereSurligne) {
 			/// cherche la position exacte dans le texte ///
@@ -61,25 +62,17 @@ public class ControlerMouse implements MouseListener {
 			} else {
 				view.nbEssaisRestantPourLeSegmentCourant--;
 				if (view.nbEssaisRestantPourLeSegmentCourant > 0) {
-<<<<<<< HEAD
-					view.indiquerErreur(handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(), handler.startWordPosition(offset) + 1),
-							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(), handler.endWordPosition(offset)));
-				} else {
-					view.indiquerEtCorrigerErreur(handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(), handler.startWordPosition(offset) + 1),
-							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(), handler.endWordPosition(offset)));
-=======
 					view.indiquerErreur(
 							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(),
-									handler.startWordPosition(offset)),
+									handler.startWordPosition(offset) + 1),
 							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(),
 									handler.endWordPosition(offset)));
 				} else {
 					view.indiquerErreur(
 							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(),
-									handler.startWordPosition(offset)),
+									handler.startWordPosition(offset) + 1),
 							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(),
 									handler.endWordPosition(offset)));
->>>>>>> 5ac65215812fa38705e61cf350688d741bbd7b6d
 				}
 			}
 		}
@@ -93,7 +86,7 @@ public class ControlerMouse implements MouseListener {
 		// TODO Auto-generated method stub
 	}
 
-	public void mousePressed(MouseEvent e) {
+	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 	}
 

@@ -24,24 +24,29 @@ public class TextHandlerTest {
 		handler = null;
 	}
 	
-	//@Test
+	@Test
 	public void words() {
 		for (int i = 0; i < handler.getPhrases().length && i < words.length; i++) {
 			String word = "";
 			for (int j = 0; j < handler.getPhrases()[i].length(); j++) {
 				char c = handler.getPhrases()[i].charAt(j);
+				System.out.println();
+				System.out.println("====== " + i + " ======");
 				if (handler.wordPause(handler.getAbsoluteOffset(i, j))) {
 					word += c;
+					System.out.println();
+					System.out.println("!!! MATCH pour " + c + " !!!");
 				}
 			}
+			if (word.startsWith(" "))
+				word = word.substring(1);
 			assertEquals(words[i], word);
 		}
 	}
 	
 	@Test
 	public void wordPause() {
-		assertEquals(false, handler.wordPause(18));
-		assertEquals(false, handler.wordPause(45));
+		assertEquals(false, handler.wordPause(44));
 	}
 	
 }

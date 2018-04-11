@@ -16,11 +16,15 @@ public class TextHandler {
 	private Map<Integer, String> phrases;
 
 	public TextHandler(String texteOriginal) {
-		this.txt = texteOriginal;
+		txt = format(texteOriginal);
 		this.phrases = new HashMap<Integer, String>();
-		for (String phrase : texteOriginal.split(PAUSE)) {
+		for (String phrase : txt.split(PAUSE)) {
 			phrases.put(phrases.size(), phrase);
 		}
+	}
+	
+	private String format(String str) {
+		return str.replace(" /", "/");
 	}
 	
 	/**
@@ -84,11 +88,7 @@ public class TextHandler {
 		for (int i = 0; i < offset; i++) {
 			if (txt.charAt(i) == '/') {
 				index++;
-<<<<<<< HEAD
 				offset += PAUSE.length();
-=======
-				offset +=2;
->>>>>>> 5ac65215812fa38705e61cf350688d741bbd7b6d
 			}
 		}
 		return index;
@@ -140,7 +140,6 @@ public class TextHandler {
 	public boolean wordPause(int offset) {
 		int err = 0;
 		for (int i = offset; i < getShowText().length(); i++) {
-			System.out.print(getShowText().charAt(i));
 			if (correctPause(i)) {
 				return true;
 			}

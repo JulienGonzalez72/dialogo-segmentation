@@ -59,13 +59,23 @@ public class TextPane extends JTextPane {
 			}
 		}
 	}
-	
+
 	/**
 	 * desurligne tout entre le debut et la fin
 	 *
 	 */
-	public void désurlignerPhrase(int debut, int fin){
-		
+	public void désurlignerTout() {
+		StyledDocument doc = this.getStyledDocument();
+		String chaine = this.getText();
+		this.setText("");
+		for (int i = 0; i < chaine.length(); i++) {
+			try {
+				doc.insertString(i, "" + chaine.toCharArray()[i], doc.getStyle(""));
+			} catch (BadLocationException e) {
+				e.printStackTrace();
+			}
+		}
+		indiceDernierCaractereSurligne = 0;
 	}
 
 }

@@ -4,7 +4,15 @@ import java.util.*;
 
 public class TextHandler {
 
+	public static final String PAUSE = " /";
+	
+	/**
+	 * Texte avec césures
+	 */
 	private String txt;
+	/**
+	 * Liste des segments associés à leurs numéros
+	 */
 	private Map<Integer, String> phrases;
 	/**
 	 * Numéro de la césure courante
@@ -14,18 +22,18 @@ public class TextHandler {
 	public TextHandler(String texteOriginal) {
 		this.txt = texteOriginal;
 		this.phrases = new HashMap<Integer, String>();
-		for (String phrase : texteOriginal.split("/")) {
+		for (String phrase : texteOriginal.split(PAUSE)) {
 			phrases.put(phrases.size(), phrase);
 		}
 	}
-
+	
 	/**
 	 * Retourne le texte sans slash
 	 */
 	public String getShowText() {
-		return txt.replaceAll("\\", "");
+		return txt.replace(PAUSE, "");
 	}
-
+	
 	public String[] getPhrases(int start, int end) {
 		List<String> list = new ArrayList<String>();
 		Iterator<Integer> keys = phrases.keySet().iterator();
@@ -37,7 +45,7 @@ public class TextHandler {
 		}
 		return list.toArray(new String[0]);
 	}
-
+	
 	/**
 	 * Indique si la césure est placée au bon endroit.
 	 */
@@ -46,10 +54,19 @@ public class TextHandler {
 		return b.charAt(offset + 1) == '/';
 	}
 	
+	/**
+	 * Retourne l'indice de la pause à la position indiquée.
+	 */
 	public int getPauseIndex(int offset) {
 		if (!correctPause(offset))
 			return -1;
-		return 0;
+		int index = 0;
+		for (int i = 0; i < offset; i++) {
+			if (txt.charAt(i) == '/') {
+				index++;
+			}
+		}
+		return index;
 	}
 
 	/**
@@ -67,13 +84,12 @@ public class TextHandler {
 				b.deleteCharAt(i - 1);
 			}
 		}
-		System.out.println(b);
 		return b.toString();
 	}
 
 	public int endWordPosition(int offset) {
-		for (int i = offset; i < txt.length(); i++) {
-			if (Character.isWhitespace(txt.charAt(i)) || isPunctuation(txt.charAt(i))) {
+		for (int i = offset; i < getShowText().length(); i++) {
+			if (Character.isWhitespace(getShowText().charAt(i)) || isPunctuation(getShowText().charAt(i))) {
 				return i;
 			}
 		}
@@ -90,11 +106,11 @@ public class TextHandler {
 	 */
 	public boolean wordPause(int offset) {
 		int err = 0;
-		for (int i = offset; i < txt.length(); i++) {
+		for (int i = offset; i < getShowText().length(); i++) {
 			if (correctPause(i)) {
 				return true;
 			}
-			if (Character.isWhitespace(txt.charAt(i)) || isPunctuation(txt.charAt(i))) {
+			if (Character.isWhitespace(getShowText().charAt(i)) || isPunctuation(getShowText().charAt(i))) {
 				err++;
 				if (err >= 2) {
 					return false;
@@ -102,7 +118,6 @@ public class TextHandler {
 			}
 		}
 		return false;
-		// return correctPause(endWordPosition(offset) + 1);
 	}
-
+	
 }

@@ -6,7 +6,7 @@ import javax.swing.*;
 
 public class Panneau extends JPanel {
 
-	public static final int defautNBSegmentsParPage = 2;
+	public static final int defautNBSegmentsParPage = 5;
 	
 	private static final long serialVersionUID = 1L;
 
@@ -19,13 +19,8 @@ public class Panneau extends JPanel {
 	public int segmentActuel;
 
 	public Panneau(int w, int h) throws IOException {
-<<<<<<< HEAD
-		pageActuelle = 1;
-=======
-
 		segmentActuel = 0;
 		pageActuelle = 0;	
->>>>>>> 8844eaee15dc161098fcaf4a8da8cd2a911ea4ea
 		String texteCesures = getTextFromFile("ressources/textes/Ah les crocodiles C");	
 		textHandler = new TextHandler(texteCesures);
 		ControlerMouse controlerMouse = new ControlerMouse(this, textHandler);
@@ -74,7 +69,7 @@ public class Panneau extends JPanel {
 	}
 
 	public boolean pageFinis() {
-		return (segmentActuel) % nbSegmentsParPage == 0;
+		return (segmentActuel) % nbSegmentsParPage == 0 && segmentActuel > 0;
 	}
 
 }

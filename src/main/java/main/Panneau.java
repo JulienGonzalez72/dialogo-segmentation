@@ -6,7 +6,7 @@ import javax.swing.*;
 
 public class Panneau extends JPanel {
 
-	public static final int defautNBSegmentsParPage = 2;
+	public static final int defautNBSegmentsParPage = 4;
 	
 	private static final long serialVersionUID = 1L;
 
@@ -72,7 +72,7 @@ public class Panneau extends JPanel {
 	}
 
 	public boolean pageFinis() {
-		return (segmentActuel) % nbSegmentsParPage == 0;
+		return segmentActuel % nbSegmentsParPage == 0;
 	}
 
 }

@@ -19,11 +19,13 @@ public class ControlerMouse implements MouseListener {
 			view.editorPane.surlignerPhrase(handler.endWordPosition(view.editorPane.getCaretPosition()) + 1,
 					Color.GREEN);
 			view.segmentActuel++;
+			//si la page est finis on affiche la suivante
+			if (view.pageFinis()) {
+				view.afficherPageSuivante();
+				view.editorPane.désurlignerTout();
+			}
 		}
-		//si la page est finis on affiche la suivante
-		if (view.pageFinis()) {
-			view.afficherPageSuivante();
-		}
+		
 	}
 
 	public void mouseEntered(MouseEvent e) {

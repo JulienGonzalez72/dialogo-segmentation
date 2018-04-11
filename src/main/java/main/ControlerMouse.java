@@ -98,27 +98,27 @@ public class ControlerMouse implements MouseListener, KeyListener {
 	}
 
 	public void keyPressed(KeyEvent e) {
-		//p = 80, r = 82
-		if ( e.getKeyCode() == 80) {
+		// p = 80, r = 82
+		if (e.getKeyCode() == KeyEvent.VK_P) {
 			FenetreParametre.fenExercice = view.editorPane;
 			FenetreParametre.fen.setVisible(true);
-		} else if ( e.getKeyCode() == 82) {
+			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).listeSegments.setEnabled(false);
+		} else if (e.getKeyCode() == KeyEvent.VK_R) {
 			FenetreParametre.fenExercice = null;
 			view.fenetre.setVisible(false);
 			FenetreParametre.fen.setVisible(true);
-		}else {
-			System.out.println(e.getKeyCode());
+			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).listeSegments.setEnabled(true);
 		}
 	}
 
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

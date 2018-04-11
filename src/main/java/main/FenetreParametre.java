@@ -12,6 +12,7 @@ public class FenetreParametre extends JFrame {
 	public static String titre;
 	public static int tailleX;
 	public static int tailleY;
+	public static int nbSegments = 4;
 	public static FenetreParametre fen;
 	public static TextPane fenExercice;
 
@@ -40,13 +41,14 @@ public class FenetreParametre extends JFrame {
 		JComboBox<Object> listePolices;
 		JComboBox<Object> listeTailles;
 		JComboBox<Object> listeCouleurs;
+		JComboBox<Object> listeSegments;
 		JButton valider;
 		FenetreParametre fen;
 
 		public PanneauParam(FenetreParametre fen) {
 			FenetreParametre.fen = fen;
 			this.fen = fen;
-			setLayout(new GridLayout(9, 1));
+			setLayout(new GridLayout(11, 1));
 			JLabel titre = new JLabel("Choississez vos parametres");
 			titre.setFont(new Font("OpenDyslexic", Font.BOLD, 20));
 			add(titre);
@@ -66,18 +68,23 @@ public class FenetreParametre extends JFrame {
 			JLabel couleurDeFond = new JLabel("Couleur de fond : ");
 			couleurDeFond.setHorizontalAlignment(JLabel.CENTER);
 			couleurDeFond.setFont(new Font("OpenDyslexic", Font.ITALIC, 16));
-
+			JLabel segments = new JLabel("Nombre de segments par page : ");
+			segments.setHorizontalAlignment(JLabel.CENTER);
+			segments.setFont(new Font("OpenDyslexic", Font.ITALIC, 16));
+			
 			Object[] polices = new Object[] { "OpenDyslexic", "Andika", "Lexia", "Arial" };
 			Object[] tailles = new Object[] { "12", "16", "18", "20", "22", "24", "30", "36", "42" };
 			Object[] couleurs = new Object[] { "Jaune", "Blanc", "Orange" };
-
+			Object[] nbSegments = new Object[] { "4", "5", "6","8","10","15","20","25","30","40","50"};
+			
 			ControleurParam controleur = new ControleurParam(this);
 			valider.addActionListener(controleur);
 
 			JPanel panneauListe1 = new JPanel(new GridLayout(1, 3));
 			JPanel panneauListe2 = new JPanel(new GridLayout(1, 3));
 			JPanel panneauListe3 = new JPanel(new GridLayout(1, 3));
-
+			JPanel panneauListe4 = new JPanel(new GridLayout(1, 3));
+			
 			listePolices = new JComboBox<Object>(polices);
 			((JLabel) listePolices.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 			listePolices.addActionListener(controleur);
@@ -91,13 +98,20 @@ public class FenetreParametre extends JFrame {
 			listeCouleurs.addActionListener(controleur);
 			listeCouleurs.setBackground(new Color(255, 255, 150));
 			listeCouleurs.setFont(new Font("OpenDyslexic", Font.PLAIN, 12));
-
+			listeSegments = new JComboBox<Object>(nbSegments);
+			((JLabel) listeSegments.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+			listeSegments.addActionListener(controleur);
+			listeSegments.setFont(new Font("OpenDyslexic", Font.PLAIN, 12));
+			
 			panneauListe1.add(new JLabel());
 			panneauListe1.add(listePolices);
 			panneauListe1.add(new JLabel());
 			panneauListe2.add(new JLabel());
 			panneauListe2.add(listeTailles);
 			panneauListe2.add(new JLabel());
+			panneauListe4.add(new JLabel());
+			panneauListe4.add(listeSegments);
+			panneauListe4.add(new JLabel());
 			panneauListe3.add(new JLabel());
 			panneauListe3.add(listeCouleurs);
 			panneauListe3.add(new JLabel());
@@ -106,6 +120,8 @@ public class FenetreParametre extends JFrame {
 			add(panneauListe1);
 			add(taillePolice);
 			add(panneauListe2);
+			add(segments);	
+			add(panneauListe4);
 			add(couleurDeFond);
 			add(panneauListe3);
 			add(new JLabel());
@@ -120,6 +136,7 @@ public class FenetreParametre extends JFrame {
 	}
 
 	public static void lancerExercice() {
+		Panneau.defautNBSegmentsParPage = FenetreParametre.nbSegments;
 		new Fenetre(titre, tailleX, tailleY);
 	}
 

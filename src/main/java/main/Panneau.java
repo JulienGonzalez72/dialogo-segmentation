@@ -8,8 +8,8 @@ public class Panneau extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final int defautNBSegmentsParPage = 6;
-	public static final int defautNBEssaisParSegment = 2;
+	public static int defautNBSegmentsParPage = 6;
+	public static int defautNBEssaisParSegment = 2;
 
 	public static final Color WRONG_COLOR = new Color(255, 40, 40);
 	public static final Color RIGHT_COLOR = Color.GREEN;

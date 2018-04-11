@@ -85,7 +85,6 @@ public class TextHandler {
 			if (txt.charAt(i) == '/') {
 				index++;
 				offset += PAUSE.length();
-
 			}
 		}
 		return index;

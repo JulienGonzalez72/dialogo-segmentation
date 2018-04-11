@@ -45,12 +45,17 @@ public class ControleurParam implements ActionListener {
 			FenetreParametre.police = "ressources/fonts/" + police + "-Regular.otf";
 			// TODO mettre la police du selecteur de police sur la police selectionnée
 		}
+		if (jcb == panneau.listeSegments) {
+			int nbSegments = Integer.valueOf((String) jcb.getSelectedItem());
+			FenetreParametre.nbSegments = nbSegments;
+		}
 		if (arg0.getSource() == panneau.valider) {
 			if (FenetreParametre.fenExercice == null) {
 				FenetreParametre.lancerExercice();
 				panneau.fermer();
 			} else {
 				panneau.fermer();
+				Panneau.defautNBSegmentsParPage = FenetreParametre.nbSegments;
 				FenetreParametre.fenExercice.setBackground(FenetreParametre.couleurFond);
 				FenetreParametre.fenExercice
 						.setFont(new Font("OpenDyslexic", Font.BOLD, FenetreParametre.taillePolice));

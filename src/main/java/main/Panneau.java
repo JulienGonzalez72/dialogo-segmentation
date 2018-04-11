@@ -21,8 +21,10 @@ public class Panneau extends JPanel {
 	public int nbEssaisRestantPourLeSegmentCourant = defautNBEssaisParSegment;
 	public int segmentActuel;
 	public int nbErreurs;
+	public JFrame fenetre;
 
-	public Panneau(int w, int h) throws IOException {
+	public Panneau(int w, int h,JFrame fenetre) throws IOException {
+		this.fenetre = fenetre;
 		segmentActuel = 0;
 		pageActuelle = 0;
 		String texteCesures = getTextFromFile("ressources/textes/Ah les crocodiles C");
@@ -63,6 +65,7 @@ public class Panneau extends JPanel {
 	 */
 	public void afficherPageSuivante() {
 		pageActuelle++;
+		fenetre.setTitle("Lexidia - Page "+pageActuelle);
 		String texteAfficher = "";
 		// on recuepre les segments a afficher dans la page
 		String[] tab = textHandler.getPhrases((pageActuelle - 1) * nbSegmentsParPage,
@@ -80,7 +83,6 @@ public class Panneau extends JPanel {
 
 	public void indiquerErreur() {
 		nbErreurs++;
-		editorPane.surlignerPhrase(10, 12, Color.ORANGE);
 	}
 
 	public void indiquerEtCorrigerErreur() {

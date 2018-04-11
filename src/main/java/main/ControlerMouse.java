@@ -37,18 +37,18 @@ public class ControlerMouse implements MouseListener {
 				view.nbEssaisRestantPourLeSegmentCourant = Panneau.defautNBEssaisParSegment;
 				view.editorPane.surlignerPhrase(
 						handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(), pauseOffset + 1), Color.GREEN);
-				System.out.println(handler.getPauseIndex(pauseOffset + 1));
 				view.segmentActuel++;
 				// si la page est finis on affiche la suivante
 				if (view.pageFinis()) {
 
 					new SwingWorker<Object, Object>() {
-							// Ce traitement sera exécuté dans un autre thread :
+						// Ce traitement sera exécuté dans un autre thread :
 						protected Object doInBackground() throws Exception {
 							Thread.sleep(3000);
 							return null;
 						}
-							// Ce traitement sera exécuté à la fin dans l'EDT
+
+						// Ce traitement sera exécuté à la fin dans l'EDT
 						protected void done() {
 							view.afficherPageSuivante();
 						}
@@ -58,10 +58,17 @@ public class ControlerMouse implements MouseListener {
 			} else {
 				view.nbEssaisRestantPourLeSegmentCourant--;
 				if (view.nbEssaisRestantPourLeSegmentCourant > 0) {
-					view.indiquerErreur(handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(), handler.startWordPosition(offset)),
-							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(), handler.endWordPosition(offset)));
+					view.indiquerErreur(
+							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(),
+									handler.startWordPosition(offset)),
+							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(),
+									handler.endWordPosition(offset)));
 				} else {
-					view.indiquerEtCorrigerErreur();
+					view.indiquerErreur(
+							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(),
+									handler.startWordPosition(offset)),
+							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(),
+									handler.endWordPosition(offset)));
 				}
 			}
 		}

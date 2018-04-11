@@ -7,9 +7,9 @@ import javax.swing.*;
 public class Panneau extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-
 	public static final int defautNBSegmentsParPage = 4;
-	public static final int defautNBEssaisParSegment = 2;
+	public static final int defautNBEssaisParSegment = 3;
+	public static final Color WRONG_COLOR = Color.red;
 
 	// panneau du texte
 	public TextPane editorPane;
@@ -89,11 +89,12 @@ public class Panneau extends JPanel {
 
 	public void indiquerErreur(int debut, int fin) {
 		nbErreurs++;
-		editorPane.surlignerPhrase(debut,fin,Color.red);
+		editorPane.surlignerPhrase(debut,fin,WRONG_COLOR);
 	}
 
-	public void indiquerEtCorrigerErreur() {
+	public void indiquerEtCorrigerErreur(int debut, int fin) {
 		nbErreurs++;
+		editorPane.surlignerPhrase(debut, fin,WRONG_COLOR);
 	}
 
 	public int getNumeroPremierSegmentAffiché() {

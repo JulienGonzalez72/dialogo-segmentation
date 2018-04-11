@@ -13,7 +13,7 @@ import javax.swing.text.StyledDocument;
 public class TextPane extends JTextPane {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	public TextPane() {
 		setFont(new Font("OpenDyslexic", Font.BOLD, 20));
 		setBackground(new Color(255, 255, 150));
@@ -59,12 +59,12 @@ public class TextPane extends JTextPane {
 			}
 		}
 	}
-	
+
 	/**
 	 * surligne tout de début à fin avec la couleur spécifiée
 	 *
 	 */
-	public void surlignerPhrase(int debut, int fin , Color couleur) {
+	public void surlignerPhrase(int debut, int fin, Color couleur) {
 		StyledDocument doc = this.getStyledDocument();
 		Style def = StyleContext.getDefaultStyleContext().getStyle(StyleContext.DEFAULT_STYLE);
 		Style regular = doc.addStyle("regular", def);

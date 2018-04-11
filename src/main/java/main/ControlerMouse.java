@@ -8,6 +8,11 @@ import javax.swing.SwingWorker;
 
 public class ControlerMouse implements MouseListener {
 
+	/**
+	 * Temps d'attente entre chaque page
+	 */
+	public static final long PAGE_WAIT_TIME = 1000;
+	
 	public static int nbErreurs;
 	Panneau view;
 	TextHandler handler;
@@ -20,13 +25,16 @@ public class ControlerMouse implements MouseListener {
 	}
 
 	public void mouseClicked(MouseEvent e) {
+		/// cherche la position exacte dans le texte ///
+		int offset = handler.getAbsoluteOffset(view.getNumeroPremierSegmentAffiché(), view.editorPane.getCaretPosition());
+		
 		//si le clic est juste
-		if (handler.wordPause(view.getNumeroPremierSegmentAffiché(), view.editorPane.getCaretPosition())) {
-			int pauseOffset = handler.endWordPosition(view.editorPane.getCaretPosition());
-			view.editorPane.surlignerPhrase(pauseOffset + 1,
+		if (handler.wordPause(offset)) {
+			int pauseOffset = handler.endWordPosition(offset);
+			view.editorPane.surlignerPhrase(handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(), pauseOffset + 1),
 					Color.GREEN);
-			System.out.println(handler.getPauseIndex(pauseOffset + 1));
 			view.segmentActuel++;
+			
 			// si la page est finis on affiche la suivante
 			if (view.pageFinis()) {
 
@@ -34,7 +42,7 @@ public class ControlerMouse implements MouseListener {
 
 					// Ce traitement sera exécuté dans un autre thread :
 					protected Object doInBackground() throws Exception {
-						Thread.sleep(3000);
+						Thread.sleep(PAGE_WAIT_TIME);
 						return null;
 					}
 

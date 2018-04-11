@@ -14,10 +14,6 @@ public class TextHandler {
 	 * Liste des segments associés à leurs numéros
 	 */
 	private Map<Integer, String> phrases;
-	/**
-	 * Numéro de la césure courante
-	 */
-	private int currentPause;
 
 	public TextHandler(String texteOriginal) {
 		this.txt = texteOriginal;
@@ -104,9 +100,9 @@ public class TextHandler {
 	 * Indique si le mot sur lequel a cliqué l'utilisateur correspond bien à une
 	 * césure.
 	 */
-	public boolean wordPause(int startPhrase, int offset) {
+	public boolean wordPause(int offset) {
 		int err = 0;
-		for (int i = getPhrasesLength(startPhrase, phrases.size()) + offset; i < getShowText().length(); i++) {
+		for (int i = offset; i < getShowText().length(); i++) {
 			if (correctPause(i)) {
 				return true;
 			}
@@ -118,6 +114,20 @@ public class TextHandler {
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * Retourne la position du caractère dans le texte en entier en indiquant la position d'un caractère cliqué à partir d'un segment indiqué.
+	 */
+	public int getAbsoluteOffset(int startPhrase, int offset) {
+		return getPhrasesLength(0, startPhrase - 1) + offset;
+	}
+	
+	/**
+	 * Ceci est l'opération inverse, elle permet d'obtenir la position par rapport au premier segment affiché avec la position du caractère dans tout le texte.
+	 */
+	public int getRelativeOffset(int startPhrase, int offset) {
+		return offset - getPhrasesLength(0, startPhrase - 1);
 	}
 	
 	private int getPhrasesLength(int startPhrase, int endPhrase) {

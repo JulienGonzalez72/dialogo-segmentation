@@ -6,7 +6,7 @@ import javax.swing.*;
 
 public class Panneau extends JPanel {
 
-	public static final int defautNBSegmentsParPage = 5;
+	public static final int defautNBSegmentsParPage = 2;
 	
 	private static final long serialVersionUID = 1L;
 
@@ -16,9 +16,16 @@ public class Panneau extends JPanel {
 	public int pageActuelle;
 	public int nbPages;
 	public int nbSegmentsParPage = defautNBSegmentsParPage;
+	public int segmentActuel;
 
 	public Panneau(int w, int h) throws IOException {
+<<<<<<< HEAD
 		pageActuelle = 1;
+=======
+
+		segmentActuel = 0;
+		pageActuelle = 0;	
+>>>>>>> 8844eaee15dc161098fcaf4a8da8cd2a911ea4ea
 		String texteCesures = getTextFromFile("ressources/textes/Ah les crocodiles C");	
 		textHandler = new TextHandler(texteCesures);
 		ControlerMouse controlerMouse = new ControlerMouse(this, textHandler);
@@ -59,11 +66,15 @@ public class Panneau extends JPanel {
 		pageActuelle++;
 		String texteAfficher = "";
 		//on recuepre les segments a afficher dans la page
-		String[] tab = textHandler.getPhrases((pageActuelle-1)*nbSegmentsParPage,pageActuelle*nbSegmentsParPage);
+		String[] tab = textHandler.getPhrases((pageActuelle-1)*nbSegmentsParPage,pageActuelle*nbSegmentsParPage-1);
 		for (String string : tab) {
 			texteAfficher += string;
 		}
 		editorPane.setText(texteAfficher);
+	}
+
+	public boolean pageFinis() {
+		return (segmentActuel) % nbSegmentsParPage == 0;
 	}
 
 }

@@ -18,12 +18,23 @@ public class ControlerMouse implements MouseListener {
 	}
 
 	public void mouseClicked(MouseEvent e) {
+<<<<<<< HEAD
 		if (handler.wordPause(view.editorPane.getCaretPosition()))
 			view.editorPane.surlignerPhrase(0, handler.endWordPosition(view.editorPane.getCaretPosition()) + 1, Color.GREEN);
 		if (handler.correctPause(view.editorPane.getCaretPosition())){
 			//view.editorPane.surlignerPhrase(debut,fin, Color.GREEN);
 		} else {
 			//view.editorPane.gererErreur(bonnePosition);
+=======
+		if (handler.wordPause(view.editorPane.getCaretPosition())) {
+			view.editorPane.surlignerPhrase(handler.endWordPosition(view.editorPane.getCaretPosition()) + 1,
+					Color.GREEN);
+			view.segmentActuel++;
+		}
+		//si la page est finis on affiche la suivante
+		if (view.pageFinis()) {
+			view.afficherPageSuivante();
+>>>>>>> 8844eaee15dc161098fcaf4a8da8cd2a911ea4ea
 		}
 	}
 
@@ -46,6 +57,5 @@ public class ControlerMouse implements MouseListener {
 		// TODO Auto-generated method stub
 
 	}
-
 
 }

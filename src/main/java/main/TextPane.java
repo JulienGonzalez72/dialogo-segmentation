@@ -11,29 +11,35 @@ import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
 public class TextPane extends JTextPane {
-	
+
 	private static final long serialVersionUID = 1L;
 	
 	public TextPane() {
 		setFont(new Font("OpenDyslexic", Font.BOLD, 20));
 		setBackground(new Color(255, 255, 150));
 	}
-	
+
 	public void insert(int offset, String str) {
 		StringBuilder builder = new StringBuilder(getText());
 		builder.insert(offset, str);
 		setText(builder.toString());
 	}
-	
+
 	int indiceDernierCaractereSurligne;
-	
+
 	/**
 	 * surligne tout jusqu'à positionClic avec la couleur spécifiée
 	 *
 	 */
+<<<<<<< HEAD
 	public void surlignerPhrase(int debut, int fin, Color couleur) {
 		if ( debut < indiceDernierCaractereSurligne){
 			debut = indiceDernierCaractereSurligne;
+=======
+	public void surlignerPhrase(int positionClic, Color couleur) {
+		if (positionClic < indiceDernierCaractereSurligne) {
+			positionClic = indiceDernierCaractereSurligne;
+>>>>>>> 8844eaee15dc161098fcaf4a8da8cd2a911ea4ea
 		}
 		indiceDernierCaractereSurligne = debut;
 		StyledDocument doc = this.getStyledDocument();
@@ -46,22 +52,22 @@ public class TextPane extends JTextPane {
 		for (int i = 0; i < chaine.length(); i++) {
 			if (i >= debut && i <= fin) {
 				try {
-					doc.insertString(i, ""+chaine.toCharArray()[i], doc.getStyle("surligner"));
+					doc.insertString(i, "" + chaine.toCharArray()[i], doc.getStyle("surligner"));
 				} catch (BadLocationException e) {
 					e.printStackTrace();
 				}
 			} else {
 				try {
-					doc.insertString(i,""+chaine.toCharArray()[i], doc.getStyle(""));
+					doc.insertString(i, "" + chaine.toCharArray()[i], doc.getStyle(""));
 				} catch (BadLocationException e) {
 					e.printStackTrace();
 				}
 			}
 		}
-
 	}
 	
 	/**
+<<<<<<< HEAD
 	 * surligne en rouge jusqu'à la position attendue et incrémente de 1 le nombre d'erreurs
 	 *
 	 */
@@ -69,4 +75,13 @@ public class TextPane extends JTextPane {
 		surlignerPhrase(debut,fin,Color.RED);
 		ControlerMouse.nbErreurs++;
 	}
+=======
+	 * desurligne tout entre le debut et la fin
+	 *
+	 */
+	public void désurlignerPhrase(int debut, int fin){
+		
+	}
+
+>>>>>>> 8844eaee15dc161098fcaf4a8da8cd2a911ea4ea
 }

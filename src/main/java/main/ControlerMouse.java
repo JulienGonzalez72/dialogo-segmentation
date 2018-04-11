@@ -8,6 +8,7 @@ import javax.swing.SwingWorker;
 
 public class ControlerMouse implements MouseListener {
 
+	public static int nbErreurs;
 	Panneau view;
 	TextHandler handler;
 
@@ -17,6 +18,7 @@ public class ControlerMouse implements MouseListener {
 	}
 
 	public void mouseClicked(MouseEvent e) {
+		//si le clic est juste
 		if (handler.wordPause(view.editorPane.getCaretPosition())) {
 			view.editorPane.surlignerPhrase(handler.endWordPosition(view.editorPane.getCaretPosition()) + 1,
 					Color.GREEN);
@@ -35,10 +37,17 @@ public class ControlerMouse implements MouseListener {
 					// Ce traitement sera exécuté à la fin dans l'EDT
 					protected void done() {
 						view.afficherPageSuivante();
-						view.editorPane.désurlignerTout();
 					}
 				}.execute();
 
+			}
+		//si le clic est faux 
+		} else {
+			view.nbEssaisRestantPourLeSegmentCourant--;
+			if ( view.nbEssaisRestantPourLeSegmentCourant > 0 ){
+				view.indiquerErreur();
+			} else {
+				view.indiquerEtCorrigerErreur();
 			}
 		}
 	}

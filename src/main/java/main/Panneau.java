@@ -5,10 +5,12 @@ import java.io.*;
 import javax.swing.*;
 
 public class Panneau extends JPanel {
-
-	public static final int defautNBSegmentsParPage = 4;
 	
 	private static final long serialVersionUID = 1L;
+
+	
+	public static final int defautNBSegmentsParPage = 4;
+	public static final int defautNBEssaisParSegment = 1;
 
 	// panneau du texte
 	public TextPane editorPane;
@@ -16,11 +18,12 @@ public class Panneau extends JPanel {
 	public int pageActuelle;
 	public int nbPages;
 	public int nbSegmentsParPage = defautNBSegmentsParPage;
+	public int nbEssaisParSegment = defautNBEssaisParSegment;
+	public int nbEssaisRestantPourLeSegmentCourant = defautNBEssaisParSegment;
 	public int segmentActuel;
-
 	
-	public Panneau(int w, int h) throws IOException {
-
+	
+	public Panneau(int w, int h) throws IOException { 
 		segmentActuel = 0;
 		pageActuelle = 0;	
 		String texteCesures = getTextFromFile("ressources/textes/Ah les crocodiles C");	
@@ -69,10 +72,23 @@ public class Panneau extends JPanel {
 			texteAfficher += string;
 		}
 		editorPane.setText(texteAfficher);
+		editorPane.désurlignerTout();
+		//on restaure le nombre d'essais
+		nbEssaisRestantPourLeSegmentCourant = defautNBEssaisParSegment;
 	}
 
 	public boolean pageFinis() {
 		return segmentActuel % nbSegmentsParPage == 0;
+	}
+
+	public void indiquerErreur() {
+		
+		
+	}
+
+	public void indiquerEtCorrigerErreur() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -20,13 +20,8 @@ public class ControlerMouse implements MouseListener, KeyListener {
 		this.handler = handler;
 		nbErreurs = 0;
 	}
-
-<<<<<<< HEAD
-	public void mousePressed(MouseEvent e) {
-=======
-	int i = 0;
+	
 	public void mouseClicked(MouseEvent e) {
->>>>>>> 15da65bc47bea40f6506a567e2660476f49d3a79
 		// on ne fait rien en cas de triple clic
 		// on ne fait rien si le clic est sur un mot déjà surligné en vert
 		if (view.editorPane.getCaretPosition() > view.editorPane.indiceDernierCaractereSurligné
@@ -76,7 +71,7 @@ public class ControlerMouse implements MouseListener, KeyListener {
 			}
 		}
 	}
-
+	
 	public void traitementClicJuste(int offset) {
 		int pauseOffset = handler.endWordPosition(offset);
 		// on restaure le nombre d'essais
@@ -138,6 +133,8 @@ public class ControlerMouse implements MouseListener, KeyListener {
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).champNbFautesTolerees
 					.setEnabled(true);
 			break;
+		case KeyEvent.VK_G :
+			view.afficherPageSuivante();
 		default:
 			System.out.println("Touche non traitée.");
 		}

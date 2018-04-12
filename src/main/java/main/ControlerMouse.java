@@ -7,11 +7,6 @@ import javax.swing.SwingWorker;
 
 public class ControlerMouse implements MouseListener, KeyListener {
 
-	/**
-	 * Temps d'attente entre chaque page
-	 */
-	public static final long PAGE_WAIT_TIME = 1000;
-
 	public static int nbErreurs;
 	Panneau view;
 	TextHandler handler;
@@ -58,7 +53,7 @@ public class ControlerMouse implements MouseListener, KeyListener {
 						new SwingWorker<Object, Object>() {
 							// Ce traitement sera exécuté dans un autre thread :
 							protected Object doInBackground() throws Exception {
-								Thread.sleep(PAGE_WAIT_TIME);
+								Thread.sleep(Constants.PAGE_WAIT_TIME);
 								return null;
 							}
 
@@ -88,7 +83,7 @@ public class ControlerMouse implements MouseListener, KeyListener {
 			new SwingWorker<Object, Object>() {
 				// Ce traitement sera exécuté dans un autre thread :
 				protected Object doInBackground() throws Exception {
-					Thread.sleep(PAGE_WAIT_TIME);
+					Thread.sleep(Constants.PAGE_WAIT_TIME);
 					return null;
 				}
 
@@ -134,8 +129,6 @@ public class ControlerMouse implements MouseListener, KeyListener {
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).listeTailles
 			.setEnabled(true);
 			break;
-		case KeyEvent.VK_G :
-			view.afficherPageSuivante();
 		default:
 			System.out.println("Touche non traitée.");
 		}

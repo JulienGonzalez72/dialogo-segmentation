@@ -8,8 +8,13 @@ import javax.swing.*;
 public class Fenetre extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+<<<<<<< HEAD
 
 	private Panneau pan;
+=======
+	
+	public Panneau pan;
+>>>>>>> a477425039198c25b73bbb936bf277362f5890bb
 
 	public Fenetre(String titre, int tailleX, int tailleY) {
 		try {
@@ -23,6 +28,13 @@ public class Fenetre extends JFrame {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(true);
+<<<<<<< HEAD
+=======
+	}
+	
+	public void start() {
+		setVisible(true);
+>>>>>>> a477425039198c25b73bbb936bf277362f5890bb
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				pan.init();

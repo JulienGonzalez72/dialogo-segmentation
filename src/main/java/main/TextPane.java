@@ -1,7 +1,6 @@
 package main;
 
 import java.awt.Color;
-import java.awt.Font;
 
 import javax.swing.JTextPane;
 import javax.swing.text.BadLocationException;
@@ -16,11 +15,10 @@ public class TextPane extends JTextPane {
 
 	private static final long serialVersionUID = 1L;
 
-
 	private Object redHightlightTag;
 
 	public TextPane() {
-		setFont(new Font("OpenDyslexic", Font.BOLD, FenetreParametre.taillePolice));
+		setFont(FenetreParametre.police);
 		setBackground(FenetreParametre.couleurFond);
 
 		SimpleAttributeSet attrs = new SimpleAttributeSet();

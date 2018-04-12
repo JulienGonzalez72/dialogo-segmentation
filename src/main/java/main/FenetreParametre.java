@@ -6,7 +6,7 @@ import javax.swing.*;
 public class FenetreParametre extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	public static String police = "ressources/fonts/OpenDyslexic-Regular.otf";
+	public static Font police;
 	public static int taillePolice = Constants.DEFAULT_FONT_SIZE;
 	public static Color couleurFond = new Color(255, 255, 150);
 	public static String titre;
@@ -15,10 +15,6 @@ public class FenetreParametre extends JFrame {
 	public static int nbSegments = 4;
 	public static FenetreParametre fen;
 	public static TextPane editorPane;
-<<<<<<< HEAD
-	public static TextPane fenExercice;
-=======
->>>>>>> 81e4483a32abf20729733aa4442c6d89361a33ea
 	public static int nbFautesTolerees = 999;
 
 	public static void main(String[] args) {
@@ -58,31 +54,12 @@ public class FenetreParametre extends JFrame {
 			add(titre);
 	
 			valider = fastButton("Valider les parametres",new Font("OpenDyslexic", Font.BOLD, 18), Color.green);
-
-<<<<<<< HEAD
-			valider = new JButton("Valider les parametres");
-			valider.setFont(new Font("OpenDyslexic", Font.BOLD, 18));
-			valider.setBackground(Color.green);
-
-			JLabel police = new JLabel("Police : ");
-			police.setFont(new Font("OpenDyslexic", Font.ITALIC, 16));
-			police.setHorizontalAlignment(JLabel.CENTER);
-			JLabel taillePolice = new JLabel("Taille de la police : ");
-			taillePolice.setHorizontalAlignment(JLabel.CENTER);
-			taillePolice.setFont(new Font("OpenDyslexic", Font.ITALIC, 16));
-			JLabel couleurDeFond = new JLabel("Couleur de fond : ");
-			couleurDeFond.setHorizontalAlignment(JLabel.CENTER);
-			couleurDeFond.setFont(new Font("OpenDyslexic", Font.ITALIC, 16));
-			JLabel segments = new JLabel("Nombre de segments par page : ");
-			segments.setHorizontalAlignment(JLabel.CENTER);
-=======
 			
 			JLabel police = fastLabel("Police : ");
 			JLabel taillePolice = fastLabel("Taille de la police : ");
 			JLabel couleurDeFond = fastLabel("Couleur de fond : ");
 			JLabel segments = fastLabel("Nombre de segments par page : ");
-
->>>>>>> 81e4483a32abf20729733aa4442c6d89361a33ea
+			
 			final Object[] polices = new Object[] { "OpenDyslexic", "Andika", "Lexia", "Arial", "Times New Roman" };
 			Object[] tailles = new Object[] { "12", "16", "18", "20", "22", "24", "30", "36", "42" };
 			Object[] couleurs = new Object[] { "Jaune", "Blanc", "Orange" };
@@ -102,17 +79,14 @@ public class FenetreParametre extends JFrame {
 
 				public Component getListCellRendererComponent(JList<? extends Object> list, Object value, int index,
 						boolean isSelected, boolean cellHasFocus) {
-					list.setFont(new Font(ControleurParam.getFontName((String) value, index), Font.BOLD, Constants.DEFAULT_FONT_SIZE));
+					list.setFont(ControleurParam.getFont((String) value, index, Font.BOLD, Constants.DEFAULT_FONT_SIZE));
 					renderer.setHorizontalAlignment(SwingConstants.CENTER);
 					return renderer.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 				}
 			});
-			listePolices.setFont(new Font(ControleurParam.getFontName((String) listePolices.getSelectedItem(), 0), Font.BOLD, Constants.DEFAULT_FONT_SIZE));
+			listePolices.setFont(ControleurParam.getFont((String) listePolices.getSelectedItem(), 0, Font.BOLD, Constants.DEFAULT_FONT_SIZE));
 			listePolices.addActionListener(controleur);
-<<<<<<< HEAD
 			
-=======
->>>>>>> 81e4483a32abf20729733aa4442c6d89361a33ea
 			listeTailles = new JComboBox<Object>(tailles);
 			listeTailles.setRenderer(new ListCellRenderer<Object>() {
 				private DefaultListCellRenderer renderer = new DefaultListCellRenderer();

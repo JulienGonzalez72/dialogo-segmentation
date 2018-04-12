@@ -10,6 +10,7 @@ public final class Constants {
 	
 	public static final Color WRONG_COLOR = Color.RED;
 	public static final Color RIGHT_COLOR = Color.GREEN;
+	public static final Color WRONG_PHRASE_COLOR = Color.CYAN;
 	
 	public static final int DEFAULT_FONT_SIZE = 12;
 	

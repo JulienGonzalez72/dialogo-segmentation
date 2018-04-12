@@ -21,7 +21,8 @@ public class ControlerMouse implements MouseListener, KeyListener {
 	}
 
 	public void mousePressed(MouseEvent e) {
-		System.out.println(view.editorPane.getCaretPosition());
+		//for (Hioview.editorPane.getHighlighter().getHighlights().
+		
 		// on ne fait rien si le clic est sur un mot déjà surligné en vert
 		if (view.editorPane.getCaretPosition() > view.editorPane.indiceDernierCaractereSurligne) {
 			/// cherche la position exacte dans le texte ///

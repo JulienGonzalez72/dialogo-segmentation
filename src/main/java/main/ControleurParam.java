@@ -43,7 +43,6 @@ public class ControleurParam implements ActionListener {
 		if (jcb == panneau.listePolices) {
 			String police = (String) jcb.getSelectedItem();
 			FenetreParametre.police = "ressources/fonts/" + police + "-Regular.otf";
-			// TODO mettre la police du selecteur de police sur la police selectionnée
 		}
 		if (jcb == panneau.listeSegments) {
 			int nbSegments = Integer.valueOf((String) jcb.getSelectedItem());
@@ -51,6 +50,11 @@ public class ControleurParam implements ActionListener {
 		}
 		if (arg0.getSource() == panneau.valider) {
 			if (FenetreParametre.fenExercice == null) {
+				try {
+					FenetreParametre.nbFautesTolerees = Math.max(0, Integer.valueOf(panneau.champNbFautesTolerees.getText()));
+				} catch (Exception e) {
+					FenetreParametre.nbFautesTolerees = 0;
+				}
 				FenetreParametre.lancerExercice();
 				panneau.fermer();
 			} else {
@@ -59,11 +63,7 @@ public class ControleurParam implements ActionListener {
 				FenetreParametre.fenExercice.setBackground(FenetreParametre.couleurFond);
 				FenetreParametre.fenExercice
 						.setFont(new Font("OpenDyslexic", Font.BOLD, FenetreParametre.taillePolice));
-				//TODO mettre la bonne police
 			}
-		}
-		if ( arg0.getSource() == panneau.champNbFautesTolerees) {
-			FenetreParametre.nbFautesTolerees = Math.max(0, Integer.valueOf(panneau.champNbFautesTolerees.getText()));
 		}
 	}
 

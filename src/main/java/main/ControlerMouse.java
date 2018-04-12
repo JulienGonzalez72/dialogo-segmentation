@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -71,11 +72,7 @@ public class ControlerMouse implements MouseListener, KeyListener {
 							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(),
 									handler.endWordPosition(offset)));
 				} else {
-					view.indiquerEtCorrigerErreur(
-							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(),
-									handler.startWordPosition(offset) + 1),
-							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(),
-									handler.endWordPosition(offset)));
+					//view.indiquerEtCorrigerErreur(?,?);
 				}
 			}
 		}
@@ -102,6 +99,9 @@ public class ControlerMouse implements MouseListener, KeyListener {
 		if (e.getKeyCode() == KeyEvent.VK_P) {
 			FenetreParametre.fenExercice = view.editorPane;
 			FenetreParametre.fen.setVisible(true);
+			int x = 4 * Toolkit.getDefaultToolkit().getScreenSize().width / 10;
+			int y = 4 * Toolkit.getDefaultToolkit().getScreenSize().height / 10;
+			FenetreParametre.fen.setLocation(x, y);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).listeSegments.setEnabled(false);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).champNbFautesTolerees
 					.setEnabled(false);

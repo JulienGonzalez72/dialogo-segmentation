@@ -8,8 +8,8 @@ public class Panneau extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	public static int defautNBSegmentsParPage = 4;
-	public static final int defautNBEssaisParSegment = 2;
+	public static int defautNBSegmentsParPage;
+	public static int defautNBEssaisParSegment;
 	public static final Color WRONG_COLOR = Color.RED;
 	public static final Color RIGHT_COLOR = Color.GREEN;
 
@@ -22,13 +22,11 @@ public class Panneau extends JPanel {
 	public int nbEssaisParSegment = defautNBEssaisParSegment;
 	public int nbEssaisRestantPourLeSegmentCourant = defautNBEssaisParSegment;
 	public int segmentActuel;
-	public int nbErreursTolerees;
 	public int nbErreurs;
 	public JFrame fenetre;
 
 	public Panneau(int w, int h, JFrame fenetre) throws IOException {
 		this.fenetre = fenetre;
-		nbErreursTolerees = FenetreParametre.nbFautesTolerees;
 		segmentActuel = 0;
 		pageActuelle = 0;
 		String texteCesures = getTextFromFile("ressources/textes/20 000 lieux sous les mers");
@@ -98,8 +96,10 @@ public class Panneau extends JPanel {
 	}
 
 	public void indiquerEtCorrigerErreur(int debut, int fin) {
-		// pour l'instant on ne corrige jamais
-		indiquerErreur(debut, fin);
+		nbEssaisRestantPourLeSegmentCourant = Panneau.defautNBEssaisParSegment;
+		nbErreurs++;
+		editorPane.enleverSurlignageRouge();
+		editorPane.surlignerPhrase(debut, fin, WRONG_COLOR);
 	}
 
 	public int getNumeroPremierSegmentAffiché() {

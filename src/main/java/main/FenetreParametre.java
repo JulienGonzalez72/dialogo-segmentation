@@ -154,6 +154,7 @@ public class FenetreParametre extends JFrame {
 
 	public static void lancerExercice() {
 		Panneau.defautNBSegmentsParPage = FenetreParametre.nbSegments;
+		Panneau.defautNBEssaisParSegment = FenetreParametre.nbFautesTolerees;
 		new Fenetre(titre, tailleX, tailleY);
 	}
 

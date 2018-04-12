@@ -62,7 +62,7 @@ public class FenetreParametre extends JFrame {
 
 			final Object[] polices = new Object[] { "OpenDyslexic", "Andika", "Lexia", "Arial", "Times New Roman" };
 			Object[] tailles = new Object[] { "12", "16", "18", "20", "22", "24", "30", "36", "42" };
-			Object[] couleurs = new Object[] { "Jaune", "Blanc", "Orange" };
+			Object[] couleurs = new Object[] { "Jaune", "Blanc", "Orange","Rose" };
 			Object[] nbSegments = new Object[] { "4", "5", "6", "8", "10", "15", "20", "25", "30", "40", "50" };
 
 			ControleurParam controleur = new ControleurParam(this);
@@ -81,6 +81,7 @@ public class FenetreParametre extends JFrame {
 			});
 			listePolices.setFont(new Font(ControleurParam.getFontName((String) listePolices.getSelectedItem(), 0), Font.BOLD, Constants.DEFAULT_FONT_SIZE));
 			listePolices.addActionListener(controleur);
+			
 			listeTailles = new JComboBox<Object>(tailles);
 			listeTailles.setRenderer(new ListCellRenderer<Object>() {
 				private DefaultListCellRenderer renderer = new DefaultListCellRenderer();
@@ -100,6 +101,7 @@ public class FenetreParametre extends JFrame {
 			listeCouleurs.addActionListener(controleur);
 			listeCouleurs.setBackground(new Color(255, 255, 150));
 			listeCouleurs.setFont(new Font("OpenDyslexic", Font.PLAIN, 15));
+			
 			listeSegments = new JComboBox<Object>(nbSegments);
 			((JLabel) listeSegments.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 			listeSegments.addActionListener(controleur);
@@ -109,26 +111,21 @@ public class FenetreParametre extends JFrame {
 
 			add(police);
 			fastCentering(listePolices,this);
-
 			add(taillePolice);
 			fastCentering(listeTailles,this);
 			add(segments);
 			fastCentering(listeSegments,this);
-			add(couleurDeFond);
-			fastCentering(listeCouleurs,this);
+		
 
 			JLabel nbFautesTolerees = fastLabel("Nombre de fautes tolérées");
-
-			JPanel panneauChamp1 = new JPanel(new GridLayout(1, 3));
-			panneauChamp1.add(new JLabel());
-			champNbFautesTolerees = new JTextField();
+			champNbFautesTolerees = fastTextField("",new Font("OpenDyslexic", Font.PLAIN, 15),"2");
 			champNbFautesTolerees.addActionListener(controleur);
-			champNbFautesTolerees.setHorizontalAlignment(JLabel.CENTER);
 
-			panneauChamp1.add(champNbFautesTolerees);
-			panneauChamp1.add(new JLabel());
+			
 			add(nbFautesTolerees);
 			fastCentering(champNbFautesTolerees, this);
+			add(couleurDeFond);
+			fastCentering(listeCouleurs,this);
 			add(new JLabel());
 			add(valider);
 
@@ -154,6 +151,14 @@ public class FenetreParametre extends JFrame {
 			return r;
 		}
 		
+		public JTextField fastTextField(String nom, Font font, String texteParDefaut) {
+			JTextField r = new JTextField(nom);
+			r.setHorizontalAlignment(JButton.CENTER);
+			r.setFont(font);
+			r.setText(texteParDefaut);
+			return r;
+		}
+		
 		public JButton fastButton(String nom,Font font, Color color) {
 			JButton r = new JButton(nom);
 			r.setHorizontalAlignment(JButton.CENTER);
@@ -161,7 +166,10 @@ public class FenetreParametre extends JFrame {
 			r.setFont(font);
 			return r;
 		}
-		
+
+		/**
+		 *  Centre le composant c dans le panneau p
+		 */
 		public void fastCentering(Component c,JPanel p) {
 			JPanel temp = new JPanel(new GridLayout(1, 3));
 			temp.add(new JLabel());

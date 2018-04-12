@@ -34,6 +34,10 @@ public class ControleurParam implements ActionListener {
 				FenetreParametre.couleurFond = Color.white;
 				panneau.listeCouleurs.setBackground(Color.white);
 			}
+			if (s == "Rose") {
+				FenetreParametre.couleurFond = Color.PINK;
+				panneau.listeCouleurs.setBackground(Color.pink);
+			}
 		}
 		if (jcb == panneau.listeTailles) {
 			int taille = Integer.valueOf((String) jcb.getSelectedItem());

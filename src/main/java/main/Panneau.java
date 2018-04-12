@@ -98,6 +98,7 @@ public class Panneau extends JPanel {
 	public void indiquerEtCorrigerErreur(int debut, int fin) {
 		nbEssaisRestantPourLeSegmentCourant = Panneau.defautNBEssaisParSegment;
 		nbErreurs++;
+		editorPane.indiceDernierCaractereSurligné = fin;
 		editorPane.enleverSurlignageRouge();
 		editorPane.surlignerPhrase(debut, fin, WRONG_COLOR);
 	}

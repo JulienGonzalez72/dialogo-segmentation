@@ -51,6 +51,12 @@ public class ControleurParam implements ActionListener {
 		}
 		if (arg0.getSource() == panneau.valider) {
 			if (FenetreParametre.editorPane == null) {
+				try {
+					FenetreParametre.nbFautesTolerees = Math.max(0,
+							Integer.valueOf(panneau.champNbFautesTolerees.getText()));
+				} catch (Exception e) {
+					FenetreParametre.nbFautesTolerees = 0;
+				}
 				FenetreParametre.lancerExercice();
 				panneau.fermer();
 			} else {
@@ -62,10 +68,10 @@ public class ControleurParam implements ActionListener {
 			}
 		}
 	}
-	
+
 	public static String getFontName(String police, int selectedIndex) {
-		return selectedIndex < Main.FONTS.length && selectedIndex >= 0 ?
-				Main.FONTS[selectedIndex].getFontName() : police;
+		return selectedIndex < Main.FONTS.length && selectedIndex >= 0 ? Main.FONTS[selectedIndex].getFontName()
+				: police;
 	}
 
 }

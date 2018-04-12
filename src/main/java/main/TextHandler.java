@@ -25,7 +25,11 @@ public class TextHandler {
 	private String format(String str) {
 		return str.replace(" /", "/");
 	}
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> 81e4483a32abf20729733aa4442c6d89361a33ea
 	/**
 	 * Retourne le texte sans slash
 	 */

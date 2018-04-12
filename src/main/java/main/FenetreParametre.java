@@ -54,24 +54,27 @@ public class FenetreParametre extends JFrame {
 			add(titre);
 	
 			valider = fastButton("Valider les parametres",new Font("OpenDyslexic", Font.BOLD, 18), Color.green);
+<<<<<<< HEAD
 			
+=======
+
+>>>>>>> f3a009b0c4e3079d7f26583c9f82077fc128a8f1
 			JLabel police = fastLabel("Police : ");
 			JLabel taillePolice = fastLabel("Taille de la police : ");
 			JLabel couleurDeFond = fastLabel("Couleur de fond : ");
 			JLabel segments = fastLabel("Nombre de segments par page : ");
+<<<<<<< HEAD
 			
+=======
+
+>>>>>>> f3a009b0c4e3079d7f26583c9f82077fc128a8f1
 			final Object[] polices = new Object[] { "OpenDyslexic", "Andika", "Lexia", "Arial", "Times New Roman" };
 			Object[] tailles = new Object[] { "12", "16", "18", "20", "22", "24", "30", "36", "42" };
-			Object[] couleurs = new Object[] { "Jaune", "Blanc", "Orange" };
+			Object[] couleurs = new Object[] { "Jaune", "Blanc", "Orange","Rose" };
 			Object[] nbSegments = new Object[] { "4", "5", "6", "8", "10", "15", "20", "25", "30", "40", "50" };
 
 			ControleurParam controleur = new ControleurParam(this);
 			valider.addActionListener(controleur);
-
-			JPanel panneauListe1 = new JPanel(new GridLayout(1, 3));
-			JPanel panneauListe2 = new JPanel(new GridLayout(1, 3));
-			JPanel panneauListe3 = new JPanel(new GridLayout(1, 3));
-			JPanel panneauListe4 = new JPanel(new GridLayout(1, 3));
 
 			listePolices = new JComboBox<Object>(polices);
 			listePolices.setRenderer(new ListCellRenderer<Object>() {
@@ -106,45 +109,31 @@ public class FenetreParametre extends JFrame {
 			listeCouleurs.addActionListener(controleur);
 			listeCouleurs.setBackground(new Color(255, 255, 150));
 			listeCouleurs.setFont(new Font("OpenDyslexic", Font.PLAIN, 15));
+			
 			listeSegments = new JComboBox<Object>(nbSegments);
 			((JLabel) listeSegments.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 			listeSegments.addActionListener(controleur);
 			listeSegments.setFont(new Font("OpenDyslexic", Font.PLAIN, 15));
 
-			panneauListe1.add(new JLabel());
-			panneauListe1.add(listePolices);
-			panneauListe1.add(new JLabel());
-			panneauListe2.add(new JLabel());
-			panneauListe2.add(listeTailles);
-			panneauListe2.add(new JLabel());
-			panneauListe4.add(new JLabel());
-			panneauListe4.add(listeSegments);
-			panneauListe4.add(new JLabel());
-			panneauListe3.add(new JLabel());
-			panneauListe3.add(listeCouleurs);
-			panneauListe3.add(new JLabel());
+	
 
 			add(police);
-			add(panneauListe1);
+			fastCentering(listePolices,this);
 			add(taillePolice);
-			add(panneauListe2);
+			fastCentering(listeTailles,this);
 			add(segments);
-			add(panneauListe4);
-			add(couleurDeFond);
-			add(panneauListe3);
+			fastCentering(listeSegments,this);
+		
 
 			JLabel nbFautesTolerees = fastLabel("Nombre de fautes tolérées");
-
-			JPanel panneauChamp1 = new JPanel(new GridLayout(1, 3));
-			panneauChamp1.add(new JLabel());
-			champNbFautesTolerees = new JTextField();
+			champNbFautesTolerees = fastTextField("",new Font("OpenDyslexic", Font.PLAIN, 15),"2");
 			champNbFautesTolerees.addActionListener(controleur);
-			champNbFautesTolerees.setHorizontalAlignment(JLabel.CENTER);
 
-			panneauChamp1.add(champNbFautesTolerees);
-			panneauChamp1.add(new JLabel());
+			
 			add(nbFautesTolerees);
-			add(panneauChamp1);
+			fastCentering(champNbFautesTolerees, this);
+			add(couleurDeFond);
+			fastCentering(listeCouleurs,this);
 			add(new JLabel());
 			add(valider);
 
@@ -170,12 +159,31 @@ public class FenetreParametre extends JFrame {
 			return r;
 		}
 		
+		public JTextField fastTextField(String nom, Font font, String texteParDefaut) {
+			JTextField r = new JTextField(nom);
+			r.setHorizontalAlignment(JButton.CENTER);
+			r.setFont(font);
+			r.setText(texteParDefaut);
+			return r;
+		}
+		
 		public JButton fastButton(String nom,Font font, Color color) {
 			JButton r = new JButton(nom);
 			r.setHorizontalAlignment(JButton.CENTER);
 			r.setBackground(color);
 			r.setFont(font);
 			return r;
+		}
+
+		/**
+		 *  Centre le composant c dans le panneau p
+		 */
+		public void fastCentering(Component c,JPanel p) {
+			JPanel temp = new JPanel(new GridLayout(1, 3));
+			temp.add(new JLabel());
+			temp.add(c);
+			temp.add(new JLabel());
+			p.add(temp);
 		}
 
 	}

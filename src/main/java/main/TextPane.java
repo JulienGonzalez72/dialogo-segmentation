@@ -35,17 +35,17 @@ public class TextPane extends JTextPane {
 		setText(builder.toString());
 	}
 
-	public int indiceDernierCaractereSurligne;
+	public int indiceDernierCaractereSurligné;
 
 	/**
 	 * surligne tout jusqu'à positionClic avec la couleur spécifiée
 	 *
 	 */
 	public void surlignerPhrase(int positionClic, Color couleur) {
-		if (positionClic < indiceDernierCaractereSurligne) {
-			positionClic = indiceDernierCaractereSurligne;
+		if (positionClic < indiceDernierCaractereSurligné) {
+			positionClic = indiceDernierCaractereSurligné;
 		}
-		indiceDernierCaractereSurligne = positionClic;
+		indiceDernierCaractereSurligné = positionClic;
 		StyledDocument doc = this.getStyledDocument();
 		Style def = StyleContext.getDefaultStyleContext().getStyle(StyleContext.DEFAULT_STYLE);
 		Style regular = doc.addStyle("regular", def);
@@ -98,7 +98,7 @@ public class TextPane extends JTextPane {
 	 */
 	public void désurlignerTout() {
 		getHighlighter().removeAllHighlights();
-		indiceDernierCaractereSurligne = 0;
+		indiceDernierCaractereSurligné = 0;
 	}
 
 }

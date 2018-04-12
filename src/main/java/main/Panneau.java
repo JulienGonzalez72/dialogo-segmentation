@@ -8,10 +8,16 @@ public class Panneau extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
+<<<<<<< HEAD
 	public static int defautNBSegmentsParPage = 6;
 	public static int defautNBEssaisParSegment = 2;
 
 	public static final Color WRONG_COLOR = new Color(255, 40, 40);
+=======
+	public static int defautNBSegmentsParPage = 4;
+	public static final int defautNBEssaisParSegment = 2;
+	public static final Color WRONG_COLOR = Color.RED;
+>>>>>>> b626af9c80fe9c62162927cecaff1b8394ff76ab
 	public static final Color RIGHT_COLOR = Color.GREEN;
 
 	// panneau du texte
@@ -29,6 +35,7 @@ public class Panneau extends JPanel {
 
 	public Panneau(int w, int h, JFrame fenetre) throws IOException {
 		this.fenetre = fenetre;
+		nbErreursTolerees = FenetreParametre.nbFautesTolerees;
 		segmentActuel = 0;
 		pageActuelle = 0;
 		String texteCesures = getTextFromFile("ressources/textes/20 000 lieux sous les mers");
@@ -98,6 +105,7 @@ public class Panneau extends JPanel {
 	}
 
 	public void indiquerEtCorrigerErreur(int debut, int fin) {
+		// pour l'instant on ne corrige jamais
 		indiquerErreur(debut, fin);
 	}
 

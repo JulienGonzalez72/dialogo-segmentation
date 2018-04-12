@@ -60,6 +60,9 @@ public class ControleurParam implements ActionListener {
 						.setFont(new Font(FenetreParametre.police, Font.PLAIN, FenetreParametre.taillePolice));
 			}
 		}
+		if ( arg0.getSource() == panneau.champNbFautesTolerees) {
+			FenetreParametre.nbFautesTolerees = Math.max(0, Integer.valueOf(panneau.champNbFautesTolerees.getText()));
+		}
 	}
 	
 	public static String getFontName(String police, int selectedIndex) {

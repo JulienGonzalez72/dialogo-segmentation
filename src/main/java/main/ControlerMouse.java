@@ -76,10 +76,6 @@ public class ControlerMouse implements MouseListener, KeyListener {
 									handler.startWordPosition(offset) + 1),
 							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(),
 									handler.endWordPosition(offset)));
-<<<<<<< HEAD
-=======
-
->>>>>>> 6607d4520a12caee76af8b231931a1300f403e20
 				}
 			}
 		}
@@ -104,11 +100,11 @@ public class ControlerMouse implements MouseListener, KeyListener {
 	public void keyPressed(KeyEvent e) {
 		// p = 80, r = 82
 		if (e.getKeyCode() == KeyEvent.VK_P) {
-			FenetreParametre.fenExercice = view.editorPane;
+			FenetreParametre.editorPane = view.editorPane;
 			FenetreParametre.fen.setVisible(true);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).listeSegments.setEnabled(false);
 		} else if (e.getKeyCode() == KeyEvent.VK_R) {
-			FenetreParametre.fenExercice = null;
+			FenetreParametre.editorPane = null;
 			view.fenetre.setVisible(false);
 			FenetreParametre.fen.setVisible(true);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).listeSegments.setEnabled(true);

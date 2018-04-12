@@ -42,26 +42,29 @@ public class ControleurParam implements ActionListener {
 		}
 		if (jcb == panneau.listePolices) {
 			String police = (String) jcb.getSelectedItem();
-			FenetreParametre.police = "ressources/fonts/" + police + "-Regular.otf";
-			// TODO mettre la police du selecteur de police sur la police selectionnée
+			FenetreParametre.police = getFontName(police, jcb.getSelectedIndex());
 		}
 		if (jcb == panneau.listeSegments) {
 			int nbSegments = Integer.valueOf((String) jcb.getSelectedItem());
 			FenetreParametre.nbSegments = nbSegments;
 		}
 		if (arg0.getSource() == panneau.valider) {
-			if (FenetreParametre.fenExercice == null) {
+			if (FenetreParametre.editorPane == null) {
 				FenetreParametre.lancerExercice();
 				panneau.fermer();
 			} else {
 				panneau.fermer();
 				Panneau.defautNBSegmentsParPage = FenetreParametre.nbSegments;
-				FenetreParametre.fenExercice.setBackground(FenetreParametre.couleurFond);
-				FenetreParametre.fenExercice
-						.setFont(new Font("OpenDyslexic", Font.BOLD, FenetreParametre.taillePolice));
-				//TODO mettre la bonne police
+				FenetreParametre.editorPane.setBackground(FenetreParametre.couleurFond);
+				FenetreParametre.editorPane
+						.setFont(new Font(FenetreParametre.police, Font.PLAIN, FenetreParametre.taillePolice));
 			}
 		}
+	}
+	
+	public static String getFontName(String police, int selectedIndex) {
+		return selectedIndex < Main.FONTS.length && selectedIndex >= 0 ?
+				Main.FONTS[selectedIndex].getFontName() : police;
 	}
 
 }

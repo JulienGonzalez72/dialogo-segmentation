@@ -4,6 +4,7 @@ import java.awt.*;
 import java.io.*;
 import java.util.Map;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -30,7 +31,11 @@ public class Panneau extends JPanel {
 
 	public Panneau(JFrame fenetre) throws IOException {
 		this.fenetre = fenetre;
+<<<<<<< HEAD
 		segmentActuel = FenetreParametre.premierSegment-1;
+=======
+		segmentActuel = FenetreParametre.premierSegment - 1;
+>>>>>>> 2bdb33a13ba045948439378cbce1a4d92b178bcf
 		pageActuelle = 0;
 		String texteCesures = getTextFromFile("ressources/textes/Ah les crocodiles C");
 		textHandler = new TextHandler(texteCesures);
@@ -41,7 +46,10 @@ public class Panneau extends JPanel {
 		editorPane.addMouseListener(controlerMouse);
 		this.add(editorPane, BorderLayout.CENTER);
 		editorPane.addKeyListener(controlerMouse);
+<<<<<<< HEAD
 		nbPages = getNbPages();
+=======
+>>>>>>> 2bdb33a13ba045948439378cbce1a4d92b178bcf
 	}
 	
 	/**
@@ -49,23 +57,11 @@ public class Panneau extends JPanel {
 	 */
 	public void init() {
 		/// construit la mise en page virtuelle ///
-		buildPages();
+		buildPages(FenetreParametre.premierSegment - 1);
 		/// affiche la première page ///
 		afficherPageSuivante();
-	}
-
-	/**
-	 * retourne le nombre de pages
-	 *
-	 */
-	public int getNbPages() {
-		int r = 0;
-		for (Integer i : segmentsEnFonctionDeLaPage.keySet()) {
-			if (i > r) {
-				r = i;
-			}
-		}
-		return r;
+		/// calcule le nombre de pages total ///
+		nbPages = segmentsEnFonctionDeLaPage.size();
 	}
 
 	/**
@@ -112,14 +108,14 @@ public class Panneau extends JPanel {
 		}
 	}
 	
-	public void buildPages() {
+	public void buildPages(int startPhrase) {
 		/*
 		 * espace total dans la fenetre = fw * fh
 		 * espace total sans les marges = (fw - 2 * m) * (fh - m)
 		 * espace total sans les interlignes = rep / 2
 		 */
 		float maxArea = (getWidth() - 2 * Constants.TEXTPANE_MARGING) * (getHeight() - 2 * Constants.TEXTPANE_MARGING) / 2f;
-		int segment = 0;
+		int segment = startPhrase;
 		int numPage = 1;
 		while (segment < textHandler.getPhrasesCount()) {
 			String page = "";
@@ -128,6 +124,8 @@ public class Panneau extends JPanel {
 				page += textHandler.getPhrase(segment);
 				segmentsNum.add(segment);
 				segment++;
+				if (segment >= textHandler.getPhrasesCount())
+					break;
 			} while (editorPane.getTextBounds(page).getWidth()
 					* editorPane.getTextBounds(page).getHeight() < maxArea);
 			segmentsEnFonctionDeLaPage.put(numPage, segmentsNum);
@@ -137,9 +135,9 @@ public class Panneau extends JPanel {
 
 	public boolean pageFinis() {
 		// la page actuelle contient t-elle le segment suivant ? si non elle est finis
-		return !segmentsEnFonctionDeLaPage.get(pageActuelle).contains(segmentActuel);
+		return !segmentsEnFonctionDeLaPage.get(pageActuelle).contains(segmentActuel + 1);
 	}
-
+	
 	public void indiquerErreur(int debut, int fin) {
 		nbErreurs++;
 		editorPane.enleverSurlignageRouge();

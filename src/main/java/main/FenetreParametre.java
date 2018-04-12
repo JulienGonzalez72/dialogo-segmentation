@@ -7,19 +7,16 @@ public class FenetreParametre extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	public static String police = "ressources/fonts/OpenDyslexic-Regular.otf";
-	public static int taillePolice = 12;
+	public static int taillePolice = Constants.DEFAULT_FONT_SIZE;
 	public static Color couleurFond = new Color(255, 255, 150);
 	public static String titre;
 	public static int tailleX;
 	public static int tailleY;
 	public static int nbSegments = 4;
 	public static FenetreParametre fen;
-<<<<<<< HEAD
 	public static TextPane editorPane;
-=======
 	public static TextPane fenExercice;
 	public static int nbFautesTolerees = 999;
->>>>>>> b626af9c80fe9c62162927cecaff1b8394ff76ab
 
 	public static void main(String[] args) {
 		new FenetreParametre("Parametres", 500, 500);
@@ -34,7 +31,7 @@ public class FenetreParametre extends JFrame {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(true);
-		PanneauParam pan = new PanneauParam(this);
+		PanneauParam pan = new PanneauParam();
 		setContentPane(pan);
 		setVisible(true);
 	}
@@ -49,11 +46,9 @@ public class FenetreParametre extends JFrame {
 		JComboBox<Object> listeSegments;
 		JTextField champNbFautesTolerees;
 		JButton valider;
-		FenetreParametre fen;
 
-		public PanneauParam(FenetreParametre fen) {
-			FenetreParametre.fen = fen;
-			this.fen = fen;
+		public PanneauParam() {
+			fen = FenetreParametre.this;
 			setLayout(new GridLayout(13, 1));
 			JLabel titre = new JLabel("Choississez vos parametres");
 			titre.setFont(new Font("OpenDyslexic", Font.BOLD, 20));
@@ -76,14 +71,7 @@ public class FenetreParametre extends JFrame {
 			couleurDeFond.setFont(new Font("OpenDyslexic", Font.ITALIC, 16));
 			JLabel segments = new JLabel("Nombre de segments par page : ");
 			segments.setHorizontalAlignment(JLabel.CENTER);
-			segments.setFont(new Font("OpenDyslexic", Font.ITALIC, 16));
-<<<<<<< HEAD
-			
 			final Object[] polices = new Object[] { "OpenDyslexic", "Andika", "Lexia", "Arial", "Times New Roman" };
-=======
-
-			Object[] polices = new Object[] { "OpenDyslexic", "Andika", "Lexia", "Arial" };
->>>>>>> b626af9c80fe9c62162927cecaff1b8394ff76ab
 			Object[] tailles = new Object[] { "12", "16", "18", "20", "22", "24", "30", "36", "42" };
 			Object[] couleurs = new Object[] { "Jaune", "Blanc", "Orange" };
 			Object[] nbSegments = new Object[] { "4", "5", "6", "8", "10", "15", "20", "25", "30", "40", "50" };
@@ -101,16 +89,14 @@ public class FenetreParametre extends JFrame {
 				private DefaultListCellRenderer renderer = new DefaultListCellRenderer();
 				public Component getListCellRendererComponent(JList<? extends Object> list, Object value, int index,
 						boolean isSelected, boolean cellHasFocus) {
-					list.setFont(new Font(ControleurParam.getFontName((String) value, index), Font.BOLD, 12));
+					list.setFont(new Font(ControleurParam.getFontName((String) value, index), Font.BOLD, Constants.DEFAULT_FONT_SIZE));
 					renderer.setHorizontalAlignment(SwingConstants.CENTER);
 					return renderer.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 				}
 			});
+			listePolices.setFont(new Font(ControleurParam.getFontName((String) listePolices.getSelectedItem(), 0), Font.BOLD, Constants.DEFAULT_FONT_SIZE));
 			listePolices.addActionListener(controleur);
-<<<<<<< HEAD
-=======
-			listePolices.setFont(new Font("OpenDyslexic", Font.PLAIN, 15));
->>>>>>> b626af9c80fe9c62162927cecaff1b8394ff76ab
+			
 			listeTailles = new JComboBox<Object>(tailles);
 			listeTailles.setRenderer(new ListCellRenderer<Object>() {
 				private DefaultListCellRenderer renderer = new DefaultListCellRenderer();
@@ -123,6 +109,7 @@ public class FenetreParametre extends JFrame {
 			});
 			listeTailles.addActionListener(controleur);
 			listeTailles.setFont(new Font("OpenDyslexic", Font.PLAIN, 15));
+			
 			listeCouleurs = new JComboBox<Object>(couleurs);
 			((JLabel) listeCouleurs.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 			listeCouleurs.addActionListener(controleur);

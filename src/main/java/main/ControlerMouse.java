@@ -9,11 +9,6 @@ import javax.swing.SwingWorker;
 
 public class ControlerMouse implements MouseListener, KeyListener {
 
-	/**
-	 * Temps d'attente entre chaque page
-	 */
-	public static final long PAGE_WAIT_TIME = 1000;
-
 	public static int nbErreurs;
 	Panneau view;
 	TextHandler handler;
@@ -41,7 +36,7 @@ public class ControlerMouse implements MouseListener, KeyListener {
 				/// surlignage ///
 				view.editorPane.surlignerPhrase(0,
 						handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(), pauseOffset + 1),
-						Panneau.RIGHT_COLOR);
+						Constants.RIGHT_COLOR);
 				view.editorPane.enleverSurlignageRouge();
 
 				view.segmentActuel++;
@@ -51,7 +46,7 @@ public class ControlerMouse implements MouseListener, KeyListener {
 					new SwingWorker<Object, Object>() {
 						// Ce traitement sera exécuté dans un autre thread :
 						protected Object doInBackground() throws Exception {
-							Thread.sleep(PAGE_WAIT_TIME);
+							Thread.sleep(Constants.PAGE_WAIT_TIME);
 							return null;
 						}
 

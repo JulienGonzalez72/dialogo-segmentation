@@ -43,6 +43,7 @@ public class ControleurParam implements ActionListener {
 		if (jcb == panneau.listePolices) {
 			String police = (String) jcb.getSelectedItem();
 			FenetreParametre.police = getFontName(police, jcb.getSelectedIndex());
+			panneau.listePolices.setFont(new Font(getFontName(police, jcb.getSelectedIndex()), Font.BOLD, Constants.DEFAULT_FONT_SIZE));
 		}
 		if (jcb == panneau.listeSegments) {
 			int nbSegments = Integer.valueOf((String) jcb.getSelectedItem());
@@ -59,9 +60,6 @@ public class ControleurParam implements ActionListener {
 				FenetreParametre.editorPane
 						.setFont(new Font(FenetreParametre.police, Font.PLAIN, FenetreParametre.taillePolice));
 			}
-		}
-		if ( arg0.getSource() == panneau.champNbFautesTolerees) {
-			FenetreParametre.nbFautesTolerees = Math.max(0, Integer.valueOf(panneau.champNbFautesTolerees.getText()));
 		}
 	}
 	

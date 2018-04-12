@@ -4,8 +4,7 @@ import java.util.*;
 
 public class TextHandler {
 
-	public static final String PAUSE = "/";
-
+	
 	/**
 	 * Texte avec césures
 	 */
@@ -18,28 +17,20 @@ public class TextHandler {
 	public TextHandler(String texteOriginal) {
 		txt = format(texteOriginal);
 		this.phrases = new HashMap<Integer, String>();
-		for (String phrase : txt.split(PAUSE)) {
+		for (String phrase : txt.split(Constants.PAUSE)) {
 			phrases.put(phrases.size(), phrase);
 		}
 	}
-<<<<<<< HEAD
-	
-	private String format(String str) {
-		return str.replace(" /", "/");
-	}
-	
-=======
 
 	private String format(String str) {
 		return str.replace(" /", "/");
 	}
-
->>>>>>> b626af9c80fe9c62162927cecaff1b8394ff76ab
+	
 	/**
 	 * Retourne le texte sans slash
 	 */
 	public String getShowText() {
-		return txt.replace(PAUSE, "");
+		return txt.replace(Constants.PAUSE, "");
 	}
 
 	public String[] getPhrases(int start, int end) {
@@ -96,7 +87,7 @@ public class TextHandler {
 		for (int i = 0; i < offset; i++) {
 			if (txt.charAt(i) == '/') {
 				index++;
-				offset += PAUSE.length();
+				offset += Constants.PAUSE.length();
 			}
 		}
 		return index;

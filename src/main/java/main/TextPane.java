@@ -16,7 +16,6 @@ public class TextPane extends JTextPane {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final float MARGING = 20f;
 
 	private Object redHightlightTag;
 
@@ -26,9 +25,9 @@ public class TextPane extends JTextPane {
 
 		SimpleAttributeSet attrs = new SimpleAttributeSet();
 		StyleConstants.setLineSpacing(attrs, 1);
-		StyleConstants.setSpaceAbove(attrs, MARGING);
-		StyleConstants.setLeftIndent(attrs, MARGING);
-		StyleConstants.setRightIndent(attrs, MARGING);
+		StyleConstants.setSpaceAbove(attrs, Constants.TEXTPANE_MARGING);
+		StyleConstants.setLeftIndent(attrs, Constants.TEXTPANE_MARGING);
+		StyleConstants.setRightIndent(attrs, Constants.TEXTPANE_MARGING);
 		getStyledDocument().setParagraphAttributes(0, 0, attrs, false);
 	}
 
@@ -83,7 +82,7 @@ public class TextPane extends JTextPane {
 		try {
 			Object tag = getHighlighter().addHighlight(debut, fin,
 					new DefaultHighlighter.DefaultHighlightPainter(couleur));
-			if (couleur.equals(Panneau.WRONG_COLOR))
+			if (couleur.equals(Constants.WRONG_COLOR))
 				redHightlightTag = tag;
 		} catch (BadLocationException e) {
 			e.printStackTrace();

@@ -1,5 +1,6 @@
 package main;
 
+
 import java.awt.Toolkit;
 import java.awt.event.*;
 import javax.swing.SwingWorker;
@@ -15,7 +16,7 @@ public class ControlerMouse implements MouseListener, KeyListener {
 		this.handler = handler;
 		nbErreurs = 0;
 	}
-	
+
 	public void mouseClicked(MouseEvent e) {
 		// on ne fait rien en cas de triple clic
 		// on ne fait rien si le clic est sur un mot déjà surligné en vert
@@ -37,7 +38,7 @@ public class ControlerMouse implements MouseListener, KeyListener {
 									handler.startWordPosition(offset) + 1),
 							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(),
 									handler.endWordPosition(offset)));
-				// si il ne reste plus d'essais
+					// si il ne reste plus d'essais
 				} else {
 					view.indiquerEtCorrigerErreur(
 							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(),
@@ -94,21 +95,13 @@ public class ControlerMouse implements MouseListener, KeyListener {
 		}
 	}
 
-	public void mouseEntered(MouseEvent e) {
-		
-	}
+	public void mouseEntered(MouseEvent e) {}
 
-	public void mouseExited(MouseEvent e) {
-		
-	}
+	public void mouseExited(MouseEvent e) {}
 
-	public void mousePressed(MouseEvent e) {
-		
-	}
+	public void mousePressed(MouseEvent e) {}
 
-	public void mouseReleased(MouseEvent e) {
-		
-	}
+	public void mouseReleased(MouseEvent e) {}
 
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
@@ -120,6 +113,8 @@ public class ControlerMouse implements MouseListener, KeyListener {
 			FenetreParametre.fen.setLocation(x, y);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).champNbFautesTolerees
 					.setEnabled(false);
+			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).segmentDeDepart
+			.setEnabled(false);
 			break;
 		case KeyEvent.VK_R:
 			FenetreParametre.editorPane = null;
@@ -127,6 +122,8 @@ public class ControlerMouse implements MouseListener, KeyListener {
 			FenetreParametre.fen.setVisible(true);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).champNbFautesTolerees
 					.setEnabled(true);
+			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).segmentDeDepart
+			.setEnabled(true);
 			break;
 		default:
 			System.out.println("Touche non traitée.");

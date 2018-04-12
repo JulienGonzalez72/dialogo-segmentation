@@ -1,6 +1,8 @@
 package main;
 
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 
 import javax.swing.JTextPane;
 import javax.swing.text.*;
@@ -94,6 +96,10 @@ public class TextPane extends JTextPane {
 	public void désurlignerTout() {
 		getHighlighter().removeAllHighlights();
 		indiceDernierCaractereSurligné = 0;
+	}
+	
+	public Rectangle getTextBounds(String str) {
+		return getFont().createGlyphVector(getFontMetrics(getFont()).getFontRenderContext(), getText()).getPixelBounds(null, 0, 0);
 	}
 
 }

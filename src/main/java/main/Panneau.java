@@ -73,6 +73,10 @@ public class Panneau extends JPanel {
 			fenetre.setTitle("Lexidia - Page " + pageActuelle);
 			String texteAfficher = "";
 			// on recuepre les segments a afficher dans la page
+			/*
+			 * espace total dans la fenetre = fw * fh
+			 * espace total sans les marges = fw * fh - margin * fw
+			 */
 			String[] tab = textHandler.getPhrases((pageActuelle - 1) * nbSegmentsParPage,
 					pageActuelle * nbSegmentsParPage - 1);
 			for (String string : tab) {

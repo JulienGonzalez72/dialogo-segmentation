@@ -23,8 +23,7 @@ public class ControlerMouse implements MouseListener, KeyListener {
 	}
 
 	public void mousePressed(MouseEvent e) {
-		//for (Hioview.editorPane.getHighlighter().getHighlights().
-		
+		System.out.println(view.editorPane.getTextBounds("Page"));
 		// on ne fait rien si le clic est sur un mot déjà surligné en vert
 		if (view.editorPane.getCaretPosition() > view.editorPane.indiceDernierCaractereSurligné) {
 			/// cherche la position exacte dans le texte ///

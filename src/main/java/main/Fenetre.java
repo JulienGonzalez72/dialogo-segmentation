@@ -11,7 +11,7 @@ public class Fenetre extends JFrame {
 
 	public Fenetre(String titre, int tailleX, int tailleY) {
 		try {
-			pan = new Panneau(tailleX, tailleY, this);
+			pan = new Panneau(this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

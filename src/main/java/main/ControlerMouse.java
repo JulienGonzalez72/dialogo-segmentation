@@ -1,5 +1,7 @@
 package main;
 
+import java.awt.AWTException;
+import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.event.*;
 import javax.swing.SwingWorker;
@@ -21,12 +23,7 @@ public class ControlerMouse implements MouseListener, KeyListener {
 		nbErreurs = 0;
 	}
 
-<<<<<<< HEAD
-	public void mousePressed(MouseEvent e) {
-=======
-	int i = 0;
 	public void mouseClicked(MouseEvent e) {
->>>>>>> 15da65bc47bea40f6506a567e2660476f49d3a79
 		// on ne fait rien en cas de triple clic
 		// on ne fait rien si le clic est sur un mot déjà surligné en vert
 		if (view.editorPane.getCaretPosition() > view.editorPane.indiceDernierCaractereSurligné
@@ -47,7 +44,7 @@ public class ControlerMouse implements MouseListener, KeyListener {
 									handler.startWordPosition(offset) + 1),
 							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(),
 									handler.endWordPosition(offset)));
-				// si il ne reste plus d'essais
+					// si il ne reste plus d'essais
 				} else {
 					view.indiquerEtCorrigerErreur(
 							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(),
@@ -105,19 +102,19 @@ public class ControlerMouse implements MouseListener, KeyListener {
 	}
 
 	public void mouseEntered(MouseEvent e) {
-		
+
 	}
 
 	public void mouseExited(MouseEvent e) {
-		
+
 	}
 
 	public void mousePressed(MouseEvent e) {
-		
+
 	}
 
 	public void mouseReleased(MouseEvent e) {
-		
+
 	}
 
 	public void keyPressed(KeyEvent e) {

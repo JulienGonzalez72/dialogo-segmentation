@@ -77,11 +77,11 @@ public class ControleurParam implements ActionListener {
 					panneau.champNbFautesTolerees.setText("0");
 				}
 				try {
-					FenetreParametre.premierSegment = Math.max(0,
+					FenetreParametre.premierSegment = Math.max(1,
 							Integer.valueOf(panneau.segmentDeDepart.getText()));
 				} catch (Exception e) {
-					FenetreParametre.premierSegment = 0;
-					panneau.segmentDeDepart.setText("0");
+					FenetreParametre.premierSegment = 1;
+					panneau.segmentDeDepart.setText("1");
 				}
 				FenetreParametre.lancerExercice();
 				panneau.fermer();

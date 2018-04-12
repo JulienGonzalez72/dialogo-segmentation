@@ -30,7 +30,7 @@ public class Panneau extends JPanel {
 
 	public Panneau(JFrame fenetre) throws IOException {
 		this.fenetre = fenetre;
-		segmentActuel = 0;
+		segmentActuel = FenetreParametre.premierSegment-1;
 		pageActuelle = 0;
 		String texteCesures = getTextFromFile("ressources/textes/Ah les crocodiles C");
 		textHandler = new TextHandler(texteCesures);
@@ -41,28 +41,7 @@ public class Panneau extends JPanel {
 		editorPane.addMouseListener(controlerMouse);
 		this.add(editorPane, BorderLayout.CENTER);
 		editorPane.addKeyListener(controlerMouse);
-<<<<<<< HEAD
-		//TODO initialisation de texteSegmentEnFonctionNumero
-
-=======
-		// tests
-		segmentsEnFonctionDeLaPage = new HashMap<Integer, List<Integer>>();
-		List<Integer> temp = new ArrayList<Integer>();
-		temp.add(0);
-		temp.add(1);
-		temp.add(2);
-		temp.add(3);
-		temp.add(4);
-		segmentsEnFonctionDeLaPage.put(1, temp);
-		temp = new ArrayList<Integer>();
-		temp.add(5);
-		temp.add(6);
-		temp.add(7);
-		segmentsEnFonctionDeLaPage.put(2, temp);
-		// fin tests
-		// TODO initialisation de texteSegmentEnFonctionNumero
-		afficherPageSuivante();
->>>>>>> 15da65bc47bea40f6506a567e2660476f49d3a79
+		nbPages = getNbPages();
 	}
 	
 	/**
@@ -120,14 +99,6 @@ public class Panneau extends JPanel {
 			pageActuelle++;
 			fenetre.setTitle("Lexidia - Page " + pageActuelle);
 			String texteAfficher = "";
-<<<<<<< HEAD
-			// on recuepre les segments a afficher dans la page
-			
-			//String[] tab = textHandler.getPhrases((pageActuelle - 1) * nbSegmentsParPage,
-					//pageActuelle * nbSegmentsParPage - 1);
-			/*for (String string : tab) {*/
-=======
->>>>>>> 15da65bc47bea40f6506a567e2660476f49d3a79
 			// on recupere les segments a afficher dans la page
 			List<String> liste = new ArrayList<String>();
 			for (Integer i : segmentsEnFonctionDeLaPage.get(pageActuelle)) {

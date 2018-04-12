@@ -97,7 +97,7 @@ public class ControlerMouse implements MouseListener, KeyListener {
 	public void keyPressed(KeyEvent e) {
 		// p = 80, r = 82
 		if (e.getKeyCode() == KeyEvent.VK_P) {
-			FenetreParametre.fenExercice = view.editorPane;
+			FenetreParametre.editorPane = view.editorPane;
 			FenetreParametre.fen.setVisible(true);
 			int x = 4 * Toolkit.getDefaultToolkit().getScreenSize().width / 10;
 			int y = 4 * Toolkit.getDefaultToolkit().getScreenSize().height / 10;
@@ -106,7 +106,7 @@ public class ControlerMouse implements MouseListener, KeyListener {
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).champNbFautesTolerees
 					.setEnabled(false);
 		} else if (e.getKeyCode() == KeyEvent.VK_R) {
-			FenetreParametre.fenExercice = null;
+			FenetreParametre.editorPane = null;
 			view.fenetre.setVisible(false);
 			FenetreParametre.fen.setVisible(true);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).listeSegments.setEnabled(true);

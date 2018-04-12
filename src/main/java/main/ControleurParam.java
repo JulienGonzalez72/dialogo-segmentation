@@ -42,16 +42,17 @@ public class ControleurParam implements ActionListener {
 		}
 		if (jcb == panneau.listePolices) {
 			String police = (String) jcb.getSelectedItem();
-			FenetreParametre.police = "ressources/fonts/" + police + "-Regular.otf";
+			FenetreParametre.police = getFontName(police, jcb.getSelectedIndex());
 		}
 		if (jcb == panneau.listeSegments) {
 			int nbSegments = Integer.valueOf((String) jcb.getSelectedItem());
 			FenetreParametre.nbSegments = nbSegments;
 		}
 		if (arg0.getSource() == panneau.valider) {
-			if (FenetreParametre.fenExercice == null) {
+			if (FenetreParametre.editorPane == null) {
 				try {
-					FenetreParametre.nbFautesTolerees = Math.max(0, Integer.valueOf(panneau.champNbFautesTolerees.getText()));
+					FenetreParametre.nbFautesTolerees = Math.max(0,
+							Integer.valueOf(panneau.champNbFautesTolerees.getText()));
 				} catch (Exception e) {
 					FenetreParametre.nbFautesTolerees = 0;
 				}
@@ -60,11 +61,16 @@ public class ControleurParam implements ActionListener {
 			} else {
 				panneau.fermer();
 				Panneau.defautNBSegmentsParPage = FenetreParametre.nbSegments;
-				FenetreParametre.fenExercice.setBackground(FenetreParametre.couleurFond);
-				FenetreParametre.fenExercice
-						.setFont(new Font("OpenDyslexic", Font.BOLD, FenetreParametre.taillePolice));
+				FenetreParametre.editorPane.setBackground(FenetreParametre.couleurFond);
+				FenetreParametre.editorPane
+						.setFont(new Font(FenetreParametre.police, Font.PLAIN, FenetreParametre.taillePolice));
 			}
 		}
+	}
+
+	public static String getFontName(String police, int selectedIndex) {
+		return selectedIndex < Main.FONTS.length && selectedIndex >= 0 ? Main.FONTS[selectedIndex].getFontName()
+				: police;
 	}
 
 }

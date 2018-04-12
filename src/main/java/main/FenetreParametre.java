@@ -16,6 +16,7 @@ public class FenetreParametre extends JFrame {
 	public static FenetreParametre fen;
 	public static TextPane editorPane;
 	public static int nbFautesTolerees;
+	public static Fenetre f;
 
 	public static void main(String[] args) {
 		new FenetreParametre("Parametres", 500, 500);
@@ -28,7 +29,7 @@ public class FenetreParametre extends JFrame {
 		setTitle(titre);
 		setSize(tailleX, tailleY);
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setResizable(true);
 		PanneauParam pan = new PanneauParam();
 		setContentPane(pan);
@@ -177,7 +178,7 @@ public class FenetreParametre extends JFrame {
 	public static void lancerExercice() {
 		Panneau.premierSegment = FenetreParametre.premierSegment;
 		Panneau.defautNBEssaisParSegment = FenetreParametre.nbFautesTolerees;
-		new Fenetre(titre, tailleX, tailleY);
+		FenetreParametre.f = new Fenetre(titre, tailleX, tailleY);
 	}
 
 }

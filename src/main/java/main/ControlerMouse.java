@@ -1,7 +1,6 @@
 package main;
 
-import java.awt.AWTException;
-import java.awt.Robot;
+
 import java.awt.Toolkit;
 import java.awt.event.*;
 import javax.swing.SwingWorker;
@@ -22,11 +21,7 @@ public class ControlerMouse implements MouseListener, KeyListener {
 		this.handler = handler;
 		nbErreurs = 0;
 	}
-<<<<<<< HEAD
 
-=======
-	
->>>>>>> 2bdb33a13ba045948439378cbce1a4d92b178bcf
 	public void mouseClicked(MouseEvent e) {
 		// on ne fait rien en cas de triple clic
 		// on ne fait rien si le clic est sur un mot déjà surligné en vert
@@ -105,21 +100,13 @@ public class ControlerMouse implements MouseListener, KeyListener {
 		}
 	}
 
-	public void mouseEntered(MouseEvent e) {
+	public void mouseEntered(MouseEvent e) {}
 
-	}
+	public void mouseExited(MouseEvent e) {}
 
-	public void mouseExited(MouseEvent e) {
+	public void mousePressed(MouseEvent e) {}
 
-	}
-
-	public void mousePressed(MouseEvent e) {
-
-	}
-
-	public void mouseReleased(MouseEvent e) {
-
-	}
+	public void mouseReleased(MouseEvent e) {}
 
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
@@ -131,6 +118,8 @@ public class ControlerMouse implements MouseListener, KeyListener {
 			FenetreParametre.fen.setLocation(x, y);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).champNbFautesTolerees
 					.setEnabled(false);
+			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).segmentDeDepart
+			.setEnabled(false);
 			break;
 		case KeyEvent.VK_R:
 			FenetreParametre.editorPane = null;
@@ -138,6 +127,8 @@ public class ControlerMouse implements MouseListener, KeyListener {
 			FenetreParametre.fen.setVisible(true);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).champNbFautesTolerees
 					.setEnabled(true);
+			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).segmentDeDepart
+			.setEnabled(true);
 			break;
 		case KeyEvent.VK_G :
 			view.afficherPageSuivante();

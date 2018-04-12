@@ -68,6 +68,7 @@ public class ControleurParam implements ActionListener {
 			FenetreParametre.premierSegment = premierSegment;
 		}
 		if (arg0.getSource() == panneau.valider) {
+			//si on est dans le premier lancement des parametres
 			if (FenetreParametre.editorPane == null) {
 				try {
 					FenetreParametre.nbFautesTolerees = Math.max(0,
@@ -85,9 +86,9 @@ public class ControleurParam implements ActionListener {
 				}
 				FenetreParametre.lancerExercice();
 				panneau.fermer();
+			//si on a déjà lancé l'exercice et qu'on fait des modifications en cours
 			} else {
 				panneau.fermer();
-				Panneau.premierSegment = FenetreParametre.premierSegment;
 				FenetreParametre.editorPane.setBackground(FenetreParametre.couleurFond);
 			}
 		}

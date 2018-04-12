@@ -15,10 +15,6 @@ public class FenetreParametre extends JFrame {
 	public static int nbSegments = 4;
 	public static FenetreParametre fen;
 	public static TextPane editorPane;
-<<<<<<< HEAD
-	public static TextPane fenExercice;
-=======
->>>>>>> 81e4483a32abf20729733aa4442c6d89361a33ea
 	public static int nbFautesTolerees = 999;
 
 	public static void main(String[] args) {
@@ -59,30 +55,11 @@ public class FenetreParametre extends JFrame {
 	
 			valider = fastButton("Valider les parametres",new Font("OpenDyslexic", Font.BOLD, 18), Color.green);
 
-<<<<<<< HEAD
-			valider = new JButton("Valider les parametres");
-			valider.setFont(new Font("OpenDyslexic", Font.BOLD, 18));
-			valider.setBackground(Color.green);
-
-			JLabel police = new JLabel("Police : ");
-			police.setFont(new Font("OpenDyslexic", Font.ITALIC, 16));
-			police.setHorizontalAlignment(JLabel.CENTER);
-			JLabel taillePolice = new JLabel("Taille de la police : ");
-			taillePolice.setHorizontalAlignment(JLabel.CENTER);
-			taillePolice.setFont(new Font("OpenDyslexic", Font.ITALIC, 16));
-			JLabel couleurDeFond = new JLabel("Couleur de fond : ");
-			couleurDeFond.setHorizontalAlignment(JLabel.CENTER);
-			couleurDeFond.setFont(new Font("OpenDyslexic", Font.ITALIC, 16));
-			JLabel segments = new JLabel("Nombre de segments par page : ");
-			segments.setHorizontalAlignment(JLabel.CENTER);
-=======
-			
 			JLabel police = fastLabel("Police : ");
 			JLabel taillePolice = fastLabel("Taille de la police : ");
 			JLabel couleurDeFond = fastLabel("Couleur de fond : ");
 			JLabel segments = fastLabel("Nombre de segments par page : ");
 
->>>>>>> 81e4483a32abf20729733aa4442c6d89361a33ea
 			final Object[] polices = new Object[] { "OpenDyslexic", "Andika", "Lexia", "Arial", "Times New Roman" };
 			Object[] tailles = new Object[] { "12", "16", "18", "20", "22", "24", "30", "36", "42" };
 			Object[] couleurs = new Object[] { "Jaune", "Blanc", "Orange" };
@@ -90,11 +67,6 @@ public class FenetreParametre extends JFrame {
 
 			ControleurParam controleur = new ControleurParam(this);
 			valider.addActionListener(controleur);
-
-			JPanel panneauListe1 = new JPanel(new GridLayout(1, 3));
-			JPanel panneauListe2 = new JPanel(new GridLayout(1, 3));
-			JPanel panneauListe3 = new JPanel(new GridLayout(1, 3));
-			JPanel panneauListe4 = new JPanel(new GridLayout(1, 3));
 
 			listePolices = new JComboBox<Object>(polices);
 			listePolices.setRenderer(new ListCellRenderer<Object>() {
@@ -109,10 +81,6 @@ public class FenetreParametre extends JFrame {
 			});
 			listePolices.setFont(new Font(ControleurParam.getFontName((String) listePolices.getSelectedItem(), 0), Font.BOLD, Constants.DEFAULT_FONT_SIZE));
 			listePolices.addActionListener(controleur);
-<<<<<<< HEAD
-			
-=======
->>>>>>> 81e4483a32abf20729733aa4442c6d89361a33ea
 			listeTailles = new JComboBox<Object>(tailles);
 			listeTailles.setRenderer(new ListCellRenderer<Object>() {
 				private DefaultListCellRenderer renderer = new DefaultListCellRenderer();
@@ -137,27 +105,17 @@ public class FenetreParametre extends JFrame {
 			listeSegments.addActionListener(controleur);
 			listeSegments.setFont(new Font("OpenDyslexic", Font.PLAIN, 15));
 
-			panneauListe1.add(new JLabel());
-			panneauListe1.add(listePolices);
-			panneauListe1.add(new JLabel());
-			panneauListe2.add(new JLabel());
-			panneauListe2.add(listeTailles);
-			panneauListe2.add(new JLabel());
-			panneauListe4.add(new JLabel());
-			panneauListe4.add(listeSegments);
-			panneauListe4.add(new JLabel());
-			panneauListe3.add(new JLabel());
-			panneauListe3.add(listeCouleurs);
-			panneauListe3.add(new JLabel());
+	
 
 			add(police);
-			add(panneauListe1);
+			fastCentering(listePolices,this);
+
 			add(taillePolice);
-			add(panneauListe2);
+			fastCentering(listeTailles,this);
 			add(segments);
-			add(panneauListe4);
+			fastCentering(listeSegments,this);
 			add(couleurDeFond);
-			add(panneauListe3);
+			fastCentering(listeCouleurs,this);
 
 			JLabel nbFautesTolerees = fastLabel("Nombre de fautes tolérées");
 
@@ -170,7 +128,7 @@ public class FenetreParametre extends JFrame {
 			panneauChamp1.add(champNbFautesTolerees);
 			panneauChamp1.add(new JLabel());
 			add(nbFautesTolerees);
-			add(panneauChamp1);
+			fastCentering(champNbFautesTolerees, this);
 			add(new JLabel());
 			add(valider);
 
@@ -202,6 +160,14 @@ public class FenetreParametre extends JFrame {
 			r.setBackground(color);
 			r.setFont(font);
 			return r;
+		}
+		
+		public void fastCentering(Component c,JPanel p) {
+			JPanel temp = new JPanel(new GridLayout(1, 3));
+			temp.add(new JLabel());
+			temp.add(c);
+			temp.add(new JLabel());
+			p.add(temp);
 		}
 
 	}

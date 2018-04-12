@@ -10,6 +10,11 @@ import javax.swing.SwingWorker;
 
 public class ControlerMouse implements MouseListener, KeyListener {
 
+	/**
+	 * Temps d'attente entre chaque page
+	 */
+	public static final long PAGE_WAIT_TIME = 1000;
+
 	public static int nbErreurs;
 	Panneau view;
 	TextHandler handler;
@@ -32,21 +37,18 @@ public class ControlerMouse implements MouseListener, KeyListener {
 				int pauseOffset = handler.endWordPosition(offset);
 				// on restaure le nombre d'essais
 				view.nbEssaisRestantPourLeSegmentCourant = Panneau.defautNBEssaisParSegment;
-
 				/// surlignage ///
 				view.editorPane.surlignerPhrase(0,
 						handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(), pauseOffset + 1),
-						Constants.RIGHT_COLOR);
+						Panneau.RIGHT_COLOR);
 				view.editorPane.enleverSurlignageRouge();
-
 				view.segmentActuel++;
 				// si la page est finis on affiche la suivante
 				if (view.pageFinis()) {
-
 					new SwingWorker<Object, Object>() {
 						// Ce traitement sera exécuté dans un autre thread :
 						protected Object doInBackground() throws Exception {
-							Thread.sleep(Constants.PAGE_WAIT_TIME);
+							Thread.sleep(PAGE_WAIT_TIME);
 							return null;
 						}
 
@@ -66,7 +68,7 @@ public class ControlerMouse implements MouseListener, KeyListener {
 							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(),
 									handler.endWordPosition(offset)));
 				} else {
-					// view.indiquerEtCorrigerErreur(?,?);
+					view.indiquerEtCorrigerErreur(0, 0);
 				}
 			}
 		}
@@ -89,8 +91,8 @@ public class ControlerMouse implements MouseListener, KeyListener {
 	}
 
 	public void keyPressed(KeyEvent e) {
-		// p = 80, r = 82
-		if (e.getKeyCode() == KeyEvent.VK_P) {
+		switch (e.getKeyCode()) {
+		case KeyEvent.VK_P:
 			FenetreParametre.editorPane = view.editorPane;
 			FenetreParametre.fen.setVisible(true);
 			int x = 4 * Toolkit.getDefaultToolkit().getScreenSize().width / 10;
@@ -99,13 +101,17 @@ public class ControlerMouse implements MouseListener, KeyListener {
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).listeSegments.setEnabled(false);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).champNbFautesTolerees
 					.setEnabled(false);
-		} else if (e.getKeyCode() == KeyEvent.VK_R) {
+			break;
+		case KeyEvent.VK_R:
 			FenetreParametre.editorPane = null;
 			view.fenetre.setVisible(false);
 			FenetreParametre.fen.setVisible(true);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).listeSegments.setEnabled(true);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).champNbFautesTolerees
 					.setEnabled(true);
+			break;
+		default:
+			System.out.println("Touche non traitée.");
 		}
 	}
 

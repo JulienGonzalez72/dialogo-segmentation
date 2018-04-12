@@ -7,17 +7,11 @@ import javax.swing.*;
 public class Panneau extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-<<<<<<< HEAD
-	
-	public static int defautNBSegmentsParPage = 4;
-	public static final int defautNBEssaisParSegment = 2;
-=======
 
 	public static int defautNBSegmentsParPage;
 	public static int defautNBEssaisParSegment;
 	public static final Color WRONG_COLOR = new Color(255, 40, 40);
 	public static final Color RIGHT_COLOR = Color.GREEN;
->>>>>>> 81e4483a32abf20729733aa4442c6d89361a33ea
 
 	// panneau du texte
 	public TextPane editorPane;

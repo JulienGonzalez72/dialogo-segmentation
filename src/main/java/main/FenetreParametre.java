@@ -112,7 +112,7 @@ public class FenetreParametre extends JFrame {
 			add(segments);
 			fastCentering(segmentDeDepart, this);
 
-			JLabel nbFautesTolerees = fastLabel("Nombre de fautes tolérées");
+			JLabel nbFautesTolerees = fastLabel("Nombre de fautes maximum");
 			champNbFautesTolerees = fastTextField("", new Font("OpenDyslexic", Font.PLAIN, 15), "2");
 			champNbFautesTolerees.addActionListener(controleur);
 

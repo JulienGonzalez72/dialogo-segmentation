@@ -21,12 +21,9 @@ public class ControlerMouse implements MouseListener, KeyListener {
 		nbErreurs = 0;
 	}
 
-	public void mousePressed(MouseEvent e) {
-<<<<<<< HEAD
-		System.out.println(view.editorPane.getTextBounds("Page"));
-=======
+	int i = 0;
+	public void mouseClicked(MouseEvent e) {
 		// on ne fait rien en cas de triple clic
->>>>>>> a3b90a2ede6ac235c63e7b7396be550f5108eef6
 		// on ne fait rien si le clic est sur un mot déjà surligné en vert
 		if (view.editorPane.getCaretPosition() > view.editorPane.indiceDernierCaractereSurligné
 				&& e.getClickCount() < 2) {
@@ -46,12 +43,8 @@ public class ControlerMouse implements MouseListener, KeyListener {
 									handler.startWordPosition(offset) + 1),
 							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(),
 									handler.endWordPosition(offset)));
-					// si il ne reste plus d'essais
+				// si il ne reste plus d'essais
 				} else {
-					/*
-					 * view.indiquerEtCorrigerErreur(handler.getPauseOffset(view.segmentActuel-1),
-					 * handler.getPauseOffset(view.segmentActuel));
-					 */
 					view.indiquerEtCorrigerErreur(
 							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(),
 									handler.getPauseOffset(view.segmentActuel - 1)),
@@ -108,19 +101,19 @@ public class ControlerMouse implements MouseListener, KeyListener {
 	}
 
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
+		
 	}
 
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
+		
 	}
 
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
+	public void mousePressed(MouseEvent e) {
+		
 	}
 
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
+		
 	}
 
 	public void keyPressed(KeyEvent e) {
@@ -147,12 +140,10 @@ public class ControlerMouse implements MouseListener, KeyListener {
 	}
 
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 

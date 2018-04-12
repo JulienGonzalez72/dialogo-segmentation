@@ -70,6 +70,7 @@ public class ControleurParam implements ActionListener {
 							Integer.valueOf(panneau.champNbFautesTolerees.getText()));
 				} catch (Exception e) {
 					FenetreParametre.nbFautesTolerees = 0;
+					panneau.champNbFautesTolerees.setText("0");
 				}
 				FenetreParametre.lancerExercice();
 				panneau.fermer();

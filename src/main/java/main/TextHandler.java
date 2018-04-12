@@ -4,7 +4,6 @@ import java.util.*;
 
 public class TextHandler {
 
-	
 	/**
 	 * Texte avec césures
 	 */
@@ -77,6 +76,13 @@ public class TextHandler {
 			}
 		}
 		return index;
+	}
+
+	/**
+	 * Retourne la position absolue du segment indiqué en paramètre.
+	 */
+	public int getPauseOffset(int phrase) {
+		return getPhrasesLength(0, phrase);
 	}
 
 	/**

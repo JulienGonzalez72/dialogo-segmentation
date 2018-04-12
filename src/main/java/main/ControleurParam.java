@@ -2,8 +2,11 @@ package main;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.*;
 
@@ -50,8 +53,11 @@ public class ControleurParam implements ActionListener {
 		}
 		if (jcb == panneau.listePolices) {
 			String police = (String) jcb.getSelectedItem();
-			FenetreParametre.police = getFontName(police, jcb.getSelectedIndex());
-			panneau.listePolices.setFont(new Font(getFontName(police, jcb.getSelectedIndex()), Font.BOLD, Constants.DEFAULT_FONT_SIZE));
+			FenetreParametre.police = getFont(police, jcb.getSelectedIndex(), Font.BOLD, Constants.DEFAULT_FONT_SIZE);
+			panneau.listePolices.setFont(FenetreParametre.police);
+			if (FenetreParametre.editorPane != null) {
+				FenetreParametre.editorPane.setFont(FenetreParametre.police);
+			}
 		}
 		if (jcb == panneau.listeSegments) {
 			int nbSegments = Integer.valueOf((String) jcb.getSelectedItem());
@@ -71,15 +77,27 @@ public class ControleurParam implements ActionListener {
 				panneau.fermer();
 				Panneau.defautNBSegmentsParPage = FenetreParametre.nbSegments;
 				FenetreParametre.editorPane.setBackground(FenetreParametre.couleurFond);
-				FenetreParametre.editorPane
-						.setFont(new Font(FenetreParametre.police, Font.PLAIN, FenetreParametre.taillePolice));
 			}
 		}
 	}
 
-	public static String getFontName(String police, int selectedIndex) {
-		return selectedIndex < Main.FONTS.length && selectedIndex >= 0 ? Main.FONTS[selectedIndex].getFontName()
-				: police;
+	public static Font getFont(String police, int selectedIndex, int style, int size) {
+		try {
+			Font font;
+			if (selectedIndex < Constants.FONTS_NAMES.length && selectedIndex >= 0) {
+				font = Font.createFont(Font.TRUETYPE_FONT,
+							new File("ressources/fonts/" + Constants.FONTS_NAMES[selectedIndex])).deriveFont(style).deriveFont((float) size);
+			}
+			else {
+				font = new Font(police, style, size);
+			}
+			return font;
+		} catch (FontFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
-
+	
 }

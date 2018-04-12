@@ -8,10 +8,10 @@ public class Panneau extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
+
 	public static int defautNBSegmentsParPage;
 	public static int defautNBEssaisParSegment;
-	public static final Color WRONG_COLOR = new Color(255, 40, 40);
-	public static final Color RIGHT_COLOR = Color.GREEN;
+
 
 	// panneau du texte
 	public TextPane editorPane;
@@ -100,7 +100,7 @@ public class Panneau extends JPanel {
 		nbErreurs++;
 		editorPane.indiceDernierCaractereSurligné = fin;
 		editorPane.enleverSurlignageRouge();
-		editorPane.surlignerPhrase(debut, fin, WRONG_COLOR);
+		editorPane.surlignerPhrase(debut, fin, Constants.WRONG_PHRASE_COLOR);
 	}
 
 	public int getNumeroPremierSegmentAffiché() {

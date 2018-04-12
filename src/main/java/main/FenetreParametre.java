@@ -6,7 +6,7 @@ import javax.swing.*;
 public class FenetreParametre extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	public static String police = "ressources/fonts/OpenDyslexic-Regular.otf";
+	public static Font police;
 	public static int taillePolice = Constants.DEFAULT_FONT_SIZE;
 	public static Color couleurFond = new Color(255, 255, 150);
 	public static String titre;
@@ -74,12 +74,12 @@ public class FenetreParametre extends JFrame {
 
 				public Component getListCellRendererComponent(JList<? extends Object> list, Object value, int index,
 						boolean isSelected, boolean cellHasFocus) {
-					list.setFont(new Font(ControleurParam.getFontName((String) value, index), Font.BOLD, Constants.DEFAULT_FONT_SIZE));
+					list.setFont(ControleurParam.getFont((String) value, index, Font.BOLD, Constants.DEFAULT_FONT_SIZE));
 					renderer.setHorizontalAlignment(SwingConstants.CENTER);
 					return renderer.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 				}
 			});
-			listePolices.setFont(new Font(ControleurParam.getFontName((String) listePolices.getSelectedItem(), 0), Font.BOLD, Constants.DEFAULT_FONT_SIZE));
+			listePolices.setFont(ControleurParam.getFont((String) listePolices.getSelectedItem(), 0, Font.BOLD, Constants.DEFAULT_FONT_SIZE));
 			listePolices.addActionListener(controleur);
 			
 			listeTailles = new JComboBox<Object>(tailles);

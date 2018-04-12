@@ -22,11 +22,7 @@ public class ControlerMouse implements MouseListener, KeyListener {
 	}
 
 	public void mousePressed(MouseEvent e) {
-<<<<<<< HEAD
-		System.out.println(view.editorPane.getTextBounds("Page"));
-=======
 		// on ne fait rien en cas de triple clic
->>>>>>> a3b90a2ede6ac235c63e7b7396be550f5108eef6
 		// on ne fait rien si le clic est sur un mot déjà surligné en vert
 		if (view.editorPane.getCaretPosition() > view.editorPane.indiceDernierCaractereSurligné
 				&& e.getClickCount() < 2) {

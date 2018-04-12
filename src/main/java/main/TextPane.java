@@ -1,7 +1,6 @@
 package main;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Rectangle;
 
 import javax.swing.JTextPane;
@@ -99,7 +98,7 @@ public class TextPane extends JTextPane {
 	}
 	
 	public Rectangle getTextBounds(String str) {
-		return getFont().createGlyphVector(getFontMetrics(getFont()).getFontRenderContext(), getText()).getPixelBounds(null, 0, 0);
+		return getFont().createGlyphVector(getFontMetrics(getFont()).getFontRenderContext(), str).getPixelBounds(null, 0, 0);
 	}
 
 }

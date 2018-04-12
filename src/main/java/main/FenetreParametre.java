@@ -12,10 +12,10 @@ public class FenetreParametre extends JFrame {
 	public static String titre;
 	public static int tailleX;
 	public static int tailleY;
-	public static int nbSegments = 4;
+	public static int premierSegment;
 	public static FenetreParametre fen;
 	public static TextPane editorPane;
-	public static int nbFautesTolerees = 999;
+	public static int nbFautesTolerees;
 
 	public static void main(String[] args) {
 		new FenetreParametre("Parametres", 500, 500);
@@ -42,7 +42,7 @@ public class FenetreParametre extends JFrame {
 		JComboBox<Object> listePolices;
 		JComboBox<Object> listeTailles;
 		JComboBox<Object> listeCouleurs;
-		JComboBox<Object> listeSegments;
+		JTextField segmentDeDepart;
 		JTextField champNbFautesTolerees;
 		JButton valider;
 
@@ -52,18 +52,16 @@ public class FenetreParametre extends JFrame {
 			JLabel titre = fastLabel("Choississez vos parametres");
 			titre.setBorder(BorderFactory.createLineBorder(Color.blue, 2));
 			add(titre);
-	
-			valider = fastButton("Valider les parametres",new Font("OpenDyslexic", Font.BOLD, 18), Color.green);
-			
+
+			valider = fastButton("Valider les parametres", new Font("OpenDyslexic", Font.BOLD, 18), Color.green);
 			JLabel police = fastLabel("Police : ");
 			JLabel taillePolice = fastLabel("Taille de la police : ");
 			JLabel couleurDeFond = fastLabel("Couleur de fond : ");
-			JLabel segments = fastLabel("Nombre de segments par page : ");
-			
+			JLabel segments = fastLabel("Segment de départ ");
+
 			final Object[] polices = new Object[] { "OpenDyslexic", "Andika", "Lexia", "Arial", "Times New Roman" };
 			Object[] tailles = new Object[] { "12", "16", "18", "20", "22", "24", "30", "36", "42" };
-			Object[] couleurs = new Object[] { "Jaune", "Blanc", "Orange","Rose" };
-			Object[] nbSegments = new Object[] { "4", "5", "6", "8", "10", "15", "20", "25", "30", "40", "50" };
+			Object[] couleurs = new Object[] { "Jaune", "Blanc", "Orange", "Rose", "Bleu" };
 
 			ControleurParam controleur = new ControleurParam(this);
 			valider.addActionListener(controleur);
@@ -74,14 +72,16 @@ public class FenetreParametre extends JFrame {
 
 				public Component getListCellRendererComponent(JList<? extends Object> list, Object value, int index,
 						boolean isSelected, boolean cellHasFocus) {
-					list.setFont(ControleurParam.getFont((String) value, index, Font.BOLD, Constants.DEFAULT_FONT_SIZE));
+					list.setFont(
+							ControleurParam.getFont((String) value, index, Font.BOLD, Constants.DEFAULT_FONT_SIZE));
 					renderer.setHorizontalAlignment(SwingConstants.CENTER);
 					return renderer.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 				}
 			});
-			listePolices.setFont(ControleurParam.getFont((String) listePolices.getSelectedItem(), 0, Font.BOLD, Constants.DEFAULT_FONT_SIZE));
+			listePolices.setFont(ControleurParam.getFont((String) listePolices.getSelectedItem(), 0, Font.BOLD,
+					Constants.DEFAULT_FONT_SIZE));
 			listePolices.addActionListener(controleur);
-			
+
 			listeTailles = new JComboBox<Object>(tailles);
 			listeTailles.setRenderer(new ListCellRenderer<Object>() {
 				private DefaultListCellRenderer renderer = new DefaultListCellRenderer();
@@ -95,37 +95,31 @@ public class FenetreParametre extends JFrame {
 			});
 			listeTailles.addActionListener(controleur);
 			listeTailles.setFont(new Font("OpenDyslexic", Font.PLAIN, 15));
-			
+
 			listeCouleurs = new JComboBox<Object>(couleurs);
 			((JLabel) listeCouleurs.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 			listeCouleurs.addActionListener(controleur);
 			listeCouleurs.setBackground(new Color(255, 255, 150));
 			listeCouleurs.setFont(new Font("OpenDyslexic", Font.PLAIN, 15));
-			
-			listeSegments = new JComboBox<Object>(nbSegments);
-			((JLabel) listeSegments.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-			listeSegments.addActionListener(controleur);
-			listeSegments.setFont(new Font("OpenDyslexic", Font.PLAIN, 15));
 
-	
+			segmentDeDepart = fastTextField("", new Font("OpenDyslexic", Font.PLAIN, 15), "1");
+			segmentDeDepart.addActionListener(controleur);
 
 			add(police);
-			fastCentering(listePolices,this);
+			fastCentering(listePolices, this);
 			add(taillePolice);
-			fastCentering(listeTailles,this);
+			fastCentering(listeTailles, this);
 			add(segments);
-			fastCentering(listeSegments,this);
-		
+			fastCentering(segmentDeDepart, this);
 
 			JLabel nbFautesTolerees = fastLabel("Nombre de fautes tolérées");
-			champNbFautesTolerees = fastTextField("",new Font("OpenDyslexic", Font.PLAIN, 15),"2");
+			champNbFautesTolerees = fastTextField("", new Font("OpenDyslexic", Font.PLAIN, 15), "2");
 			champNbFautesTolerees.addActionListener(controleur);
 
-			
 			add(nbFautesTolerees);
 			fastCentering(champNbFautesTolerees, this);
 			add(couleurDeFond);
-			fastCentering(listeCouleurs,this);
+			fastCentering(listeCouleurs, this);
 			add(new JLabel());
 			add(valider);
 
@@ -134,23 +128,23 @@ public class FenetreParametre extends JFrame {
 		public void fermer() {
 			fen.setVisible(false);
 		}
-		
-		final Font defaultFont = new Font("OpenDyslexic", Font.ITALIC, 16); 
-		
+
+		final Font defaultFont = new Font("OpenDyslexic", Font.ITALIC, 16);
+
 		public JLabel fastLabel(String nom, Font font) {
 			JLabel r = new JLabel(nom);
 			r.setFont(font);
 			r.setHorizontalAlignment(JLabel.CENTER);
 			return r;
 		}
-		
+
 		public JLabel fastLabel(String nom) {
 			JLabel r = new JLabel(nom);
 			r.setFont(defaultFont);
 			r.setHorizontalAlignment(JLabel.CENTER);
 			return r;
 		}
-		
+
 		public JTextField fastTextField(String nom, Font font, String texteParDefaut) {
 			JTextField r = new JTextField(nom);
 			r.setHorizontalAlignment(JButton.CENTER);
@@ -158,8 +152,8 @@ public class FenetreParametre extends JFrame {
 			r.setText(texteParDefaut);
 			return r;
 		}
-		
-		public JButton fastButton(String nom,Font font, Color color) {
+
+		public JButton fastButton(String nom, Font font, Color color) {
 			JButton r = new JButton(nom);
 			r.setHorizontalAlignment(JButton.CENTER);
 			r.setBackground(color);
@@ -168,9 +162,9 @@ public class FenetreParametre extends JFrame {
 		}
 
 		/**
-		 *  Centre le composant c dans le panneau p
+		 * Centre le composant c dans le panneau p
 		 */
-		public void fastCentering(Component c,JPanel p) {
+		public void fastCentering(Component c, JPanel p) {
 			JPanel temp = new JPanel(new GridLayout(1, 3));
 			temp.add(new JLabel());
 			temp.add(c);
@@ -181,7 +175,7 @@ public class FenetreParametre extends JFrame {
 	}
 
 	public static void lancerExercice() {
-		Panneau.defautNBSegmentsParPage = FenetreParametre.nbSegments;
+		Panneau.premierSegment = FenetreParametre.premierSegment;
 		Panneau.defautNBEssaisParSegment = FenetreParametre.nbFautesTolerees;
 		new Fenetre(titre, tailleX, tailleY);
 	}

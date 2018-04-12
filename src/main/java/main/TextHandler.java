@@ -4,7 +4,6 @@ import java.util.*;
 
 public class TextHandler {
 
-	
 	/**
 	 * Texte avec césures
 	 */
@@ -25,7 +24,7 @@ public class TextHandler {
 	private String format(String str) {
 		return str.replace(" /", "/");
 	}
-	
+
 	/**
 	 * Retourne le texte sans slash
 	 */
@@ -59,7 +58,7 @@ public class TextHandler {
 	public int getPhrasesCount() {
 		return phrases.size();
 	}
-	
+
 	/**
 	 * Indique si la césure est placée au bon endroit.
 	 */
@@ -82,14 +81,14 @@ public class TextHandler {
 		}
 		return index;
 	}
-	
+
 	/**
 	 * Retourne la position absolue du segment indiqué en paramètre.
 	 */
 	public int getPauseOffset(int phrase) {
 		return getPhrasesLength(0, phrase);
 	}
-	
+
 	/**
 	 * Retourne l'indice du segment à la position indiquée.
 	 */

@@ -18,16 +18,9 @@ public class FenetreParametre extends JFrame {
 	public static FenetreParametre fen;
 	public static TextPane editorPane;
 	public static int nbFautesTolerees;
-<<<<<<< HEAD
-	
 	public Fenetre fenetre;
-=======
-	public static Fenetre f;
 
-	public static void main(String[] args) {
-		new FenetreParametre("Parametres", 500, 500);
-	}
->>>>>>> fc6f0edfd3aacfa0ea1a5b1d3d2f45ee9733e15b
+
 
 	public FenetreParametre(String titre, int tailleX, int tailleY) {
 		FenetreParametre.titre = titre;
@@ -186,11 +179,7 @@ public class FenetreParametre extends JFrame {
 	public void lancerExercice() {
 		Panneau.premierSegment = FenetreParametre.premierSegment;
 		Panneau.defautNBEssaisParSegment = FenetreParametre.nbFautesTolerees;
-<<<<<<< HEAD
 		fenetre.start();
-=======
-		FenetreParametre.f = new Fenetre(titre, tailleX, tailleY);
->>>>>>> fc6f0edfd3aacfa0ea1a5b1d3d2f45ee9733e15b
 	}
 
 }

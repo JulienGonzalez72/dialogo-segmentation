@@ -63,9 +63,9 @@ public class ControleurParam implements ActionListener {
 				FenetreParametre.editorPane.setFont(FenetreParametre.police);
 			}
 		}
-		if (jcb == panneau.listeSegments) {
-			int nbSegments = Integer.valueOf((String) jcb.getSelectedItem());
-			FenetreParametre.nbSegments = nbSegments;
+		if (arg0.getSource() == panneau.segmentDeDepart) {
+			int premierSegment = Integer.valueOf((String) jcb.getSelectedItem());
+			FenetreParametre.premierSegment = premierSegment;
 		}
 		if (arg0.getSource() == panneau.valider) {
 			if (FenetreParametre.editorPane == null) {
@@ -76,11 +76,18 @@ public class ControleurParam implements ActionListener {
 					FenetreParametre.nbFautesTolerees = 0;
 					panneau.champNbFautesTolerees.setText("0");
 				}
+				try {
+					FenetreParametre.premierSegment = Math.max(0,
+							Integer.valueOf(panneau.segmentDeDepart.getText()));
+				} catch (Exception e) {
+					FenetreParametre.premierSegment = 0;
+					panneau.segmentDeDepart.setText("0");
+				}
 				FenetreParametre.lancerExercice();
 				panneau.fermer();
 			} else {
 				panneau.fermer();
-				Panneau.defautNBSegmentsParPage = FenetreParametre.nbSegments;
+				Panneau.premierSegment = FenetreParametre.premierSegment;
 				FenetreParametre.editorPane.setBackground(FenetreParametre.couleurFond);
 			}
 		}
@@ -90,10 +97,11 @@ public class ControleurParam implements ActionListener {
 		try {
 			Font font;
 			if (selectedIndex < Constants.FONTS_NAMES.length && selectedIndex >= 0) {
-				font = Font.createFont(Font.TRUETYPE_FONT,
-						new File("ressources/fonts/" + Constants.FONTS_NAMES[selectedIndex])).deriveFont(style).deriveFont((float) size);
-			}
-			else {
+				font = Font
+						.createFont(Font.TRUETYPE_FONT,
+								new File("ressources/fonts/" + Constants.FONTS_NAMES[selectedIndex]))
+						.deriveFont(style).deriveFont((float) size);
+			} else {
 				font = new Font(police, style, size);
 			}
 			return font;
@@ -104,5 +112,5 @@ public class ControleurParam implements ActionListener {
 		}
 		return null;
 	}
-	
+
 }

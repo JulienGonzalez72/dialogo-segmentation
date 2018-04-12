@@ -22,9 +22,10 @@ public class ControlerMouse implements MouseListener, KeyListener {
 	}
 
 	public void mousePressed(MouseEvent e) {
-		//on ne fait rien en cas de triple clic
+		// on ne fait rien en cas de triple clic
 		// on ne fait rien si le clic est sur un mot déjà surligné en vert
-		if (view.editorPane.getCaretPosition() > view.editorPane.indiceDernierCaractereSurligné && e.getClickCount() < 2) {
+		if (view.editorPane.getCaretPosition() > view.editorPane.indiceDernierCaractereSurligné
+				&& e.getClickCount() < 2) {
 			/// cherche la position exacte dans le texte ///
 			int offset = handler.getAbsoluteOffset(view.getNumeroPremierSegmentAffiché(),
 					view.editorPane.getCaretPosition());
@@ -34,25 +35,25 @@ public class ControlerMouse implements MouseListener, KeyListener {
 				// si le clic est faux
 			} else {
 				view.nbEssaisRestantPourLeSegmentCourant--;
-				//si il reste un essai
+				// si il reste un essai
 				if (view.nbEssaisRestantPourLeSegmentCourant > 0) {
 					view.indiquerErreur(
 							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(),
 									handler.startWordPosition(offset) + 1),
 							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(),
 									handler.endWordPosition(offset)));
-				//si il ne reste plus d'essais
+					// si il ne reste plus d'essais
 				} else {
-					/*view.indiquerEtCorrigerErreur(handler.getPauseOffset(view.segmentActuel-1),
-							handler.getPauseOffset(view.segmentActuel));*/
+					/*
+					 * view.indiquerEtCorrigerErreur(handler.getPauseOffset(view.segmentActuel-1),
+					 * handler.getPauseOffset(view.segmentActuel));
+					 */
 					view.indiquerEtCorrigerErreur(
 							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(),
-									handler.getPauseOffset(view.segmentActuel-1)),
+									handler.getPauseOffset(view.segmentActuel - 1)),
 							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(),
 									handler.getPauseOffset(view.segmentActuel)));
-					
-					
-					
+
 					view.segmentActuel++;
 					view.nbEssaisRestantPourLeSegmentCourant = Panneau.defautNBEssaisParSegment;
 					// si la page est finis on affiche la suivante
@@ -74,7 +75,7 @@ public class ControlerMouse implements MouseListener, KeyListener {
 			}
 		}
 	}
-	
+
 	public void traitementClicJuste(int offset) {
 		int pauseOffset = handler.endWordPosition(offset);
 		// on restaure le nombre d'essais
@@ -126,7 +127,6 @@ public class ControlerMouse implements MouseListener, KeyListener {
 			int x = 4 * Toolkit.getDefaultToolkit().getScreenSize().width / 10;
 			int y = 4 * Toolkit.getDefaultToolkit().getScreenSize().height / 10;
 			FenetreParametre.fen.setLocation(x, y);
-			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).listeSegments.setEnabled(false);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).champNbFautesTolerees
 					.setEnabled(false);
 			break;
@@ -134,7 +134,6 @@ public class ControlerMouse implements MouseListener, KeyListener {
 			FenetreParametre.editorPane = null;
 			view.fenetre.setVisible(false);
 			FenetreParametre.fen.setVisible(true);
-			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).listeSegments.setEnabled(true);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).champNbFautesTolerees
 					.setEnabled(true);
 			break;

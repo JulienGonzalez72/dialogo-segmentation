@@ -2,12 +2,16 @@ package main;
 
 import java.awt.*;
 import java.io.*;
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.*;
 
 public class Panneau extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	public static int defautNBSegmentsParPage;
+	public static int premierSegment;
 	public static int defautNBEssaisParSegment;
 
 	// panneau du texte
@@ -15,12 +19,13 @@ public class Panneau extends JPanel {
 	public TextHandler textHandler;
 	public int pageActuelle;
 	public int nbPages;
-	public int nbSegmentsParPage = defautNBSegmentsParPage;
 	public int nbEssaisParSegment = defautNBEssaisParSegment;
 	public int nbEssaisRestantPourLeSegmentCourant = defautNBEssaisParSegment;
 	public int segmentActuel;
 	public int nbErreurs;
 	public JFrame fenetre;
+
+	public Map<Integer, List<Integer>> segmentsEnFonctionDeLaPage;
 
 	public Panneau(int w, int h, JFrame fenetre) throws IOException {
 		this.fenetre = fenetre;
@@ -29,8 +34,6 @@ public class Panneau extends JPanel {
 		String texteCesures = getTextFromFile("ressources/textes/20 000 lieux sous les mers");
 		textHandler = new TextHandler(texteCesures);
 		ControlerMouse controlerMouse = new ControlerMouse(this, textHandler);
-		nbPages = textHandler.getPhrasesCount() / nbSegmentsParPage + 1;
-
 		this.setLayout(new BorderLayout());
 		editorPane = new TextPane();
 		editorPane.setEditable(false);
@@ -38,6 +41,23 @@ public class Panneau extends JPanel {
 		afficherPageSuivante();
 		this.add(editorPane, BorderLayout.CENTER);
 		editorPane.addKeyListener(controlerMouse);
+		//TODO initialisation de texteSegmentEnFonctionNumero
+		//TODO initialisation de segmentsEnFonctionDeLaPage
+
+	}
+
+	/**
+	 * retourne le nombre de pages
+	 *
+	 */
+	public int getNbPages() {
+		int r = 0;
+		for (Integer i : segmentsEnFonctionDeLaPage.keySet()) {
+			if (i > r) {
+				r = i;
+			}
+		}
+		return r;
 	}
 
 	/**
@@ -71,10 +91,12 @@ public class Panneau extends JPanel {
 			pageActuelle++;
 			fenetre.setTitle("Lexidia - Page " + pageActuelle);
 			String texteAfficher = "";
-			// on recuepre les segments a afficher dans la page
-			String[] tab = textHandler.getPhrases((pageActuelle - 1) * nbSegmentsParPage,
-					pageActuelle * nbSegmentsParPage - 1);
-			for (String string : tab) {
+			// on recupere les segments a afficher dans la page
+			List<String> liste = new ArrayList<String>();
+			for (Integer i : segmentsEnFonctionDeLaPage.get(pageActuelle)) {
+				liste.add(textHandler.getPhrase(i));
+			}
+			for (String string : liste) {
 				texteAfficher += string;
 			}
 			editorPane.setText(texteAfficher);
@@ -83,7 +105,8 @@ public class Panneau extends JPanel {
 	}
 
 	public boolean pageFinis() {
-		return segmentActuel % nbSegmentsParPage == 0;
+		// la page actuelle contient t-elle le segment suivant ? si non elle est finis
+		return !segmentsEnFonctionDeLaPage.get(pageActuelle).contains(segmentActuel + 1);
 	}
 
 	public void indiquerErreur(int debut, int fin) {
@@ -101,7 +124,7 @@ public class Panneau extends JPanel {
 	}
 
 	public int getNumeroPremierSegmentAffiché() {
-		return (pageActuelle - 1) * nbSegmentsParPage;
+		return -1;
 	}
 
 	public void afficherCompteRendu() {

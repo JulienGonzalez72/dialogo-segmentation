@@ -49,11 +49,15 @@ public class ControleurParam implements ActionListener {
 		if (jcb == panneau.listeTailles) {
 			int taille = Integer.valueOf((String) jcb.getSelectedItem());
 			FenetreParametre.taillePolice = taille;
-			panneau.listeTailles.setFont(new Font("OpenDyslexic", Font.PLAIN, taille));
+			FenetreParametre.police = FenetreParametre.police.deriveFont((float) taille);
+			panneau.listeTailles.setFont(FenetreParametre.police);
+			if (FenetreParametre.editorPane != null) {
+				FenetreParametre.editorPane.setFont(FenetreParametre.police);
+			}
 		}
 		if (jcb == panneau.listePolices) {
 			String police = (String) jcb.getSelectedItem();
-			FenetreParametre.police = getFont(police, jcb.getSelectedIndex(), Font.BOLD, Constants.DEFAULT_FONT_SIZE);
+			FenetreParametre.police = getFont(police, jcb.getSelectedIndex(), Font.BOLD, FenetreParametre.taillePolice);
 			panneau.listePolices.setFont(FenetreParametre.police);
 			if (FenetreParametre.editorPane != null) {
 				FenetreParametre.editorPane.setFont(FenetreParametre.police);
@@ -87,7 +91,7 @@ public class ControleurParam implements ActionListener {
 			Font font;
 			if (selectedIndex < Constants.FONTS_NAMES.length && selectedIndex >= 0) {
 				font = Font.createFont(Font.TRUETYPE_FONT,
-							new File("ressources/fonts/" + Constants.FONTS_NAMES[selectedIndex])).deriveFont(style).deriveFont((float) size);
+						new File("ressources/fonts/" + Constants.FONTS_NAMES[selectedIndex])).deriveFont(style).deriveFont((float) size);
 			}
 			else {
 				font = new Font(police, style, size);

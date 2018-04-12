@@ -2,7 +2,6 @@ package main;
 
 import java.awt.*;
 
-
 import javax.swing.*;
 
 public class FenetreParametre extends JFrame {
@@ -20,8 +19,6 @@ public class FenetreParametre extends JFrame {
 	public static int nbFautesTolerees;
 	public Fenetre fenetre;
 
-
-
 	public FenetreParametre(String titre, int tailleX, int tailleY) {
 		FenetreParametre.titre = titre;
 		FenetreParametre.tailleX = tailleX;
@@ -29,7 +26,7 @@ public class FenetreParametre extends JFrame {
 		setTitle(titre);
 		setSize(tailleX, tailleY);
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(true);
 		PanneauParam pan = new PanneauParam();
 		setContentPane(pan);

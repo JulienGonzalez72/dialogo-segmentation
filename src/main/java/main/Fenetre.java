@@ -46,15 +46,8 @@ public class Fenetre extends JFrame {
 		JMenuItem eMenuItem2 = new JMenuItem("Relancer");
 		eMenuItem2.setToolTipText("Relancer l'exercice");
 		eMenuItem2.addActionListener((ActionEvent event) -> {
-			FenetreParametre.editorPane = null;
-			pan.fenetre.setVisible(false);
-			FenetreParametre.fen.setVisible(true);
-			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).champNbFautesTolerees
-					.setEnabled(true);
-			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).segmentDeDepart
-			.setEnabled(true);
-			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).listeTailles
-			.setEnabled(true);
+			this.setVisible(false);
+			new FenetreParametre("Dialogo", 500, 500);
 		});
 		JMenuItem eMenuItem3 = new JMenuItem("Parametres");
 		eMenuItem3.setToolTipText("Parametres de l'exercice");

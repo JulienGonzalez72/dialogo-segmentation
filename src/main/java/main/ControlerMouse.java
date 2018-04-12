@@ -1,6 +1,5 @@
 package main;
 
-
 import java.awt.Toolkit;
 import java.awt.event.*;
 import javax.swing.SwingWorker;
@@ -67,7 +66,7 @@ public class ControlerMouse implements MouseListener, KeyListener {
 			}
 		}
 	}
-	
+
 	public void traitementClicJuste(int offset) {
 		int pauseOffset = handler.endWordPosition(offset);
 		// on restaure le nombre d'essais
@@ -95,13 +94,20 @@ public class ControlerMouse implements MouseListener, KeyListener {
 		}
 	}
 
-	public void mouseEntered(MouseEvent e) {}
+	public void mouseEntered(MouseEvent e) {
 
-	public void mouseExited(MouseEvent e) {}
+	}
 
-	public void mouseClicked(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {
 
-	public void mouseReleased(MouseEvent e) {}
+	}
+
+	public void mouseClicked(MouseEvent e) {
+	}
+
+	public void mouseReleased(MouseEvent e) {
+
+	}
 
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
@@ -113,21 +119,13 @@ public class ControlerMouse implements MouseListener, KeyListener {
 			FenetreParametre.fen.setLocation(x, y);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).champNbFautesTolerees
 					.setEnabled(false);
-			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).segmentDeDepart
-			.setEnabled(false);
-			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).listeTailles
-			.setEnabled(false);
+			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).segmentDeDepart.setEnabled(false);
+			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).listeTailles.setEnabled(false);
+
 			break;
 		case KeyEvent.VK_R:
-			FenetreParametre.editorPane = null;
 			view.fenetre.setVisible(false);
-			FenetreParametre.fen.setVisible(true);
-			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).champNbFautesTolerees
-					.setEnabled(true);
-			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).segmentDeDepart
-			.setEnabled(true);
-			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).listeTailles
-			.setEnabled(true);
+			new FenetreParametre("Dialogo", 500, 500);
 			break;
 		default:
 			System.out.println("Touche non traitée.");

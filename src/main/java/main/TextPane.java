@@ -60,7 +60,6 @@ public class TextPane extends JTextPane {
 	}
 	
 	public Rectangle getTextBounds(String str) {
-		System.out.println(getFont().getSize());
 		return getFont().createGlyphVector(getFontMetrics(getFont()).getFontRenderContext(), str).getPixelBounds(null, 0, 0);
 	}
 

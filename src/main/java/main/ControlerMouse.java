@@ -32,7 +32,6 @@ public class ControlerMouse implements MouseListener, KeyListener {
 			/// cherche la position exacte dans le texte ///
 			int offset = handler.getAbsoluteOffset(view.getNumeroPremierSegmentAffiché(),
 					view.editorPane.getCaretPosition());
-
 			// si le clic est juste
 			if (handler.wordPause(offset) && handler.getPhraseIndex(offset) == view.segmentActuel) {
 				int pauseOffset = handler.endWordPosition(offset);
@@ -72,7 +71,7 @@ public class ControlerMouse implements MouseListener, KeyListener {
 							handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(),
 									handler.endWordPosition(offset)));
 				} else {
-					//view.indiquerEtCorrigerErreur(?,?);
+					// view.indiquerEtCorrigerErreur(?,?);
 				}
 			}
 		}

@@ -108,7 +108,6 @@ public class Panneau extends JPanel {
 				/// le dernier segment a été atteint ///
 				if (segment >= textHandler.getPhrasesCount())
 					break;
-<<<<<<< HEAD
 				/// le segment dépasse la limite ///
 				if (editorPane.getTextBounds(page + str).getWidth() * editorPane.getTextBounds(page + str).getHeight() >= maxArea)
 					break;
@@ -119,9 +118,6 @@ public class Panneau extends JPanel {
 					segment++;
 				}
 			}
-=======
-			} while (editorPane.getTextBounds(page).getWidth() * editorPane.getTextBounds(page).getHeight() < maxArea);
->>>>>>> fc6f0edfd3aacfa0ea1a5b1d3d2f45ee9733e15b
 			segmentsEnFonctionDeLaPage.put(numPage, segmentsNum);
 			numPage++;
 		}
@@ -143,12 +139,7 @@ public class Panneau extends JPanel {
 
 	public boolean pageFinis() {
 		// la page actuelle contient t-elle le segment suivant ? si non elle est finis
-<<<<<<< HEAD
-		return !segmentsEnFonctionDeLaPage.get(pageActuelle).contains(segmentActuel);
-=======
-		System.out.println(textHandler.getPhrasesCount()+"/"+segmentActuel);
 		return (!segmentsEnFonctionDeLaPage.get(pageActuelle).contains(segmentActuel)) || segmentActuel+1 == textHandler.getPhrasesCount();
->>>>>>> fc6f0edfd3aacfa0ea1a5b1d3d2f45ee9733e15b
 	}
 
 	public void indiquerErreur(int debut, int fin) {

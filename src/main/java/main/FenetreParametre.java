@@ -54,20 +54,11 @@ public class FenetreParametre extends JFrame {
 			add(titre);
 	
 			valider = fastButton("Valider les parametres",new Font("OpenDyslexic", Font.BOLD, 18), Color.green);
-<<<<<<< HEAD
-
-=======
-			
->>>>>>> 0bcfbeaea59ca069bcd10e7ade7cb8b640cb3750
 			JLabel police = fastLabel("Police : ");
 			JLabel taillePolice = fastLabel("Taille de la police : ");
 			JLabel couleurDeFond = fastLabel("Couleur de fond : ");
 			JLabel segments = fastLabel("Nombre de segments par page : ");
-<<<<<<< HEAD
 
-=======
-			
->>>>>>> 0bcfbeaea59ca069bcd10e7ade7cb8b640cb3750
 			final Object[] polices = new Object[] { "OpenDyslexic", "Andika", "Lexia", "Arial", "Times New Roman" };
 			Object[] tailles = new Object[] { "12", "16", "18", "20", "22", "24", "30", "36", "42" };
 			Object[] couleurs = new Object[] { "Jaune", "Blanc", "Orange","Rose","Bleu" };

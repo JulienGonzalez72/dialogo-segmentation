@@ -7,19 +7,9 @@ import javax.swing.*;
 public class Panneau extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-<<<<<<< HEAD
-
-
 	public static int defautNBSegmentsParPage;
 	public static int defautNBEssaisParSegment;
 
-
-=======
-	
-	public static int defautNBSegmentsParPage = 4;
-	public static int defautNBEssaisParSegment = 2;
-
->>>>>>> 0bcfbeaea59ca069bcd10e7ade7cb8b640cb3750
 	// panneau du texte
 	public TextPane editorPane;
 	public TextHandler textHandler;
@@ -107,11 +97,7 @@ public class Panneau extends JPanel {
 		nbErreurs++;
 		editorPane.indiceDernierCaractereSurligné = fin;
 		editorPane.enleverSurlignageRouge();
-<<<<<<< HEAD
 		editorPane.surlignerPhrase(debut, fin, Constants.WRONG_PHRASE_COLOR);
-=======
-		editorPane.surlignerPhrase(debut, fin, Constants.WRONG_COLOR);
->>>>>>> 0bcfbeaea59ca069bcd10e7ade7cb8b640cb3750
 	}
 
 	public int getNumeroPremierSegmentAffiché() {

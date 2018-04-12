@@ -3,13 +3,7 @@ package main;
 import java.awt.Color;
 
 import javax.swing.JTextPane;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.DefaultHighlighter;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.Style;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyleContext;
-import javax.swing.text.StyledDocument;
+import javax.swing.text.*;
 
 public class TextPane extends JTextPane {
 
@@ -20,6 +14,7 @@ public class TextPane extends JTextPane {
 	public TextPane() {
 		setFont(FenetreParametre.police);
 		setBackground(FenetreParametre.couleurFond);
+		setSelectionColor(new Color(0, 0, 0, 0));
 
 		SimpleAttributeSet attrs = new SimpleAttributeSet();
 		StyleConstants.setLineSpacing(attrs, 1);

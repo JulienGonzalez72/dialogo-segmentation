@@ -4,7 +4,6 @@ import java.awt.*;
 import java.io.*;
 import java.util.Map;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,19 +34,20 @@ public class Panneau extends JPanel {
 		pageActuelle = 0;
 		String texteCesures = getTextFromFile("ressources/textes/Ah les crocodiles C");
 		textHandler = new TextHandler(texteCesures);
-		ControlerMouse controlerMouse = new ControlerMouse(this, textHandler);
 		this.setLayout(new BorderLayout());
-		editorPane = new TextPane();
-		editorPane.setEditable(false);
-		editorPane.addMouseListener(controlerMouse);
-		this.add(editorPane, BorderLayout.CENTER);
-		editorPane.addKeyListener(controlerMouse);
 	}
 	
 	/**
 	 * S'exécute lorsque le panneau s'est bien intégré à la fenêtre
 	 */
 	public void init() {
+		ControlerMouse controlerMouse = new ControlerMouse(this, textHandler);
+		editorPane = new TextPane();
+		editorPane.setEditable(false);
+		editorPane.addMouseListener(controlerMouse);
+		this.add(editorPane, BorderLayout.CENTER);
+		editorPane.addKeyListener(controlerMouse);
+		
 		/// construit la mise en page virtuelle ///
 		buildPages(FenetreParametre.premierSegment - 1);
 		/// affiche la première page ///
@@ -85,22 +85,13 @@ public class Panneau extends JPanel {
 			afficherCompteRendu();
 		} else {
 			pageActuelle++;
-			fenetre.setTitle("Lexidia - Page " + pageActuelle);
-			String texteAfficher = "";
-			// on recupere les segments a afficher dans la page
-			List<String> liste = new ArrayList<String>();
-			for (Integer i : segmentsEnFonctionDeLaPage.get(pageActuelle)) {
-				liste.add(textHandler.getPhrase(i));
-			}
-			for (String string : liste) {
-				texteAfficher += string;
-			}
-			editorPane.setText(texteAfficher);
+			showPage(pageActuelle);
 			editorPane.désurlignerTout();
 		}
 	}
 	
 	public void buildPages(int startPhrase) {
+		segmentsEnFonctionDeLaPage.clear();
 		/*
 		 * espace total dans la fenetre = fw * fh
 		 * espace total sans les marges = (fw - 2 * m) * (fh - m)
@@ -112,22 +103,43 @@ public class Panneau extends JPanel {
 		while (segment < textHandler.getPhrasesCount()) {
 			String page = "";
 			List<Integer> segmentsNum = new ArrayList<Integer>();
-			do {
-				page += textHandler.getPhrase(segment);
-				segmentsNum.add(segment);
-				segment++;
+			while (true) {
+				String str = textHandler.getPhrase(segment);
+				/// le dernier segment a été atteint ///
 				if (segment >= textHandler.getPhrasesCount())
 					break;
-			} while (editorPane.getTextBounds(page).getWidth()
-					* editorPane.getTextBounds(page).getHeight() < maxArea);
+				/// le segment dépasse la limite ///
+				if (editorPane.getTextBounds(page + str).getWidth() * editorPane.getTextBounds(page + str).getHeight() >= maxArea)
+					break;
+				/// le segment rentre dans la page, il est alors ajouté à la page ///
+				else {
+					page += str;
+					segmentsNum.add(segment);
+					segment++;
+				}
+			}
 			segmentsEnFonctionDeLaPage.put(numPage, segmentsNum);
 			numPage++;
 		}
 	}
+	
+	public void showPage(int page) {
+		fenetre.setTitle("Lexidia - Page " + page);
+		String texteAfficher = "";
+		// on recupere les segments a afficher dans la page
+		List<String> liste = new ArrayList<String>();
+		for (Integer i : segmentsEnFonctionDeLaPage.get(pageActuelle)) {
+			liste.add(textHandler.getPhrase(i));
+		}
+		for (String string : liste) {
+			texteAfficher += string;
+		}
+		editorPane.setText(texteAfficher);
+	}
 
 	public boolean pageFinis() {
 		// la page actuelle contient t-elle le segment suivant ? si non elle est finis
-		return !segmentsEnFonctionDeLaPage.get(pageActuelle).contains(segmentActuel + 1);
+		return !segmentsEnFonctionDeLaPage.get(pageActuelle).contains(segmentActuel);
 	}
 	
 	public void indiquerErreur(int debut, int fin) {

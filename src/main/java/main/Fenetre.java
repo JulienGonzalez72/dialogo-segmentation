@@ -7,7 +7,7 @@ public class Fenetre extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Panneau pan;
+	public Panneau pan;
 
 	public Fenetre(String titre, int tailleX, int tailleY) {
 		try {
@@ -21,6 +21,9 @@ public class Fenetre extends JFrame {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(true);
+	}
+	
+	public void start() {
 		setVisible(true);
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {

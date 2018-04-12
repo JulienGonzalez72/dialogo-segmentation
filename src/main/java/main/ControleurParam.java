@@ -25,26 +25,23 @@ public class ControleurParam implements ActionListener {
 		}
 		if (jcb == panneau.listeCouleurs) {
 			String s = (String) jcb.getSelectedItem();
+			Color color = null;
 			if (s == "Jaune") {
-				FenetreParametre.couleurFond = new Color(255, 255, 150);
-				panneau.listeCouleurs.setBackground(new Color(255, 255, 150));
+				color = Color.YELLOW;
 			}
 			if (s == "Orange") {
-				FenetreParametre.couleurFond = Color.orange;
-				panneau.listeCouleurs.setBackground(Color.orange);
+				color = Color.ORANGE;
 			}
 			if (s == "Blanc") {
-				FenetreParametre.couleurFond = Color.white;
-				panneau.listeCouleurs.setBackground(Color.white);
+				color = Color.WHITE;
 			}
 			if (s == "Rose") {
-				FenetreParametre.couleurFond = Color.PINK;
-				panneau.listeCouleurs.setBackground(Color.pink);
+				color = Color.PINK;
 			}
 			if (s == "Bleu") {
-				FenetreParametre.couleurFond = Color.cyan;
-				panneau.listeCouleurs.setBackground(Color.cyan);
+				color = Color.CYAN;
 			}
+			panneau.listeCouleurs.setBackground(FenetreParametre.couleurFond = color);
 		}
 		if (jcb == panneau.listeTailles) {
 			int taille = Integer.valueOf((String) jcb.getSelectedItem());
@@ -83,7 +80,7 @@ public class ControleurParam implements ActionListener {
 					FenetreParametre.premierSegment = 0;
 					panneau.segmentDeDepart.setText("0");
 				}
-				FenetreParametre.lancerExercice();
+				FenetreParametre.fen.lancerExercice();
 				panneau.fermer();
 			} else {
 				panneau.fermer();

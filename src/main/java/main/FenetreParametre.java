@@ -18,14 +18,7 @@ public class FenetreParametre extends JFrame {
 	public static FenetreParametre fen;
 	public static TextPane editorPane;
 	public static int nbFautesTolerees;
-<<<<<<< HEAD
-	
 	public Fenetre fenetre;
-=======
-	public Fenetre fenetre;
-
-
->>>>>>> 5e1575a59d46b086338b6c5cb65a5876dabc0793
 
 	public FenetreParametre(String titre, int tailleX, int tailleY) {
 		FenetreParametre.titre = titre;

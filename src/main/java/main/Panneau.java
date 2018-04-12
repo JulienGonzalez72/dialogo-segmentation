@@ -30,8 +30,6 @@ public class Panneau extends JPanel {
 
 	public Panneau(JFrame fenetre) throws IOException {
 		this.fenetre = fenetre;
-		segmentActuel = FenetreParametre.premierSegment - 1;
-		pageActuelle = 0;
 		String texteCesures = getTextFromFile("ressources/textes/Ah les crocodiles C");
 		textHandler = new TextHandler(texteCesures);
 		this.setLayout(new BorderLayout());
@@ -41,6 +39,8 @@ public class Panneau extends JPanel {
 	 * S'exécute lorsque le panneau s'est bien intégré à la fenêtre
 	 */
 	public void init() {
+		pageActuelle = 0;
+		segmentActuel = FenetreParametre.premierSegment - 1;
 		ControlerMouse controlerMouse = new ControlerMouse(this, textHandler);
 		editorPane = new TextPane();
 		editorPane.setEditable(false);
@@ -140,15 +140,7 @@ public class Panneau extends JPanel {
 
 	public boolean pageFinis() {
 		// la page actuelle contient t-elle le segment suivant ? si non elle est finis
-<<<<<<< HEAD
 		return (!segmentsEnFonctionDeLaPage.get(pageActuelle).contains(segmentActuel)) || segmentActuel+1 == textHandler.getPhrasesCount();
-=======
-		// cas particulier : le segment actuel est le dernier, donc le suivant n'existe
-		// pas ! il faut que pageFinis retourne vrai dans ce cas
-		// car on termine l'exercice après un changement de page
-		return (!segmentsEnFonctionDeLaPage.get(pageActuelle).contains(segmentActuel))
-				|| segmentActuel == textHandler.getPhrasesCount() - 1;
->>>>>>> 5e1575a59d46b086338b6c5cb65a5876dabc0793
 	}
 
 	public void indiquerErreur(int debut, int fin) {

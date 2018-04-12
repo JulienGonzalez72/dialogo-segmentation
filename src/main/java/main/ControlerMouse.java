@@ -130,7 +130,6 @@ public class ControlerMouse implements MouseListener, KeyListener {
 			.setEnabled(true);
 			break;
 		default:
-			System.out.println("Touche non traitée.");
 		}
 	}
 

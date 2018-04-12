@@ -41,7 +41,7 @@ public class ControlerMouse implements MouseListener, KeyListener {
 				/// surlignage ///
 				view.editorPane.surlignerPhrase(0,
 						handler.getRelativeOffset(view.getNumeroPremierSegmentAffiché(), pauseOffset + 1),
-						Panneau.RIGHT_COLOR);
+						Constants.RIGHT_COLOR);
 				view.editorPane.enleverSurlignageRouge();
 				view.segmentActuel++;
 				// si la page est finis on affiche la suivante

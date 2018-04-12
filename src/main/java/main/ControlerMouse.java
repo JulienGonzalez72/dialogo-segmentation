@@ -17,7 +17,7 @@ public class ControlerMouse implements MouseListener, KeyListener {
 		nbErreurs = 0;
 	}
 
-	public void mouseClicked(MouseEvent e) {
+	public void mousePressed(MouseEvent e) {
 		// on ne fait rien en cas de triple clic
 		// on ne fait rien si le clic est sur un mot déjà surligné en vert
 		if (view.editorPane.getCaretPosition() > view.editorPane.indiceDernierCaractereSurligné
@@ -99,7 +99,7 @@ public class ControlerMouse implements MouseListener, KeyListener {
 
 	public void mouseExited(MouseEvent e) {}
 
-	public void mousePressed(MouseEvent e) {}
+	public void mouseClicked(MouseEvent e) {}
 
 	public void mouseReleased(MouseEvent e) {}
 
@@ -115,6 +115,8 @@ public class ControlerMouse implements MouseListener, KeyListener {
 					.setEnabled(false);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).segmentDeDepart
 			.setEnabled(false);
+			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).listeTailles
+			.setEnabled(false);
 			break;
 		case KeyEvent.VK_R:
 			FenetreParametre.editorPane = null;
@@ -123,6 +125,8 @@ public class ControlerMouse implements MouseListener, KeyListener {
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).champNbFautesTolerees
 					.setEnabled(true);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).segmentDeDepart
+			.setEnabled(true);
+			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).listeTailles
 			.setEnabled(true);
 			break;
 		default:

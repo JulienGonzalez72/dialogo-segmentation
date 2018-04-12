@@ -47,7 +47,7 @@ public class Panneau extends JPanel {
 		editorPane.addMouseListener(controlerMouse);
 		this.add(editorPane, BorderLayout.CENTER);
 		editorPane.addKeyListener(controlerMouse);
-		
+
 		/// construit la mise en page virtuelle ///
 		buildPages(FenetreParametre.premierSegment - 1);
 		/// affiche la première page ///
@@ -109,7 +109,8 @@ public class Panneau extends JPanel {
 				if (segment >= textHandler.getPhrasesCount())
 					break;
 				/// le segment dépasse la limite ///
-				if (editorPane.getTextBounds(page + str).getWidth() * editorPane.getTextBounds(page + str).getHeight() >= maxArea)
+				if (editorPane.getTextBounds(page + str).getWidth()
+						* editorPane.getTextBounds(page + str).getHeight() >= maxArea)
 					break;
 				/// le segment rentre dans la page, il est alors ajouté à la page ///
 				else {
@@ -122,7 +123,7 @@ public class Panneau extends JPanel {
 			numPage++;
 		}
 	}
-	
+
 	public void showPage(int page) {
 		fenetre.setTitle("Lexidia - Page " + page);
 		String texteAfficher = "";
@@ -139,7 +140,15 @@ public class Panneau extends JPanel {
 
 	public boolean pageFinis() {
 		// la page actuelle contient t-elle le segment suivant ? si non elle est finis
+<<<<<<< HEAD
 		return (!segmentsEnFonctionDeLaPage.get(pageActuelle).contains(segmentActuel)) || segmentActuel+1 == textHandler.getPhrasesCount();
+=======
+		// cas particulier : le segment actuel est le dernier, donc le suivant n'existe
+		// pas ! il faut que pageFinis retourne vrai dans ce cas
+		// car on termine l'exercice après un changement de page
+		return (!segmentsEnFonctionDeLaPage.get(pageActuelle).contains(segmentActuel))
+				|| segmentActuel == textHandler.getPhrasesCount() - 1;
+>>>>>>> 5e1575a59d46b086338b6c5cb65a5876dabc0793
 	}
 
 	public void indiquerErreur(int debut, int fin) {

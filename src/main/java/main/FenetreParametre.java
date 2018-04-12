@@ -62,7 +62,7 @@ public class FenetreParametre extends JFrame {
 
 			final Object[] polices = new Object[] { "OpenDyslexic", "Andika", "Lexia", "Arial", "Times New Roman" };
 			Object[] tailles = new Object[] { "12", "16", "18", "20", "22", "24", "30", "36", "42" };
-			Object[] couleurs = new Object[] { "Jaune", "Blanc", "Orange","Rose" };
+			Object[] couleurs = new Object[] { "Jaune", "Blanc", "Orange","Rose","Bleu" };
 			Object[] nbSegments = new Object[] { "4", "5", "6", "8", "10", "15", "20", "25", "30", "40", "50" };
 
 			ControleurParam controleur = new ControleurParam(this);

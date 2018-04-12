@@ -27,7 +27,7 @@ public class Main {
 		
 		/// attends que les polices soient chargées ///
 		try {
-			Thread.sleep(20);
+			Thread.sleep(200);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

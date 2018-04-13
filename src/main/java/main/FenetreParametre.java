@@ -7,7 +7,7 @@ import javax.swing.*;
 public class FenetreParametre extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	public static Font police = ControleurParam.getFont(null, 0, Font.BOLD, Constants.DEFAULT_FONT_SIZE);
+	public static Font police = ControleurParam.getFont(null, Font.BOLD, Constants.DEFAULT_FONT_SIZE);
 	public static int taillePolice = Constants.DEFAULT_FONT_SIZE;
 	public static Color couleurFond = new Color(255, 255, 150);
 	public static String titre;
@@ -17,11 +17,12 @@ public class FenetreParametre extends JFrame {
 	public static FenetreParametre fen;
 	public static TextPane editorPane;
 	public static int nbFautesTolerees;
+	public static boolean modeSurlignage;
 	public Fenetre fenetre;
 
 	public FenetreParametre(String titre, int tailleX, int tailleY) {
-		setIconImage(getToolkit().getImage("ressources/images/lexidia.png")); 
-		FenetreParametre.police = ControleurParam.getFont(null, 0, Font.BOLD, Constants.DEFAULT_FONT_SIZE);
+		setIconImage(getToolkit().getImage("ressources/images/lexidia.png"));
+		FenetreParametre.police = ControleurParam.getFont(null, Font.BOLD, Constants.DEFAULT_FONT_SIZE);
 		FenetreParametre.taillePolice = Constants.DEFAULT_FONT_SIZE;
 		FenetreParametre.couleurFond = new Color(255, 255, 150);
 		FenetreParametre.editorPane = null;
@@ -31,12 +32,12 @@ public class FenetreParametre extends JFrame {
 		setTitle(titre);
 		setSize(tailleX, tailleY);
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setResizable(true);
 		PanneauParam pan = new PanneauParam();
 		setContentPane(pan);
 		setVisible(true);
-		fenetre = new Fenetre(titre, tailleX*2, tailleY);
+		fenetre = new Fenetre(titre, tailleX * 2, tailleY);
 	}
 
 	public class PanneauParam extends JPanel {
@@ -49,10 +50,11 @@ public class FenetreParametre extends JFrame {
 		JTextField segmentDeDepart;
 		JTextField champNbFautesTolerees;
 		JButton valider;
+		JCheckBox modeSurlignage;
 
 		public PanneauParam() {
 			fen = FenetreParametre.this;
-			setLayout(new GridLayout(13, 1));
+			setLayout(new GridLayout(15, 1));
 			JLabel titre = fastLabel("Choississez vos parametres");
 			titre.setBorder(BorderFactory.createLineBorder(Color.blue, 2));
 			add(titre);
@@ -76,13 +78,12 @@ public class FenetreParametre extends JFrame {
 
 				public Component getListCellRendererComponent(JList<? extends Object> list, Object value, int index,
 						boolean isSelected, boolean cellHasFocus) {
-					list.setFont(
-							ControleurParam.getFont((String) value, index, Font.BOLD, Constants.DEFAULT_FONT_SIZE));
+					list.setFont(ControleurParam.getFont((String) value, Font.BOLD, Constants.DEFAULT_FONT_SIZE));
 					renderer.setHorizontalAlignment(SwingConstants.CENTER);
 					return renderer.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 				}
 			});
-			listePolices.setFont(ControleurParam.getFont((String) listePolices.getSelectedItem(), 0, Font.BOLD,
+			listePolices.setFont(ControleurParam.getFont((String) listePolices.getSelectedItem(), Font.BOLD,
 					Constants.DEFAULT_FONT_SIZE));
 			listePolices.addActionListener(controleur);
 
@@ -120,10 +121,16 @@ public class FenetreParametre extends JFrame {
 			champNbFautesTolerees = fastTextField("", new Font("OpenDyslexic", Font.PLAIN, 15), "2");
 			champNbFautesTolerees.addActionListener(controleur);
 
+			modeSurlignage = new JCheckBox("Mode surlignage");
+			modeSurlignage.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
+			modeSurlignage.addActionListener(controleur);
+
 			add(nbFautesTolerees);
 			fastCentering(champNbFautesTolerees, this);
 			add(couleurDeFond);
 			fastCentering(listeCouleurs, this);
+			add(new JLabel());
+			fastCentering(modeSurlignage, this);
 			add(new JLabel());
 			add(valider);
 

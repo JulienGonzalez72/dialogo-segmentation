@@ -50,8 +50,10 @@ public class Fenetre extends JFrame {
 		writer.println("x:"+getX());
 		writer.println("y:"+getY());
 		writer.println("taillePolice:"+FenetreParametre.taillePolice);
+		System.out.println("typePolice:"+FenetreParametre.police.getFontName());
 		writer.println("typePolice:"+FenetreParametre.police.getFontName());
 		writer.println("couleur:"+FenetreParametre.couleurFond.getRed()+"/"+FenetreParametre.couleurFond.getGreen()+"/"+FenetreParametre.couleurFond.getBlue());
+		writer.println("modeSurlignage:"+FenetreParametre.modeSurlignage);
 		writer.close();
 	}
 
@@ -66,6 +68,7 @@ public class Fenetre extends JFrame {
 			int w = -1, h = -1, x = -1, y = -1, t = -1;
 			Color color = null;
 			String p = null;
+			boolean modeSurlignage = false;
 			int i = 0;
 			while ((ligne = br.readLine()) != null) {
 				switch (i) {
@@ -91,6 +94,8 @@ public class Fenetre extends JFrame {
 					String temp = ligne.split(":")[1];
 					color = new Color(Integer.valueOf(temp.split("/")[0]), Integer.valueOf(temp.split("/")[1]), Integer.valueOf(temp.split("/")[2]));
 					break;
+				case 7:
+					modeSurlignage = Boolean.valueOf(ligne.split(":")[1]);
 				default:
 					break;
 				}
@@ -98,10 +103,16 @@ public class Fenetre extends JFrame {
 			}
 			setBounds(x, y, w, h);
 			FenetreParametre.taillePolice = t;
-			FenetreParametre.police = ControleurParam.getFont(p, 999, Font.BOLD, t);
+			System.out.println("////"+p);
+			FenetreParametre.police = ControleurParam.getFont(p, Font.BOLD, t);
+			System.out.println("\\\\"+FenetreParametre.police.getFontName());
 			((FenetreParametre.PanneauParam)FenetreParametre.fen.getContentPane()).listeCouleurs.setBackground(FenetreParametre.couleurFond = color);
 			pan.editorPane.setFont(FenetreParametre.police);
 			pan.editorPane.setBackground(color);
+			FenetreParametre.modeSurlignage = modeSurlignage;
+			if ( FenetreParametre.modeSurlignage) {
+				((FenetreParametre.PanneauParam)FenetreParametre.fen.getContentPane()).modeSurlignage.setSelected(true);
+			}
 			br.close();
 		} catch (Exception e) {
 			System.out.println(e.toString());

@@ -54,7 +54,7 @@ public class ControleurParam implements ActionListener {
 		}
 		if (jcb == panneau.listePolices) {
 			String police = (String) jcb.getSelectedItem();
-			FenetreParametre.police = getFont(police, jcb.getSelectedIndex(), Font.BOLD, FenetreParametre.taillePolice);
+			FenetreParametre.police = getFont(police, Font.BOLD, FenetreParametre.taillePolice);
 			panneau.listePolices.setFont(FenetreParametre.police);
 			if (FenetreParametre.editorPane != null) {
 				FenetreParametre.editorPane.setFont(FenetreParametre.police);
@@ -63,6 +63,9 @@ public class ControleurParam implements ActionListener {
 		if (arg0.getSource() == panneau.segmentDeDepart) {
 			int premierSegment = Integer.valueOf((String) jcb.getSelectedItem());
 			FenetreParametre.premierSegment = premierSegment;
+		}
+		if (arg0.getSource() == panneau.modeSurlignage) {
+			FenetreParametre.modeSurlignage = ((JCheckBox) arg0.getSource()).isSelected();
 		}
 		if (arg0.getSource() == panneau.valider) {
 			if (FenetreParametre.editorPane == null) {
@@ -89,14 +92,12 @@ public class ControleurParam implements ActionListener {
 		}
 	}
 
-	public static Font getFont(String police, int selectedIndex, int style, int size) {
+	public static Font getFont(String police, int style, int size) {
 		try {
 			Font font;
-			if (selectedIndex < Constants.FONTS_NAMES.length && selectedIndex >= 0) {
-				font = Font
-						.createFont(Font.TRUETYPE_FONT,
-								new File("ressources/fonts/" + Constants.FONTS_NAMES[selectedIndex]))
-						.deriveFont(style).deriveFont((float) size);
+			if (police == "OpenDyslexic" || police == "Andika" || police == "Lexia") {
+				font = Font.createFont(Font.TRUETYPE_FONT, new File("ressources/fonts/" + police)).deriveFont(style)
+						.deriveFont((float) size);
 			} else {
 				font = new Font(police, style, size);
 			}

@@ -95,12 +95,7 @@ public class Panneau extends JPanel {
 		 * espace total dans la fenetre = fw * fh espace total sans les marges = (fw - 2
 		 * * m) * (fh - m) espace total sans les interlignes = rep / 2
 		 */
-<<<<<<< HEAD
-		float maxArea = (getWidth() - 2 * Constants.TEXTPANE_MARGING) * (getHeight() - 2 * Constants.TEXTPANE_MARGING)
-				/ 2.2f;
-=======
 		float maxArea = (getWidth() - 2 * Constants.TEXTPANE_MARGING) * (getHeight() - 2 * Constants.TEXTPANE_MARGING) / 2.2f;
->>>>>>> cb41067da49e6e71bb9f3d2ff12e29852ab4724f
 		int segment = startPhrase;
 		int numPage = 1;
 		while (segment < textHandler.getPhrasesCount()) {
@@ -179,7 +174,6 @@ public class Panneau extends JPanel {
 			UIManager.put("Panel.background", panelBG);
 		}
 		fenetre.setVisible(false);
-		FenetreParametre.editorPane = null;
 		new FenetreParametre("Dialogo", 500, 500);
 	}
 

@@ -20,6 +20,10 @@ public class FenetreParametre extends JFrame {
 	public Fenetre fenetre;
 
 	public FenetreParametre(String titre, int tailleX, int tailleY) {
+		FenetreParametre.police = ControleurParam.getFont(null, 0, Font.BOLD, Constants.DEFAULT_FONT_SIZE);
+		FenetreParametre.taillePolice = Constants.DEFAULT_FONT_SIZE;
+		FenetreParametre.couleurFond = new Color(255, 255, 150);
+		FenetreParametre.editorPane = null;
 		FenetreParametre.titre = titre;
 		FenetreParametre.tailleX = tailleX;
 		FenetreParametre.tailleY = tailleY;

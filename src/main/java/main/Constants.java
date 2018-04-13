@@ -8,7 +8,7 @@ public final class Constants {
 			"OpenDyslexic-Bold.otf", "AndBasR.ttf", "LEXIA___.otf"
 	};
 	
-	public static final Color WRONG_COLOR = Color.RED;
+	public static final Color WRONG_COLOR = new Color(255, 40, 40);
 	public static final Color RIGHT_COLOR = Color.GREEN;
 	public static final Color WRONG_PHRASE_COLOR = Color.CYAN;
 	

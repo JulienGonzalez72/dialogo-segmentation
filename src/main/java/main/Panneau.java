@@ -92,12 +92,8 @@ public class Panneau extends JPanel {
 	
 	public void buildPages(int startPhrase) {
 		segmentsEnFonctionDeLaPage.clear();
-		/*
-		 * espace total dans la fenetre = fw * fh
-		 * espace total sans les marges = (fw - 2 * m) * (fh - m)
-		 * espace total sans les interlignes = rep / 2
-		 */
-		float maxArea = (getWidth() - 2 * Constants.TEXTPANE_MARGING) * (getHeight() - 2 * Constants.TEXTPANE_MARGING) / 2.2f;
+		
+		float maxArea = ((getWidth() - 4 * Constants.TEXTPANE_MARGING) * (getHeight() - 4 * Constants.TEXTPANE_MARGING)) / editorPane.getSpacingFactor();
 		int segment = startPhrase;
 		int numPage = 1;
 		while (segment < textHandler.getPhrasesCount()) {

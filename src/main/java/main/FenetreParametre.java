@@ -21,7 +21,7 @@ public class FenetreParametre extends JFrame {
 	public Fenetre fenetre;
 
 	public FenetreParametre(String titre, int tailleX, int tailleY) {
-		setIconImage(getToolkit().getImage("ressources/images/lexidia.png"));
+		setIconImage(getToolkit().getImage("icone.jpg"));
 		FenetreParametre.police = ControleurParam.getFont(null, 0, Font.BOLD, Constants.DEFAULT_FONT_SIZE);
 		FenetreParametre.taillePolice = Constants.DEFAULT_FONT_SIZE;
 		FenetreParametre.couleurFond = new Color(255, 255, 150);

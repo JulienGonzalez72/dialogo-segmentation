@@ -91,16 +91,8 @@ public class Panneau extends JPanel {
 
 	public void buildPages(int startPhrase) {
 		segmentsEnFonctionDeLaPage.clear();
-<<<<<<< HEAD
-		
-		float maxArea = ((getWidth() - 4 * Constants.TEXTPANE_MARGING) * (getHeight() - 4 * Constants.TEXTPANE_MARGING)) / editorPane.getSpacingFactor();
-=======
-		/*
-		 * espace total dans la fenetre = fw * fh espace total sans les marges = (fw - 2
-		 * * m) * (fh - m) espace total sans les interlignes = rep / 2
-		 */
-		float maxArea = (getWidth() - 2 * Constants.TEXTPANE_MARGING) * (getHeight() - 2 * Constants.TEXTPANE_MARGING) / 2.2f;
->>>>>>> a65f974b7625c54705bee68dc3b9e07664c1e892
+		float maxArea = ((getWidth() - 4 * Constants.TEXTPANE_MARGING) * (getHeight() - 4 * Constants.TEXTPANE_MARGING))
+				/ editorPane.getSpacingFactor();
 		int segment = startPhrase;
 		int numPage = 1;
 		while (segment < textHandler.getPhrasesCount()) {
@@ -143,7 +135,8 @@ public class Panneau extends JPanel {
 
 	public boolean pageFinis() {
 		// la page actuelle contient t-elle le segment suivant ? si non elle est finis
-		return (!segmentsEnFonctionDeLaPage.get(pageActuelle).contains(segmentActuel)) || segmentActuel+1 == textHandler.getPhrasesCount();
+		return (!segmentsEnFonctionDeLaPage.get(pageActuelle).contains(segmentActuel))
+				|| segmentActuel + 1 == textHandler.getPhrasesCount();
 	}
 
 	public void indiquerErreur(int debut, int fin) {

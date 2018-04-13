@@ -39,96 +39,124 @@ public class Fenetre extends JFrame {
 	}
 
 	private void stockerPreference() {
-		PrintWriter writer = null;
+		Object optionPaneBG = UIManager.get("OptionPane.background");
+		Object panelBG = UIManager.get("Panel.background");
+		int yes = -1;
 		try {
-			writer = new PrintWriter("preference.txt", "UTF-8");
-		} catch (FileNotFoundException | UnsupportedEncodingException e) {
-			e.printStackTrace();
+			UIManager.put("OptionPane.background", Color.WHITE);
+			UIManager.put("Panel.background", Color.WHITE);
+			yes = JOptionPane.showConfirmDialog(this, "Sauvegarder les preferences actuelles ?", "Confirmation",
+					JOptionPane.YES_NO_OPTION);
+		} finally {
+			UIManager.put("OptionPane.background", optionPaneBG);
+			UIManager.put("Panel.background", panelBG);
 		}
-		writer.println("w:" + getWidth());
-		writer.println("h:" + getHeight());
-		writer.println("x:" + getX());
-		writer.println("y:" + getY());
-		writer.println("taillePolice:" + FenetreParametre.taillePolice);
-		writer.println("typePolice:" + FenetreParametre.police.getFontName());
-		writer.println("couleur:" + FenetreParametre.couleurFond.getRed() + "/"
-				+ FenetreParametre.couleurFond.getGreen() + "/" + FenetreParametre.couleurFond.getBlue());
-		writer.println("modeSurlignage:" + FenetreParametre.modeSurlignage);
-		writer.close();
+		if (yes == 0) {
+			PrintWriter writer = null;
+			try {
+				writer = new PrintWriter("preference.txt", "UTF-8");
+			} catch (FileNotFoundException | UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			writer.println("w:" + getWidth());
+			writer.println("h:" + getHeight());
+			writer.println("x:" + getX());
+			writer.println("y:" + getY());
+			writer.println("taillePolice:" + FenetreParametre.taillePolice);
+			writer.println("typePolice:" + FenetreParametre.police.getFontName());
+			writer.println("couleur:" + FenetreParametre.couleurFond.getRed() + "/"
+					+ FenetreParametre.couleurFond.getGreen() + "/" + FenetreParametre.couleurFond.getBlue());
+			writer.println("modeSurlignage:" + FenetreParametre.modeSurlignage);
+			writer.close();
+		}
 	}
 
 	private void appliquerPreference() {
-		String fichier = "preference.txt";
-		// lecture du fichier texte
+		Object optionPaneBG = UIManager.get("OptionPane.background");
+		Object panelBG = UIManager.get("Panel.background");
+		int yes = -1;
 		try {
-			InputStream ips = new FileInputStream(fichier);
-			InputStreamReader ipsr = new InputStreamReader(ips);
-			BufferedReader br = new BufferedReader(ipsr);
-			String ligne;
-			int w = -1, h = -1, x = -1, y = -1, t = -1;
-			Color color = null;
-			String p = null;
-			boolean modeSurlignage = false;
-			int i = 0;
-			while ((ligne = br.readLine()) != null) {
-				switch (i) {
-				case 0:
-					w = Integer.valueOf(ligne.split(":")[1]);
-					break;
-				case 1:
-					h = Integer.valueOf(ligne.split(":")[1]);
-					break;
-				case 2:
-					x = Integer.valueOf(ligne.split(":")[1]);
-					break;
-				case 3:
-					y = Integer.valueOf(ligne.split(":")[1]);
-					break;
-				case 4:
-					t = Integer.valueOf(ligne.split(":")[1]);
-					break;
-				case 5:
-					p = ligne.split(":")[1];
-					break;
-				case 6:
-					String temp = ligne.split(":")[1];
-					color = new Color(Integer.valueOf(temp.split("/")[0]), Integer.valueOf(temp.split("/")[1]),
-							Integer.valueOf(temp.split("/")[2]));
-					break;
-				case 7:
-					modeSurlignage = Boolean.valueOf(ligne.split(":")[1]);
-				default:
-					break;
-				}
-				i++;
-			}
-			setBounds(x, y, w, h);
-			FenetreParametre.taillePolice = t;
-			int index = 999;
-			if (p.equals("OpenDyslexic") || p.equals("OpenDyslexic Bold")) {
-				index = 0;
-			}
-			if (p.equals("Andika")) {
-				index = 1;
-			}
-			if (p.equals("Lexia")) {
-				index = 2;
-			}
-			FenetreParametre.police = ControleurParam.getFont(p, index, Font.BOLD, t);
-			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).listeCouleurs
-					.setBackground(FenetreParametre.couleurFond = color);
-			pan.editorPane.setFont(FenetreParametre.police);
-			pan.editorPane.setBackground(color);
-			FenetreParametre.modeSurlignage = modeSurlignage;
-			if (FenetreParametre.modeSurlignage) {
-				((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).modeSurlignage
-						.setSelected(true);
-			}
-			br.close();
-		} catch (Exception e) {
-			System.out.println(e.toString());
+			UIManager.put("OptionPane.background", Color.WHITE);
+			UIManager.put("Panel.background", Color.WHITE);
+			yes = JOptionPane.showConfirmDialog(this, "Chargez les preferences ?", "Confirmation",
+					JOptionPane.YES_NO_OPTION);
+		} finally {
+			UIManager.put("OptionPane.background", optionPaneBG);
+			UIManager.put("Panel.background", panelBG);
 		}
-		pan.buildPages(FenetreParametre.premierSegment - 1);
+		String fichier = "preference.txt";
+		if (yes == 0) {
+			// lecture du fichier texte
+			try {
+				InputStream ips = new FileInputStream(fichier);
+				InputStreamReader ipsr = new InputStreamReader(ips);
+				BufferedReader br = new BufferedReader(ipsr);
+				String ligne;
+				int w = -1, h = -1, x = -1, y = -1, t = -1;
+				Color color = null;
+				String p = null;
+				boolean modeSurlignage = false;
+				int i = 0;
+				while ((ligne = br.readLine()) != null) {
+					switch (i) {
+					case 0:
+						w = Integer.valueOf(ligne.split(":")[1]);
+						break;
+					case 1:
+						h = Integer.valueOf(ligne.split(":")[1]);
+						break;
+					case 2:
+						x = Integer.valueOf(ligne.split(":")[1]);
+						break;
+					case 3:
+						y = Integer.valueOf(ligne.split(":")[1]);
+						break;
+					case 4:
+						t = Integer.valueOf(ligne.split(":")[1]);
+						break;
+					case 5:
+						p = ligne.split(":")[1];
+						break;
+					case 6:
+						String temp = ligne.split(":")[1];
+						color = new Color(Integer.valueOf(temp.split("/")[0]), Integer.valueOf(temp.split("/")[1]),
+								Integer.valueOf(temp.split("/")[2]));
+						break;
+					case 7:
+						modeSurlignage = Boolean.valueOf(ligne.split(":")[1]);
+					default:
+						break;
+					}
+					i++;
+				}
+				setBounds(x, y, w, h);
+				FenetreParametre.taillePolice = t;
+				int index = 999;
+				if (p.equals("OpenDyslexic") || p.equals("OpenDyslexic Bold")) {
+					index = 0;
+				}
+				if (p.equals("Andika")) {
+					index = 1;
+				}
+				if (p.equals("Lexia")) {
+					index = 2;
+				}
+				FenetreParametre.police = ControleurParam.getFont(p, index, Font.BOLD, t);
+				((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).listeCouleurs
+						.setBackground(FenetreParametre.couleurFond = color);
+				pan.editorPane.setFont(FenetreParametre.police);
+				pan.editorPane.setBackground(color);
+				FenetreParametre.modeSurlignage = modeSurlignage;
+				if (FenetreParametre.modeSurlignage) {
+					((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).modeSurlignage
+							.setSelected(true);
+				}
+				br.close();
+			} catch (Exception e) {
+				System.out.println(e.toString());
+			}
+			pan.buildPages(FenetreParametre.premierSegment - 1);
+		}
 	}
 
 	public void start() {

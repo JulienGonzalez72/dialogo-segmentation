@@ -27,7 +27,7 @@ public class ControleurParam implements ActionListener {
 			String s = (String) jcb.getSelectedItem();
 			Color color = null;
 			if (s == "Jaune") {
-				color = Color.YELLOW;
+				color = new Color(255, 255, 150);
 			}
 			if (s == "Orange") {
 				color = Color.ORANGE;
@@ -74,8 +74,7 @@ public class ControleurParam implements ActionListener {
 					panneau.champNbFautesTolerees.setText("0");
 				}
 				try {
-					FenetreParametre.premierSegment = Math.max(0,
-							Integer.valueOf(panneau.segmentDeDepart.getText()));
+					FenetreParametre.premierSegment = Math.max(0, Integer.valueOf(panneau.segmentDeDepart.getText()));
 				} catch (Exception e) {
 					FenetreParametre.premierSegment = 0;
 					panneau.segmentDeDepart.setText("0");

@@ -1,4 +1,7 @@
-w:695
+w:1000
 h:500
-x:1167
-y:78
+x:460
+y:265
+taillePolice:24
+typePolice:OpenDyslexic Bold
+couleur:255/255/150

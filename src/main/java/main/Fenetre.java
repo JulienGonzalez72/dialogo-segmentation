@@ -1,5 +1,7 @@
 package main;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -47,6 +49,9 @@ public class Fenetre extends JFrame {
 		writer.println("h:"+getHeight());
 		writer.println("x:"+getX());
 		writer.println("y:"+getY());
+		writer.println("taillePolice:"+FenetreParametre.taillePolice);
+		writer.println("typePolice:"+FenetreParametre.police.getFontName());
+		writer.println("couleur:"+FenetreParametre.couleurFond.getRed()+"/"+FenetreParametre.couleurFond.getGreen()+"/"+FenetreParametre.couleurFond.getBlue());
 		writer.close();
 	}
 
@@ -58,7 +63,9 @@ public class Fenetre extends JFrame {
 			InputStreamReader ipsr = new InputStreamReader(ips);
 			BufferedReader br = new BufferedReader(ipsr);
 			String ligne;
-			int w = -1, h = -1, x = -1, y = -1;
+			int w = -1, h = -1, x = -1, y = -1, t = -1;
+			Color color = null;
+			String p = null;
 			int i = 0;
 			while ((ligne = br.readLine()) != null) {
 				switch (i) {
@@ -74,16 +81,32 @@ public class Fenetre extends JFrame {
 				case 3:
 					y = Integer.valueOf(ligne.split(":")[1]);
 					break;
+				case 4:
+					t = Integer.valueOf(ligne.split(":")[1]);
+					break;
+				case 5:
+					p = ligne.split(":")[1];
+					break;
+				case 6:
+					String temp = ligne.split(":")[1];
+					color = new Color(Integer.valueOf(temp.split("/")[0]), Integer.valueOf(temp.split("/")[1]), Integer.valueOf(temp.split("/")[2]));
+					break;
 				default:
 					break;
 				}
 				i++;
 			}
 			setBounds(x, y, w, h);
+			FenetreParametre.taillePolice = t;
+			FenetreParametre.police = ControleurParam.getFont(p, 999, Font.BOLD, t);
+			((FenetreParametre.PanneauParam)FenetreParametre.fen.getContentPane()).listeCouleurs.setBackground(FenetreParametre.couleurFond = color);
+			pan.editorPane.setFont(FenetreParametre.police);
+			pan.editorPane.setBackground(color);
 			br.close();
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
+		pan.buildPages(FenetreParametre.premierSegment-1);
 	}
 
 	public void start() {

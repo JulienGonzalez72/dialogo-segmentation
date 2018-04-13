@@ -45,15 +45,15 @@ public class Fenetre extends JFrame {
 		} catch (FileNotFoundException | UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		writer.println("w:"+getWidth());
-		writer.println("h:"+getHeight());
-		writer.println("x:"+getX());
-		writer.println("y:"+getY());
-		writer.println("taillePolice:"+FenetreParametre.taillePolice);
-		System.out.println("typePolice:"+FenetreParametre.police.getFontName());
-		writer.println("typePolice:"+FenetreParametre.police.getFontName());
-		writer.println("couleur:"+FenetreParametre.couleurFond.getRed()+"/"+FenetreParametre.couleurFond.getGreen()+"/"+FenetreParametre.couleurFond.getBlue());
-		writer.println("modeSurlignage:"+FenetreParametre.modeSurlignage);
+		writer.println("w:" + getWidth());
+		writer.println("h:" + getHeight());
+		writer.println("x:" + getX());
+		writer.println("y:" + getY());
+		writer.println("taillePolice:" + FenetreParametre.taillePolice);
+		writer.println("typePolice:" + FenetreParametre.police.getFontName());
+		writer.println("couleur:" + FenetreParametre.couleurFond.getRed() + "/"
+				+ FenetreParametre.couleurFond.getGreen() + "/" + FenetreParametre.couleurFond.getBlue());
+		writer.println("modeSurlignage:" + FenetreParametre.modeSurlignage);
 		writer.close();
 	}
 
@@ -92,7 +92,8 @@ public class Fenetre extends JFrame {
 					break;
 				case 6:
 					String temp = ligne.split(":")[1];
-					color = new Color(Integer.valueOf(temp.split("/")[0]), Integer.valueOf(temp.split("/")[1]), Integer.valueOf(temp.split("/")[2]));
+					color = new Color(Integer.valueOf(temp.split("/")[0]), Integer.valueOf(temp.split("/")[1]),
+							Integer.valueOf(temp.split("/")[2]));
 					break;
 				case 7:
 					modeSurlignage = Boolean.valueOf(ligne.split(":")[1]);
@@ -103,21 +104,31 @@ public class Fenetre extends JFrame {
 			}
 			setBounds(x, y, w, h);
 			FenetreParametre.taillePolice = t;
-			System.out.println("////"+p);
-			FenetreParametre.police = ControleurParam.getFont(p, Font.BOLD, t);
-			System.out.println("\\\\"+FenetreParametre.police.getFontName());
-			((FenetreParametre.PanneauParam)FenetreParametre.fen.getContentPane()).listeCouleurs.setBackground(FenetreParametre.couleurFond = color);
+			int index = 999;
+			if (p.equals("OpenDyslexic") || p.equals("OpenDyslexic Bold")) {
+				index = 0;
+			}
+			if (p.equals("Andika")) {
+				index = 1;
+			}
+			if (p.equals("Lexia")) {
+				index = 2;
+			}
+			FenetreParametre.police = ControleurParam.getFont(p, index, Font.BOLD, t);
+			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).listeCouleurs
+					.setBackground(FenetreParametre.couleurFond = color);
 			pan.editorPane.setFont(FenetreParametre.police);
 			pan.editorPane.setBackground(color);
 			FenetreParametre.modeSurlignage = modeSurlignage;
-			if ( FenetreParametre.modeSurlignage) {
-				((FenetreParametre.PanneauParam)FenetreParametre.fen.getContentPane()).modeSurlignage.setSelected(true);
+			if (FenetreParametre.modeSurlignage) {
+				((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).modeSurlignage
+						.setSelected(true);
 			}
 			br.close();
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
-		pan.buildPages(FenetreParametre.premierSegment-1);
+		pan.buildPages(FenetreParametre.premierSegment - 1);
 	}
 
 	public void start() {
@@ -181,7 +192,6 @@ public class Fenetre extends JFrame {
 		file.add(eMenuItem4);
 		file.add(eMenuItem5);
 		file.add(eMenuItem);
-		
 
 		menubar.add(file);
 

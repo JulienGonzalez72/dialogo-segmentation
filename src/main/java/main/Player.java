@@ -18,6 +18,7 @@ public class Player {
 	}
 	
 	public void play() {
+		stop();
 		timer = new Timer();
 		currentTask = new PlayTask();
 		timer.scheduleAtFixedRate(currentTask, 0, 20);

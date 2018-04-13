@@ -100,13 +100,7 @@ public class Panneau extends JPanel {
 
 	public void buildPages(int startPhrase) {
 		segmentsEnFonctionDeLaPage.clear();
-<<<<<<< HEAD
-		
 		float maxArea = ((getWidth() - 4 * Constants.TEXTPANE_MARGING) * (getHeight() - 4 * Constants.TEXTPANE_MARGING)) / editorPane.getSpacingFactor();
-=======
-		float maxArea = ((getWidth() - 4 * Constants.TEXTPANE_MARGING) * (getHeight() - 4 * Constants.TEXTPANE_MARGING))
-				/ editorPane.getSpacingFactor();
->>>>>>> 3d7d58045773dc86d85854a4dd5f57c0f5139c77
 		int segment = startPhrase;
 		int numPage = 1;
 		while (segment < textHandler.getPhrasesCount()) {
@@ -149,13 +143,8 @@ public class Panneau extends JPanel {
 
 	public boolean pageFinis() {
 		// la page actuelle contient t-elle le segment suivant ? si non elle est finis
-<<<<<<< HEAD
-		return (!segmentsEnFonctionDeLaPage.get(pageActuelle).contains(player.getCurrentPhraseIndex()))
-				|| player.getCurrentPhraseIndex() + 1 == textHandler.getPhrasesCount();
-=======
-		return (!segmentsEnFonctionDeLaPage.get(pageActuelle).contains(segmentActuel))
-				|| segmentActuel + 1 == textHandler.getPhrasesCount();
->>>>>>> 3d7d58045773dc86d85854a4dd5f57c0f5139c77
+		return (!segmentsEnFonctionDeLaPage.get(pageActuelle).contains(player.getCurrentPhraseIndex() + 1))
+				|| player.getCurrentPhraseIndex() + 2 == textHandler.getPhrasesCount();
 	}
 
 	public void indiquerErreur(int debut, int fin) {

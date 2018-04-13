@@ -35,7 +35,7 @@ public class Panneau extends JPanel {
 		textHandler = new TextHandler(texteCesures);
 		this.setLayout(new BorderLayout());
 	}
-	
+
 	/**
 	 * S'exécute lorsque le panneau s'est bien intégré à la fenêtre
 	 */
@@ -46,7 +46,6 @@ public class Panneau extends JPanel {
 		editorPane.setEditable(false);
 		editorPane.addMouseListener(controlerMouse);
 		this.add(editorPane, BorderLayout.CENTER);
-		editorPane.addKeyListener(controlerMouse);
 
 		/// construit la mise en page virtuelle ///
 		buildPages(segmentActuel);
@@ -89,15 +88,15 @@ public class Panneau extends JPanel {
 			editorPane.désurlignerTout();
 		}
 	}
-	
+
 	public void buildPages(int startPhrase) {
 		segmentsEnFonctionDeLaPage.clear();
 		/*
-		 * espace total dans la fenetre = fw * fh
-		 * espace total sans les marges = (fw - 2 * m) * (fh - m)
-		 * espace total sans les interlignes = rep / 2
+		 * espace total dans la fenetre = fw * fh espace total sans les marges = (fw - 2
+		 * * m) * (fh - m) espace total sans les interlignes = rep / 2
 		 */
-		float maxArea = (getWidth() - 2 * Constants.TEXTPANE_MARGING) * (getHeight() - 2 * Constants.TEXTPANE_MARGING) / 2f;
+		float maxArea = (getWidth() - 2 * Constants.TEXTPANE_MARGING) * (getHeight() - 2 * Constants.TEXTPANE_MARGING)
+				/ 2.2f;
 		int segment = startPhrase;
 		int numPage = 1;
 		while (segment < textHandler.getPhrasesCount()) {
@@ -146,7 +145,7 @@ public class Panneau extends JPanel {
 		return (!segmentsEnFonctionDeLaPage.get(pageActuelle).contains(segmentActuel))
 				|| segmentActuel == textHandler.getPhrasesCount() - 1;
 	}
-	
+
 	public void indiquerErreur(int debut, int fin) {
 		nbErreurs++;
 		editorPane.enleverSurlignageRouge();
@@ -166,6 +165,8 @@ public class Panneau extends JPanel {
 	}
 
 	public void afficherCompteRendu() {
+		// desactivation du controleur
+		editorPane.indiceDernierCaractereSurligné = Integer.MAX_VALUE;
 		Object optionPaneBG = UIManager.get("OptionPane.background");
 		Object panelBG = UIManager.get("Panel.background");
 		try {
@@ -177,7 +178,9 @@ public class Panneau extends JPanel {
 			UIManager.put("OptionPane.background", optionPaneBG);
 			UIManager.put("Panel.background", panelBG);
 		}
-
+		fenetre.setVisible(false);
+		FenetreParametre.editorPane = null;
+		new FenetreParametre("Dialogo", 500, 500);
 	}
 
 }

@@ -1,10 +1,9 @@
 package main;
 
-import java.awt.Toolkit;
 import java.awt.event.*;
 import javax.swing.SwingWorker;
 
-public class ControlerMouse implements MouseListener, KeyListener {
+public class ControlerMouse implements MouseListener {
 
 	public static int nbErreurs;
 	Panneau view;
@@ -106,37 +105,6 @@ public class ControlerMouse implements MouseListener, KeyListener {
 	}
 
 	public void mouseReleased(MouseEvent e) {
-
-	}
-
-	public void keyPressed(KeyEvent e) {
-		switch (e.getKeyCode()) {
-		case KeyEvent.VK_P:
-			FenetreParametre.editorPane = view.editorPane;
-			FenetreParametre.fen.setVisible(true);
-			int x = 4 * Toolkit.getDefaultToolkit().getScreenSize().width / 10;
-			int y = 4 * Toolkit.getDefaultToolkit().getScreenSize().height / 10;
-			FenetreParametre.fen.setLocation(x, y);
-			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).champNbFautesTolerees
-					.setEnabled(false);
-			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).segmentDeDepart.setEnabled(false);
-			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).listeTailles.setEnabled(false);
-
-			break;
-		case KeyEvent.VK_R:
-			view.fenetre.setVisible(false);
-			new FenetreParametre("Dialogo", 500, 500);
-			break;
-		default:
-			System.out.println("Touche non traitée.");
-		}
-	}
-
-	public void keyReleased(KeyEvent e) {
-
-	}
-
-	public void keyTyped(KeyEvent e) {
 
 	}
 

@@ -26,7 +26,7 @@ public class FenetreParametre extends JFrame {
 		setTitle(titre);
 		setSize(tailleX, tailleY);
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setResizable(true);
 		PanneauParam pan = new PanneauParam();
 		setContentPane(pan);

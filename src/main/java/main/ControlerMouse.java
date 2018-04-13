@@ -54,21 +54,6 @@ public class ControlerMouse implements MouseListener {
 
 					//view.segmentActuel++;
 					view.nbEssaisRestantPourLeSegmentCourant = Panneau.defautNBEssaisParSegment;
-					// si la page est finis on affiche la suivante
-					if (view.pageFinis()) {
-						new SwingWorker<Object, Object>() {
-							// Ce traitement sera exécuté dans un autre thread :
-							protected Object doInBackground() throws Exception {
-								Thread.sleep(Constants.PAGE_WAIT_TIME);
-								return null;
-							}
-
-							// Ce traitement sera exécuté à la fin dans l'EDT
-							protected void done() {
-								view.afficherPageSuivante();
-							}
-						}.execute();
-					}
 				}
 			}
 		}
@@ -96,11 +81,14 @@ public class ControlerMouse implements MouseListener {
 
 				// Ce traitement sera exécuté à la fin dans l'EDT
 				protected void done() {
+					view.player.nextPhrase();
 					view.afficherPageSuivante();
 				}
 			}.execute();
 		}
-		view.player.nextPhrase();
+		else {
+			view.player.nextPhrase();
+		}
 	}
 
 	public void mouseEntered(MouseEvent e) {

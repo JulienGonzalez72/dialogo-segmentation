@@ -29,6 +29,6 @@ public final class Constants {
 	/**
 	 * Vitesse de lecture (en fréquence)
 	 */
-	public static final long PLAYER_INTERVAL = 40;
+	public static final long PLAYER_INTERVAL = 20;
 	
 }

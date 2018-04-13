@@ -20,18 +20,22 @@ public class FenetreParametre extends JFrame {
 	public Fenetre fenetre;
 
 	public FenetreParametre(String titre, int tailleX, int tailleY) {
+		FenetreParametre.police = ControleurParam.getFont(null, 0, Font.BOLD, Constants.DEFAULT_FONT_SIZE);
+		FenetreParametre.taillePolice = Constants.DEFAULT_FONT_SIZE;
+		FenetreParametre.couleurFond = new Color(255, 255, 150);
+		FenetreParametre.editorPane = null;
 		FenetreParametre.titre = titre;
 		FenetreParametre.tailleX = tailleX;
 		FenetreParametre.tailleY = tailleY;
 		setTitle(titre);
 		setSize(tailleX, tailleY);
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setResizable(true);
 		PanneauParam pan = new PanneauParam();
 		setContentPane(pan);
 		setVisible(true);
-		fenetre = new Fenetre(titre, tailleX, tailleY);
+		fenetre = new Fenetre(titre, tailleX*2, tailleY);
 	}
 
 	public class PanneauParam extends JPanel {

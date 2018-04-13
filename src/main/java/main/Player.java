@@ -30,8 +30,13 @@ public class Player {
 		public void run() {
 			time += 20;
 			
+			/// fin de la phrase ///
+			if (isPhraseFinished()) {
+				stop();
+			}
+			
 			/// simule une lecture de caractère ///
-			if (time % Constants.PLAYER_INTERVAL == 0) {
+			else if (time % Constants.PLAYER_INTERVAL == 0) {
 				System.out.print(getCurrentPhrase().charAt(currentCharacter));
 				nextCharacter();
 			}
@@ -40,9 +45,6 @@ public class Player {
 	
 	private void nextCharacter() {
 		currentCharacter++;
-		if (isPhraseFinished()) {
-			stop();
-		}
 	}
 	
 	/**
@@ -90,6 +92,25 @@ public class Player {
 		System.out.println();
 		currentCharacter = 0;
 		currentPhrase++;
+		play();
+	}
+	
+	/**
+	 * Retourne au segment prédédent et démarre le lecteur.
+	 */
+	public void previousPhrase() {
+		System.out.println();
+		currentCharacter = 0;
+		currentPhrase--;
+		play();
+	}
+	
+	/**
+	 * Recommence la phrase.
+	 */
+	public void repeat() {
+		System.out.println();
+		currentCharacter = 0;
 		play();
 	}
 	

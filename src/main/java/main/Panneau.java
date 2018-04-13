@@ -24,17 +24,17 @@ public class Panneau extends JPanel {
 	public int nbEssaisRestantPourLeSegmentCourant = defautNBEssaisParSegment;
 	public int nbErreurs;
 	public JFrame fenetre;
-	
+
 	public Map<Integer, List<Integer>> segmentsEnFonctionDeLaPage = new HashMap<Integer, List<Integer>>();
-	
+
 	/// lecteur des phrases ///
 	public Player player;
-	
+
 	public Panneau(JFrame fenetre) throws IOException {
 		this.fenetre = fenetre;
 		String texteCesures = getTextFromFile("ressources/textes/20 000 lieux sous les mers");
 		textHandler = new TextHandler(texteCesures);
-		
+
 		this.setLayout(new BorderLayout());
 	}
 
@@ -43,7 +43,7 @@ public class Panneau extends JPanel {
 	 */
 	public void init() {
 		pageActuelle = 0;
-		//segmentActuel = FenetreParametre.premierSegment - 1;
+		// segmentActuel = FenetreParametre.premierSegment - 1;
 		nbEssaisRestantPourLeSegmentCourant = nbEssaisParSegment = FenetreParametre.nbFautesTolerees;
 		ControlerMouse controlerMouse = new ControlerMouse(this, textHandler);
 		editorPane = new TextPane();
@@ -57,13 +57,13 @@ public class Panneau extends JPanel {
 		afficherPageSuivante();
 		/// calcule le nombre de pages total ///
 		nbPages = segmentsEnFonctionDeLaPage.size();
-		
+
 		/// initialise le lecteur et le démarre ///
 		player = new Player(textHandler);
 		player.goTo(FenetreParametre.premierSegment - 1);
 		player.play();
 	}
-	
+
 	/**
 	 * retourne le contenu du fichier .txt situé à l'emplacement du paramètre
 	 *
@@ -100,7 +100,12 @@ public class Panneau extends JPanel {
 
 	public void buildPages(int startPhrase) {
 		segmentsEnFonctionDeLaPage.clear();
+<<<<<<< HEAD
 		float maxArea = ((getWidth() - 4 * Constants.TEXTPANE_MARGING) * (getHeight() - 4 * Constants.TEXTPANE_MARGING)) / editorPane.getSpacingFactor();
+=======
+		float maxArea = ((getWidth() - 4 * Constants.TEXTPANE_MARGING) * (getHeight() - 4 * Constants.TEXTPANE_MARGING))
+				/ editorPane.getSpacingFactor();
+>>>>>>> 50096afffdffc7f83ec835479a99db5d09cb3d01
 		int segment = startPhrase;
 		int numPage = 1;
 		while (segment < textHandler.getPhrasesCount()) {
@@ -143,8 +148,14 @@ public class Panneau extends JPanel {
 
 	public boolean pageFinis() {
 		// la page actuelle contient t-elle le segment suivant ? si non elle est finis
+<<<<<<< HEAD
 		return (!segmentsEnFonctionDeLaPage.get(pageActuelle).contains(player.getCurrentPhraseIndex() + 1))
 				|| player.getCurrentPhraseIndex() + 2 == textHandler.getPhrasesCount();
+=======
+		return (!segmentsEnFonctionDeLaPage.get(pageActuelle).contains(player.getCurrentPhraseIndex()))
+				|| player.getCurrentPhraseIndex() + 1 == textHandler.getPhrasesCount();
+
+>>>>>>> 50096afffdffc7f83ec835479a99db5d09cb3d01
 	}
 
 	public void indiquerErreur(int debut, int fin) {
@@ -154,10 +165,10 @@ public class Panneau extends JPanel {
 	}
 
 	public void indiquerEtCorrigerErreur(int debut, int fin) {
-		//nbEssaisRestantPourLeSegmentCourant = Panneau.defautNBEssaisParSegment;
+		// nbEssaisRestantPourLeSegmentCourant = Panneau.defautNBEssaisParSegment;
 		nbErreurs++;
 		editorPane.indiceDernierCaractereSurligné = fin;
-		//editorPane.enleverSurlignageRouge();
+		// editorPane.enleverSurlignageRouge();
 		editorPane.surlignerPhrase(debut, fin, Constants.WRONG_PHRASE_COLOR);
 	}
 

@@ -64,6 +64,9 @@ public class ControleurParam implements ActionListener {
 			int premierSegment = Integer.valueOf((String) jcb.getSelectedItem());
 			FenetreParametre.premierSegment = premierSegment;
 		}
+		if ( arg0.getSource() == panneau.modeSurlignage) {
+			FenetreParametre.modeSurlignage = ((JCheckBox) arg0.getSource()).isSelected();
+		}
 		if (arg0.getSource() == panneau.valider) {
 			if (FenetreParametre.editorPane == null) {
 				try {

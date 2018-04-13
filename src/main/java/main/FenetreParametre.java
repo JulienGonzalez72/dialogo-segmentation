@@ -17,10 +17,11 @@ public class FenetreParametre extends JFrame {
 	public static FenetreParametre fen;
 	public static TextPane editorPane;
 	public static int nbFautesTolerees;
+	public static boolean modeSurlignage;
 	public Fenetre fenetre;
 
 	public FenetreParametre(String titre, int tailleX, int tailleY) {
-		setIconImage(getToolkit().getImage("ressources/images/lexidia.png")); 
+		setIconImage(getToolkit().getImage("ressources/images/lexidia.png"));
 		FenetreParametre.police = ControleurParam.getFont(null, 0, Font.BOLD, Constants.DEFAULT_FONT_SIZE);
 		FenetreParametre.taillePolice = Constants.DEFAULT_FONT_SIZE;
 		FenetreParametre.couleurFond = new Color(255, 255, 150);
@@ -36,7 +37,7 @@ public class FenetreParametre extends JFrame {
 		PanneauParam pan = new PanneauParam();
 		setContentPane(pan);
 		setVisible(true);
-		fenetre = new Fenetre(titre, tailleX*2, tailleY);
+		fenetre = new Fenetre(titre, tailleX * 2, tailleY);
 	}
 
 	public class PanneauParam extends JPanel {
@@ -49,10 +50,11 @@ public class FenetreParametre extends JFrame {
 		JTextField segmentDeDepart;
 		JTextField champNbFautesTolerees;
 		JButton valider;
+		JCheckBox modeSurlignage;
 
 		public PanneauParam() {
 			fen = FenetreParametre.this;
-			setLayout(new GridLayout(13, 1));
+			setLayout(new GridLayout(15, 1));
 			JLabel titre = fastLabel("Choississez vos parametres");
 			titre.setBorder(BorderFactory.createLineBorder(Color.blue, 2));
 			add(titre);
@@ -120,10 +122,16 @@ public class FenetreParametre extends JFrame {
 			champNbFautesTolerees = fastTextField("", new Font("OpenDyslexic", Font.PLAIN, 15), "2");
 			champNbFautesTolerees.addActionListener(controleur);
 
+			modeSurlignage = new JCheckBox("Mode surlignage");
+			modeSurlignage.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
+			modeSurlignage.addActionListener(controleur);
+
 			add(nbFautesTolerees);
 			fastCentering(champNbFautesTolerees, this);
 			add(couleurDeFond);
 			fastCentering(listeCouleurs, this);
+			add(new JLabel());
+			fastCentering(modeSurlignage, this);
 			add(new JLabel());
 			add(valider);
 

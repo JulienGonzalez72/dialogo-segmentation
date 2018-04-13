@@ -50,18 +50,20 @@ public class Panneau extends JPanel {
 		editorPane.setEditable(false);
 		editorPane.addMouseListener(controlerMouse);
 		this.add(editorPane, BorderLayout.CENTER);
-
+		
 		/// construit la mise en page virtuelle ///
 		buildPages(FenetreParametre.premierSegment - 1);
 		/// affiche la première page ///
 		afficherPageSuivante();
 		/// calcule le nombre de pages total ///
 		nbPages = segmentsEnFonctionDeLaPage.size();
-
+		
 		/// initialise le lecteur et le démarre ///
 		player = new Player(textHandler);
 		player.goTo(FenetreParametre.premierSegment - 1);
-		player.play();
+		//player.play();
+		
+		new ControlFrame(player);
 	}
 
 	/**
@@ -100,12 +102,7 @@ public class Panneau extends JPanel {
 
 	public void buildPages(int startPhrase) {
 		segmentsEnFonctionDeLaPage.clear();
-<<<<<<< HEAD
 		float maxArea = ((getWidth() - 4 * Constants.TEXTPANE_MARGING) * (getHeight() - 4 * Constants.TEXTPANE_MARGING)) / editorPane.getSpacingFactor();
-=======
-		float maxArea = ((getWidth() - 4 * Constants.TEXTPANE_MARGING) * (getHeight() - 4 * Constants.TEXTPANE_MARGING))
-				/ editorPane.getSpacingFactor();
->>>>>>> 50096afffdffc7f83ec835479a99db5d09cb3d01
 		int segment = startPhrase;
 		int numPage = 1;
 		while (segment < textHandler.getPhrasesCount()) {
@@ -148,14 +145,8 @@ public class Panneau extends JPanel {
 
 	public boolean pageFinis() {
 		// la page actuelle contient t-elle le segment suivant ? si non elle est finis
-<<<<<<< HEAD
 		return (!segmentsEnFonctionDeLaPage.get(pageActuelle).contains(player.getCurrentPhraseIndex() + 1))
 				|| player.getCurrentPhraseIndex() + 2 == textHandler.getPhrasesCount();
-=======
-		return (!segmentsEnFonctionDeLaPage.get(pageActuelle).contains(player.getCurrentPhraseIndex()))
-				|| player.getCurrentPhraseIndex() + 1 == textHandler.getPhrasesCount();
-
->>>>>>> 50096afffdffc7f83ec835479a99db5d09cb3d01
 	}
 
 	public void indiquerErreur(int debut, int fin) {

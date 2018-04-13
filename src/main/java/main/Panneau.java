@@ -30,10 +30,6 @@ public class Panneau extends JPanel {
 
 	public Panneau(JFrame fenetre) throws IOException {
 		this.fenetre = fenetre;
-<<<<<<< HEAD
-=======
-		pageActuelle = 0;
->>>>>>> bd68398e1f8d6bfc1beaaac62455210d5fd02109
 		String texteCesures = getTextFromFile("ressources/textes/Ah les crocodiles C");
 		textHandler = new TextHandler(texteCesures);
 		this.setLayout(new BorderLayout());
@@ -43,10 +39,7 @@ public class Panneau extends JPanel {
 	 * S'exécute lorsque le panneau s'est bien intégré à la fenêtre
 	 */
 	public void init() {
-<<<<<<< HEAD
 		pageActuelle = 0;
-=======
->>>>>>> bd68398e1f8d6bfc1beaaac62455210d5fd02109
 		segmentActuel = FenetreParametre.premierSegment - 1;
 		ControlerMouse controlerMouse = new ControlerMouse(this, textHandler);
 		editorPane = new TextPane();
@@ -104,7 +97,7 @@ public class Panneau extends JPanel {
 		 * espace total sans les marges = (fw - 2 * m) * (fh - m)
 		 * espace total sans les interlignes = rep / 2
 		 */
-		float maxArea = (getWidth() - 2 * Constants.TEXTPANE_MARGING) * (getHeight() - 2 * Constants.TEXTPANE_MARGING) / 2f;
+		float maxArea = (getWidth() - 2 * Constants.TEXTPANE_MARGING) * (getHeight() - 2 * Constants.TEXTPANE_MARGING) / 2.2f;
 		int segment = startPhrase;
 		int numPage = 1;
 		while (segment < textHandler.getPhrasesCount()) {

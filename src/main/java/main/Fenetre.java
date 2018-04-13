@@ -24,7 +24,7 @@ public class Fenetre extends JFrame {
 	public boolean preferencesExiste = true;
 
 	public Fenetre(String titre, int tailleX, int tailleY) {
-		setIconImage(getToolkit().getImage("ressources/images/lexidia.gif"));
+		setIconImage(getToolkit().getImage("icone.jpg"));
 		try {
 			pan = new Panneau(this);
 		} catch (IOException e) {

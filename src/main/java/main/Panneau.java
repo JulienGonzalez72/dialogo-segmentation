@@ -22,16 +22,19 @@ public class Panneau extends JPanel {
 	public int nbPages;
 	public int nbEssaisParSegment = defautNBEssaisParSegment;
 	public int nbEssaisRestantPourLeSegmentCourant = defautNBEssaisParSegment;
-	public int segmentActuel;
 	public int nbErreurs;
 	public JFrame fenetre;
-
+	
 	public Map<Integer, List<Integer>> segmentsEnFonctionDeLaPage = new HashMap<Integer, List<Integer>>();
-
+	
+	/// lecteur des phrases ///
+	public Player player;
+	
 	public Panneau(JFrame fenetre) throws IOException {
 		this.fenetre = fenetre;
-		String texteCesures = getTextFromFile("ressources/textes/Ah les crocodiles C");
+		String texteCesures = getTextFromFile("ressources/textes/20 000 lieux sous les mers");
 		textHandler = new TextHandler(texteCesures);
+		
 		this.setLayout(new BorderLayout());
 	}
 
@@ -40,7 +43,8 @@ public class Panneau extends JPanel {
 	 */
 	public void init() {
 		pageActuelle = 0;
-		segmentActuel = FenetreParametre.premierSegment - 1;
+		//segmentActuel = FenetreParametre.premierSegment - 1;
+		nbEssaisRestantPourLeSegmentCourant = nbEssaisParSegment = FenetreParametre.nbFautesTolerees;
 		ControlerMouse controlerMouse = new ControlerMouse(this, textHandler);
 		editorPane = new TextPane();
 		editorPane.setEditable(false);
@@ -48,13 +52,18 @@ public class Panneau extends JPanel {
 		this.add(editorPane, BorderLayout.CENTER);
 
 		/// construit la mise en page virtuelle ///
-		buildPages(segmentActuel);
+		buildPages(FenetreParametre.premierSegment - 1);
 		/// affiche la première page ///
 		afficherPageSuivante();
 		/// calcule le nombre de pages total ///
 		nbPages = segmentsEnFonctionDeLaPage.size();
+		
+		/// initialise le lecteur et le démarre ///
+		player = new Player(textHandler);
+		player.goTo(FenetreParametre.premierSegment - 1);
+		player.play();
 	}
-
+	
 	/**
 	 * retourne le contenu du fichier .txt situé à l'emplacement du paramètre
 	 *
@@ -91,16 +100,8 @@ public class Panneau extends JPanel {
 
 	public void buildPages(int startPhrase) {
 		segmentsEnFonctionDeLaPage.clear();
-<<<<<<< HEAD
 		
 		float maxArea = ((getWidth() - 4 * Constants.TEXTPANE_MARGING) * (getHeight() - 4 * Constants.TEXTPANE_MARGING)) / editorPane.getSpacingFactor();
-=======
-		/*
-		 * espace total dans la fenetre = fw * fh espace total sans les marges = (fw - 2
-		 * * m) * (fh - m) espace total sans les interlignes = rep / 2
-		 */
-		float maxArea = (getWidth() - 2 * Constants.TEXTPANE_MARGING) * (getHeight() - 2 * Constants.TEXTPANE_MARGING) / 2.2f;
->>>>>>> a65f974b7625c54705bee68dc3b9e07664c1e892
 		int segment = startPhrase;
 		int numPage = 1;
 		while (segment < textHandler.getPhrasesCount()) {
@@ -143,7 +144,8 @@ public class Panneau extends JPanel {
 
 	public boolean pageFinis() {
 		// la page actuelle contient t-elle le segment suivant ? si non elle est finis
-		return (!segmentsEnFonctionDeLaPage.get(pageActuelle).contains(segmentActuel)) || segmentActuel+1 == textHandler.getPhrasesCount();
+		return (!segmentsEnFonctionDeLaPage.get(pageActuelle).contains(player.getCurrentPhraseIndex()))
+				|| player.getCurrentPhraseIndex() + 1 == textHandler.getPhrasesCount();
 	}
 
 	public void indiquerErreur(int debut, int fin) {
@@ -153,10 +155,10 @@ public class Panneau extends JPanel {
 	}
 
 	public void indiquerEtCorrigerErreur(int debut, int fin) {
-		nbEssaisRestantPourLeSegmentCourant = Panneau.defautNBEssaisParSegment;
+		//nbEssaisRestantPourLeSegmentCourant = Panneau.defautNBEssaisParSegment;
 		nbErreurs++;
 		editorPane.indiceDernierCaractereSurligné = fin;
-		editorPane.enleverSurlignageRouge();
+		//editorPane.enleverSurlignageRouge();
 		editorPane.surlignerPhrase(debut, fin, Constants.WRONG_PHRASE_COLOR);
 	}
 

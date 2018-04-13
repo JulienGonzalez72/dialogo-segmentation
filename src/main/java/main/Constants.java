@@ -26,4 +26,9 @@ public final class Constants {
 	
 	public static final float TEXTPANE_MARGING = 20f;
 	
+	/**
+	 * Vitesse de lecture (en fréquence)
+	 */
+	public static final long PLAYER_INTERVAL = 40;
+	
 }

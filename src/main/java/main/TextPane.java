@@ -11,7 +11,8 @@ public class TextPane extends JTextPane {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Object redHightlightTag;
+	private Object redHighlightTag;
+	private Object blueHighlightTag;
 	
 	public TextPane() {
 		setFont(FenetreParametre.police);
@@ -39,16 +40,35 @@ public class TextPane extends JTextPane {
 		try {
 			Object tag = getHighlighter().addHighlight(debut, fin,
 					new DefaultHighlighter.DefaultHighlightPainter(couleur));
-			if (couleur.equals(Constants.WRONG_COLOR))
-				redHightlightTag = tag;
+			if (couleur.equals(Constants.WRONG_COLOR)) {
+				enleverSurlignageRouge();
+				redHighlightTag = tag;
+			}
+			else if (couleur.equals(Constants.WRONG_PHRASE_COLOR)) {
+				enleverSurlignageBleu();
+				blueHighlightTag = tag;
+			}
 		} catch (BadLocationException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public void enleverSurlignageRouge() {
-		if (redHightlightTag != null)
-			getHighlighter().removeHighlight(redHightlightTag);
+		if (redHighlightTag != null) {
+			getHighlighter().removeHighlight(redHighlightTag);
+			redHighlightTag = null;
+		}
+	}
+
+	public void enleverSurlignageBleu() {
+		if (blueHighlightTag != null) {
+			getHighlighter().removeHighlight(blueHighlightTag);
+			blueHighlightTag = null;
+		}
+	}
+	
+	public boolean containsBlueHighlight() {
+		return blueHighlightTag != null;
 	}
 	
 	/**

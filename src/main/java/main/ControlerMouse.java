@@ -108,4 +108,37 @@ public class ControlerMouse implements MouseListener {
 
 	}
 
+<<<<<<< HEAD
+=======
+	public void keyPressed(KeyEvent e) {
+		switch (e.getKeyCode()) {
+		case KeyEvent.VK_P:
+			FenetreParametre.editorPane = view.editorPane;
+			FenetreParametre.fen.setVisible(true);
+			int x = 4 * Toolkit.getDefaultToolkit().getScreenSize().width / 10;
+			int y = 4 * Toolkit.getDefaultToolkit().getScreenSize().height / 10;
+			FenetreParametre.fen.setLocation(x, y);
+			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).champNbFautesTolerees
+					.setEnabled(false);
+			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).segmentDeDepart.setEnabled(false);
+			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).listeTailles.setEnabled(false);
+
+			break;
+		case KeyEvent.VK_R:
+			view.fenetre.setVisible(false);
+			new FenetreParametre("Dialogo", 500, 500);
+			break;
+		default:
+		}
+	}
+
+	public void keyReleased(KeyEvent e) {
+
+	}
+
+	public void keyTyped(KeyEvent e) {
+
+	}
+
+>>>>>>> cb41067da49e6e71bb9f3d2ff12e29852ab4724f
 }

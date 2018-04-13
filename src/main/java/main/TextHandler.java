@@ -130,7 +130,7 @@ public class TextHandler {
 	}
 
 	public int startWordPosition(int offset) {
-		for (int i = offset; i >= 0; i--) {
+		for (int i = Math.min(getShowText().length() - 1, offset); i >= 0; i--) {
 			if (Character.isWhitespace(getShowText().charAt(i)) || isPunctuation(getShowText().charAt(i))) {
 				return i;
 			}

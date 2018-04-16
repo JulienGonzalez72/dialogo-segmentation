@@ -1,9 +1,9 @@
 w:1000
 h:800
-x:413
-y:92
-taillePolice:24
-typePolice:OpenDyslexic Bold
+x:460
+y:115
+taillePolice:36
+typePolice:Arial Gras
 couleur:255/255/150
-modeSurlignage:false
-tempsAttente:110
+modeSurlignage:true
+tempsAttente:300

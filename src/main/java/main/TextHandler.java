@@ -178,7 +178,7 @@ public class TextHandler {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * Retourne la position du caractère dans le texte en entier en indiquant la
 	 * position d'un caractère cliqué à partir d'un segment indiqué.
@@ -186,7 +186,7 @@ public class TextHandler {
 	public int getAbsoluteOffset(int startPhrase, int offset) {
 		return getPhrasesLength(0, startPhrase - 1) + offset;
 	}
-
+	
 	/**
 	 * Ceci est l'opération inverse, elle permet d'obtenir la position par rapport
 	 * au premier segment affiché avec la position du caractère dans tout le texte.

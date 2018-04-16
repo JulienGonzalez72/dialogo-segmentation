@@ -48,17 +48,18 @@ public class ControlFrame extends JFrame {
 		playButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (player.isPlaying()) {
-					System.out.println("STOP");
 					player.stop();
+					playButton.setIcon(new ImageIcon(playIcon));
 				}
 				else if (player.isPhraseFinished()) {
 					player.repeat();
+					playButton.setIcon(new ImageIcon(pauseIcon));
 				}
 				else {
 					player.play();
+					playButton.setIcon(new ImageIcon(pauseIcon));
 				}
 				updateButtons();
-				playButton.setIcon(new ImageIcon(pauseIcon));
 			}
 		});
 		

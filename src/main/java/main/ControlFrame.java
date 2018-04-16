@@ -12,7 +12,7 @@ import javax.swing.*;
 public class ControlFrame extends JFrame {
 	
 	private static int imageSize = 40;
-	private static Image previousIcon, playIcon, nextIcon;
+	private static Image previousIcon, playIcon, pauseIcon, nextIcon;
 	
 	private JPanel panel = new JPanel();
 	private JButton previousButton = new JButton();
@@ -30,14 +30,16 @@ public class ControlFrame extends JFrame {
 		setContentPane(panel);
 		setSize(250, 90);
 		setResizable(false);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setVisible(true);
 		
 		panel.add(previousButton);
 		previousButton.setIcon(new ImageIcon(previousIcon));
+		previousButton.setEnabled(player.hasPreviousPhrase());
 		previousButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO empêcher qu'on puisse faire précédent sur la première phrase
 				player.previousPhrase();
+				updateButtons();
 			}
 		});
 		
@@ -45,27 +47,45 @@ public class ControlFrame extends JFrame {
 		playButton.setIcon(new ImageIcon(playIcon));
 		playButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (player.isPlaying() || player.isPhraseFinished()) {
+				if (player.isPlaying()) {
+					System.out.println("STOP");
+					player.stop();
+				}
+				else if (player.isPhraseFinished()) {
 					player.repeat();
 				}
 				else {
 					player.play();
 				}
+				updateButtons();
+				playButton.setIcon(new ImageIcon(pauseIcon));
 			}
 		});
 		
 		panel.add(nextButton);
 		nextButton.setIcon(new ImageIcon(nextIcon));
+		nextButton.setEnabled(player.hasNextPhrase());
 		nextButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				player.nextPhrase();
+				updateButtons();
 			}
 		});
+		
+		player.onPhraseEnd = () -> {
+			playButton.setIcon(new ImageIcon(playIcon));
+		};
+	}
+	
+	public void updateButtons() {
+		previousButton.setEnabled(player.hasPreviousPhrase());
+		nextButton.setEnabled(player.hasNextPhrase());
 	}
 	
 	private static void loadImages() {
 		previousIcon = getIcon("previous_icon.png");
 		playIcon = getIcon("play_icon.png");
+		pauseIcon = getIcon("pause_icon.png");
 		nextIcon = getIcon("next_icon.png");
 	}
 	

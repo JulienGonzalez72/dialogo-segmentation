@@ -184,6 +184,7 @@ public class Fenetre extends JFrame {
 		eMenuItem2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.ALT_MASK));
 		eMenuItem2.addActionListener((ActionEvent event) -> {
 			this.setVisible(false);
+			this.pan.controlFrame.setVisible(false);
 			new FenetreParametre("Dialogo", 500, 500);
 		});
 		JMenuItem eMenuItem3 = new JMenuItem("Parametres");

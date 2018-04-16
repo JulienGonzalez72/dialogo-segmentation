@@ -66,6 +66,11 @@ public class ControleurParam implements ActionListener {
 		}
 		if ( arg0.getSource() == panneau.modeSurlignage) {
 			FenetreParametre.modeSurlignage = ((JCheckBox) arg0.getSource()).isSelected();
+			if ( FenetreParametre.modeSurlignage) {
+				FenetreParametre.fen.fenetre.pan.surlignerSegment(Constants.RIGHT_COLOR,FenetreParametre.fen.fenetre.pan.player.getCurrentPhraseIndex());
+			} else {
+				FenetreParametre.editorPane.désurlignerTout();
+			}
 		}
 		if (arg0.getSource() == panneau.valider) {
 			if (FenetreParametre.editorPane == null) {

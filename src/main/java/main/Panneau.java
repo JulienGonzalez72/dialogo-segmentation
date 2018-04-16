@@ -24,6 +24,7 @@ public class Panneau extends JPanel {
 	public int nbEssaisRestantPourLeSegmentCourant = defautNBEssaisParSegment;
 	public int nbErreurs;
 	public JFrame fenetre;
+	public JFrame controlFrame;
 
 	public Map<Integer, List<Integer>> segmentsEnFonctionDeLaPage = new HashMap<Integer, List<Integer>>();
 
@@ -32,7 +33,8 @@ public class Panneau extends JPanel {
 
 	public Panneau(JFrame fenetre) throws IOException {
 		this.fenetre = fenetre;
-		String texteCesures = getTextFromFile("ressources/textes/20 000 lieux sous les mers").replaceAll("elle", "cette grosse pute");
+		String texteCesures = getTextFromFile("ressources/textes/20 000 lieux sous les mers").replaceAll("elle",
+				"cette grosse pute");
 		textHandler = new TextHandler(texteCesures);
 
 		this.setLayout(new BorderLayout());
@@ -49,22 +51,21 @@ public class Panneau extends JPanel {
 		editorPane = new TextPane();
 		editorPane.setEditable(false);
 		editorPane.addMouseListener(controlerMouse);
-		editorPane.addMouseMotionListener(controlerMouse);
 		this.add(editorPane, BorderLayout.CENTER);
-		
+
 		/// construit la mise en page virtuelle ///
 		buildPages(FenetreParametre.premierSegment - 1);
 		/// affiche la première page ///
 		afficherPageSuivante();
 		/// calcule le nombre de pages total ///
 		nbPages = segmentsEnFonctionDeLaPage.size();
-		
+
 		/// initialise le lecteur et le démarre ///
 		player = new Player(textHandler);
 		player.goTo(FenetreParametre.premierSegment - 1);
-		//player.play();
-		
-		new ControlFrame(player);
+		// player.play();
+
+		controlFrame = new ControlFrame(player);
 	}
 
 	/**
@@ -103,7 +104,12 @@ public class Panneau extends JPanel {
 
 	public void buildPages(int startPhrase) {
 		segmentsEnFonctionDeLaPage.clear();
+<<<<<<< HEAD
+		float maxArea = ((getWidth() - 4 * Constants.TEXTPANE_MARGING) * (getHeight() - 4 * Constants.TEXTPANE_MARGING))
+				/ editorPane.getSpacingFactor();
+=======
 		float maxArea = ((getWidth() - 4 * Constants.TEXTPANE_MARGING) * (getHeight() - 4 * Constants.TEXTPANE_MARGING)) / editorPane.getSpacingFactor();
+>>>>>>> 35aa0e4b554a9d931fdf921c818f3c2c3452acc9
 		int segment = startPhrase;
 		int numPage = 1;
 		while (segment < textHandler.getPhrasesCount()) {
@@ -184,6 +190,15 @@ public class Panneau extends JPanel {
 		}
 		fenetre.setVisible(false);
 		new FenetreParametre("Dialogo", 500, 500);
+	}
+	
+	/**
+	 *   Colorie le segment numero n en couleur c
+	 */
+	public void surlignerSegment(Color c, int n) {	
+		int debutRelatifSegment = textHandler.getRelativeStartPhrasePosition(FenetreParametre.premierSegment-1,n);
+		int finRelativeSegment = debutRelatifSegment + textHandler.getPhrase(n).length();
+		editorPane.surlignerPhrase(debutRelatifSegment, finRelativeSegment, Constants.RIGHT_COLOR);
 	}
 
 }

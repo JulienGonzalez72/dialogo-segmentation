@@ -68,6 +68,15 @@ public class Panneau extends JPanel {
 				setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));		
 			}
 		});
+		player.onPhraseEnd.add(new Runnable() {		
+			@Override
+			public void run() {
+				Toolkit tk = Toolkit.getDefaultToolkit();
+				Image img = tk.getImage("parler.png");
+				Cursor monCurseur = tk.createCustomCursor(img, new Point(16, 16), "parler.png");
+				setCursor(monCurseur);		
+			}
+		});
 		player.onPlay.add(new Runnable() {		
 			@Override
 			public void run() {

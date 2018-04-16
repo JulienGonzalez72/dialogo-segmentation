@@ -57,7 +57,7 @@ public class FenetreParametre extends JFrame {
 		public PanneauParam() {
 			fen = FenetreParametre.this;
 			setLayout(new GridLayout(18, 1));
-			JLabel titre = fastLabel("Choississez vos parametres");
+			JLabel titre = fastLabel("Choisissez vos parametres");
 			titre.setBorder(BorderFactory.createLineBorder(Color.blue, 2));
 			add(titre);
 
@@ -110,6 +110,7 @@ public class FenetreParametre extends JFrame {
 			listeCouleurs.addActionListener(controleur);
 			listeCouleurs.setBackground(new Color(255, 255, 150));
 			listeCouleurs.setFont(new Font("OpenDyslexic", Font.PLAIN, 15));
+			
 
 			segmentDeDepart = fastTextField("", new Font("OpenDyslexic", Font.PLAIN, 15), "1");
 			segmentDeDepart.addActionListener(controleur);
@@ -141,7 +142,7 @@ public class FenetreParametre extends JFrame {
 		    sliderAttente = new JSlider();	    
 		    sliderAttente.setMaximum(300);
 		    sliderAttente.setMinimum(100);
-		    sliderAttente.setValue(150);
+		    sliderAttente.setValue(110);
 		    sliderAttente.setPaintTicks(true);
 		    sliderAttente.setPaintLabels(true);
 		    sliderAttente.setMinorTickSpacing(10);

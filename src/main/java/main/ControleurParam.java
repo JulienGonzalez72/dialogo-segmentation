@@ -44,6 +44,7 @@ public class ControleurParam implements ActionListener, ChangeListener {
 				color = Color.CYAN;
 			}
 			panneau.listeCouleurs.setBackground(FenetreParametre.couleurFond = color);
+			panneau.grabFocus();
 		}
 		if (jcb == panneau.listeTailles) {
 			int taille = Integer.valueOf((String) jcb.getSelectedItem());

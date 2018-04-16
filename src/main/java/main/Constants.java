@@ -33,5 +33,8 @@ public final class Constants {
 	
 	public static final String TEXT_FILE_NAME = "Amélie la sorcière.txt";
 	public static final String AUDIO_FILE_NAME = "T Amélie la sorcière";
+	public static final boolean HAS_INSTRUCTIONS = true;
+	
+	public static final long LEFT_DELAY = 500;
 	
 }

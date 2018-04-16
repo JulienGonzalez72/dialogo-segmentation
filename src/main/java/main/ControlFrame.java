@@ -31,6 +31,7 @@ public class ControlFrame extends JFrame {
 		setSize(250, 90);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setFocusableWindowState(false);
 		setVisible(true);
 		
 		panel.add(previousButton);

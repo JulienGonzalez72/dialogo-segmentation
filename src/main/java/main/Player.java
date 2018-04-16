@@ -21,18 +21,23 @@ public class Player {
 	private Timer timer;
 	private PlayTask playTask;
 	private WaitTask waitTask;
-	
+
 	private Clip clip;
 	private long lastPosition;
-	
+
 	public List<Runnable> onPhraseEnd = new ArrayList<>();
 	public List<Runnable> onNextPhrase = new ArrayList<>();
 	public List<Runnable> onPlay = new ArrayList<>();
 	/**
-	 * Ecouteurs qui s'enclenchent lorsque le temps de pause après la fin de l'enregistrement se termine.
+	 * Ecouteurs qui s'enclenchent lorsque le temps de pause après la fin de
+	 * l'enregistrement se termine.
 	 */
 	public List<Runnable> onBlockEnd = new ArrayList<>();
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> 4787bdac13dd0bc0a8b1d8e67f7e894fba4dd58c
 	public Player(TextHandler textHandler) {
 		text = textHandler;
 	}
@@ -40,13 +45,21 @@ public class Player {
 	public Player(AudioInputStream audioStream) {
 
 	}
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> 4787bdac13dd0bc0a8b1d8e67f7e894fba4dd58c
 	/**
 	 * Démarre la lecture (n'a aucun effet si la lecture est déjà démarrée).
 	 */
 	public void play() {
-		if (playing)
+		if (playing) {
 			return;
+<<<<<<< HEAD
+=======
+		}
+>>>>>>> 4787bdac13dd0bc0a8b1d8e67f7e894fba4dd58c
 		try {
 			clip = AudioSystem.getClip();
 			clip.open(getAudioStream(Constants.AUDIO_FILE_NAME, currentPhrase));
@@ -79,12 +92,13 @@ public class Player {
 			}
 		}
 	}
-	
+
 	private class WaitTask extends TimerTask {
 		private long time;
+
 		public void run() {
 			time += 20;
-			
+
 			/// fin du blocage ///
 			if (blocked && time > clip.getMicrosecondPosition() / 1000) {
 				blocked = false;
@@ -116,7 +130,7 @@ public class Player {
 		stop();
 		lastPosition = clip.getMicrosecondPosition();
 	}
-	
+
 	/**
 	 * Indique si le segment a finis d'être prononcé.
 	 */
@@ -204,7 +218,12 @@ public class Player {
 
 	private static AudioInputStream getAudioStream(String fileName, int n) {
 		try {
+<<<<<<< HEAD
 			return AudioSystem.getAudioInputStream(new File("ressources/sounds/" + fileName + "/" + fileName + "(" + format(n + 1) + ").wav"));
+=======
+			return AudioSystem.getAudioInputStream(
+					new File("ressources/sounds/" + fileName + "/" + fileName + "(" + format(n + 1) + ").wav"));
+>>>>>>> 4787bdac13dd0bc0a8b1d8e67f7e894fba4dd58c
 		} catch (UnsupportedAudioFileException | IOException e) {
 			e.printStackTrace();
 			return null;

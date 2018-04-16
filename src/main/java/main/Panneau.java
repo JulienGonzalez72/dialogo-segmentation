@@ -32,7 +32,7 @@ public class Panneau extends JPanel {
 
 	public Panneau(JFrame fenetre) throws IOException {
 		this.fenetre = fenetre;
-		String texteCesures = getTextFromFile("ressources/textes/20 000 lieux sous les mers");
+		String texteCesures = getTextFromFile("ressources/textes/20 000 lieux sous les mers").replaceAll("elle", "cette grosse pute");
 		textHandler = new TextHandler(texteCesures);
 
 		this.setLayout(new BorderLayout());

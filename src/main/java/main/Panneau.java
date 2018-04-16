@@ -63,6 +63,18 @@ public class Panneau extends JPanel {
 
 		/// initialise le lecteur et le démarre ///
 		player = new Player(textHandler);
+		player.onPhraseEnd.add(new Runnable() {		
+			@Override
+			public void run() {
+				setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));		
+			}
+		});
+		player.onPlay.add(new Runnable() {		
+			@Override
+			public void run() {
+				setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));		
+			}
+		});
 		player.goTo(FenetreParametre.premierSegment - 1);
 		// player.play();
 

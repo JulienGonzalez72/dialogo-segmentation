@@ -43,7 +43,6 @@ public class ControlerGlobal {
 	 */
 	public boolean waitForClick(int nbTry, MouseEvent e, TextHandler handler) {
 		boolean r = false;
-		p.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		// on ne fait rien en cas de triple clic
 		// on ne fait rien si la phrase est en cours de lecture
 		if (p.player.isPhraseFinished() && e.getClickCount() < 2) {

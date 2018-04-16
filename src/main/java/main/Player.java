@@ -19,7 +19,6 @@ public class Player {
 	private boolean playing, blocked;
 
 	private Timer timer;
-<<<<<<< HEAD
 	private PlayTask playTask;
 	private WaitTask waitTask;
 	
@@ -34,16 +33,6 @@ public class Player {
 	 */
 	public List<Runnable> onBlockEnd = new ArrayList<>();
 	
-=======
-	private PlayTask currentTask;
-
-	private Clip clip;
-
-	public List<Runnable> onPhraseEnd = new ArrayList<>();
-	public List<Runnable> onNextPhrase = new ArrayList<>();
-	public List<Runnable> onPlay = new ArrayList<>();
-
->>>>>>> 7f22890932cfc28b2329d634c0514304c18eb641
 	public Player(TextHandler textHandler) {
 		text = textHandler;
 	}
@@ -51,7 +40,6 @@ public class Player {
 	public Player(AudioInputStream audioStream) {
 
 	}
-<<<<<<< HEAD
 	
 	/**
 	 * Démarre la lecture (n'a aucun effet si la lecture est déjà démarrée).
@@ -59,15 +47,6 @@ public class Player {
 	public void play() {
 		if (playing)
 			return;
-		stop();
-=======
-
-	public void play() {
-		// stop();
-		for (Runnable r : onPlay) {
-			r.run();
-		}
->>>>>>> 7f22890932cfc28b2329d634c0514304c18eb641
 		try {
 			clip = AudioSystem.getClip();
 			clip.open(getAudioStream(Constants.AUDIO_FILE_NAME, currentPhrase));
@@ -86,15 +65,7 @@ public class Player {
 	}
 
 	private class PlayTask extends TimerTask {
-<<<<<<< HEAD
 		public void run() {
-=======
-		private long time;
-
-		public void run() {
-			time += 20;
-
->>>>>>> 7f22890932cfc28b2329d634c0514304c18eb641
 			/// fin de la phrase ///
 			if (isPhraseFinished()) {
 				stop();
@@ -105,7 +76,6 @@ public class Player {
 				for (Runnable r : onPhraseEnd) {
 					r.run();
 				}
-<<<<<<< HEAD
 			}
 		}
 	}
@@ -124,21 +94,6 @@ public class Player {
 				}
 			}
 		}
-=======
-				stop();
-			}
-
-			/// simule une lecture de caractère ///
-			else if (time % Constants.PLAYER_INTERVAL == 0) {
-				System.out.print(getCurrentPhrase().charAt(currentCharacter));
-				nextCharacter();
-			}
-		}
-	}
-
-	private void nextCharacter() {
-		currentCharacter++;
->>>>>>> 7f22890932cfc28b2329d634c0514304c18eb641
 	}
 
 	/**
@@ -151,12 +106,6 @@ public class Player {
 		if (clip != null) {
 			clip.stop();
 		}
-<<<<<<< HEAD
-=======
-		if (clip != null) {
-			clip.stop();
-		}
->>>>>>> 7f22890932cfc28b2329d634c0514304c18eb641
 		playing = false;
 	}
 
@@ -212,18 +161,14 @@ public class Player {
 			r.run();
 		}
 		currentPhrase++;
-<<<<<<< HEAD
 		repeat();
-=======
-		// play();
->>>>>>> 7f22890932cfc28b2329d634c0514304c18eb641
 	}
 
 	/**
 	 * Retourne true si il reste au moins un segment à lire.
 	 */
 	public boolean hasNextPhrase() {
-		return currentPhrase < text.getPhrasesCount() - 1;
+		return currentPhrase < text.getPhrasesCount() - 2;
 	}
 
 	/**
@@ -231,11 +176,7 @@ public class Player {
 	 */
 	public void previousPhrase() {
 		currentPhrase--;
-<<<<<<< HEAD
 		repeat();
-=======
-		// play();
->>>>>>> 7f22890932cfc28b2329d634c0514304c18eb641
 	}
 
 	/**
@@ -249,14 +190,8 @@ public class Player {
 	 * Recommence la phrase.
 	 */
 	public void repeat() {
-<<<<<<< HEAD
 		stop();
 		play();
-=======
-		System.out.println();
-		currentCharacter = 0;
-		// play();
->>>>>>> 7f22890932cfc28b2329d634c0514304c18eb641
 	}
 
 	/**
@@ -269,12 +204,7 @@ public class Player {
 
 	private static AudioInputStream getAudioStream(String fileName, int n) {
 		try {
-<<<<<<< HEAD
 			return AudioSystem.getAudioInputStream(new File("ressources/sounds/" + fileName + "/" + fileName + "(" + format(n + 1) + ").wav"));
-=======
-			return AudioSystem
-					.getAudioInputStream(new File("ressources/sounds/" + fileName + "(" + format(n) + ").wav"));
->>>>>>> 7f22890932cfc28b2329d634c0514304c18eb641
 		} catch (UnsupportedAudioFileException | IOException e) {
 			e.printStackTrace();
 			return null;

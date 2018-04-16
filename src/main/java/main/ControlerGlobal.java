@@ -22,7 +22,7 @@ public class ControlerGlobal {
 	}
 
 	/**
-	 * Construire les pages à partir du segment de numero spécifié
+	 * Construit les pages à partir du segment de numero spécifié
 	 */
 	public void buildPages(int startPhrase) {
 		p.buildPages(startPhrase);
@@ -178,7 +178,7 @@ public class ControlerGlobal {
 	}
 
 	/**
-	 * retourne la apge qui contient le segment, ou -1 si le segment n'existe pas
+	 * retourne la page qui contient le segment, ou -1 si le segment n'existe pas
 	 */
 	private int getPageOfPhrase(int n) {
 		int numeroPage = -1;

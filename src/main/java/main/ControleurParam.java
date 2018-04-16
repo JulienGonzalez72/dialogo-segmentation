@@ -9,8 +9,10 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
-public class ControleurParam implements ActionListener {
+public class ControleurParam implements ActionListener, ChangeListener {
 
 	FenetreParametre.PanneauParam panneau;
 
@@ -69,7 +71,7 @@ public class ControleurParam implements ActionListener {
 			if (FenetreParametre.modeSurlignage) {
 				if (FenetreParametre.fen.fenetre.pan.player != null) {
 					FenetreParametre.fen.fenetre.pan.surlignerJusquaSegment(Constants.RIGHT_COLOR,
-							FenetreParametre.fen.fenetre.pan.player.getCurrentPhraseIndex()-1);
+							FenetreParametre.fen.fenetre.pan.player.getCurrentPhraseIndex() - 1);
 				}
 			} else {
 				if (FenetreParametre.editorPane != null) {
@@ -78,8 +80,7 @@ public class ControleurParam implements ActionListener {
 			}
 		}
 		if (arg0.getSource() == panneau.valider) {
-			//on reactive l'exercice
-			FenetreParametre.fen.fenetre.setEnabled(true);
+			// si on a pas encore lancé l'exercice
 			if (FenetreParametre.editorPane == null) {
 				try {
 					FenetreParametre.nbFautesTolerees = Math.max(0,
@@ -96,7 +97,11 @@ public class ControleurParam implements ActionListener {
 				}
 				FenetreParametre.fen.lancerExercice();
 				panneau.fermer();
+			// si on a deja lancé l'exercice
 			} else {
+				// on reactive l'exercice
+				FenetreParametre.fen.fenetre.setEnabled(true);
+				FenetreParametre.fen.fenetre.pan.controlFrame.setEnabled(true);
 				panneau.fermer();
 				Panneau.premierSegment = FenetreParametre.premierSegment;
 				FenetreParametre.editorPane.setBackground(FenetreParametre.couleurFond);
@@ -122,6 +127,13 @@ public class ControleurParam implements ActionListener {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public void stateChanged(ChangeEvent arg0) {
+		if (arg0.getSource() == panneau.sliderAttente) {
+			FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture = panneau.sliderAttente.getValue();
+		}
 	}
 
 }

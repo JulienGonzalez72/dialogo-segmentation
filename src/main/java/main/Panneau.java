@@ -6,9 +6,6 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 
 public class Panneau extends JPanel {
@@ -37,7 +34,7 @@ public class Panneau extends JPanel {
 	public Panneau(JFrame fenetre) throws IOException {
 		this.controlerGlobal = new ControlerGlobal(this);
 		this.fenetre = fenetre;
-		String texteCesures = getTextFromFile("ressources/textes/" + Constants.AUDIO_FILE_NAME);
+		String texteCesures = getTextFromFile("ressources/textes/" + Constants.TEXT_FILE_NAME);
 		textHandler = new TextHandler(texteCesures);
 
 		this.setLayout(new BorderLayout());
@@ -78,11 +75,8 @@ public class Panneau extends JPanel {
 			}
 		});
 		player.goTo(FenetreParametre.premierSegment - 1);
-		// player.play();
-
 		controlFrame = new ControlFrame(player);
 	}
-
 
 	/**
 	 * retourne le contenu du fichier .txt situé à l'emplacement du paramètre

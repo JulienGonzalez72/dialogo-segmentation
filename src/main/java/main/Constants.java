@@ -1,10 +1,6 @@
 package main;
 
 import java.awt.Color;
-import java.io.File;
-
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
 
 public final class Constants {
 

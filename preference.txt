@@ -6,4 +6,4 @@ taillePolice:36
 typePolice:Arial Gras
 couleur:255/255/150
 modeSurlignage:true
-tempsAttente:300
+tempsAttente:100

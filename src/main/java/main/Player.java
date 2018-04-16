@@ -33,11 +33,7 @@ public class Player {
 	 * l'enregistrement se termine.
 	 */
 	public List<Runnable> onBlockEnd = new ArrayList<>();
-<<<<<<< HEAD
-	
-=======
 
->>>>>>> 4787bdac13dd0bc0a8b1d8e67f7e894fba4dd58c
 	public Player(TextHandler textHandler) {
 		text = textHandler;
 	}
@@ -45,21 +41,14 @@ public class Player {
 	public Player(AudioInputStream audioStream) {
 
 	}
-<<<<<<< HEAD
-	
-=======
 
->>>>>>> 4787bdac13dd0bc0a8b1d8e67f7e894fba4dd58c
 	/**
 	 * Démarre la lecture (n'a aucun effet si la lecture est déjà démarrée).
 	 */
 	public void play() {
 		if (playing) {
 			return;
-<<<<<<< HEAD
-=======
 		}
->>>>>>> 4787bdac13dd0bc0a8b1d8e67f7e894fba4dd58c
 		try {
 			clip = AudioSystem.getClip();
 			clip.open(getAudioStream(Constants.AUDIO_FILE_NAME, currentPhrase));
@@ -218,12 +207,8 @@ public class Player {
 
 	private static AudioInputStream getAudioStream(String fileName, int n) {
 		try {
-<<<<<<< HEAD
-			return AudioSystem.getAudioInputStream(new File("ressources/sounds/" + fileName + "/" + fileName + "(" + format(n + 1) + ").wav"));
-=======
 			return AudioSystem.getAudioInputStream(
 					new File("ressources/sounds/" + fileName + "/" + fileName + "(" + format(n + 1) + ").wav"));
->>>>>>> 4787bdac13dd0bc0a8b1d8e67f7e894fba4dd58c
 		} catch (UnsupportedAudioFileException | IOException e) {
 			e.printStackTrace();
 			return null;

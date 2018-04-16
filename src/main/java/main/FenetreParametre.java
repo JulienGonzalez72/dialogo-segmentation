@@ -139,7 +139,7 @@ public class FenetreParametre extends JFrame {
 			champNbFautesTolerees = fastTextField("", new Font("OpenDyslexic", Font.PLAIN, 15), "2");
 			champNbFautesTolerees.addActionListener(controleur);
 
-			modeSurlignage = new JCheckBox("Mode lecture guidée");
+			modeSurlignage = new JCheckBox("Mode surlignage vert");
 			modeSurlignage.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
 			modeSurlignage.addActionListener(controleur);
 
@@ -252,9 +252,11 @@ public class FenetreParametre extends JFrame {
 						}
 						break;
 					case 7:
+						FenetreParametre.modeSurlignage = Boolean.valueOf(ligne.split(":")[1]);
 						modeSurlignage.setSelected(Boolean.valueOf(ligne.split(":")[1]));
 						break;
 					case 8:
+						FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture = Integer.valueOf(ligne.split(":")[1]);
 						sliderAttente.setValue(Integer.valueOf(ligne.split(":")[1]));
 						break;
 					default:

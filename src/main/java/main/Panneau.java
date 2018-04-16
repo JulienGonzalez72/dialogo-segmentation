@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 
 public class Panneau extends JPanel {
@@ -60,12 +62,18 @@ public class Panneau extends JPanel {
 		nbPages = segmentsEnFonctionDeLaPage.size();
 
 		/// initialise le lecteur et le démarre ///
-		player = new Player(textHandler);
+		try {
+			player = new Player(AudioSystem.getAudioInputStream(new File("ressources/sounds/")));
+		} catch (UnsupportedAudioFileException | IOException e) {
+			e.printStackTrace();
+		}
 		player.goTo(FenetreParametre.premierSegment - 1);
 		// player.play();
 
 		controlFrame = new ControlFrame(player);
 	}
+	
+	public AudioInputStream readSound(int )
 
 	/**
 	 * retourne le contenu du fichier .txt situé à l'emplacement du paramètre

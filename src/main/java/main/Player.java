@@ -27,24 +27,19 @@ public class Player {
 	
 	public Player(TextHandler textHandler) {
 		text = textHandler;
-		try {
-			clip = AudioSystem.getClip();
-		} catch (LineUnavailableException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	public Player(AudioInputStream audioStream) {
 		
 	}
 	
-	public void play() {
+	public void play(AudioInputStream audioStream) {
 		stop();
 		try {
-			AudioInputStream is = AudioSystem.getAudioInputStream(new File("ressources/sounds/T Amélie la sorcière/T Amélie la sorcière(001).wav"));
-			clip.open(is);
+			clip = AudioSystem.getClip();
+			clip.open(audioStream);
 			clip.start();
-		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+		} catch (LineUnavailableException | IOException e) {
 			e.printStackTrace();
 		}
 		timer = new Timer();
@@ -84,6 +79,7 @@ public class Player {
 		if (timer != null) {
 			timer.cancel();
 		}
+		clip.stop();
 		playing = false;
 	}
 	
@@ -131,7 +127,7 @@ public class Player {
 		System.out.println();
 		currentCharacter = 0;
 		currentPhrase++;
-		play();
+		//play();
 	}
 	
 	/**
@@ -148,7 +144,7 @@ public class Player {
 		System.out.println();
 		currentCharacter = 0;
 		currentPhrase--;
-		play();
+		//play();
 	}
 	
 	/**
@@ -164,7 +160,7 @@ public class Player {
 	public void repeat() {
 		System.out.println();
 		currentCharacter = 0;
-		play();
+		//play();
 	}
 	
 	/**
@@ -174,6 +170,10 @@ public class Player {
 		stop();
 		currentPhrase = index;
 		currentCharacter = 0;
+	}
+	
+	public static AudioInputStream getAudioStream(String fileName) {
+		return AudioSystem.getAudioInputStream(new File(arg0))
 	}
 	
 }

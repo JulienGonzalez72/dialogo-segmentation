@@ -1,4 +1,4 @@
-package main;
+ package main;
 
 import java.awt.Color;
 import java.awt.FontMetrics;
@@ -88,5 +88,5 @@ public class TextPane extends JTextPane {
 		FontMetrics fm = getFontMetrics(getFont());
 		return (float) (1f + fm.getHeight() / getTextBounds("|").getHeight());
 	}
-
+	
 }

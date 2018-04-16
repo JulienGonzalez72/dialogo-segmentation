@@ -1,5 +1,6 @@
 package main;
 
+<<<<<<< HEAD
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -8,6 +9,8 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.Toolkit;
+=======
+>>>>>>> 8660b5130a98fc14169630e939057d8807694a5a
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -29,6 +32,7 @@ public class ControlerMouse implements MouseListener, MouseMotionListener {
 	}
 
 	public void mousePressed(MouseEvent e) {
+<<<<<<< HEAD
 		// on ne fait rien en cas de triple clic
 		// on ne fait rien si le clic est sur un mot déjà surligné en vert
 		// if (view.editorPane.getCaretPosition() >
@@ -102,6 +106,9 @@ public class ControlerMouse implements MouseListener, MouseMotionListener {
 		} else {
 			view.player.nextPhrase();
 		}
+=======
+		view.controlerGlobal.waitForClick(view.nbEssaisRestantPourLeSegmentCourant,e,handler);
+>>>>>>> 8660b5130a98fc14169630e939057d8807694a5a
 	}
 
 	public void mouseEntered(MouseEvent e) {

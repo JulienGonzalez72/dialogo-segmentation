@@ -27,6 +27,7 @@ public class Panneau extends JPanel {
 	public int nbErreurs;
 	public JFrame fenetre;
 	public JFrame controlFrame;
+	public ControlerGlobal controlerGlobal;
 
 	public Map<Integer, List<Integer>> segmentsEnFonctionDeLaPage = new HashMap<Integer, List<Integer>>();
 
@@ -34,8 +35,13 @@ public class Panneau extends JPanel {
 	public Player player;
 
 	public Panneau(JFrame fenetre) throws IOException {
+		this.controlerGlobal = new ControlerGlobal(this);
 		this.fenetre = fenetre;
+<<<<<<< HEAD
 		String texteCesures = getTextFromFile("ressources/textes/" + Constants.AUDIO_FILE_NAME);
+=======
+		String texteCesures = getTextFromFile("ressources/textes/20 000 lieux sous les mers");
+>>>>>>> 8660b5130a98fc14169630e939057d8807694a5a
 		textHandler = new TextHandler(texteCesures);
 
 		this.setLayout(new BorderLayout());
@@ -62,11 +68,27 @@ public class Panneau extends JPanel {
 		nbPages = segmentsEnFonctionDeLaPage.size();
 
 		/// initialise le lecteur et le démarre ///
+<<<<<<< HEAD
 		try {
 			player = new Player(AudioSystem.getAudioInputStream(new File("ressources/sounds/")));
 		} catch (UnsupportedAudioFileException | IOException e) {
 			e.printStackTrace();
 		}
+=======
+		player = new Player(textHandler);
+		player.onPhraseEnd.add(new Runnable() {		
+			@Override
+			public void run() {
+				setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));		
+			}
+		});
+		player.onPlay.add(new Runnable() {		
+			@Override
+			public void run() {
+				setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));		
+			}
+		});
+>>>>>>> 8660b5130a98fc14169630e939057d8807694a5a
 		player.goTo(FenetreParametre.premierSegment - 1);
 		// player.play();
 
@@ -194,14 +216,27 @@ public class Panneau extends JPanel {
 		fenetre.setVisible(false);
 		new FenetreParametre("Dialogo", 500, 500);
 	}
+
+	/**
+	 * Colorie le segment numero n en couleur c
+	 */
+	public void surlignerSegment(Color c, int n) {
+		if (textHandler.getPhrase(n) != null) {
+			int debutRelatifSegment = textHandler.getRelativeStartPhrasePosition(FenetreParametre.premierSegment - 1,n);
+			int finRelativeSegment = debutRelatifSegment + textHandler.getPhrase(n).length();
+			editorPane.surlignerPhrase(debutRelatifSegment, finRelativeSegment, Constants.RIGHT_COLOR);
+		}
+	}
 	
 	/**
-	 *   Colorie le segment numero n en couleur c
+	 * Colorie tout jusqu'au segment n en couleur c
 	 */
-	public void surlignerSegment(Color c, int n) {	
-		int debutRelatifSegment = textHandler.getRelativeStartPhrasePosition(FenetreParametre.premierSegment-1,n);
-		int finRelativeSegment = debutRelatifSegment + textHandler.getPhrase(n).length();
-		editorPane.surlignerPhrase(debutRelatifSegment, finRelativeSegment, Constants.RIGHT_COLOR);
+	public void surlignerJusquaSegment(Color c, int n) {
+		if (textHandler.getPhrase(n) != null) {
+			int debutRelatifSegment = textHandler.getRelativeStartPhrasePosition(FenetreParametre.premierSegment - 1,n);
+			int finRelativeSegment = debutRelatifSegment + textHandler.getPhrase(n).length();
+			editorPane.surlignerPhrase(0, finRelativeSegment, Constants.RIGHT_COLOR);
+		}
 	}
 
 }

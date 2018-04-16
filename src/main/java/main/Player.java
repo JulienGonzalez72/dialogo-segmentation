@@ -1,6 +1,8 @@
 package main;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -22,8 +24,9 @@ public class Player {
 	
 	private Clip clip;
 	
-	public Runnable onPhraseEnd;
-	public Runnable onNextPhrase;
+	public List<Runnable> onPhraseEnd = new ArrayList<>();
+	public List<Runnable> onNextPhrase = new ArrayList<>();
+	public List<Runnable> onPlay = new ArrayList<>();
 	
 	public Player(TextHandler textHandler) {
 		text = textHandler;
@@ -33,11 +36,14 @@ public class Player {
 		
 	}
 	
-	public void play(AudioInputStream audioStream) {
-		stop();
+	public void play() {
+		//stop();
+		for (Runnable r : onPlay) {
+			r.run();
+		}
 		try {
 			clip = AudioSystem.getClip();
-			clip.open(audioStream);
+			clip.open(getAudioStream(Constants.AUDIO_FILE_NAME, currentPhrase));
 			clip.start();
 		} catch (LineUnavailableException | IOException e) {
 			e.printStackTrace();
@@ -55,8 +61,9 @@ public class Player {
 			
 			/// fin de la phrase ///
 			if (isPhraseFinished()) {
-				if (onPhraseEnd != null)
-					onPhraseEnd.run();
+				for (Runnable r : onPhraseEnd) {
+					r.run();
+				}
 				stop();
 			}
 			
@@ -122,8 +129,9 @@ public class Player {
 	 * Passe au segment suivant et démarre le lecteur.
 	 */
 	public void nextPhrase() {
-		if (onNextPhrase != null)
-			onNextPhrase.run();
+		for (Runnable r : onNextPhrase) {
+			r.run();
+		}
 		System.out.println();
 		currentCharacter = 0;
 		currentPhrase++;
@@ -172,8 +180,21 @@ public class Player {
 		currentCharacter = 0;
 	}
 	
-	public static AudioInputStream getAudioStream(String fileName) {
-		return AudioSystem.getAudioInputStream(new File(arg0))
+	private static AudioInputStream getAudioStream(String fileName, int n) {
+		try {
+			return AudioSystem.getAudioInputStream(new File("ressources/sounds/" + fileName + "(" + format(n) + ").wav"));
+		} catch (UnsupportedAudioFileException | IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	private static String format(int n) {
+		String str = String.valueOf(n);
+		for (int i = str.length(); i < 3; i++) {
+			str = "0" + str;
+		}
+		return str;
 	}
 	
 }

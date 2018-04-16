@@ -73,9 +73,9 @@ public class ControlFrame extends JFrame {
 			}
 		});
 		
-		player.onPhraseEnd = () -> {
+		player.onPhraseEnd.add(() -> {
 			playButton.setIcon(new ImageIcon(playIcon));
-		};
+		});
 	}
 	
 	public void updateButtons() {

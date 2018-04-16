@@ -122,7 +122,7 @@ public class FenetreParametre extends JFrame {
 			champNbFautesTolerees = fastTextField("", new Font("OpenDyslexic", Font.PLAIN, 15), "2");
 			champNbFautesTolerees.addActionListener(controleur);
 
-			modeSurlignage = new JCheckBox("Mode surlignage");
+			modeSurlignage = new JCheckBox("Mode lecture guidée");
 			modeSurlignage.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
 			modeSurlignage.addActionListener(controleur);
 

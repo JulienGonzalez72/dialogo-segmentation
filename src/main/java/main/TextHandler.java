@@ -181,7 +181,7 @@ public class TextHandler {
 		return offset - getPhrasesLength(0, startPhrase - 1);
 	}
 
-	private int getPhrasesLength(int startPhrase, int endPhrase) {
+	public int getPhrasesLength(int startPhrase, int endPhrase) {
 		int length = 0;
 		for (String phrase : getPhrases(startPhrase, endPhrase)) {
 			length += phrase.length();

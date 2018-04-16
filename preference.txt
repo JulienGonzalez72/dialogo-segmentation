@@ -1,18 +1,8 @@
 w:1000
-<<<<<<< HEAD
 h:600
-<<<<<<< HEAD
-x:425
-y:80
-taillePolice:36
-=======
-=======
-h:500
->>>>>>> b774bccd99a9dc495b2332bd36a29c1cd0a5a143
-x:460
-y:265
-taillePolice:24
->>>>>>> 584df03c9cc193d44d4ce1c438cd02095434e722
+x:694
+y:257
+taillePolice:12
 typePolice:OpenDyslexic Bold
 couleur:255/255/150
 modeSurlignage:false

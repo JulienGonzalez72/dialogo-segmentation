@@ -37,7 +37,7 @@ public class FenetreParametre extends JFrame {
 		PanneauParam pan = new PanneauParam();
 		setContentPane(pan);
 		setVisible(true);
-		fenetre = new Fenetre(titre, tailleX * 2, tailleY);
+		fenetre = new Fenetre(titre, tailleX * 2, tailleY); 
 	}
 
 

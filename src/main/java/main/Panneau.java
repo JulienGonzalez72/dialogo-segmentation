@@ -62,7 +62,7 @@ public class Panneau extends JPanel {
 
 		/// initialise le lecteur et le démarre ///
 		player = new Player(textHandler);
-		player.onPhraseEnd.add(new Runnable() {		
+		player.onBlockEnd.add(new Runnable() {		
 			@Override
 			public void run() {
 				setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));		
@@ -71,7 +71,10 @@ public class Panneau extends JPanel {
 		player.onPlay.add(new Runnable() {		
 			@Override
 			public void run() {
-				setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));		
+				Toolkit tk = Toolkit.getDefaultToolkit();
+				Image img = tk.getImage("ecouter.png");
+				Cursor monCurseur = tk.createCustomCursor(img, new Point(16, 16), "ecouter.png");
+				setCursor(monCurseur);	
 			}
 		});
 		player.goTo(FenetreParametre.premierSegment - 1);

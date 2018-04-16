@@ -19,31 +19,21 @@ public class Player {
 	private boolean playing, blocked;
 
 	private Timer timer;
-<<<<<<< HEAD
 	private PlayTask playTask;
 	private WaitTask waitTask;
-	
+
 	private Clip clip;
 	private long lastPosition;
-	
+
 	public List<Runnable> onPhraseEnd = new ArrayList<>();
 	public List<Runnable> onNextPhrase = new ArrayList<>();
 	public List<Runnable> onPlay = new ArrayList<>();
 	/**
-	 * Ecouteurs qui s'enclenchent lorsque le temps de pause après la fin de l'enregistrement se termine.
+	 * Ecouteurs qui s'enclenchent lorsque le temps de pause après la fin de
+	 * l'enregistrement se termine.
 	 */
 	public List<Runnable> onBlockEnd = new ArrayList<>();
-	
-=======
-	private PlayTask currentTask;
 
-	private Clip clip;
-
-	public List<Runnable> onPhraseEnd = new ArrayList<>();
-	public List<Runnable> onNextPhrase = new ArrayList<>();
-	public List<Runnable> onPlay = new ArrayList<>();
-
->>>>>>> 7f22890932cfc28b2329d634c0514304c18eb641
 	public Player(TextHandler textHandler) {
 		text = textHandler;
 	}
@@ -51,23 +41,14 @@ public class Player {
 	public Player(AudioInputStream audioStream) {
 
 	}
-<<<<<<< HEAD
-	
+
 	/**
 	 * Démarre la lecture (n'a aucun effet si la lecture est déjà démarrée).
 	 */
 	public void play() {
-		if (playing)
+		if (playing) {
 			return;
-		stop();
-=======
-
-	public void play() {
-		// stop();
-		for (Runnable r : onPlay) {
-			r.run();
 		}
->>>>>>> 7f22890932cfc28b2329d634c0514304c18eb641
 		try {
 			clip = AudioSystem.getClip();
 			clip.open(getAudioStream(Constants.AUDIO_FILE_NAME, currentPhrase));
@@ -86,15 +67,7 @@ public class Player {
 	}
 
 	private class PlayTask extends TimerTask {
-<<<<<<< HEAD
 		public void run() {
-=======
-		private long time;
-
-		public void run() {
-			time += 20;
-
->>>>>>> 7f22890932cfc28b2329d634c0514304c18eb641
 			/// fin de la phrase ///
 			if (isPhraseFinished()) {
 				stop();
@@ -105,16 +78,16 @@ public class Player {
 				for (Runnable r : onPhraseEnd) {
 					r.run();
 				}
-<<<<<<< HEAD
 			}
 		}
 	}
-	
+
 	private class WaitTask extends TimerTask {
 		private long time;
+
 		public void run() {
 			time += 20;
-			
+
 			/// fin du blocage ///
 			if (blocked && time > clip.getMicrosecondPosition() / 1000) {
 				blocked = false;
@@ -124,21 +97,6 @@ public class Player {
 				}
 			}
 		}
-=======
-				stop();
-			}
-
-			/// simule une lecture de caractère ///
-			else if (time % Constants.PLAYER_INTERVAL == 0) {
-				System.out.print(getCurrentPhrase().charAt(currentCharacter));
-				nextCharacter();
-			}
-		}
-	}
-
-	private void nextCharacter() {
-		currentCharacter++;
->>>>>>> 7f22890932cfc28b2329d634c0514304c18eb641
 	}
 
 	/**
@@ -151,12 +109,6 @@ public class Player {
 		if (clip != null) {
 			clip.stop();
 		}
-<<<<<<< HEAD
-=======
-		if (clip != null) {
-			clip.stop();
-		}
->>>>>>> 7f22890932cfc28b2329d634c0514304c18eb641
 		playing = false;
 	}
 
@@ -167,7 +119,7 @@ public class Player {
 		stop();
 		lastPosition = clip.getMicrosecondPosition();
 	}
-	
+
 	/**
 	 * Indique si le segment a finis d'être prononcé.
 	 */
@@ -212,11 +164,7 @@ public class Player {
 			r.run();
 		}
 		currentPhrase++;
-<<<<<<< HEAD
 		repeat();
-=======
-		// play();
->>>>>>> 7f22890932cfc28b2329d634c0514304c18eb641
 	}
 
 	/**
@@ -231,11 +179,7 @@ public class Player {
 	 */
 	public void previousPhrase() {
 		currentPhrase--;
-<<<<<<< HEAD
 		repeat();
-=======
-		// play();
->>>>>>> 7f22890932cfc28b2329d634c0514304c18eb641
 	}
 
 	/**
@@ -249,14 +193,8 @@ public class Player {
 	 * Recommence la phrase.
 	 */
 	public void repeat() {
-<<<<<<< HEAD
 		stop();
 		play();
-=======
-		System.out.println();
-		currentCharacter = 0;
-		// play();
->>>>>>> 7f22890932cfc28b2329d634c0514304c18eb641
 	}
 
 	/**
@@ -269,12 +207,8 @@ public class Player {
 
 	private static AudioInputStream getAudioStream(String fileName, int n) {
 		try {
-<<<<<<< HEAD
-			return AudioSystem.getAudioInputStream(new File("ressources/sounds/" + fileName + "/" + fileName + "(" + format(n + 1) + ").wav"));
-=======
-			return AudioSystem
-					.getAudioInputStream(new File("ressources/sounds/" + fileName + "(" + format(n) + ").wav"));
->>>>>>> 7f22890932cfc28b2329d634c0514304c18eb641
+			return AudioSystem.getAudioInputStream(
+					new File("ressources/sounds/" + fileName + "/" + fileName + "(" + format(n + 1) + ").wav"));
 		} catch (UnsupportedAudioFileException | IOException e) {
 			e.printStackTrace();
 			return null;

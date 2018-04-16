@@ -227,7 +227,6 @@ public class FenetreParametre extends JFrame {
 						if (p.equals("Times New Roman") || p.equals("Times New Roman Gras")) {
 							index = 4;
 						}
-						System.out.println(p);
 						listePolices.setSelectedItem(polices[index]);
 						break;
 					case 6:

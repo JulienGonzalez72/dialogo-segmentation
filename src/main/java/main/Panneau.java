@@ -35,6 +35,10 @@ public class Panneau extends JPanel {
 		this.controlerGlobal = new ControlerGlobal(this);
 		this.fenetre = fenetre;
 		String texteCesures = getTextFromFile("ressources/textes/" + Constants.TEXT_FILE_NAME);
+		/// enlève la consigne ///
+		if (Constants.HAS_INSTRUCTIONS) {
+			texteCesures = texteCesures.substring(texteCesures.indexOf("/") + 1, texteCesures.length());
+		}
 		textHandler = new TextHandler(texteCesures);
 
 		this.setLayout(new BorderLayout());
@@ -79,6 +83,10 @@ public class Panneau extends JPanel {
 		});
 		player.goTo(FenetreParametre.premierSegment - 1);
 		controlFrame = new ControlFrame(player);
+		
+		ControlerKey controlerKey = new ControlerKey(player);
+		editorPane.addKeyListener(controlerKey);
+		editorPane.requestFocus();
 	}
 
 	/**

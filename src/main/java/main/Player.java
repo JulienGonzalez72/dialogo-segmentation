@@ -1,26 +1,52 @@
 package main;
 
+import java.io.*;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class Player {
 	
 	private TextHandler text;
 	private int currentPhrase;
 	private int currentCharacter;
-	private boolean playing;
+	private boolean playing, blocked;
 	
 	private Timer timer;
 	private PlayTask currentTask;
 	
+	private Clip clip;
+	
 	public Runnable onPhraseEnd;
+	public Runnable onNextPhrase;
 	
 	public Player(TextHandler textHandler) {
 		text = textHandler;
+		try {
+			clip = AudioSystem.getClip();
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public Player(AudioInputStream audioStream) {
+		
 	}
 	
 	public void play() {
 		stop();
+		try {
+			AudioInputStream is = AudioSystem.getAudioInputStream(new File("ressources/sounds/T Amélie la sorcière/T Amélie la sorcière(001).wav"));
+			clip.open(is);
+			clip.start();
+		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+			e.printStackTrace();
+		}
 		timer = new Timer();
 		currentTask = new PlayTask();
 		timer.scheduleAtFixedRate(currentTask, 0, 20);
@@ -76,6 +102,13 @@ public class Player {
 	}
 	
 	/**
+	 * Indique
+	 */
+	public boolean isBlocked() {
+		return blocked;
+	}
+	
+	/**
 	 * Retourne la phrase courante du lecteur, qu'elle soit finie d'être prononcée ou non.
 	 */
 	public String getCurrentPhrase() {
@@ -93,6 +126,8 @@ public class Player {
 	 * Passe au segment suivant et démarre le lecteur.
 	 */
 	public void nextPhrase() {
+		if (onNextPhrase != null)
+			onNextPhrase.run();
 		System.out.println();
 		currentCharacter = 0;
 		currentPhrase++;

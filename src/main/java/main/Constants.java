@@ -1,6 +1,10 @@
 package main;
 
 import java.awt.Color;
+import java.io.File;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
 
 public final class Constants {
 
@@ -30,5 +34,8 @@ public final class Constants {
 	 * Vitesse de lecture (en fréquence)
 	 */
 	public static final long PLAYER_INTERVAL = 20;
+	
+	public static final String TEXT_FILE_NAME = "Amélie la sorcière.txt";
+	public static final String AUDIO_FILE_NAME = "T Amélie la sorcière";
 	
 }

@@ -33,8 +33,7 @@ public class Panneau extends JPanel {
 
 	public Panneau(JFrame fenetre) throws IOException {
 		this.fenetre = fenetre;
-		String texteCesures = getTextFromFile("ressources/textes/20 000 lieux sous les mers").replaceAll("elle",
-				"cette grosse pute");
+		String texteCesures = getTextFromFile("ressources/textes/" + Constants.AUDIO_FILE_NAME);
 		textHandler = new TextHandler(texteCesures);
 
 		this.setLayout(new BorderLayout());
@@ -104,12 +103,8 @@ public class Panneau extends JPanel {
 
 	public void buildPages(int startPhrase) {
 		segmentsEnFonctionDeLaPage.clear();
-<<<<<<< HEAD
 		float maxArea = ((getWidth() - 4 * Constants.TEXTPANE_MARGING) * (getHeight() - 4 * Constants.TEXTPANE_MARGING))
 				/ editorPane.getSpacingFactor();
-=======
-		float maxArea = ((getWidth() - 4 * Constants.TEXTPANE_MARGING) * (getHeight() - 4 * Constants.TEXTPANE_MARGING)) / editorPane.getSpacingFactor();
->>>>>>> 35aa0e4b554a9d931fdf921c818f3c2c3452acc9
 		int segment = startPhrase;
 		int numPage = 1;
 		while (segment < textHandler.getPhrasesCount()) {

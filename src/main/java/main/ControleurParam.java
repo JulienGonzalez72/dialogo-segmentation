@@ -64,15 +64,22 @@ public class ControleurParam implements ActionListener {
 			int premierSegment = Integer.valueOf((String) jcb.getSelectedItem());
 			FenetreParametre.premierSegment = premierSegment;
 		}
-		if ( arg0.getSource() == panneau.modeSurlignage) {
+		if (arg0.getSource() == panneau.modeSurlignage) {
 			FenetreParametre.modeSurlignage = ((JCheckBox) arg0.getSource()).isSelected();
-			if ( FenetreParametre.modeSurlignage) {
-				FenetreParametre.fen.fenetre.pan.surlignerSegment(Constants.RIGHT_COLOR,FenetreParametre.fen.fenetre.pan.player.getCurrentPhraseIndex());
+			if (FenetreParametre.modeSurlignage) {
+				if (FenetreParametre.fen.fenetre.pan.player != null) {
+					FenetreParametre.fen.fenetre.pan.surlignerJusquaSegment(Constants.RIGHT_COLOR,
+							FenetreParametre.fen.fenetre.pan.player.getCurrentPhraseIndex()-1);
+				}
 			} else {
-				FenetreParametre.editorPane.désurlignerTout();
+				if (FenetreParametre.editorPane != null) {
+					FenetreParametre.editorPane.désurlignerTout();
+				}
 			}
 		}
 		if (arg0.getSource() == panneau.valider) {
+			//on reactive l'exercice
+			FenetreParametre.fen.fenetre.setEnabled(true);
 			if (FenetreParametre.editorPane == null) {
 				try {
 					FenetreParametre.nbFautesTolerees = Math.max(0,

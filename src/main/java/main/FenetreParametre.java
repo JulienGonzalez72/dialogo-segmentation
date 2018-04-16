@@ -38,7 +38,9 @@ public class FenetreParametre extends JFrame {
 		setContentPane(pan);
 		setVisible(true);
 		fenetre = new Fenetre(titre, tailleX * 2, tailleY);
+		fenetre.setEnabled(false);
 	}
+
 
 	public class PanneauParam extends JPanel {
 

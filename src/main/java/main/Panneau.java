@@ -25,6 +25,7 @@ public class Panneau extends JPanel {
 	public int nbErreurs;
 	public JFrame fenetre;
 	public JFrame controlFrame;
+	public ControlerGlobal controlerGlobal;
 
 	public Map<Integer, List<Integer>> segmentsEnFonctionDeLaPage = new HashMap<Integer, List<Integer>>();
 
@@ -32,9 +33,9 @@ public class Panneau extends JPanel {
 	public Player player;
 
 	public Panneau(JFrame fenetre) throws IOException {
+		this.controlerGlobal = new ControlerGlobal(this);
 		this.fenetre = fenetre;
-		String texteCesures = getTextFromFile("ressources/textes/20 000 lieux sous les mers").replaceAll("elle",
-				"cette grosse pute");
+		String texteCesures = getTextFromFile("ressources/textes/20 000 lieux sous les mers");
 		textHandler = new TextHandler(texteCesures);
 
 		this.setLayout(new BorderLayout());
@@ -104,12 +105,8 @@ public class Panneau extends JPanel {
 
 	public void buildPages(int startPhrase) {
 		segmentsEnFonctionDeLaPage.clear();
-<<<<<<< HEAD
 		float maxArea = ((getWidth() - 4 * Constants.TEXTPANE_MARGING) * (getHeight() - 4 * Constants.TEXTPANE_MARGING))
 				/ editorPane.getSpacingFactor();
-=======
-		float maxArea = ((getWidth() - 4 * Constants.TEXTPANE_MARGING) * (getHeight() - 4 * Constants.TEXTPANE_MARGING)) / editorPane.getSpacingFactor();
->>>>>>> 35aa0e4b554a9d931fdf921c818f3c2c3452acc9
 		int segment = startPhrase;
 		int numPage = 1;
 		while (segment < textHandler.getPhrasesCount()) {
@@ -191,14 +188,27 @@ public class Panneau extends JPanel {
 		fenetre.setVisible(false);
 		new FenetreParametre("Dialogo", 500, 500);
 	}
+
+	/**
+	 * Colorie le segment numero n en couleur c
+	 */
+	public void surlignerSegment(Color c, int n) {
+		if (textHandler.getPhrase(n) != null) {
+			int debutRelatifSegment = textHandler.getRelativeStartPhrasePosition(FenetreParametre.premierSegment - 1,n);
+			int finRelativeSegment = debutRelatifSegment + textHandler.getPhrase(n).length();
+			editorPane.surlignerPhrase(debutRelatifSegment, finRelativeSegment, Constants.RIGHT_COLOR);
+		}
+	}
 	
 	/**
-	 *   Colorie le segment numero n en couleur c
+	 * Colorie tout jusqu'au segment n en couleur c
 	 */
-	public void surlignerSegment(Color c, int n) {	
-		int debutRelatifSegment = textHandler.getRelativeStartPhrasePosition(FenetreParametre.premierSegment-1,n);
-		int finRelativeSegment = debutRelatifSegment + textHandler.getPhrase(n).length();
-		editorPane.surlignerPhrase(debutRelatifSegment, finRelativeSegment, Constants.RIGHT_COLOR);
+	public void surlignerJusquaSegment(Color c, int n) {
+		if (textHandler.getPhrase(n) != null) {
+			int debutRelatifSegment = textHandler.getRelativeStartPhrasePosition(FenetreParametre.premierSegment - 1,n);
+			int finRelativeSegment = debutRelatifSegment + textHandler.getPhrase(n).length();
+			editorPane.surlignerPhrase(0, finRelativeSegment, Constants.RIGHT_COLOR);
+		}
 	}
 
 }

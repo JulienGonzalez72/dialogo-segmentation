@@ -37,11 +37,7 @@ public class Panneau extends JPanel {
 	public Panneau(JFrame fenetre) throws IOException {
 		this.controlerGlobal = new ControlerGlobal(this);
 		this.fenetre = fenetre;
-<<<<<<< HEAD
 		String texteCesures = getTextFromFile("ressources/textes/" + Constants.AUDIO_FILE_NAME);
-=======
-		String texteCesures = getTextFromFile("ressources/textes/20 000 lieux sous les mers");
->>>>>>> 8660b5130a98fc14169630e939057d8807694a5a
 		textHandler = new TextHandler(texteCesures);
 
 		this.setLayout(new BorderLayout());
@@ -68,13 +64,6 @@ public class Panneau extends JPanel {
 		nbPages = segmentsEnFonctionDeLaPage.size();
 
 		/// initialise le lecteur et le démarre ///
-<<<<<<< HEAD
-		try {
-			player = new Player(AudioSystem.getAudioInputStream(new File("ressources/sounds/")));
-		} catch (UnsupportedAudioFileException | IOException e) {
-			e.printStackTrace();
-		}
-=======
 		player = new Player(textHandler);
 		player.onPhraseEnd.add(new Runnable() {		
 			@Override
@@ -88,14 +77,12 @@ public class Panneau extends JPanel {
 				setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));		
 			}
 		});
->>>>>>> 8660b5130a98fc14169630e939057d8807694a5a
 		player.goTo(FenetreParametre.premierSegment - 1);
 		// player.play();
 
 		controlFrame = new ControlFrame(player);
 	}
-	
-	public AudioInputStream readSound(int )
+
 
 	/**
 	 * retourne le contenu du fichier .txt situé à l'emplacement du paramètre

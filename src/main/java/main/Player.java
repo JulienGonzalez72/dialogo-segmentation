@@ -172,8 +172,5 @@ public class Player {
 		currentCharacter = 0;
 	}
 	
-	public static AudioInputStream getAudioStream(String fileName) {
-		return AudioSystem.getAudioInputStream(new File(arg0))
-	}
 	
 }

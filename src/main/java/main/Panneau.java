@@ -6,9 +6,6 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 
 public class Panneau extends JPanel {
@@ -78,8 +75,6 @@ public class Panneau extends JPanel {
 			}
 		});
 		player.goTo(FenetreParametre.premierSegment - 1);
-		// player.play();
-
 		controlFrame = new ControlFrame(player);
 	}
 

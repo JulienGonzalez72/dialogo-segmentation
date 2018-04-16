@@ -67,6 +67,7 @@ public class Fenetre extends JFrame {
 			writer.println("couleur:" + FenetreParametre.couleurFond.getRed() + "/"
 					+ FenetreParametre.couleurFond.getGreen() + "/" + FenetreParametre.couleurFond.getBlue());
 			writer.println("modeSurlignage:" + FenetreParametre.modeSurlignage);
+			writer.println("tempsAttente:"+FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture);
 			writer.close();
 		}
 	}
@@ -92,7 +93,7 @@ public class Fenetre extends JFrame {
 				InputStreamReader ipsr = new InputStreamReader(ips);
 				BufferedReader br = new BufferedReader(ipsr);
 				String ligne;
-				int w = -1, h = -1, x = -1, y = -1, t = -1;
+				int w = -1, h = -1, x = -1, y = -1, t = -1, tempsPause = -1;
 				Color color = null;
 				String p = null;
 				boolean modeSurlignage = false;
@@ -124,6 +125,10 @@ public class Fenetre extends JFrame {
 						break;
 					case 7:
 						modeSurlignage = Boolean.valueOf(ligne.split(":")[1]);
+						break;
+					case 8:
+						tempsPause = Integer.valueOf(ligne.split(":")[1]);
+						break;
 					default:
 						break;
 					}
@@ -151,6 +156,9 @@ public class Fenetre extends JFrame {
 					((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).modeSurlignage
 							.setSelected(true);
 				}
+				FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture = tempsPause;
+				System.out.println(tempsPause);
+				((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).sliderAttente.setValue(tempsPause);
 				br.close();
 			} catch (Exception e) {
 				System.out.println(e.toString());
@@ -197,6 +205,8 @@ public class Fenetre extends JFrame {
 			int x = 4 * Toolkit.getDefaultToolkit().getScreenSize().width / 10;
 			int y = 4 * Toolkit.getDefaultToolkit().getScreenSize().height / 10;
 			FenetreParametre.fen.setLocation(x, y);
+			FenetreParametre.fen.fenetre.setEnabled(false);
+			FenetreParametre.fen.fenetre.pan.controlFrame.setEnabled(false);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).champNbFautesTolerees
 					.setEnabled(false);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).segmentDeDepart.setEnabled(false);

@@ -1,7 +1,6 @@
 package main;
 
 import java.awt.*;
-
 import javax.swing.*;
 
 public class FenetreParametre extends JFrame {
@@ -18,6 +17,7 @@ public class FenetreParametre extends JFrame {
 	public static TextPane editorPane;
 	public static int nbFautesTolerees;
 	public static boolean modeSurlignage;
+	public static int tempsPauseEnPourcentageDuTempsDeLecture;
 	public Fenetre fenetre;
 
 	public FenetreParametre(String titre, int tailleX, int tailleY) {
@@ -38,7 +38,6 @@ public class FenetreParametre extends JFrame {
 		setContentPane(pan);
 		setVisible(true);
 		fenetre = new Fenetre(titre, tailleX * 2, tailleY);
-		fenetre.setEnabled(false);
 	}
 
 
@@ -53,10 +52,11 @@ public class FenetreParametre extends JFrame {
 		JTextField champNbFautesTolerees;
 		JButton valider;
 		JCheckBox modeSurlignage;
+		JSlider sliderAttente;
 
 		public PanneauParam() {
 			fen = FenetreParametre.this;
-			setLayout(new GridLayout(15, 1));
+			setLayout(new GridLayout(18, 1));
 			JLabel titre = fastLabel("Choississez vos parametres");
 			titre.setBorder(BorderFactory.createLineBorder(Color.blue, 2));
 			add(titre);
@@ -66,6 +66,7 @@ public class FenetreParametre extends JFrame {
 			JLabel taillePolice = fastLabel("Taille de la police : ");
 			JLabel couleurDeFond = fastLabel("Couleur de fond : ");
 			JLabel segments = fastLabel("Segment de départ ");
+			JLabel attente = fastLabel ("Temps d'attente en % du temps de lecture");
 
 			final Object[] polices = new Object[] { "OpenDyslexic", "Andika", "Lexia", "Arial", "Times New Roman" };
 			Object[] tailles = new Object[] { "12", "16", "18", "20", "22", "24", "30", "36", "42" };
@@ -134,6 +135,22 @@ public class FenetreParametre extends JFrame {
 			fastCentering(listeCouleurs, this);
 			add(new JLabel());
 			fastCentering(modeSurlignage, this);
+			add(new JLabel());
+			add(attente);
+			
+		    sliderAttente = new JSlider();	    
+		    sliderAttente.setMaximum(300);
+		    sliderAttente.setMinimum(100);
+		    sliderAttente.setValue(150);
+		    sliderAttente.setPaintTicks(true);
+		    sliderAttente.setPaintLabels(true);
+		    sliderAttente.setMinorTickSpacing(10);
+		    sliderAttente.setMajorTickSpacing(50);   
+		    sliderAttente.addChangeListener(controleur);
+			
+			//fastCentering(sliderAttente,this);
+			add(sliderAttente);
+			
 			add(new JLabel());
 			add(valider);
 

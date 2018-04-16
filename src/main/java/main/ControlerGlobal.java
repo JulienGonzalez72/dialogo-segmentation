@@ -1,7 +1,6 @@
 package main;
 
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.event.MouseEvent;
 
 import javax.swing.SwingWorker;
@@ -23,7 +22,7 @@ public class ControlerGlobal {
 	}
 
 	/**
-	 * Construire les pages à partir du segment de numero spécifié
+	 * Construit les pages à partir du segment de numero spécifié
 	 */
 	public void buildPages(int startPhrase) {
 		p.buildPages(startPhrase);
@@ -36,12 +35,17 @@ public class ControlerGlobal {
 		p.surlignerSegment(c, n);
 	}
 
+	public boolean waitForClick(MouseEvent e, TextHandler handler) {
+		return waitForClick(p.nbEssaisRestantPourLeSegmentCourant,e,handler);
+	}
+	
 	/**
 	 * La page se met en attente d'un clic, jusqu'à ce que :<br>
 	 * - soit le clic soit juste, renvoie true <br>
 	 * - soit il n'y a plus d'essais, renvoie false
 	 */
 	public boolean waitForClick(int nbTry, MouseEvent e, TextHandler handler) {
+		p.nbEssaisRestantPourLeSegmentCourant = nbTry;
 		boolean r = false;
 		// on ne fait rien en cas de triple clic
 		// on ne fait rien si la phrase est en cours de lecture
@@ -174,7 +178,7 @@ public class ControlerGlobal {
 	}
 
 	/**
-	 * retourne la apge qui contient le segment, ou -1 si le segment n'existe pas
+	 * retourne la page qui contient le segment, ou -1 si le segment n'existe pas
 	 */
 	private int getPageOfPhrase(int n) {
 		int numeroPage = -1;

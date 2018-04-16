@@ -37,7 +37,7 @@ public class Panneau extends JPanel {
 	public Panneau(JFrame fenetre) throws IOException {
 		this.controlerGlobal = new ControlerGlobal(this);
 		this.fenetre = fenetre;
-		String texteCesures = getTextFromFile("ressources/textes/" + Constants.AUDIO_FILE_NAME);
+		String texteCesures = getTextFromFile("ressources/textes/" + Constants.TEXT_FILE_NAME);
 		textHandler = new TextHandler(texteCesures);
 
 		this.setLayout(new BorderLayout());

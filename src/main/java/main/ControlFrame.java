@@ -48,16 +48,13 @@ public class ControlFrame extends JFrame {
 		playButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (player.isPlaying()) {
-					player.stop();
-					playButton.setIcon(new ImageIcon(playIcon));
+					player.pause();
 				}
 				else if (player.isPhraseFinished()) {
 					player.repeat();
-					playButton.setIcon(new ImageIcon(pauseIcon));
 				}
 				else {
 					player.play();
-					playButton.setIcon(new ImageIcon(pauseIcon));
 				}
 				updateButtons();
 			}
@@ -74,12 +71,13 @@ public class ControlFrame extends JFrame {
 		});
 		
 		player.onPhraseEnd.add(() -> {
-			playButton.setIcon(new ImageIcon(playIcon));
+			updateButtons();
 		});
 	}
 	
 	public void updateButtons() {
 		previousButton.setEnabled(player.hasPreviousPhrase());
+		playButton.setIcon(new ImageIcon(player.isPlaying() ? pauseIcon : playIcon));
 		nextButton.setEnabled(player.hasNextPhrase());
 	}
 	

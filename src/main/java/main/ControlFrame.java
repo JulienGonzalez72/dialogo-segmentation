@@ -12,12 +12,13 @@ import javax.swing.*;
 public class ControlFrame extends JFrame {
 	
 	private static int imageSize = 40;
-	private static Image previousIcon, playIcon, pauseIcon, nextIcon;
+	private static Image previousIcon, playIcon, pauseIcon, nextIcon, repeatIcon;
 	
 	private JPanel panel = new JPanel();
 	private JButton previousButton = new JButton();
 	private JButton playButton = new JButton();
 	private JButton nextButton = new JButton();
+	private JButton repeatButton = new JButton();
 	private Player player;
 	
 	static {
@@ -28,7 +29,7 @@ public class ControlFrame extends JFrame {
 		player = p;
 		setTitle("Contrôle");
 		setContentPane(panel);
-		setSize(250, 90);
+		setSize(325, 90);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setFocusableWindowState(false);
@@ -71,15 +72,29 @@ public class ControlFrame extends JFrame {
 			}
 		});
 		
-		player.onPhraseEnd.add(() -> {
-			updateButtons();
+		panel.add(repeatButton);
+		repeatButton.setIcon(new ImageIcon(repeatIcon));
+		repeatButton.setEnabled(false);
+		repeatButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				player.repeat();
+				updateButtons();
+			}
 		});
+		
+		Runnable update = () -> {
+			updateButtons();
+		};
+		player.onPhraseEnd.add(update);
+		player.onBlockEnd.add(update);
+		player.onPlay.add(update);
 	}
 	
 	public void updateButtons() {
 		previousButton.setEnabled(player.hasPreviousPhrase());
 		playButton.setIcon(new ImageIcon(player.isPlaying() ? pauseIcon : playIcon));
 		nextButton.setEnabled(player.hasNextPhrase());
+		repeatButton.setEnabled(player.isPlaying());
 	}
 	
 	private static void loadImages() {
@@ -87,6 +102,7 @@ public class ControlFrame extends JFrame {
 		playIcon = getIcon("play_icon.png");
 		pauseIcon = getIcon("pause_icon.png");
 		nextIcon = getIcon("next_icon.png");
+		repeatIcon = getIcon("repeat_icon.png");
 	}
 	
 	private static Image getIcon(String imageName) {

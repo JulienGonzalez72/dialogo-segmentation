@@ -88,7 +88,14 @@ public class TextHandler {
 	public int getPauseOffset(int phrase) {
 		return getPhrasesLength(0, phrase);
 	}
-
+	
+	/**
+	 * Retourne la position absolue du début du segment passé en paramètre.
+	 */
+	public int getPhraseOffset(int phrase) {
+		return getPhrasesLength(0, phrase - 1);
+	}
+	
 	/**
 	 * Retourne l'indice du segment à la position indiquée.
 	 */
@@ -137,7 +144,14 @@ public class TextHandler {
 		}
 		return -1;
 	}
-
+	
+	/**
+	 * Retourne la position du début du segment d'indice <i>phrase</i>, relative au premier segment <i>startPhrase</i>.
+	 */
+	public int getRelativeStartPhrasePosition(int startPhrase, int phrase) {
+		return getRelativeOffset(startPhrase, getPhraseOffset(phrase));
+	}
+	
 	private static boolean isPunctuation(char c) {
 		return c == ',' || c == '.' || c == ';' || c == ':' || c == '!' || c == '?';
 	}

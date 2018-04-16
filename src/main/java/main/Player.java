@@ -13,6 +13,8 @@ public class Player {
 	private Timer timer;
 	private PlayTask currentTask;
 	
+	public Runnable onPhraseEnd;
+	
 	public Player(TextHandler textHandler) {
 		text = textHandler;
 	}
@@ -32,6 +34,8 @@ public class Player {
 			
 			/// fin de la phrase ///
 			if (isPhraseFinished()) {
+				if (onPhraseEnd != null)
+					onPhraseEnd.run();
 				stop();
 			}
 			
@@ -96,6 +100,13 @@ public class Player {
 	}
 	
 	/**
+	 * Retourne true si il reste au moins un segment à lire.
+	 */
+	public boolean hasNextPhrase() {
+		return currentPhrase < text.getPhrasesCount() - 1;
+	}
+	
+	/**
 	 * Retourne au segment prédédent et démarre le lecteur.
 	 */
 	public void previousPhrase() {
@@ -103,6 +114,13 @@ public class Player {
 		currentCharacter = 0;
 		currentPhrase--;
 		play();
+	}
+	
+	/**
+	 * Retourne true si il y a au moins un segment avant le segment actuel.
+	 */
+	public boolean hasPreviousPhrase() {
+		return currentPhrase > 0;
 	}
 	
 	/**

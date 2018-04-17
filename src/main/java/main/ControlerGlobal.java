@@ -182,7 +182,12 @@ public class ControlerGlobal {
 		else {
 			p.player.nextPhrase();
 		}
-		updateHighlight();
+		if (!FenetreParametre.modeLectureGuidee) {
+			updateHighlight();
+		} else {
+			p.editorPane.désurlignerTout();
+			p.surlignerSegment(Constants.RIGHT_COLOR, p.player.getCurrentPhraseIndex());
+		}	
 	}
 	
 	/**
@@ -197,7 +202,12 @@ public class ControlerGlobal {
 		else {
 			p.player.previousPhrase();
 		}
-		updateHighlight();
+		if (!FenetreParametre.modeLectureGuidee) {
+			updateHighlight();
+		} else {
+			p.editorPane.désurlignerTout();
+			p.surlignerSegment(Constants.RIGHT_COLOR, p.player.getCurrentPhraseIndex());
+		}	
 	}
 
 	/**

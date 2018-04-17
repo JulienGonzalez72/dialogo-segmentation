@@ -46,7 +46,6 @@ public class Panneau extends JPanel {
 		editorPane = new TextPane();
 		editorPane.setEditable(false);
 		add(editorPane, BorderLayout.CENTER);
-
 		if (!FenetreParametre.modeLectureGuidee) {
 			ControlerMouse controlerMouse = new ControlerMouse(this, textHandler);
 			editorPane.addMouseListener(controlerMouse);
@@ -57,6 +56,7 @@ public class Panneau extends JPanel {
 	 * S'exécute lorsque le panneau s'est bien intégré à la fenêtre
 	 */
 	public void init() {
+		editorPane.setFont(FenetreParametre.police);
 		pageActuelle = 0;
 		// segmentActuel = FenetreParametre.premierSegment - 1;
 		nbEssaisRestantPourLeSegmentCourant = nbEssaisParSegment = FenetreParametre.nbFautesTolerees;
@@ -77,7 +77,6 @@ public class Panneau extends JPanel {
 					setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 				} else {
 					editorPane.désurlignerTout();
-					player.setCurrentPhrase(player.getCurrentPhraseIndex()+1);
 				}
 			}
 		});

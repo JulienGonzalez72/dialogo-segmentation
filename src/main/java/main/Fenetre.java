@@ -211,6 +211,9 @@ public class Fenetre extends JFrame {
 					.setEnabled(false);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).segmentDeDepart.setEnabled(false);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).listeTailles.setEnabled(false);
+			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).modeKaraoke.setEnabled(false);
+			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).modeSurlignage.setEnabled(false);
+			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).modePasDispo.setEnabled(false);
 		});
 		JMenuItem eMenuItem4 = new JMenuItem("Stocker Preferences");
 		eMenuItem4.setMnemonic(KeyEvent.VK_S);

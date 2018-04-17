@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.event.ActionEvent;
@@ -78,6 +79,21 @@ public class ControleurParam implements ActionListener, ChangeListener {
 			} else {
 				if (FenetreParametre.editorPane != null) {
 					FenetreParametre.editorPane.désurlignerTout();
+				}
+			}
+		}
+		if (arg0.getSource() == panneau.modeKaraoke) {
+			FenetreParametre.modeLectureGuidee = panneau.modeKaraoke.isSelected();
+		}
+		if ( arg0.getSource() instanceof JCheckBox) {
+			JCheckBox temp = (JCheckBox) arg0.getSource();
+			for (Component c : ((FenetreParametre.PanneauParam)FenetreParametre.fen.getContentPane()).panelModes.getComponents()) {
+				if ( c instanceof JCheckBox) {
+					if ( temp.isSelected()) {
+						if ( (JCheckBox) c != temp) {
+							((JCheckBox) c).setSelected(false);
+						}
+					}
 				}
 			}
 		}

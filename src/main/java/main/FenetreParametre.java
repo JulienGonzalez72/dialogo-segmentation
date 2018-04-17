@@ -57,13 +57,14 @@ public class FenetreParametre extends JFrame {
 
 		private static final long serialVersionUID = 1L;
 
+		JPanel panelModes;
 		JComboBox<Object> listePolices;
 		JComboBox<Object> listeTailles;
 		JComboBox<Object> listeCouleurs;
 		JTextField segmentDeDepart;
 		JTextField champNbFautesTolerees;
 		JButton valider;
-		JCheckBox modeSurlignage;
+		JCheckBox modeSurlignage, modeKaraoke, modePasDispo;
 		JSlider sliderAttente;
 		final Object[] polices;
 		final Object[] tailles;
@@ -139,17 +140,30 @@ public class FenetreParametre extends JFrame {
 			JLabel nbFautesTolerees = fastLabel("Nombre de fautes maximum");
 			champNbFautesTolerees = fastTextField("", new Font("OpenDyslexic", Font.PLAIN, 15), "2");
 			champNbFautesTolerees.addActionListener(controleur);
-
-			modeSurlignage = new JCheckBox("Mode surlignage vert");
+			
+			modeSurlignage = new JCheckBox("Mode surlignage");
 			modeSurlignage.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
 			modeSurlignage.addActionListener(controleur);
+			
+			modeKaraoke = new JCheckBox("Mode Lecture guidée");
+			modeKaraoke.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
+			modeKaraoke.addActionListener(controleur);
+			
+			modePasDispo = new JCheckBox("Mode Normal");
+			modePasDispo.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
+			modePasDispo.addActionListener(controleur);
 
 			add(nbFautesTolerees);
 			fastCentering(champNbFautesTolerees, this);
 			add(couleurDeFond);
 			fastCentering(listeCouleurs, this);
 			add(new JLabel());
-			fastCentering(modeSurlignage, this);
+			
+			panelModes = new JPanel(new GridLayout(1, 3));
+			panelModes.add(modeSurlignage);
+			panelModes.add(modeKaraoke);
+			panelModes.add(modePasDispo);
+			add(panelModes);
 			add(new JLabel());
 			add(attente);
 

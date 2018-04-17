@@ -76,7 +76,7 @@ public class Panneau extends JPanel {
 					setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 				} else {
 					editorPane.désurlignerTout();
-					player.nextPhrase();
+					controlerGlobal.doNext();
 				}
 			}
 		});

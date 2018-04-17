@@ -1,8 +1,6 @@
 package main;
 
 import java.awt.Color;
-import java.awt.event.MouseEvent;
-
 import javax.swing.SwingWorker;
 
 public class ControlerGlobal {
@@ -35,8 +33,8 @@ public class ControlerGlobal {
 		p.surlignerSegment(c, n);
 	}
 
-	public boolean waitForClick(MouseEvent e, TextHandler handler) {
-		return waitForClick(p.nbEssaisRestantPourLeSegmentCourant,e,handler);
+	public boolean waitForClick() {
+		return waitForClick(p.nbEssaisRestantPourLeSegmentCourant,p.player.getCurrentPhraseIndex());
 	}
 	
 	/**
@@ -44,19 +42,19 @@ public class ControlerGlobal {
 	 * - soit le clic soit juste, renvoie true <br>
 	 * - soit il n'y a plus d'essais, renvoie false
 	 */
-	public boolean waitForClick(int nbTry, MouseEvent e, TextHandler handler) {
+	public boolean waitForClick(int nbTry, int numeroSegmentCourant) {
 		p.nbEssaisRestantPourLeSegmentCourant = nbTry;
+		p.player.setCurrentPhrase(numeroSegmentCourant);
 		boolean r = false;
-		// on ne fait rien en cas de triple clic
 		// on ne fait rien si la phrase est en cours de lecture
-		if (p.player.isPhraseFinished() && e.getClickCount() < 2) {
+		if (p.player.isPhraseFinished()) {
 			/// cherche la position exacte dans le texte ///
-			int offset = handler.getAbsoluteOffset(p.getNumeroPremierSegmentAffiché(), p.editorPane.getCaretPosition());
+			int offset = p.textHandler.getAbsoluteOffset(p.getNumeroPremierSegmentAffiché(), p.editorPane.getCaretPosition());
 			// si le clic est juste
-			if (handler.wordPause(offset) && handler.getPhraseIndex(offset) == p.player.getCurrentPhraseIndex()) {
+			if (p.textHandler.wordPause(offset) && p.textHandler.getPhraseIndex(offset) == p.player.getCurrentPhraseIndex()) {
 				r = true;
 				if (FenetreParametre.modeSurlignage) {
-					traitementClicJusteModeSurlignage(offset, handler);
+					traitementClicJusteModeSurlignage(offset, p.textHandler);
 				} else {
 					traitementClicJuste(offset);
 				}
@@ -64,9 +62,9 @@ public class ControlerGlobal {
 			} else {
 				r = false;
 				if (FenetreParametre.modeSurlignage) {
-					traitementClicFauxModeSurlignage(offset, handler);
+					traitementClicFauxModeSurlignage(offset, p.textHandler);
 				} else {
-					traitementClicFaux(offset, handler);
+					traitementClicFaux(offset, p.textHandler);
 				}
 			}
 		}

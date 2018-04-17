@@ -42,12 +42,15 @@ public class Panneau extends JPanel {
 		textHandler = new TextHandler(texteCesures);
 
 		this.setLayout(new BorderLayout());
-		
-		ControlerMouse controlerMouse = new ControlerMouse(this, textHandler);
+
 		editorPane = new TextPane();
 		editorPane.setEditable(false);
-		editorPane.addMouseListener(controlerMouse);
 		add(editorPane, BorderLayout.CENTER);
+
+		if (!FenetreParametre.modeLectureGuidee) {
+			ControlerMouse controlerMouse = new ControlerMouse(this, textHandler);
+			editorPane.addMouseListener(controlerMouse);
+		}
 	}
 
 	/**
@@ -70,7 +73,12 @@ public class Panneau extends JPanel {
 		player.onBlockEnd.add(new Runnable() {
 			@Override
 			public void run() {
-				setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+				if (!FenetreParametre.modeLectureGuidee) {
+					setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+				} else {
+					editorPane.désurlignerTout();
+					player.setCurrentPhrase(player.getCurrentPhraseIndex()+1);
+				}
 			}
 		});
 		player.onPhraseEnd.add(new Runnable() {
@@ -91,6 +99,9 @@ public class Panneau extends JPanel {
 				Image img = tk.getImage("ecouter.png");
 				Cursor monCurseur = tk.createCustomCursor(img, new Point(16, 16), "ecouter.png");
 				setCursor(monCurseur);
+				if (FenetreParametre.modeLectureGuidee) {
+					surlignerSegment(Constants.RIGHT_COLOR, player.getCurrentPhraseIndex());
+				}
 			}
 		});
 		player.goTo(FenetreParametre.premierSegment - 1);
@@ -98,8 +109,7 @@ public class Panneau extends JPanel {
 		ControlerKey controlerKey = new ControlerKey(player);
 		editorPane.addKeyListener(controlerKey);
 		editorPane.requestFocus();
-		
-		
+
 	}
 
 	/**
@@ -131,11 +141,11 @@ public class Panneau extends JPanel {
 		showPage(pageActuelle);
 		editorPane.désurlignerTout();
 	}
-	
+
 	public boolean hasNextPage() {
 		return pageActuelle < nbPages;
 	}
-	
+
 	public void afficherPagePrecedente() {
 		if (pageActuelle > 0) {
 			pageActuelle--;
@@ -177,61 +187,64 @@ public class Panneau extends JPanel {
 	public void buildPagesByRoman(int startPhrase) {
 		segmentsEnFonctionDeLaPage.clear();
 		float m = Constants.TEXTPANE_MARGING;
-		//numero de la page courante
+		// numero de la page courante
 		int page = 1;
-		//numero du segment courant
+		// numero du segment courant
 		int segment = startPhrase;
-		//numero de la lettre courante du segment courant
+		// numero de la lettre courante du segment courant
 		int lettre = 0;
 		List<Integer> segments = new ArrayList<>();
 		String chaineSegmentCourant = "";
 		String chaineLigneCourante = "";
 		boolean finis = false;
-		//tant qu'on a pas finis
+		// tant qu'on a pas finis
 		while (!finis) {
-			//on fait ce for tant que il reste de la place pour une ligne de plus dans la page
-			for (int i = 1; !finis && (getHauteur("|") *3* (i)) < (getHeight() - m); i++) {
-				//on fait ce for tant qu'il reste de la palce pour une lettre dans la ligne
+			// on fait ce for tant que il reste de la place pour une ligne de plus dans la
+			// page
+			for (int i = 1; !finis && (getHauteur("|") * 3 * (i)) < (getHeight() - m); i++) {
+				// on fait ce for tant qu'il reste de la palce pour une lettre dans la ligne
 				while (!finis && getLargeur(chaineLigneCourante) < (getWidth() - (m * 2))) {
-					//si on a finis un segment
+					// si on a finis un segment
 					if (!finis && chaineSegmentCourant.length() == textHandler.getPhrase(segment).length()) {
-						//on reinitialise la chaine qui contient le segment en construction
+						// on reinitialise la chaine qui contient le segment en construction
 						chaineSegmentCourant = "";
-						//on ajoute le segment à la liste des segments de la page
+						// on ajoute le segment à la liste des segments de la page
 						segments.add(segment);
-						//si on a placé tous les segments
+						// si on a placé tous les segments
 						if (segment + 1 == textHandler.getPhrasesCount()) {
-							//on a finis l'algo
+							// on a finis l'algo
 							finis = true;
 						}
-						//on passe au segment suivant
+						// on passe au segment suivant
 						segment++;
-						//on revient a la lettre 0
+						// on revient a la lettre 0
 						lettre = 0;
 					}
-					//si on a pas finis l'algo
+					// si on a pas finis l'algo
 					if (!finis) {
-						//on rajoute a la chaine du segment courant et a lla chaine de la lignecourante la lettre courante du segment courant
+						// on rajoute a la chaine du segment courant et a lla chaine de la lignecourante
+						// la lettre courante du segment courant
 						chaineSegmentCourant += textHandler.getPhrase(segment).charAt(lettre);
 						chaineLigneCourante += textHandler.getPhrase(segment).charAt(lettre);
-						//on passe à la ligne suivante
+						// on passe à la ligne suivante
 						lettre++;
 					}
 				}
-				//on reinitialise la chaine de la ligne courante
+				// on reinitialise la chaine de la ligne courante
 				chaineLigneCourante = "";
-				/*System.out.println();
-				System.out.println("Page numero : "+page);
-				System.out.println("Ligne numero : "+(i));
-				System.out.println("Taille totale disponible : "+(getHeight() - m));
-				System.out.println("Taille après ajout d'une nouvelle ligne : "+(getHauteur("|") *3* (i+1)));
-				System.out.println();*/
+				/*
+				 * System.out.println(); System.out.println("Page numero : "+page);
+				 * System.out.println("Ligne numero : "+(i));
+				 * System.out.println("Taille totale disponible : "+(getHeight() - m));
+				 * System.out.println("Taille après ajout d'une nouvelle ligne : "+(getHauteur(
+				 * "|") *3* (i+1))); System.out.println();
+				 */
 			}
-			//on ajoute les segments de la page dans la page
+			// on ajoute les segments de la page dans la page
 			segmentsEnFonctionDeLaPage.put(page, segments);
-			//la liste des segments courant est reinitialisée
+			// la liste des segments courant est reinitialisée
 			segments = new ArrayList<>();
-			//on passe à la page suivante
+			// on passe à la page suivante
 			page++;
 		}
 	}
@@ -243,14 +256,14 @@ public class Panneau extends JPanel {
 	private double getHauteur(String s) {
 		return editorPane.getTextBounds(s).getHeight();
 	}
-	
+
 	@SuppressWarnings("unused")
 	private double getHauteurMax(String s) {
 		double r = 0.0;
 		for (char c : s.toCharArray()) {
-			if ( getHauteur(String.valueOf(c)) > r) {
+			if (getHauteur(String.valueOf(c)) > r) {
 				r = getHauteur(String.valueOf(c));
-			} 
+			}
 		}
 		return r;
 	}
@@ -307,7 +320,7 @@ public class Panneau extends JPanel {
 			UIManager.put("Panel.background", panelBG);
 		}
 		fenetre.setVisible(false);
-		new FenetreParametre("Dialogo", 500, 500);
+		new FenetreParametre("Dialogo", 500, 700);
 	}
 
 	/**
@@ -332,6 +345,12 @@ public class Panneau extends JPanel {
 			int finRelativeSegment = debutRelatifSegment + textHandler.getPhrase(n).length();
 			editorPane.surlignerPhrase(0, finRelativeSegment, Constants.RIGHT_COLOR);
 		}
+	}
+
+	public int getPagesLength(int n) {
+		int start = segmentsEnFonctionDeLaPage.get(n).get(0);
+		int fin = segmentsEnFonctionDeLaPage.get(n).get(segmentsEnFonctionDeLaPage.get(n).size() - 1);
+		return textHandler.getPhrasesLength(start, fin);
 	}
 
 }

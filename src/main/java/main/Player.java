@@ -225,4 +225,8 @@ public class Player {
 		return str;
 	}
 
+	public void setCurrentPhrase(int numeroSegmentCourant) {
+		currentPhrase = numeroSegmentCourant;	
+	}
+
 }

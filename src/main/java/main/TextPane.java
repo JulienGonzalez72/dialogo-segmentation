@@ -1,14 +1,12 @@
 package main;
 
-import java.awt.Color;
-import java.awt.FontMetrics;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JTextPane;
 import javax.swing.text.*;
-import javax.swing.text.Highlighter.Highlight;
-import javax.swing.text.Highlighter.HighlightPainter;
+import javax.swing.text.Highlighter.*;
+
 
 public class TextPane extends JTextPane {
 
@@ -117,10 +115,12 @@ public class TextPane extends JTextPane {
 		for (Object o : blueHighlightTags) {
 			Highlight temp = (Highlight) o;
 			try {
-				//Panneau pan = (Panneau) getParent();
+				Panneau pan = (Panneau) getParent();
 				//TextHandler handler = pan.textHandler;
 				//TODO modifier ce try pour que cela marche dans les pages suivantes
-				highlighter.addHighlight(temp.getStartOffset(),temp.getEndOffset(), painter);
+				highlighter.addHighlight(temp.getStartOffset()+pan.getPagesLength(pan.pageActuelle),
+						temp.getEndOffset()+pan.getPagesLength(pan.pageActuelle), 
+						painter);
 			} catch (BadLocationException e) {
 				e.printStackTrace();
 			}

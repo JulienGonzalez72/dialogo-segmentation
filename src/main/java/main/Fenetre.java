@@ -203,7 +203,7 @@ public class Fenetre extends JFrame {
 			FenetreParametre.editorPane = pan.editorPane;
 			FenetreParametre.fen.setVisible(true);
 			int x = 4 * Toolkit.getDefaultToolkit().getScreenSize().width / 10;
-			int y = 4 * Toolkit.getDefaultToolkit().getScreenSize().height / 10;
+			int y = 2 * Toolkit.getDefaultToolkit().getScreenSize().height / 10;
 			FenetreParametre.fen.setLocation(x, y);
 			FenetreParametre.fen.fenetre.setEnabled(false);
 			FenetreParametre.fen.fenetre.pan.controlFrame.setEnabled(false);

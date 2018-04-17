@@ -25,7 +25,7 @@ public class FenetreParametre extends JFrame {
 	public static int nbFautesTolerees;
 	public static boolean modeSurlignage;
 	public static int tempsPauseEnPourcentageDuTempsDeLecture;
-	public static boolean modeLectureGuidee = true;
+	public static boolean modeLectureGuidee = false;
 	public Fenetre fenetre;
 
 	public FenetreParametre(String titre, int tailleX, int tailleY) {

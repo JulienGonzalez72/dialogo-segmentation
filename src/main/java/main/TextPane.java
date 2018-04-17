@@ -1,14 +1,9 @@
 package main;
 
-<<<<<<< HEAD
 import java.awt.Color;
 import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Rectangle;
-=======
-import java.awt.*;
->>>>>>> e3dd7641e6838920b91a1b3c41d115d1c60e7346
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JTextPane;
@@ -143,21 +138,6 @@ public class TextPane extends JTextPane {
 	public float getSpacingFactor() {
 		FontMetrics fm = getFontMetrics(getFont());
 		return (float) (1f + fm.getHeight() / getTextBounds("|").getHeight());
-	}
-	
-	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		g.setColor(Color.BLACK);
-		for (int i = 0; i < 10000; i++) {
-			if (i % 2 == 0) g.setColor(Color.RED);
-			else g.setColor(Color.BLUE);
-			try {
-				((Graphics2D) g).draw(modelToView(i));
-			} catch (BadLocationException e) {
-				break;
-			}
-		}
 	}
 
 }

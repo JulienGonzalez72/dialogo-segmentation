@@ -65,7 +65,19 @@ public class ControleurParam implements ActionListener, ChangeListener {
 			}
 		}
 		if (arg0.getSource() == panneau.segmentDeDepart) {
-			int premierSegment = Integer.valueOf((String) jcb.getSelectedItem());
+			int premierSegment = -1;
+			try {
+				premierSegment = Integer.valueOf((String) panneau.segmentDeDepart.getText());
+				if (premierSegment > ((Panneau) FenetreParametre.fen.fenetre.getContentPane()).textHandler
+						.getPhrasesCount() || premierSegment < 1) {
+					JOptionPane.showMessageDialog(FenetreParametre.fen, "Le segment spécifié n'existe pas.", "Erreur",
+							JOptionPane.ERROR_MESSAGE);
+					premierSegment = 1;
+					panneau.segmentDeDepart.setText("1");
+				}
+			} catch (Exception e) {
+				panneau.segmentDeDepart.setText("1");
+			}
 			FenetreParametre.premierSegment = premierSegment;
 		}
 		if (arg0.getSource() == panneau.modeSurlignage) {
@@ -74,7 +86,7 @@ public class ControleurParam implements ActionListener, ChangeListener {
 				if (FenetreParametre.fen.fenetre.pan.player != null) {
 					FenetreParametre.fen.fenetre.pan.editorPane.retablirSurlignageBlue();
 					FenetreParametre.fen.fenetre.pan.surlignerJusquaSegment(Constants.RIGHT_COLOR,
-							FenetreParametre.fen.fenetre.pan.player.getCurrentPhraseIndex() - 1);				
+							FenetreParametre.fen.fenetre.pan.player.getCurrentPhraseIndex() - 1);
 				}
 			} else {
 				if (FenetreParametre.editorPane != null) {
@@ -85,12 +97,16 @@ public class ControleurParam implements ActionListener, ChangeListener {
 		if (arg0.getSource() == panneau.modeKaraoke) {
 			FenetreParametre.modeLectureGuidee = panneau.modeKaraoke.isSelected();
 		}
-		if ( arg0.getSource() instanceof JCheckBox) {
+		if (arg0.getSource() == panneau.modePasDispo) {
+			FenetreParametre.modeSurlignage = !panneau.modePasDispo.isSelected();
+		}
+		if (arg0.getSource() instanceof JCheckBox) {
 			JCheckBox temp = (JCheckBox) arg0.getSource();
-			for (Component c : ((FenetreParametre.PanneauParam)FenetreParametre.fen.getContentPane()).panelModes.getComponents()) {
-				if ( c instanceof JCheckBox) {
-					if ( temp.isSelected()) {
-						if ( (JCheckBox) c != temp) {
+			for (Component c : ((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).panelModes
+					.getComponents()) {
+				if (c instanceof JCheckBox) {
+					if (temp.isSelected()) {
+						if ((JCheckBox) c != temp) {
 							((JCheckBox) c).setSelected(false);
 						}
 					}
@@ -115,7 +131,7 @@ public class ControleurParam implements ActionListener, ChangeListener {
 				}
 				FenetreParametre.fen.lancerExercice();
 				panneau.fermer();
-			// si on a deja lancé l'exercice
+				// si on a deja lancé l'exercice
 			} else {
 				// on reactive l'exercice
 				FenetreParametre.fen.fenetre.setEnabled(true);

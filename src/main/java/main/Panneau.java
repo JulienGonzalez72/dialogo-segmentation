@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import javax.swing.*;
+import javax.swing.text.BadLocationException;
 
 public class Panneau extends JPanel {
 
@@ -59,7 +60,7 @@ public class Panneau extends JPanel {
 		nbEssaisRestantPourLeSegmentCourant = nbEssaisParSegment = FenetreParametre.nbFautesTolerees;
 
 		/// construit la mise en page virtuelle ///
-		buildPagesByRoman(FenetreParametre.premierSegment - 1);
+		buildPagesByJulien(FenetreParametre.premierSegment - 1);
 		/// affiche la première page ///
 		afficherPageSuivante();
 		/// calcule le nombre de pages total ///
@@ -98,8 +99,6 @@ public class Panneau extends JPanel {
 		ControlerKey controlerKey = new ControlerKey(player);
 		editorPane.addKeyListener(controlerKey);
 		editorPane.requestFocus();
-		
-		
 	}
 
 	/**
@@ -141,6 +140,50 @@ public class Panneau extends JPanel {
 			pageActuelle--;
 			showPage(pageActuelle);
 			editorPane.désurlignerTout();
+		}
+	}
+
+	public void buildPagesByJulien(int startPhrase) {
+		segmentsEnFonctionDeLaPage.clear();
+		String text = textHandler.getShowText();
+		int lastOffset = 0;
+		int page = 1;
+		int lastPhrase = -1;
+		while (lastPhrase < textHandler.getPhrasesCount()) {
+			List<Integer> phrases = new ArrayList<>();
+			editorPane.setText(text);
+			int h = 0;
+			try {
+				h = editorPane.modelToView(0).height;
+			} catch (BadLocationException e) {
+				e.printStackTrace();
+			}
+			int off = textHandler.getAbsoluteOffset(lastPhrase, editorPane.viewToModel(new Point((int) (editorPane.getWidth() - Constants.TEXTPANE_MARGING),
+					(int) (editorPane.getHeight() - h))));
+			if (off == lastOffset)
+				break;
+			for (int i = lastOffset; i < off; i++) {
+				int phraseIndex = textHandler.getPhraseIndex(i);
+				if (phraseIndex == -1) {
+					lastOffset = textHandler.getShowText().length();
+				}
+				if (!phrases.contains(phraseIndex) && phraseIndex > lastPhrase) {
+					lastPhrase = phraseIndex;
+					phrases.add(phraseIndex);
+					lastOffset = off;
+				}
+			}
+			if (!phrases.isEmpty()) {
+				segmentsEnFonctionDeLaPage.put(page, phrases);
+				page++;
+			}
+			/// retire le segment qui dépasse ///
+			if (segmentsEnFonctionDeLaPage.size() > 1 && lastPhrase < textHandler.getPhrasesCount() - segmentsEnFonctionDeLaPage.get(page - 2).size() - 1) {
+				segmentsEnFonctionDeLaPage.get(page - 2).remove(
+						segmentsEnFonctionDeLaPage.get(page - 2).size() - 1);
+				off -= textHandler.getPhrase(lastPhrase).length();
+			}
+			text = textHandler.getShowText().substring(off);
 		}
 	}
 

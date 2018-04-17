@@ -59,7 +59,6 @@ public class Panneau extends JPanel {
 	public void init() {
 		editorPane.setFont(FenetreParametre.police);
 		pageActuelle = 0;
-		// segmentActuel = FenetreParametre.premierSegment - 1;
 		nbEssaisRestantPourLeSegmentCourant = nbEssaisParSegment = FenetreParametre.nbFautesTolerees;
 
 		/// construit la mise en page virtuelle ///
@@ -78,6 +77,7 @@ public class Panneau extends JPanel {
 					setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 				} else {
 					editorPane.désurlignerTout();
+					player.nextPhrase();
 				}
 			}
 		});

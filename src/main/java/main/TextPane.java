@@ -94,24 +94,22 @@ public class TextPane extends JTextPane {
 		blueHighlightTagsMemory.addAll(blueHighlightTags);
 		blueHighlightTags.clear();
 	}
-	
-	private static ArrayList<Object> antiDoublon(ArrayList<Object> al) {     
-        ArrayList<Object> al2 = new ArrayList<Object>();
-        for (int i=0; i<al.size(); i++) {
-            Object o = al.get(i);
-            if (!al2.contains(o))
-                al2.add(o);
-        }
-        al = null;
-        return al2;
+
+	private static ArrayList<Object> antiDoublon(ArrayList<Object> al) {
+		ArrayList<Object> al2 = new ArrayList<Object>();
+		for (int i = 0; i < al.size(); i++) {
+			Object o = al.get(i);
+			if (!al2.contains(o))
+				al2.add(o);
+		}
+		al = null;
+		return al2;
 	}
 
 	public void retablirSurlignageBlue() {
 		blueHighlightTags.addAll(blueHighlightTagsMemory);
-		blueHighlightTags = TextPane.antiDoublon((ArrayList<Object>)blueHighlightTags);
-		blueHighlightTagsMemory = TextPane.antiDoublon((ArrayList<Object>)blueHighlightTagsMemory);
-        //push test
-        
+		blueHighlightTags = TextPane.antiDoublon((ArrayList<Object>) blueHighlightTags);
+		blueHighlightTagsMemory = TextPane.antiDoublon((ArrayList<Object>) blueHighlightTagsMemory);
 		Highlighter highlighter = this.getHighlighter();
 		HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(Constants.WRONG_PHRASE_COLOR);
 		for (Object o : blueHighlightTags) {
@@ -119,7 +117,9 @@ public class TextPane extends JTextPane {
 			try {
 				Panneau pan = (Panneau) getParent();
 				TextHandler handler = pan.textHandler;
-				highlighter.addHighlight(  handler.getRelativeOffset(startPhrase, offset) temp.getStartOffset() ,  temp.getEndOffset() , painter);
+				highlighter.addHighlight(
+						handler.getRelativeOffset(pan.getNumeroPremierSegmentAffiché(), temp.getStartOffset()),
+						handler.getRelativeOffset(pan.getNumeroPremierSegmentAffiché(), temp.getEndOffset()), painter);
 			} catch (BadLocationException e) {
 				e.printStackTrace();
 			}

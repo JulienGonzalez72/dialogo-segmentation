@@ -179,7 +179,7 @@ public class Panneau extends JPanel {
 		//numero de la page courante
 		int page = 1;
 		//numero du segment courant
-		int segment = 0;
+		int segment = startPhrase;
 		//numero de la lettre courante du segment courant
 		int lettre = 0;
 		List<Integer> segments = new ArrayList<>();

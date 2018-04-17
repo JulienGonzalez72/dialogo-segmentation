@@ -68,6 +68,7 @@ public class TextPane extends JTextPane {
 		for (Object tag : blueHighlightTags) {
 			getHighlighter().removeHighlight(tag);
 		}
+		blueHighlightTagsMemory.addAll(blueHighlightTags);
 		blueHighlightTags.clear();
 	}
 
@@ -107,6 +108,7 @@ public class TextPane extends JTextPane {
 	}
 
 	public void retablirSurlignageBlue() {
+		System.out.println(blueHighlightTagsMemory.toString());
 		blueHighlightTags.addAll(blueHighlightTagsMemory);
 		blueHighlightTags = TextPane.antiDoublon((ArrayList<Object>) blueHighlightTags);
 		blueHighlightTagsMemory = TextPane.antiDoublon((ArrayList<Object>) blueHighlightTagsMemory);
@@ -115,11 +117,10 @@ public class TextPane extends JTextPane {
 		for (Object o : blueHighlightTags) {
 			Highlight temp = (Highlight) o;
 			try {
-				Panneau pan = (Panneau) getParent();
-				TextHandler handler = pan.textHandler;
-				highlighter.addHighlight(
-						handler.getRelativeOffset(pan.getNumeroPremierSegmentAffiché(), temp.getStartOffset()),
-						handler.getRelativeOffset(pan.getNumeroPremierSegmentAffiché(), temp.getEndOffset()), painter);
+				//Panneau pan = (Panneau) getParent();
+				//TextHandler handler = pan.textHandler;
+				//TODO modifier ce try pour que cela marche dans les pages suivantes
+				highlighter.addHighlight(temp.getStartOffset(),temp.getEndOffset(), painter);
 			} catch (BadLocationException e) {
 				e.printStackTrace();
 			}

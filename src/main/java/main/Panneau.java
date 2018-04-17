@@ -96,9 +96,10 @@ public class Panneau extends JPanel {
 		player.goTo(FenetreParametre.premierSegment - 1);
 		controlFrame = new ControlFrame(player, controlerGlobal);
 		ControlerKey controlerKey = new ControlerKey(player);
-		controlerKey.p = this;
 		editorPane.addKeyListener(controlerKey);
 		editorPane.requestFocus();
+		
+		
 	}
 
 	/**

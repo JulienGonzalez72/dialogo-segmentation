@@ -7,8 +7,6 @@ public class ControlerKey implements KeyListener {
 	private Player player;
 	private long lastClick;
 	
-	public Panneau p;
-	
 	public ControlerKey(Player player) {
 		this.player = player;
 	}

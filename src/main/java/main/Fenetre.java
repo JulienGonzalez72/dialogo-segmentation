@@ -66,7 +66,7 @@ public class Fenetre extends JFrame {
 			writer.println("typePolice:" + FenetreParametre.police.getFontName());
 			writer.println("couleur:" + FenetreParametre.couleurFond.getRed() + "/"
 					+ FenetreParametre.couleurFond.getGreen() + "/" + FenetreParametre.couleurFond.getBlue());
-			writer.println("modeSurlignage:" + FenetreParametre.modeSurlignage);
+			//writer.println("modeSurlignage:" + FenetreParametre);
 			writer.println("tempsAttente:"+FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture);
 			writer.close();
 		}
@@ -151,11 +151,11 @@ public class Fenetre extends JFrame {
 						.setBackground(FenetreParametre.couleurFond = color);
 				pan.editorPane.setFont(FenetreParametre.police);
 				pan.editorPane.setBackground(color);
-				FenetreParametre.modeSurlignage = modeSurlignage;
+				/*FenetreParametre.modeSurlignage = modeSurlignage;
 				if (FenetreParametre.modeSurlignage) {
 					((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).modeSurlignage
 							.setSelected(true);
-				}
+				}*/
 				FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture = tempsPause;
 				System.out.println(tempsPause);
 				((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).sliderAttente.setValue(tempsPause);

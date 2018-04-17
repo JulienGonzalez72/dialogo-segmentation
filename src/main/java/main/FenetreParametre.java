@@ -23,9 +23,10 @@ public class FenetreParametre extends JFrame {
 	public static FenetreParametre fen;
 	public static TextPane editorPane;
 	public static int nbFautesTolerees;
-	public static boolean modeSurlignage;
+	//public static boolean modeSurlignage;
 	public static int tempsPauseEnPourcentageDuTempsDeLecture;
-	public static boolean modeLectureGuidee = false;
+	//public static boolean modeLectureGuidee = false;
+	public static ReadMode readMode = ReadMode.HIGHLIGHT;
 	public Fenetre fenetre;
 
 	public FenetreParametre(String titre, int tailleX, int tailleY) {
@@ -266,7 +267,6 @@ public class FenetreParametre extends JFrame {
 						}
 						break;
 					case 7:
-						FenetreParametre.modeSurlignage = Boolean.valueOf(ligne.split(":")[1]);
 						modeSurlignage.setSelected(Boolean.valueOf(ligne.split(":")[1]));
 						break;
 					case 8:

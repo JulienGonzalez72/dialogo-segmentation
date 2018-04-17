@@ -158,7 +158,7 @@ public class Panneau extends JPanel {
 		String text = textHandler.getShowText();
 		int lastOffset = 0;
 		int page = 1;
-		int lastPhrase = -1;
+		int lastPhrase = startPhrase - 1;
 		while (lastPhrase < textHandler.getPhrasesCount()) {
 			List<Integer> phrases = new ArrayList<>();
 			editorPane.setText(text);
@@ -188,7 +188,8 @@ public class Panneau extends JPanel {
 			String newText = textHandler.getShowText().substring(lastOffset);
 			/// dernière page ///
 			if (newText.equals(text)) {
-				segmentsEnFonctionDeLaPage.get(page - 1).add(textHandler.getPhraseIndex(off));
+				if (!segmentsEnFonctionDeLaPage.get(page - 1).contains(textHandler.getPhraseIndex(off)))
+					segmentsEnFonctionDeLaPage.get(page - 1).add(textHandler.getPhraseIndex(off));
 				break;
 			}
 			else {

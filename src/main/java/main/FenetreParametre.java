@@ -129,6 +129,7 @@ public class FenetreParametre extends JFrame {
 
 			segmentDeDepart = fastTextField("", new Font("OpenDyslexic", Font.PLAIN, 15), "1");
 			segmentDeDepart.addActionListener(controleur);
+			segmentDeDepart.addFocusListener(controleur);
 
 			add(police);
 			fastCentering(listePolices, this);

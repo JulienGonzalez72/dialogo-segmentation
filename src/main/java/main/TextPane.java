@@ -1,16 +1,20 @@
 package main;
 
+<<<<<<< HEAD
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+=======
+import java.awt.*;
+>>>>>>> e3dd7641e6838920b91a1b3c41d115d1c60e7346
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JTextPane;
 import javax.swing.text.*;
-import javax.swing.text.Highlighter.Highlight;
-import javax.swing.text.Highlighter.HighlightPainter;
+import javax.swing.text.Highlighter.*;
+
 
 public class TextPane extends JTextPane {
 
@@ -70,6 +74,7 @@ public class TextPane extends JTextPane {
 		for (Object tag : blueHighlightTags) {
 			getHighlighter().removeHighlight(tag);
 		}
+		blueHighlightTagsMemory.addAll(blueHighlightTags);
 		blueHighlightTags.clear();
 	}
 
@@ -109,6 +114,7 @@ public class TextPane extends JTextPane {
 	}
 
 	public void retablirSurlignageBlue() {
+		System.out.println(blueHighlightTagsMemory.toString());
 		blueHighlightTags.addAll(blueHighlightTagsMemory);
 		blueHighlightTags = TextPane.antiDoublon((ArrayList<Object>) blueHighlightTags);
 		blueHighlightTagsMemory = TextPane.antiDoublon((ArrayList<Object>) blueHighlightTagsMemory);
@@ -118,10 +124,11 @@ public class TextPane extends JTextPane {
 			Highlight temp = (Highlight) o;
 			try {
 				Panneau pan = (Panneau) getParent();
-				TextHandler handler = pan.textHandler;
-				highlighter.addHighlight(
-						handler.getRelativeOffset(pan.getNumeroPremierSegmentAffiché(), temp.getStartOffset()),
-						handler.getRelativeOffset(pan.getNumeroPremierSegmentAffiché(), temp.getEndOffset()), painter);
+				//TextHandler handler = pan.textHandler;
+				//TODO modifier ce try pour que cela marche dans les pages suivantes
+				highlighter.addHighlight(temp.getStartOffset()+pan.getPagesLength(pan.pageActuelle),
+						temp.getEndOffset()+pan.getPagesLength(pan.pageActuelle), 
+						painter);
 			} catch (BadLocationException e) {
 				e.printStackTrace();
 			}

@@ -11,23 +11,23 @@ import javax.swing.*;
 
 @SuppressWarnings("serial")
 public class ControlFrame extends JFrame {
-	
+
 	private static int imageSize = 40;
 	private static Image previousIcon, playIcon, pauseIcon, nextIcon, repeatIcon;
-	
+
 	private JPanel panel = new JPanel();
 	private JButton previousButton = new JButton();
 	private JButton playButton = new JButton();
 	private JButton nextButton = new JButton();
 	private JButton repeatButton = new JButton();
 	private Player player;
-	
+
 	private boolean usable = true;
-	
+
 	static {
 		loadImages();
 	}
-	
+
 	public ControlFrame(Player p, ControlerGlobal controler) {
 		player = p;
 		setTitle("Contrôle");
@@ -37,7 +37,7 @@ public class ControlFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setFocusableWindowState(false);
 		setVisible(true);
-		
+
 		panel.add(previousButton);
 		previousButton.setIcon(new ImageIcon(previousIcon));
 		previousButton.setEnabled(player.hasPreviousPhrase());
@@ -47,24 +47,23 @@ public class ControlFrame extends JFrame {
 				updateButtons();
 			}
 		});
-		
+
 		panel.add(playButton);
 		playButton.setIcon(new ImageIcon(playIcon));
 		playButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
 				if (player.isPlaying()) {
 					player.pause();
-				}
-				else if (player.isPhraseFinished()) {
+				} else if (player.isPhraseFinished()) {
 					player.repeat();
-				}
-				else {
+				} else {
 					player.play();
 				}
 				updateButtons();
 			}
 		});
-		
+
 		panel.add(nextButton);
 		nextButton.setIcon(new ImageIcon(nextIcon));
 		nextButton.setEnabled(player.hasNextPhrase());
@@ -74,7 +73,7 @@ public class ControlFrame extends JFrame {
 				updateButtons();
 			}
 		});
-		
+
 		panel.add(repeatButton);
 		repeatButton.setIcon(new ImageIcon(repeatIcon));
 		repeatButton.setEnabled(false);
@@ -84,7 +83,7 @@ public class ControlFrame extends JFrame {
 				updateButtons();
 			}
 		});
-		
+
 		Runnable update = () -> {
 			updateButtons();
 		};
@@ -92,7 +91,7 @@ public class ControlFrame extends JFrame {
 		player.onBlockEnd.add(update);
 		player.onPlay.add(update);
 	}
-	
+
 	public void updateButtons() {
 		if (usable) {
 			previousButton.setEnabled(player.hasPreviousPhrase());
@@ -100,25 +99,24 @@ public class ControlFrame extends JFrame {
 			playButton.setIcon(new ImageIcon(player.isPlaying() ? pauseIcon : playIcon));
 			nextButton.setEnabled(player.hasNextPhrase());
 			repeatButton.setEnabled(player.isPlaying());
-		}
-		else {
+		} else {
 			previousButton.setEnabled(false);
 			playButton.setEnabled(false);
 			nextButton.setEnabled(false);
 			repeatButton.setEnabled(false);
 		}
 	}
-	
+
 	public void disableAll() {
 		usable = false;
 		updateButtons();
 	}
-	
+
 	public void enableAll() {
 		usable = true;
 		updateButtons();
 	}
-	
+
 	private static void loadImages() {
 		previousIcon = getIcon("previous_icon.png");
 		playIcon = getIcon("play_icon.png");
@@ -126,14 +124,15 @@ public class ControlFrame extends JFrame {
 		nextIcon = getIcon("next_icon.png");
 		repeatIcon = getIcon("repeat_icon.png");
 	}
-	
+
 	private static Image getIcon(String imageName) {
 		try {
-			return ImageIO.read(new File("ressources/images/" + imageName)).getScaledInstance(imageSize, imageSize, Image.SCALE_SMOOTH);
+			return ImageIO.read(new File("ressources/images/" + imageName)).getScaledInstance(imageSize, imageSize,
+					Image.SCALE_SMOOTH);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
-	
+
 }

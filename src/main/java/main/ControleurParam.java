@@ -1,7 +1,6 @@
 package main;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.event.ActionEvent;
@@ -72,8 +71,9 @@ public class ControleurParam implements ActionListener, ChangeListener {
 			FenetreParametre.modeSurlignage = ((JCheckBox) arg0.getSource()).isSelected();
 			if (FenetreParametre.modeSurlignage) {
 				if (FenetreParametre.fen.fenetre.pan.player != null) {
+					FenetreParametre.fen.fenetre.pan.editorPane.retablirSurlignageBlue();
 					FenetreParametre.fen.fenetre.pan.surlignerJusquaSegment(Constants.RIGHT_COLOR,
-							FenetreParametre.fen.fenetre.pan.player.getCurrentPhraseIndex() - 1);
+							FenetreParametre.fen.fenetre.pan.player.getCurrentPhraseIndex() - 1);				
 				}
 			} else {
 				if (FenetreParametre.editorPane != null) {

@@ -93,13 +93,7 @@ public class Panneau extends JPanel {
 			}
 		});
 		player.goTo(FenetreParametre.premierSegment - 1);
-<<<<<<< HEAD
-		controlFrame = new ControlFrame(player);
-
-=======
 		controlFrame = new ControlFrame(player, controlerGlobal);
-		
->>>>>>> 5cac033bef5aa29eda16138260bde93cb82d3858
 		ControlerKey controlerKey = new ControlerKey(player);
 		editorPane.addKeyListener(controlerKey);
 		editorPane.requestFocus();
@@ -247,6 +241,7 @@ public class Panneau extends JPanel {
 		return editorPane.getTextBounds(s).getHeight();
 	}
 	
+	@SuppressWarnings("unused")
 	private double getHauteurMax(String s) {
 		double r = 0.0;
 		for (char c : s.toCharArray()) {

@@ -168,8 +168,8 @@ public class TextHandler {
 				return true;
 			}
 			/// évite le problème de la ponctuation avec des espaces avant ///
-			if (i < getShowText().length() - 2 && getShowText().charAt(i + 1)) {
-				
+			if (i < txt.length() - 2 && isPunctuation(txt.charAt(i + 1))) {
+				err--;
 			}
 			if (Character.isWhitespace(txt.charAt(i)) || isPunctuation(txt.charAt(i))) {
 				err++;

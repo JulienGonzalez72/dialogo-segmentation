@@ -3,6 +3,8 @@
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JTextPane;
 import javax.swing.text.*;
@@ -11,8 +13,9 @@ public class TextPane extends JTextPane {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Object redHighlightTag;
-	private Object blueHighlightTag;
+	private List<Object> redHighlightTags = new ArrayList<>();
+	private List<Object> blueHighlightTags = new ArrayList<>();
+	private List<Object> greenHighlightTags = new ArrayList<>();
 	
 	public TextPane() {
 		setFont(FenetreParametre.police);
@@ -41,12 +44,13 @@ public class TextPane extends JTextPane {
 			Object tag = getHighlighter().addHighlight(debut, fin,
 					new DefaultHighlighter.DefaultHighlightPainter(couleur));
 			if (couleur.equals(Constants.WRONG_COLOR)) {
-				enleverSurlignageRouge();
-				redHighlightTag = tag;
+				redHighlightTags.add(tag);
 			}
 			else if (couleur.equals(Constants.WRONG_PHRASE_COLOR)) {
-				enleverSurlignageBleu();
-				blueHighlightTag = tag;
+				blueHighlightTags.add(tag);
+			}
+			else if (couleur.equals(Constants.RIGHT_COLOR)) {
+				greenHighlightTags.add(tag);
 			}
 		} catch (BadLocationException e) {
 			e.printStackTrace();
@@ -54,21 +58,28 @@ public class TextPane extends JTextPane {
 	}
 
 	public void enleverSurlignageRouge() {
-		if (redHighlightTag != null) {
-			getHighlighter().removeHighlight(redHighlightTag);
-			redHighlightTag = null;
+		for (Object tag : redHighlightTags) {
+			getHighlighter().removeHighlight(tag);
 		}
+		redHighlightTags.clear();
 	}
 
 	public void enleverSurlignageBleu() {
-		if (blueHighlightTag != null) {
-			getHighlighter().removeHighlight(blueHighlightTag);
-			blueHighlightTag = null;
+		for (Object tag : blueHighlightTags) {
+			getHighlighter().removeHighlight(tag);
 		}
+		blueHighlightTags.clear();
+	}
+
+	public void enleverSurlignageVert() {
+		for (Object tag : greenHighlightTags) {
+			getHighlighter().removeHighlight(tag);
+		}
+		greenHighlightTags.clear();
 	}
 	
 	public boolean containsBlueHighlight() {
-		return blueHighlightTag != null;
+		return !blueHighlightTags.isEmpty();
 	}
 	
 	/**
@@ -78,6 +89,9 @@ public class TextPane extends JTextPane {
 	public void désurlignerTout() {
 		getHighlighter().removeAllHighlights();
 		indiceDernierCaractereSurligné = 0;
+		redHighlightTags.clear();
+		greenHighlightTags.clear();
+		blueHighlightTags.clear();
 	}
 	
 	public Rectangle getTextBounds(String str) {

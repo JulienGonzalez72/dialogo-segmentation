@@ -12,7 +12,13 @@ public final class Constants {
 	public static final Color RIGHT_COLOR = Color.GREEN;
 	public static final Color WRONG_PHRASE_COLOR = Color.CYAN;
 	
+	/*
+	 * Valeurs par défaut des paramètres
+	 */
 	public static final int DEFAULT_FONT_SIZE = 12;
+	public static final int MIN_WAIT_TIME_PERCENT = 0;
+	public static final int MAX_WAIT_TIME_PERCENT = 300;
+	public static final int DEFAULT_WAIT_TIME_PERCENT = 0;
 	
 	/**
 	 * Temps d'attente entre chaque page
@@ -36,5 +42,6 @@ public final class Constants {
 	public static final boolean HAS_INSTRUCTIONS = true;
 	
 	public static final long LEFT_DELAY = 500;
+	
 	
 }

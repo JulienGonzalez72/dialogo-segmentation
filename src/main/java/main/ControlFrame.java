@@ -21,11 +21,13 @@ public class ControlFrame extends JFrame {
 	private JButton repeatButton = new JButton();
 	private Player player;
 	
+	private boolean usable = true;
+	
 	static {
 		loadImages();
 	}
 	
-	public ControlFrame(Player p) {
+	public ControlFrame(Player p, ControlerGlobal controler) {
 		player = p;
 		setTitle("Contrôle");
 		setContentPane(panel);
@@ -40,7 +42,7 @@ public class ControlFrame extends JFrame {
 		previousButton.setEnabled(player.hasPreviousPhrase());
 		previousButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				player.previousPhrase();
+				controler.doPrevious();
 				updateButtons();
 			}
 		});
@@ -67,7 +69,7 @@ public class ControlFrame extends JFrame {
 		nextButton.setEnabled(player.hasNextPhrase());
 		nextButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				player.nextPhrase();
+				controler.doNext();
 				updateButtons();
 			}
 		});
@@ -91,10 +93,29 @@ public class ControlFrame extends JFrame {
 	}
 	
 	public void updateButtons() {
-		previousButton.setEnabled(player.hasPreviousPhrase());
-		playButton.setIcon(new ImageIcon(player.isPlaying() ? pauseIcon : playIcon));
-		nextButton.setEnabled(player.hasNextPhrase());
-		repeatButton.setEnabled(player.isPlaying());
+		if (usable) {
+			previousButton.setEnabled(player.hasPreviousPhrase());
+			playButton.setEnabled(true);
+			playButton.setIcon(new ImageIcon(player.isPlaying() ? pauseIcon : playIcon));
+			nextButton.setEnabled(player.hasNextPhrase());
+			repeatButton.setEnabled(player.isPlaying());
+		}
+		else {
+			previousButton.setEnabled(false);
+			playButton.setEnabled(false);
+			nextButton.setEnabled(false);
+			repeatButton.setEnabled(false);
+		}
+	}
+	
+	public void disableAll() {
+		usable = false;
+		updateButtons();
+	}
+	
+	public void enableAll() {
+		usable = true;
+		updateButtons();
 	}
 	
 	private static void loadImages() {

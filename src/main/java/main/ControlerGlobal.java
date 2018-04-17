@@ -72,6 +72,21 @@ public class ControlerGlobal {
 		}
 		return r;
 	}
+	
+	/**
+	 * Rafraîchit le surlignage (notamment pour le mode surlignage vert) en fonction du segment actuel.
+	 * Enlève également le surlignage rouge.
+	 */
+	public void updateHighlight() {
+		if (FenetreParametre.modeSurlignage) {
+			p.editorPane.enleverSurlignageVert();
+			int pauseOffset = p.textHandler.getPauseOffset(p.player.getCurrentPhraseIndex() - 1);
+			p.editorPane.surlignerPhrase(0,
+					p.textHandler.getRelativeOffset(p.getNumeroPremierSegmentAffiché(), pauseOffset),
+					Constants.RIGHT_COLOR);
+		}
+		p.editorPane.enleverSurlignageRouge();
+	}
 
 	private void traitementClicFauxModeSurlignage(int offset, TextHandler handler) {
 		p.nbEssaisRestantPourLeSegmentCourant--;
@@ -99,32 +114,11 @@ public class ControlerGlobal {
 	}
 
 	private void traitementClicJusteModeSurlignage(int offset, TextHandler handler) {
-		int pauseOffset = handler.endWordPosition(offset);
+		//int pauseOffset = handler.endWordPosition(offset);
 		// on restaure le nombre d'essais
 		p.nbEssaisRestantPourLeSegmentCourant = Panneau.defautNBEssaisParSegment;
-		/// surlignage ///
-		p.editorPane.surlignerPhrase(0, handler.getRelativeOffset(p.getNumeroPremierSegmentAffiché(), pauseOffset + 1),
-				Constants.RIGHT_COLOR);
 		p.editorPane.enleverSurlignageRouge();
-		// si la page est finis on affiche la suivante
-		if (p.pageFinis()) {
-			new SwingWorker<Object, Object>() {
-				// Ce traitement sera exécuté dans un autre thread :
-				protected Object doInBackground() throws Exception {
-					Thread.sleep(Constants.PAGE_WAIT_TIME);
-					return null;
-				}
-
-				// Ce traitement sera exécuté à la fin dans l'EDT
-				protected void done() {
-					p.player.nextPhrase();
-					p.afficherPageSuivante();
-				}
-			}.execute();
-		} else {
-			p.player.nextPhrase();
-		}
-
+		doNext();
 	}
 
 	private void traitementClicFaux(int offset, TextHandler handler) {
@@ -157,8 +151,16 @@ public class ControlerGlobal {
 		p.nbEssaisRestantPourLeSegmentCourant = Panneau.defautNBEssaisParSegment;
 		p.editorPane.enleverSurlignageBleu();
 		p.editorPane.enleverSurlignageRouge();
+		doNext();
+	}
+	
+	/**
+	 * Essaye de passer au segment suivant, attends et passe à la page suivante si c'était le dernier segment de la page.
+	 */
+	public void doNext() {
 		// si la page est finis on affiche la suivante
 		if (p.pageFinis()) {
+			p.controlFrame.disableAll();
 			new SwingWorker<Object, Object>() {
 				// Ce traitement sera exécuté dans un autre thread :
 				protected Object doInBackground() throws Exception {
@@ -168,19 +170,42 @@ public class ControlerGlobal {
 
 				// Ce traitement sera exécuté à la fin dans l'EDT
 				protected void done() {
-					p.player.nextPhrase();
-					p.afficherPageSuivante();
+					if (p.hasNextPage()) {
+						p.controlFrame.enableAll();
+						p.player.nextPhrase();
+						p.afficherPageSuivante();
+					}
+					else {
+						p.afficherCompteRendu();
+					}
 				}
 			}.execute();
-		} else {
+		}
+		else {
 			p.player.nextPhrase();
 		}
+		updateHighlight();
+	}
+	
+	/**
+	 * Essaye de passer au segment précédent.
+	 */
+	public void doPrevious() {
+		// si on était au premier segment de la page on affiche la page précédente
+		if (p.player.getCurrentPhraseIndex() == p.getNumeroPremierSegmentAffiché()) {
+			p.player.previousPhrase();
+			p.afficherPagePrecedente();
+		}
+		else {
+			p.player.previousPhrase();
+		}
+		updateHighlight();
 	}
 
 	/**
-	 * retourne la page qui contient le segment, ou -1 si le segment n'existe pas
+	 * Retourne la page qui contient le segment, ou -1 si le segment n'existe pas.
 	 */
-	private int getPageOfPhrase(int n) {
+	public int getPageOfPhrase(int n) {
 		int numeroPage = -1;
 		for (Integer i : p.segmentsEnFonctionDeLaPage.keySet()) {
 			if (p.segmentsEnFonctionDeLaPage.get(i).contains(n)) {

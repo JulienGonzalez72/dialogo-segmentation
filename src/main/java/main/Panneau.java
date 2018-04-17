@@ -23,7 +23,7 @@ public class Panneau extends JPanel {
 	public int nbEssaisRestantPourLeSegmentCourant = defautNBEssaisParSegment;
 	public int nbErreurs;
 	public JFrame fenetre;
-	public JFrame controlFrame;
+	public ControlFrame controlFrame;
 	public ControlerGlobal controlerGlobal;
 
 	public Map<Integer, List<Integer>> segmentsEnFonctionDeLaPage = new HashMap<Integer, List<Integer>>();
@@ -75,6 +75,7 @@ public class Panneau extends JPanel {
 		player.onPhraseEnd.add(new Runnable() {
 			@Override
 			public void run() {
+				/// change le curseur pour indiquer que l'utilisateur doit répéter ///
 				Toolkit tk = Toolkit.getDefaultToolkit();
 				Image img = tk.getImage("parler.png");
 				Cursor monCurseur = tk.createCustomCursor(img, new Point(16, 16), "parler.png");
@@ -84,6 +85,7 @@ public class Panneau extends JPanel {
 		player.onPlay.add(new Runnable() {
 			@Override
 			public void run() {
+				/// change le curseur pour indiquer que l'utilisateur doit écouter la phrase ///
 				Toolkit tk = Toolkit.getDefaultToolkit();
 				Image img = tk.getImage("ecouter.png");
 				Cursor monCurseur = tk.createCustomCursor(img, new Point(16, 16), "ecouter.png");
@@ -91,8 +93,13 @@ public class Panneau extends JPanel {
 			}
 		});
 		player.goTo(FenetreParametre.premierSegment - 1);
+<<<<<<< HEAD
 		controlFrame = new ControlFrame(player);
 
+=======
+		controlFrame = new ControlFrame(player, controlerGlobal);
+		
+>>>>>>> 5cac033bef5aa29eda16138260bde93cb82d3858
 		ControlerKey controlerKey = new ControlerKey(player);
 		editorPane.addKeyListener(controlerKey);
 		editorPane.requestFocus();
@@ -123,10 +130,18 @@ public class Panneau extends JPanel {
 	 *
 	 */
 	public void afficherPageSuivante() {
-		if (pageActuelle == nbPages && pageActuelle > 0) {
-			afficherCompteRendu();
-		} else {
-			pageActuelle++;
+		pageActuelle++;
+		showPage(pageActuelle);
+		editorPane.désurlignerTout();
+	}
+	
+	public boolean hasNextPage() {
+		return pageActuelle < nbPages;
+	}
+	
+	public void afficherPagePrecedente() {
+		if (pageActuelle > 0) {
+			pageActuelle--;
 			showPage(pageActuelle);
 			editorPane.désurlignerTout();
 		}
@@ -272,7 +287,6 @@ public class Panneau extends JPanel {
 		// nbEssaisRestantPourLeSegmentCourant = Panneau.defautNBEssaisParSegment;
 		nbErreurs++;
 		editorPane.indiceDernierCaractereSurligné = fin;
-		// editorPane.enleverSurlignageRouge();
 		editorPane.surlignerPhrase(debut, fin, Constants.WRONG_PHRASE_COLOR);
 	}
 

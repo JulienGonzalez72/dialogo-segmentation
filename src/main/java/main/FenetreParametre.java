@@ -153,9 +153,9 @@ public class FenetreParametre extends JFrame {
 			add(attente);
 
 			sliderAttente = new JSlider();
-			sliderAttente.setMaximum(300);
-			sliderAttente.setMinimum(100);
-			sliderAttente.setValue(110);
+			sliderAttente.setMaximum(Constants.MAX_WAIT_TIME_PERCENT);
+			sliderAttente.setMinimum(Constants.MIN_WAIT_TIME_PERCENT);
+			sliderAttente.setValue(Constants.DEFAULT_FONT_SIZE);
 			sliderAttente.setPaintTicks(true);
 			sliderAttente.setPaintLabels(true);
 			sliderAttente.setMinorTickSpacing(10);

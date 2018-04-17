@@ -162,17 +162,22 @@ public class TextHandler {
 	 */
 	public boolean wordPause(int offset) {
 		int err = 0;
-		for (int i = offset; i < getShowText().length(); i++) {
+		String txt = getShowText();
+		for (int i = offset; i < txt.length(); i++) {
 			if (correctPause(i)) {
 				return true;
 			}
-			if (Character.isWhitespace(getShowText().charAt(i)) || isPunctuation(getShowText().charAt(i))) {
+			/// évite le problème de la ponctuation avec des espaces avant ///
+			if (i < txt.length() - 2 && isPunctuation(txt.charAt(i + 1))) {
+				err--;
+			}
+			if (Character.isWhitespace(txt.charAt(i)) || isPunctuation(txt.charAt(i))) {
 				err++;
 				if (err >= 2) {
 					return false;
 				}
 			}
-			if (Character.isAlphabetic(getShowText().charAt(i)) && err == 1) {
+			if (Character.isAlphabetic(txt.charAt(i)) && err == 1) {
 				return false;
 			}
 		}

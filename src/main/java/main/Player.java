@@ -25,8 +25,14 @@ public class Player {
 	private Clip clip;
 	private long lastPosition;
 
+	/**
+	 * Ecouteurs qui s'enclenchent lorsque un segment a finis d'être prononcé.
+	 */
 	public List<Runnable> onPhraseEnd = new ArrayList<>();
 	public List<Runnable> onNextPhrase = new ArrayList<>();
+	/**
+	 * Ecouteurs qui s'enclenchent lorsque l'enregistrement est lancé.
+	 */
 	public List<Runnable> onPlay = new ArrayList<>();
 	/**
 	 * Ecouteurs qui s'enclenchent lorsque le temps de pause après la fin de

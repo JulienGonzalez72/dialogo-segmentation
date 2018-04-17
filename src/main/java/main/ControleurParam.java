@@ -98,7 +98,9 @@ public class ControleurParam implements ActionListener, ChangeListener {
 			FenetreParametre.modeLectureGuidee = panneau.modeKaraoke.isSelected();
 		}
 		if (arg0.getSource() == panneau.modePasDispo) {
-			FenetreParametre.modeSurlignage = !panneau.modePasDispo.isSelected();
+			if (panneau.modePasDispo.isSelected()) {
+				FenetreParametre.modeSurlignage = false;
+			}	
 		}
 		if (arg0.getSource() instanceof JCheckBox) {
 			JCheckBox temp = (JCheckBox) arg0.getSource();

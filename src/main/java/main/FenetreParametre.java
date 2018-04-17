@@ -89,6 +89,7 @@ public class FenetreParametre extends JFrame {
 			couleurs = new Object[] { "Jaune", "Blanc", "Orange", "Rose", "Bleu" };
 
 			ControleurParam controleur = new ControleurParam(this);
+			addFocusListener(controleur);
 			valider.addActionListener(controleur);
 
 			listePolices = new JComboBox<Object>(polices);
@@ -141,6 +142,7 @@ public class FenetreParametre extends JFrame {
 			JLabel nbFautesTolerees = fastLabel("Nombre de fautes maximum");
 			champNbFautesTolerees = fastTextField("", new Font("OpenDyslexic", Font.PLAIN, 15), "2");
 			champNbFautesTolerees.addActionListener(controleur);
+			champNbFautesTolerees.addFocusListener(controleur);
 			
 			modeSurlignage = new JCheckBox("Mode surlignage");
 			modeSurlignage.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));

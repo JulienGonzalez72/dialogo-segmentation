@@ -66,22 +66,6 @@ public class ControleurParam implements ActionListener, ChangeListener, FocusLis
 				FenetreParametre.editorPane.setFont(FenetreParametre.police);
 			}
 		}
-		/*if (arg0.getSource() == panneau.segmentDeDepart) {
-			int premierSegment = -1;
-			try {
-				premierSegment = Integer.valueOf((String) panneau.segmentDeDepart.getText());
-				if (premierSegment > ((Panneau) FenetreParametre.fen.fenetre.getContentPane()).textHandler
-						.getPhrasesCount() || premierSegment < 1) {
-					JOptionPane.showMessageDialog(FenetreParametre.fen, "Le segment spécifié n'existe pas.", "Erreur",
-							JOptionPane.ERROR_MESSAGE);
-					premierSegment = 1;
-					panneau.segmentDeDepart.setText("1");
-				}
-			} catch (Exception e) {
-				panneau.segmentDeDepart.setText("1");
-			}
-			FenetreParametre.premierSegment = premierSegment;
-		}*/
 		if (arg0.getSource() == panneau.modeSurlignage) {
 			FenetreParametre.modeSurlignage = ((JCheckBox) arg0.getSource()).isSelected();
 			if (FenetreParametre.modeSurlignage) {
@@ -177,25 +161,42 @@ public class ControleurParam implements ActionListener, ChangeListener, FocusLis
 	@Override
 	public void focusGained(FocusEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void focusLost(FocusEvent arg0) {
-		int premierSegment = -1;
-		try {
-			premierSegment = Integer.valueOf((String) panneau.segmentDeDepart.getText());
-			if (premierSegment > ((Panneau) FenetreParametre.fen.fenetre.getContentPane()).textHandler
-					.getPhrasesCount() || premierSegment < 1) {
-				JOptionPane.showMessageDialog(FenetreParametre.fen, "Le segment spécifié n'existe pas.", "Erreur",
-						JOptionPane.ERROR_MESSAGE);
-				premierSegment = 1;
+		if (arg0.getSource() == panneau.segmentDeDepart) {
+			int premierSegment = -1;
+			try {
+				premierSegment = Integer.valueOf((String) panneau.segmentDeDepart.getText());
+				if (premierSegment > ((Panneau) FenetreParametre.fen.fenetre.getContentPane()).textHandler
+						.getPhrasesCount() || premierSegment < 1) {
+					JOptionPane.showMessageDialog(panneau, "Le segment spécifié n'existe pas.", "Erreur",
+							JOptionPane.ERROR_MESSAGE);
+					premierSegment = 1;
+					panneau.segmentDeDepart.setText("1");
+				}
+			} catch (Exception e) {
 				panneau.segmentDeDepart.setText("1");
 			}
-		} catch (Exception e) {
-			panneau.segmentDeDepart.setText("1");
+			FenetreParametre.premierSegment = premierSegment;
 		}
-		FenetreParametre.premierSegment = premierSegment;		
+		if ( arg0.getSource() == panneau.champNbFautesTolerees) {
+			int n = -1;
+			try {
+				n = Integer.valueOf((String) panneau.champNbFautesTolerees.getText());
+				if ( n < 0) {
+					JOptionPane.showMessageDialog(panneau, "Le nombre de fautes tolérées doit être positif ou nul", "Erreur",
+							JOptionPane.ERROR_MESSAGE);
+					n = 1;
+					panneau.champNbFautesTolerees.setText("0");
+				}
+			} catch (Exception e) {
+				panneau.champNbFautesTolerees.setText("0");
+			}
+			FenetreParametre.nbFautesTolerees = n;
+		}
 	}
 
 }

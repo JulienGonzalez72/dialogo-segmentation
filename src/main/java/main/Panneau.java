@@ -243,6 +243,7 @@ public class Panneau extends JPanel {
 		return editorPane.getTextBounds(s).getHeight();
 	}
 	
+	@SuppressWarnings("unused")
 	private double getHauteurMax(String s) {
 		double r = 0.0;
 		for (char c : s.toCharArray()) {

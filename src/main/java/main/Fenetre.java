@@ -163,7 +163,7 @@ public class Fenetre extends JFrame {
 			} catch (Exception e) {
 				System.out.println(e.toString());
 			}
-			pan.buildPages(FenetreParametre.premierSegment - 1);
+			pan.buildPagesByRoman(FenetreParametre.premierSegment - 1);
 		}
 	}
 

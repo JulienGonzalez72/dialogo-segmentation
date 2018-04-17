@@ -25,7 +25,7 @@ public class ControlerGlobal {
 	 * Construit les pages à partir du segment de numero spécifié
 	 */
 	public void buildPages(int startPhrase) {
-		p.buildPages(startPhrase);
+		p.buildPagesByRoman(startPhrase);
 	}
 
 	/**

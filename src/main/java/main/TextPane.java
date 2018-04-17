@@ -1,22 +1,24 @@
- package main;
+package main;
 
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.JTextPane;
 import javax.swing.text.*;
+import javax.swing.text.Highlighter.Highlight;
+import javax.swing.text.Highlighter.HighlightPainter;
 
 public class TextPane extends JTextPane {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private List<Object> redHighlightTags = new ArrayList<>();
 	private List<Object> blueHighlightTags = new ArrayList<>();
 	private List<Object> greenHighlightTags = new ArrayList<>();
-	
+	private List<Object> blueHighlightTagsMemory = new ArrayList<>();
+
 	public TextPane() {
 		setFont(FenetreParametre.police);
 		setBackground(FenetreParametre.couleurFond);
@@ -30,7 +32,7 @@ public class TextPane extends JTextPane {
 		StyleConstants.setRightIndent(attrs, Constants.TEXTPANE_MARGING);
 		getStyledDocument().setParagraphAttributes(0, 0, attrs, false);
 	}
-	
+
 	public int indiceDernierCaractereSurligné;
 
 	/**
@@ -45,11 +47,9 @@ public class TextPane extends JTextPane {
 					new DefaultHighlighter.DefaultHighlightPainter(couleur));
 			if (couleur.equals(Constants.WRONG_COLOR)) {
 				redHighlightTags.add(tag);
-			}
-			else if (couleur.equals(Constants.WRONG_PHRASE_COLOR)) {
+			} else if (couleur.equals(Constants.WRONG_PHRASE_COLOR)) {
 				blueHighlightTags.add(tag);
-			}
-			else if (couleur.equals(Constants.RIGHT_COLOR)) {
+			} else if (couleur.equals(Constants.RIGHT_COLOR)) {
 				greenHighlightTags.add(tag);
 			}
 		} catch (BadLocationException e) {
@@ -77,11 +77,11 @@ public class TextPane extends JTextPane {
 		}
 		greenHighlightTags.clear();
 	}
-	
+
 	public boolean containsBlueHighlight() {
 		return !blueHighlightTags.isEmpty();
 	}
-	
+
 	/**
 	 * desurligne tout
 	 *
@@ -91,16 +91,49 @@ public class TextPane extends JTextPane {
 		indiceDernierCaractereSurligné = 0;
 		redHighlightTags.clear();
 		greenHighlightTags.clear();
+		blueHighlightTagsMemory.addAll(blueHighlightTags);
 		blueHighlightTags.clear();
 	}
 	
-	public Rectangle getTextBounds(String str) {
-		return getFont().createGlyphVector(getFontMetrics(getFont()).getFontRenderContext(), str).getPixelBounds(null, 0, 0);
+	private static ArrayList<Object> antiDoublon(ArrayList<Object> al) {     
+        ArrayList<Object> al2 = new ArrayList<Object>();
+        for (int i=0; i<al.size(); i++) {
+            Object o = al.get(i);
+            if (!al2.contains(o))
+                al2.add(o);
+        }
+        al = null;
+        return al2;
 	}
-	
+
+	public void retablirSurlignageBlue() {
+		blueHighlightTags.addAll(blueHighlightTagsMemory);
+		blueHighlightTags = TextPane.antiDoublon((ArrayList<Object>)blueHighlightTags);
+		blueHighlightTagsMemory = TextPane.antiDoublon((ArrayList<Object>)blueHighlightTagsMemory);
+        //push test
+        
+		Highlighter highlighter = this.getHighlighter();
+		HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(Constants.WRONG_PHRASE_COLOR);
+		for (Object o : blueHighlightTags) {
+			Highlight temp = (Highlight) o;
+			try {
+				Panneau pan = (Panneau) getParent();
+				TextHandler handler = pan.textHandler;
+				highlighter.addHighlight(  handler.getRelativeOffset(startPhrase, offset) temp.getStartOffset() ,  temp.getEndOffset() , painter);
+			} catch (BadLocationException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public Rectangle getTextBounds(String str) {
+		return getFont().createGlyphVector(getFontMetrics(getFont()).getFontRenderContext(), str).getPixelBounds(null,
+				0, 0);
+	}
+
 	public float getSpacingFactor() {
 		FontMetrics fm = getFontMetrics(getFont());
 		return (float) (1f + fm.getHeight() / getTextBounds("|").getHeight());
 	}
-	
+
 }

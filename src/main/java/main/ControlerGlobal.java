@@ -30,7 +30,13 @@ public class ControlerGlobal {
 	 * Colorie le segment numero n en couleur c
 	 */
 	public void highlightPhrase(Color c, int n) {
-		p.surlignerSegment(c, n);
+		if (p.textHandler.getPhrase(n) != null) {
+			int debutRelatifSegment = p.textHandler.getRelativeStartPhrasePosition(p.getNumeroPremierSegmentAffiché(),
+					n);
+			int finRelativeSegment = debutRelatifSegment + p.textHandler.getPhrase(n).length();
+			System.out.println(debutRelatifSegment + ", " + finRelativeSegment);
+			p.editorPane.surlignerPhrase(debutRelatifSegment, finRelativeSegment, Constants.RIGHT_COLOR);
+		}
 	}
 
 	public boolean waitForClick() {
@@ -186,7 +192,7 @@ public class ControlerGlobal {
 			updateHighlight();
 		} else {
 			p.editorPane.désurlignerTout();
-			p.surlignerSegment(Constants.RIGHT_COLOR, p.player.getCurrentPhraseIndex());
+			highlightPhrase(Constants.RIGHT_COLOR, p.player.getCurrentPhraseIndex());
 		}	
 	}
 	
@@ -206,7 +212,7 @@ public class ControlerGlobal {
 			updateHighlight();
 		} else {
 			p.editorPane.désurlignerTout();
-			p.surlignerSegment(Constants.RIGHT_COLOR, p.player.getCurrentPhraseIndex());
+			highlightPhrase(Constants.RIGHT_COLOR, p.player.getCurrentPhraseIndex());
 		}	
 	}
 

@@ -42,6 +42,12 @@ public class Panneau extends JPanel {
 		textHandler = new TextHandler(texteCesures);
 
 		this.setLayout(new BorderLayout());
+		
+		ControlerMouse controlerMouse = new ControlerMouse(this, textHandler);
+		editorPane = new TextPane();
+		editorPane.setEditable(false);
+		editorPane.addMouseListener(controlerMouse);
+		add(editorPane, BorderLayout.CENTER);
 	}
 
 	/**
@@ -51,11 +57,6 @@ public class Panneau extends JPanel {
 		pageActuelle = 0;
 		// segmentActuel = FenetreParametre.premierSegment - 1;
 		nbEssaisRestantPourLeSegmentCourant = nbEssaisParSegment = FenetreParametre.nbFautesTolerees;
-		ControlerMouse controlerMouse = new ControlerMouse(this, textHandler);
-		editorPane = new TextPane();
-		editorPane.setEditable(false);
-		editorPane.addMouseListener(controlerMouse);
-		this.add(editorPane, BorderLayout.CENTER);
 
 		/// construit la mise en page virtuelle ///
 		buildPagesByRoman(FenetreParametre.premierSegment - 1);
@@ -95,6 +96,7 @@ public class Panneau extends JPanel {
 		player.goTo(FenetreParametre.premierSegment - 1);
 		controlFrame = new ControlFrame(player, controlerGlobal);
 		ControlerKey controlerKey = new ControlerKey(player);
+		controlerKey.p = this;
 		editorPane.addKeyListener(controlerKey);
 		editorPane.requestFocus();
 	}

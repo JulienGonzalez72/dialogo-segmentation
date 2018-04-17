@@ -110,7 +110,7 @@ public class TextPane extends JTextPane {
 		blueHighlightTags.addAll(blueHighlightTagsMemory);
 		blueHighlightTags = TextPane.antiDoublon((ArrayList<Object>)blueHighlightTags);
 		blueHighlightTagsMemory = TextPane.antiDoublon((ArrayList<Object>)blueHighlightTagsMemory);
-        
+        //push test
         
 		Highlighter highlighter = this.getHighlighter();
 		HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(Constants.WRONG_PHRASE_COLOR);

@@ -367,6 +367,20 @@ public class Panneau extends JPanel {
 	}
 
 	/**
+<<<<<<< HEAD
+=======
+	 * Colorie le segment numero n en couleur c
+	 */
+	public void surlignerSegment(Color c, int n) {
+		if (textHandler.getPhrase(n) != null) {
+			int debutRelatifSegment = textHandler.getRelativeStartPhrasePosition(FenetreParametre.premierSegment - 1,n);
+			int finRelativeSegment = debutRelatifSegment + textHandler.getPhrase(n).length();
+			editorPane.surlignerPhrase(debutRelatifSegment, finRelativeSegment, Constants.RIGHT_COLOR);
+		}
+	}
+
+	/**
+>>>>>>> 5b5d31105f46e530e3d84f622f6309d3b5b082be
 	 * Colorie tout jusqu'au segment n en couleur c
 	 */
 	public void surlignerJusquaSegment(Color c, int n) {

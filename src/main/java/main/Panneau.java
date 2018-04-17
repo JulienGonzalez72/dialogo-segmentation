@@ -100,7 +100,7 @@ public class Panneau extends JPanel {
 				Cursor monCurseur = tk.createCustomCursor(img, new Point(16, 16), "ecouter.png");
 				setCursor(monCurseur);
 				if (FenetreParametre.modeLectureGuidee) {
-					surlignerSegment(Constants.RIGHT_COLOR, player.getCurrentPhraseIndex());
+					controlerGlobal.highlightPhrase(Constants.RIGHT_COLOR, player.getCurrentPhraseIndex());
 				}
 			}
 		});
@@ -367,23 +367,11 @@ public class Panneau extends JPanel {
 	}
 
 	/**
-	 * Colorie le segment numero n en couleur c
-	 */
-	public void surlignerSegment(Color c, int n) {
-		if (textHandler.getPhrase(n) != null) {
-			int debutRelatifSegment = textHandler.getRelativeStartPhrasePosition(FenetreParametre.premierSegment - 1,
-					n);
-			int finRelativeSegment = debutRelatifSegment + textHandler.getPhrase(n).length();
-			editorPane.surlignerPhrase(debutRelatifSegment, finRelativeSegment, Constants.RIGHT_COLOR);
-		}
-	}
-
-	/**
 	 * Colorie tout jusqu'au segment n en couleur c
 	 */
 	public void surlignerJusquaSegment(Color c, int n) {
 		if (textHandler.getPhrase(n) != null) {
-			int debutRelatifSegment = textHandler.getRelativeStartPhrasePosition(FenetreParametre.premierSegment - 1,
+			int debutRelatifSegment = textHandler.getRelativeStartPhrasePosition(getNumeroPremierSegmentAffiché(),
 					n);
 			int finRelativeSegment = debutRelatifSegment + textHandler.getPhrase(n).length();
 			editorPane.surlignerPhrase(0, finRelativeSegment, Constants.RIGHT_COLOR);

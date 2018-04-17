@@ -59,7 +59,7 @@ public class ControlerGlobal {
 			// si le clic est juste
 			if (p.textHandler.wordPause(offset) && p.textHandler.getPhraseIndex(offset) == p.player.getCurrentPhraseIndex()) {
 				r = true;
-				if (FenetreParametre.modeSurlignage) {
+				if (FenetreParametre.readMode == ReadMode.HIGHLIGHT) {
 					traitementClicJusteModeSurlignage(offset, p.textHandler);
 				} else {
 					traitementClicJuste(offset);
@@ -67,7 +67,7 @@ public class ControlerGlobal {
 				// si le clic est faux
 			} else {
 				r = false;
-				if (FenetreParametre.modeSurlignage) {
+				if (FenetreParametre.readMode == ReadMode.HIGHLIGHT) {
 					traitementClicFauxModeSurlignage(offset, p.textHandler);
 				} else {
 					traitementClicFaux(offset, p.textHandler);
@@ -82,7 +82,7 @@ public class ControlerGlobal {
 	 * Enlève également le surlignage rouge.
 	 */
 	public void updateHighlight() {
-		if (FenetreParametre.modeSurlignage) {
+		if (FenetreParametre.readMode == ReadMode.HIGHLIGHT) {
 			p.editorPane.enleverSurlignageVert();
 			int pauseOffset = p.textHandler.getPauseOffset(p.player.getCurrentPhraseIndex() - 1);
 			p.editorPane.surlignerPhrase(0,
@@ -188,7 +188,7 @@ public class ControlerGlobal {
 		else {
 			p.player.nextPhrase();
 		}
-		if (!FenetreParametre.modeLectureGuidee) {
+		if (FenetreParametre.readMode != ReadMode.GUIDED_READING) {
 			updateHighlight();
 		} else {
 			p.editorPane.désurlignerTout();
@@ -208,7 +208,7 @@ public class ControlerGlobal {
 		else {
 			p.player.previousPhrase();
 		}
-		if (!FenetreParametre.modeLectureGuidee) {
+		if (FenetreParametre.readMode != ReadMode.GUIDED_READING) {
 			updateHighlight();
 		} else {
 			p.editorPane.désurlignerTout();

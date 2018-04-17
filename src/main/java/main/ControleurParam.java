@@ -67,8 +67,8 @@ public class ControleurParam implements ActionListener, ChangeListener, FocusLis
 			}
 		}
 		if (arg0.getSource() == panneau.modeSurlignage) {
-			FenetreParametre.modeSurlignage = ((JCheckBox) arg0.getSource()).isSelected();
-			if (FenetreParametre.modeSurlignage) {
+			if (((JCheckBox) arg0.getSource()).isSelected()) {
+				FenetreParametre.readMode = ReadMode.HIGHLIGHT;
 				if (FenetreParametre.fen.fenetre.pan.player != null) {
 					FenetreParametre.fen.fenetre.pan.editorPane.retablirSurlignageBlue();
 					FenetreParametre.fen.fenetre.pan.surlignerJusquaSegment(Constants.RIGHT_COLOR,
@@ -81,12 +81,17 @@ public class ControleurParam implements ActionListener, ChangeListener, FocusLis
 			}
 		}
 		if (arg0.getSource() == panneau.modeKaraoke) {
-			FenetreParametre.modeLectureGuidee = panneau.modeKaraoke.isSelected();
+			FenetreParametre.readMode = ReadMode.GUIDED_READING;
 		}
 		if (arg0.getSource() == panneau.modePasDispo) {
 			if (panneau.modePasDispo.isSelected()) {
+<<<<<<< HEAD
+				FenetreParametre.readMode = ReadMode.NORMAL;
+			}	
+=======
 				FenetreParametre.modeSurlignage = false;
 			}
+>>>>>>> a3fa17646c9f52560649ca56033e1707360054e6
 		}
 		if (arg0.getSource() instanceof JCheckBox) {
 			JCheckBox temp = (JCheckBox) arg0.getSource();

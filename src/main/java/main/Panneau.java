@@ -47,7 +47,7 @@ public class Panneau extends JPanel {
 		editorPane = new TextPane();
 		editorPane.setEditable(false);
 		add(editorPane, BorderLayout.CENTER);
-		if (!FenetreParametre.modeLectureGuidee) {
+		if (FenetreParametre.readMode != ReadMode.GUIDED_READING) {
 			ControlerMouse controlerMouse = new ControlerMouse(this, textHandler);
 			editorPane.addMouseListener(controlerMouse);
 		}
@@ -73,7 +73,7 @@ public class Panneau extends JPanel {
 		player.onBlockEnd.add(new Runnable() {
 			@Override
 			public void run() {
-				if (!FenetreParametre.modeLectureGuidee) {
+				if (FenetreParametre.readMode != ReadMode.GUIDED_READING) {
 					setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 				} else {
 					editorPane.désurlignerTout();
@@ -99,7 +99,7 @@ public class Panneau extends JPanel {
 				Image img = tk.getImage("ecouter.png");
 				Cursor monCurseur = tk.createCustomCursor(img, new Point(16, 16), "ecouter.png");
 				setCursor(monCurseur);
-				if (FenetreParametre.modeLectureGuidee) {
+				if (FenetreParametre.readMode == ReadMode.GUIDED_READING) {
 					controlerGlobal.highlightPhrase(Constants.RIGHT_COLOR, player.getCurrentPhraseIndex());
 				}
 			}

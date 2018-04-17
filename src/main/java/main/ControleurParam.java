@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.io.File;
 import java.io.IOException;
 
@@ -13,7 +15,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class ControleurParam implements ActionListener, ChangeListener {
+public class ControleurParam implements ActionListener, ChangeListener, FocusListener {
 
 	FenetreParametre.PanneauParam panneau;
 
@@ -64,7 +66,7 @@ public class ControleurParam implements ActionListener, ChangeListener {
 				FenetreParametre.editorPane.setFont(FenetreParametre.police);
 			}
 		}
-		if (arg0.getSource() == panneau.segmentDeDepart) {
+		/*if (arg0.getSource() == panneau.segmentDeDepart) {
 			int premierSegment = -1;
 			try {
 				premierSegment = Integer.valueOf((String) panneau.segmentDeDepart.getText());
@@ -79,7 +81,7 @@ public class ControleurParam implements ActionListener, ChangeListener {
 				panneau.segmentDeDepart.setText("1");
 			}
 			FenetreParametre.premierSegment = premierSegment;
-		}
+		}*/
 		if (arg0.getSource() == panneau.modeSurlignage) {
 			if (((JCheckBox) arg0.getSource()).isSelected()) {
 				FenetreParametre.readMode = ReadMode.HIGHLIGHT;
@@ -99,8 +101,13 @@ public class ControleurParam implements ActionListener, ChangeListener {
 		}
 		if (arg0.getSource() == panneau.modePasDispo) {
 			if (panneau.modePasDispo.isSelected()) {
+<<<<<<< HEAD
 				FenetreParametre.readMode = ReadMode.NORMAL;
 			}	
+=======
+				FenetreParametre.modeSurlignage = false;
+			}
+>>>>>>> a3fa17646c9f52560649ca56033e1707360054e6
 		}
 		if (arg0.getSource() instanceof JCheckBox) {
 			JCheckBox temp = (JCheckBox) arg0.getSource();
@@ -170,6 +177,30 @@ public class ControleurParam implements ActionListener, ChangeListener {
 		if (arg0.getSource() == panneau.sliderAttente) {
 			FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture = panneau.sliderAttente.getValue();
 		}
+	}
+
+	@Override
+	public void focusGained(FocusEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void focusLost(FocusEvent arg0) {
+		int premierSegment = -1;
+		try {
+			premierSegment = Integer.valueOf((String) panneau.segmentDeDepart.getText());
+			if (premierSegment > ((Panneau) FenetreParametre.fen.fenetre.getContentPane()).textHandler
+					.getPhrasesCount() || premierSegment < 1) {
+				JOptionPane.showMessageDialog(FenetreParametre.fen, "Le segment spécifié n'existe pas.", "Erreur",
+						JOptionPane.ERROR_MESSAGE);
+				premierSegment = 1;
+				panneau.segmentDeDepart.setText("1");
+			}
+		} catch (Exception e) {
+			panneau.segmentDeDepart.setText("1");
+		}
+		FenetreParametre.premierSegment = premierSegment;		
 	}
 
 }

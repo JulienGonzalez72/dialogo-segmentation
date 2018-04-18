@@ -88,7 +88,6 @@ public class ControleurParam implements ActionListener, ChangeListener, FocusLis
 		if (arg0.getSource() == panneau.modePasDispo) {
 			if (panneau.modePasDispo.isSelected()) {
 				FenetreParametre.readMode = ReadMode.NORMAL;
-<<<<<<< HEAD
 			}
 		}
 		if (arg0.getSource() instanceof JCheckBox) {
@@ -103,9 +102,6 @@ public class ControleurParam implements ActionListener, ChangeListener, FocusLis
 					}
 				}
 			}
-=======
-			}	
->>>>>>> bc1bac6d265c1cbd6ff2fff4eec984c01bbcc2e8
 		}
 		if (arg0.getSource() == panneau.valider) {
 			// si on a pas encore lancé l'exercice

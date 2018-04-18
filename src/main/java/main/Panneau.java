@@ -26,6 +26,7 @@ public class Panneau extends JPanel {
 	public JFrame fenetre;
 	public ControlFrame controlFrame;
 	public ControlerGlobal controlerGlobal;
+	public ControlerKey controlerKey;
 
 	public Map<Integer, List<Integer>> segmentsEnFonctionDeLaPage = new HashMap<Integer, List<Integer>>();
 
@@ -76,7 +77,6 @@ public class Panneau extends JPanel {
 			}
 			/// en mode lecture guidée, passe directement au segment suivant ///
 			else {
-				editorPane.désurlignerTout();
 				controlerGlobal.doNext();
 			}
 		});
@@ -93,14 +93,15 @@ public class Panneau extends JPanel {
 			Image img = tk.getImage("ecouter.png");
 			Cursor monCurseur = tk.createCustomCursor(img, new Point(16, 16), "ecouter.png");
 			setCursor(monCurseur);
+			
 			if (FenetreParametre.readMode == ReadMode.GUIDED_READING) {
+				editorPane.désurlignerTout();
 				controlerGlobal.highlightPhrase(Constants.RIGHT_COLOR, player.getCurrentPhraseIndex());
-				controlerGlobal.removeHighlightPhrase(player.getCurrentPhraseIndex());
 			}
 		});
 		player.goTo(FenetreParametre.premierSegment - 1);
-		controlFrame = new ControlFrame(player, controlerGlobal);
-		ControlerKey controlerKey = new ControlerKey(player);
+		controlFrame = new ControlFrame(this);
+		controlerKey = new ControlerKey(player);
 		editorPane.addKeyListener(controlerKey);
 		editorPane.requestFocus();
 	}

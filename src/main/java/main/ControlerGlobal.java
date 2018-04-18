@@ -199,10 +199,7 @@ public class ControlerGlobal {
 		}
 		if (FenetreParametre.readMode != ReadMode.GUIDED_READING) {
 			updateHighlight();
-		} else {
-			p.editorPane.désurlignerTout();
-			highlightPhrase(Constants.RIGHT_COLOR, p.player.getCurrentPhraseIndex());
-		}	
+		}
 	}
 	
 	/**

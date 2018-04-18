@@ -12,7 +12,6 @@ import java.util.ArrayList;
 
 import java.util.List;
 
-
 import javax.swing.SwingWorker;
 
 public class ControlerGlobal {
@@ -212,21 +211,17 @@ public class ControlerGlobal {
 		}
 		if (FenetreParametre.readMode != ReadMode.GUIDED_READING) {
 			updateHighlight();
-<<<<<<< HEAD
 		} else {
 			p.editorPane.désurlignerTout();
 			highlightPhrase(Constants.RIGHT_COLOR, p.player.getCurrentPhraseIndex());
-		}		
-=======
 		}
->>>>>>> 4b516906426f03a755cbccbfb2988ca0170d601d
 	}
 
 	public void sauvegarder() {
 
 		String fichier = "preference.txt";
 
-		//recueration des lignes deja existantes
+		// recueration des lignes deja existantes
 		List<String> lignes = new ArrayList<String>();
 		try {
 			InputStream ips = new FileInputStream(fichier);
@@ -234,11 +229,11 @@ public class ControlerGlobal {
 			BufferedReader br = new BufferedReader(ipsr);
 			String ligne;
 			int i = 0;
-			//stockage des lignes modifiées
+			// stockage des lignes modifiées
 			while ((ligne = br.readLine()) != null) {
-				//si c'est la ligne du segment
-				if ( i == 9) {
-					lignes.add("segmentDepart:"+(this.p.player.getCurrentPhraseIndex()+1));
+				// si c'est la ligne du segment
+				if (i == 9) {
+					lignes.add("segmentDepart:" + (this.p.player.getCurrentPhraseIndex() + 1));
 				} else {
 					lignes.add(ligne);
 				}
@@ -249,7 +244,7 @@ public class ControlerGlobal {
 			e.printStackTrace();
 		}
 
-		//ecritures des lignes modifiees
+		// ecritures des lignes modifiees
 		PrintWriter writer = null;
 		try {
 			writer = new PrintWriter(fichier, "UTF-8");

@@ -1,9 +1,13 @@
 package main;
 
+<<<<<<< HEAD
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.*;
+=======
+import java.io.IOException;
+>>>>>>> 4b516906426f03a755cbccbfb2988ca0170d601d
 
 import javax.swing.*;
 
@@ -28,6 +32,7 @@ public class Fenetre extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(true);
 	}
+<<<<<<< HEAD
 
 	private void stockerPreference() {
 		Object optionPaneBG = UIManager.get("OptionPane.background");
@@ -158,6 +163,9 @@ public class Fenetre extends JFrame {
 	
 	
 
+=======
+	
+>>>>>>> 4b516906426f03a755cbccbfb2988ca0170d601d
 	public void start() {
 		setVisible(true);
 		SwingUtilities.invokeLater(new Runnable() {
@@ -165,6 +173,7 @@ public class Fenetre extends JFrame {
 				pan.init();
 			}
 		});
+<<<<<<< HEAD
 
 		JMenuBar menubar = new JMenuBar();
 
@@ -231,6 +240,8 @@ public class Fenetre extends JFrame {
 		setJMenuBar(menubar);
 
 		setVisible(true);
+=======
+>>>>>>> 4b516906426f03a755cbccbfb2988ca0170d601d
 	}
 
 }

@@ -18,7 +18,7 @@ public class FenetreParametre extends JFrame {
 	public static TextPane editorPane;
 	public static int nbFautesTolerees;
 	public static int tempsPauseEnPourcentageDuTempsDeLecture;
-	public static ReadMode readMode = ReadMode.HIGHLIGHT;
+	public static ReadMode readMode = ReadMode.GUIDED_READING;
 	public Fenetre fenetre;
 
 	public FenetreParametre(String titre, int tailleX, int tailleY) {
@@ -159,7 +159,12 @@ public class FenetreParametre extends JFrame {
 			modeKaraoke = new JRadioButton("Mode Lecture guidée");
 			modeKaraoke.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
 			modeKaraoke.addActionListener(controleur);
+<<<<<<< HEAD
 
+=======
+			modeKaraoke.setSelected(true);
+			
+>>>>>>> 4b516906426f03a755cbccbfb2988ca0170d601d
 			modePasDispo = new JRadioButton("Mode Normal");
 			modePasDispo.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
 			modePasDispo.addActionListener(controleur);

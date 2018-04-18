@@ -212,10 +212,14 @@ public class ControlerGlobal {
 		}
 		if (FenetreParametre.readMode != ReadMode.GUIDED_READING) {
 			updateHighlight();
+<<<<<<< HEAD
 		} else {
 			p.editorPane.désurlignerTout();
 			highlightPhrase(Constants.RIGHT_COLOR, p.player.getCurrentPhraseIndex());
 		}		
+=======
+		}
+>>>>>>> 4b516906426f03a755cbccbfb2988ca0170d601d
 	}
 
 	public void sauvegarder() {

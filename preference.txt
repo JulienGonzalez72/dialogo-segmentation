@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 w:1000
 h:700
 x:460
@@ -6,5 +7,15 @@ taillePolice:12
 typePolice:OpenDyslexic Bold
 couleur:255/255/150
 mode:HIGHLIGHT
+=======
+w:325
+h:90
+x:0
+y:0
+taillePolice:36
+typePolice:OpenDyslexic Bold
+couleur:255/255/150
+mode:GUIDED_READING
+>>>>>>> 4b516906426f03a755cbccbfb2988ca0170d601d
 tempsAttente:0
 segmentDepart:25

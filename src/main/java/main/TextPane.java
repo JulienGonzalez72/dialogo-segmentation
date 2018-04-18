@@ -4,8 +4,7 @@ import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Rectangle;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import javax.swing.JTextPane;
 import javax.swing.text.*;
 import javax.swing.text.Highlighter.*;

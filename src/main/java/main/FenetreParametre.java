@@ -1,13 +1,7 @@
 package main;
 
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
+import java.io.*;
 import javax.swing.*;
 
 public class FenetreParametre extends JFrame {
@@ -60,14 +54,13 @@ public class FenetreParametre extends JFrame {
 		JComboBox<Object> listePolices;
 		JComboBox<Object> listeTailles;
 		JComboBox<Object> listeCouleurs;
+		JComboBox<Object> listeBonnesCouleurs;
+		JComboBox<Object> listeMauvaisesCouleurs;
 		JTextField segmentDeDepart;
 		JTextField champNbFautesTolerees;
 		JButton valider;
 		JRadioButton modeSurlignage, modeKaraoke, modePasDispo;
-<<<<<<< HEAD
 		ButtonGroup modes;
-=======
->>>>>>> bc1bac6d265c1cbd6ff2fff4eec984c01bbcc2e8
 		JSlider sliderAttente;
 		final Object[] polices;
 		final Object[] tailles;
@@ -75,7 +68,7 @@ public class FenetreParametre extends JFrame {
 
 		public PanneauParam() throws NumberFormatException, IOException {
 			fen = FenetreParametre.this;
-			setLayout(new GridLayout(18, 1));
+			setLayout(new GridLayout(22, 1));
 			JLabel titre = fastLabel("Choisissez vos parametres");
 			titre.setBorder(BorderFactory.createLineBorder(Color.blue, 2));
 			add(titre);
@@ -84,15 +77,16 @@ public class FenetreParametre extends JFrame {
 			JLabel police = fastLabel("Police : ");
 			JLabel taillePolice = fastLabel("Taille de la police : ");
 			JLabel couleurDeFond = fastLabel("Couleur de fond : ");
+			JLabel couleurJuste = fastLabel("Couleur pour \"juste\" : ");
+			JLabel couleurFausse = fastLabel("Couleur pour \"faux\" : ");
 			JLabel segments = fastLabel("Segment de départ ");
 			JLabel attente = fastLabel("Temps d'attente en % du temps de lecture");
 
 			polices = new Object[] { "OpenDyslexic", "Andika", "Lexia", "Arial", "Times New Roman" };
 			tailles = new Object[] { "12", "16", "18", "20", "22", "24", "30", "36", "42" };
-			couleurs = new Object[] { "Jaune", "Blanc", "Orange", "Rose", "Bleu" };
+			couleurs = new Object[] { "Jaune", "Blanc", "Orange", "Rose", "Bleu","Rouge","Vert" };
 
 			ControleurParam controleur = new ControleurParam(this);
-			addFocusListener(controleur);
 			valider.addActionListener(controleur);
 
 			listePolices = new JComboBox<Object>(polices);
@@ -131,9 +125,21 @@ public class FenetreParametre extends JFrame {
 			listeCouleurs.setBackground(new Color(255, 255, 150));
 			listeCouleurs.setFont(new Font("OpenDyslexic", Font.PLAIN, 15));
 
-			segmentDeDepart = fastTextField("", new Font("OpenDyslexic", Font.PLAIN, 15), "1");
+			listeBonnesCouleurs = new JComboBox<Object>(couleurs);
+			((JLabel) listeBonnesCouleurs.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+			listeBonnesCouleurs.addActionListener(controleur);
+			listeBonnesCouleurs.setBackground(new Color(255, 255, 150));
+			listeBonnesCouleurs.setFont(new Font("OpenDyslexic", Font.PLAIN, 15));
+
+			listeMauvaisesCouleurs = new JComboBox<Object>(couleurs);
+			((JLabel) listeMauvaisesCouleurs.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+			listeMauvaisesCouleurs.addActionListener(controleur);
+			listeMauvaisesCouleurs.setBackground(new Color(255, 255, 150));
+			listeMauvaisesCouleurs.setFont(new Font("OpenDyslexic", Font.PLAIN, 15));
+
+			segmentDeDepart = fastTextField(String.valueOf(FenetreParametre.premierSegment),
+					new Font("OpenDyslexic", Font.PLAIN, 15), "1");
 			segmentDeDepart.addActionListener(controleur);
-			segmentDeDepart.addFocusListener(controleur);
 
 			add(police);
 			fastCentering(listePolices, this);
@@ -145,20 +151,19 @@ public class FenetreParametre extends JFrame {
 			JLabel nbFautesTolerees = fastLabel("Nombre de fautes maximum");
 			champNbFautesTolerees = fastTextField("", new Font("OpenDyslexic", Font.PLAIN, 15), "2");
 			champNbFautesTolerees.addActionListener(controleur);
-			champNbFautesTolerees.addFocusListener(controleur);
-			
+
 			modeSurlignage = new JRadioButton("Mode surlignage");
 			modeSurlignage.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
 			modeSurlignage.addActionListener(controleur);
-			
+
 			modeKaraoke = new JRadioButton("Mode Lecture guidée");
 			modeKaraoke.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
 			modeKaraoke.addActionListener(controleur);
-			
+
 			modePasDispo = new JRadioButton("Mode Normal");
 			modePasDispo.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
 			modePasDispo.addActionListener(controleur);
-			
+
 			modes = new ButtonGroup();
 			modes.add(modeSurlignage);
 			modes.add(modeKaraoke);
@@ -168,8 +173,12 @@ public class FenetreParametre extends JFrame {
 			fastCentering(champNbFautesTolerees, this);
 			add(couleurDeFond);
 			fastCentering(listeCouleurs, this);
+			add(couleurJuste);
+			fastCentering(listeBonnesCouleurs, this);
+			add(couleurFausse);
+			fastCentering(listeMauvaisesCouleurs, this);
 			add(new JLabel());
-			
+
 			panelModes = new JPanel(new GridLayout(1, 3));
 			panelModes.add(modeSurlignage);
 			panelModes.add(modeKaraoke);
@@ -187,13 +196,16 @@ public class FenetreParametre extends JFrame {
 			sliderAttente.setMinorTickSpacing(10);
 			sliderAttente.setMajorTickSpacing(50);
 			sliderAttente.addChangeListener(controleur);
-
-			// fastCentering(sliderAttente,this);
 			add(sliderAttente);
 
 			add(new JLabel());
 			add(valider);
 
+			chargerPreferences();
+
+		}
+
+		public void chargerPreferences() throws NumberFormatException, IOException {
 			String fichier = "preference.txt";
 			InputStream ips;
 			try {
@@ -275,13 +287,35 @@ public class FenetreParametre extends JFrame {
 						if (color == Color.BLUE) {
 							listeCouleurs.setSelectedItem(couleurs[5]);
 						}
+						if (color == Color.RED) {
+							listeCouleurs.setSelectedItem(couleurs[6]);
+						}
+						if (color == Color.GREEN) {
+							listeCouleurs.setSelectedItem(couleurs[7]);
+						}
 						break;
 					case 7:
-						modeSurlignage.setSelected(Boolean.valueOf(ligne.split(":")[1]));
+						FenetreParametre.readMode = ReadMode.parse(ligne.split(":")[1]);
+						switch (FenetreParametre.readMode) {
+						case NORMAL:
+							modePasDispo.setSelected(true);
+							break;
+						case HIGHLIGHT:
+							modeSurlignage.setSelected(true);
+							break;
+						case GUIDED_READING:
+							modeKaraoke.setSelected(true);
+							break;
+						default:
+							break;
+						}
 						break;
 					case 8:
 						FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture = Integer.valueOf(ligne.split(":")[1]);
 						sliderAttente.setValue(Integer.valueOf(ligne.split(":")[1]));
+						break;
+					case 9:
+						segmentDeDepart.setText(String.valueOf(ligne.split(":")[1]));
 						break;
 					default:
 						break;
@@ -291,7 +325,6 @@ public class FenetreParametre extends JFrame {
 			} catch (FileNotFoundException e) {
 
 			}
-
 		}
 
 		public void fermer() {

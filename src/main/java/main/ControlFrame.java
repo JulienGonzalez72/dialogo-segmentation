@@ -36,7 +36,7 @@ public class ControlFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setFocusableWindowState(false);
 		setVisible(true);
-
+		
 		panel.add(previousButton);
 		previousButton.setIcon(new ImageIcon(previousIcon));
 		previousButton.setEnabled(player.hasPreviousPhrase());

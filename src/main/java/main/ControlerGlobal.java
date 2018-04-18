@@ -1,6 +1,18 @@
 package main;
 
 import java.awt.Color;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+
+import java.util.List;
+
+
 import javax.swing.SwingWorker;
 
 public class ControlerGlobal {
@@ -37,21 +49,21 @@ public class ControlerGlobal {
 			p.editorPane.surlignerPhrase(debutRelatifSegment, finRelativeSegment, Constants.RIGHT_COLOR);
 		}
 	}
-	
+
 	/**
-	 * Supprime le surlignage qui se trouve sur le segment n. Ne fait rien si ce segment n'est pas surligné.
+	 * Supprime le surlignage qui se trouve sur le segment n. Ne fait rien si ce
+	 * segment n'est pas surligné.
 	 */
 	public void removeHighlightPhrase(int n) {
-		int debutRelatifSegment = p.textHandler.getRelativeStartPhrasePosition(p.getNumeroPremierSegmentAffiché(),
-				n);
+		int debutRelatifSegment = p.textHandler.getRelativeStartPhrasePosition(p.getNumeroPremierSegmentAffiché(), n);
 		int finRelativeSegment = debutRelatifSegment + p.textHandler.getPhrase(n).length();
 		p.editorPane.removeHighlight(debutRelatifSegment, finRelativeSegment);
 	}
-	
+
 	public boolean waitForClick() {
-		return waitForClick(p.nbEssaisRestantPourLeSegmentCourant,p.player.getCurrentPhraseIndex());
+		return waitForClick(p.nbEssaisRestantPourLeSegmentCourant, p.player.getCurrentPhraseIndex());
 	}
-	
+
 	/**
 	 * La page se met en attente d'un clic, jusqu'à ce que :<br>
 	 * - soit le clic soit juste, renvoie true <br>
@@ -64,9 +76,11 @@ public class ControlerGlobal {
 		// on ne fait rien si la phrase est en cours de lecture
 		if (p.player.isPhraseFinished()) {
 			/// cherche la position exacte dans le texte ///
-			int offset = p.textHandler.getAbsoluteOffset(p.getNumeroPremierSegmentAffiché(), p.editorPane.getCaretPosition());
+			int offset = p.textHandler.getAbsoluteOffset(p.getNumeroPremierSegmentAffiché(),
+					p.editorPane.getCaretPosition());
 			// si le clic est juste
-			if (p.textHandler.wordPause(offset) && p.textHandler.getPhraseIndex(offset) == p.player.getCurrentPhraseIndex()) {
+			if (p.textHandler.wordPause(offset)
+					&& p.textHandler.getPhraseIndex(offset) == p.player.getCurrentPhraseIndex()) {
 				r = true;
 				if (FenetreParametre.readMode == ReadMode.HIGHLIGHT) {
 					traitementClicJusteModeSurlignage(offset, p.textHandler);
@@ -85,10 +99,10 @@ public class ControlerGlobal {
 		}
 		return r;
 	}
-	
+
 	/**
-	 * Rafraîchit le surlignage (notamment pour le mode surlignage vert) en fonction du segment actuel.
-	 * Enlève également le surlignage rouge.
+	 * Rafraîchit le surlignage (notamment pour le mode surlignage vert) en fonction
+	 * du segment actuel. Enlève également le surlignage rouge.
 	 */
 	public void updateHighlight() {
 		if (FenetreParametre.readMode == ReadMode.HIGHLIGHT) {
@@ -127,7 +141,7 @@ public class ControlerGlobal {
 	}
 
 	private void traitementClicJusteModeSurlignage(int offset, TextHandler handler) {
-		//int pauseOffset = handler.endWordPosition(offset);
+		// int pauseOffset = handler.endWordPosition(offset);
 		// on restaure le nombre d'essais
 		p.nbEssaisRestantPourLeSegmentCourant = Panneau.defautNBEssaisParSegment;
 		p.editorPane.enleverSurlignageRouge();
@@ -166,9 +180,10 @@ public class ControlerGlobal {
 		p.editorPane.enleverSurlignageRouge();
 		doNext();
 	}
-	
+
 	/**
-	 * Essaye de passer au segment suivant, attends et passe à la page suivante si c'était le dernier segment de la page.
+	 * Essaye de passer au segment suivant, attends et passe à la page suivante si
+	 * c'était le dernier segment de la page.
 	 */
 	public void doNext() {
 		// si la page est finis on affiche la suivante
@@ -187,14 +202,12 @@ public class ControlerGlobal {
 						p.controlFrame.enableAll();
 						p.player.nextPhrase();
 						p.afficherPageSuivante();
-					}
-					else {
+					} else {
 						p.afficherCompteRendu();
 					}
 				}
 			}.execute();
-		}
-		else {
+		} else {
 			p.player.nextPhrase();
 		}
 		if (FenetreParametre.readMode != ReadMode.GUIDED_READING) {
@@ -202,9 +215,50 @@ public class ControlerGlobal {
 		} else {
 			p.editorPane.désurlignerTout();
 			highlightPhrase(Constants.RIGHT_COLOR, p.player.getCurrentPhraseIndex());
-		}	
+		}		
 	}
-	
+
+	public void sauvegarder() {
+
+		String fichier = "preference.txt";
+
+		//recueration des lignes deja existantes
+		List<String> lignes = new ArrayList<String>();
+		try {
+			InputStream ips = new FileInputStream(fichier);
+			InputStreamReader ipsr = new InputStreamReader(ips);
+			BufferedReader br = new BufferedReader(ipsr);
+			String ligne;
+			int i = 0;
+			//stockage des lignes modifiées
+			while ((ligne = br.readLine()) != null) {
+				//si c'est la ligne du segment
+				if ( i == 9) {
+					lignes.add("segmentDepart:"+(this.p.player.getCurrentPhraseIndex()+1));
+				} else {
+					lignes.add(ligne);
+				}
+				i++;
+			}
+			br.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		//ecritures des lignes modifiees
+		PrintWriter writer = null;
+		try {
+			writer = new PrintWriter(fichier, "UTF-8");
+		} catch (FileNotFoundException | UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		for (String s : lignes) {
+			writer.println(s);
+		}
+		writer.close();
+
+	}
+
 	/**
 	 * Essaye de passer au segment précédent.
 	 */
@@ -213,8 +267,7 @@ public class ControlerGlobal {
 		if (p.player.getCurrentPhraseIndex() == p.getNumeroPremierSegmentAffiché()) {
 			p.player.previousPhrase();
 			p.afficherPagePrecedente();
-		}
-		else {
+		} else {
 			p.player.previousPhrase();
 		}
 		if (FenetreParametre.readMode != ReadMode.GUIDED_READING) {
@@ -222,7 +275,7 @@ public class ControlerGlobal {
 		} else {
 			p.editorPane.désurlignerTout();
 			highlightPhrase(Constants.RIGHT_COLOR, p.player.getCurrentPhraseIndex());
-		}	
+		}
 	}
 
 	/**

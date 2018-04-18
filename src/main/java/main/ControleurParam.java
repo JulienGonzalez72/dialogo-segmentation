@@ -1,21 +1,13 @@
 package main;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.io.File;
-import java.io.IOException;
-
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class ControleurParam implements ActionListener, ChangeListener, FocusListener {
+public class ControleurParam implements ActionListener, ChangeListener {
 
 	FenetreParametre.PanneauParam panneau;
 
@@ -28,7 +20,7 @@ public class ControleurParam implements ActionListener, ChangeListener, FocusLis
 		if (arg0.getSource() instanceof JComboBox) {
 			jcb = (JComboBox<?>) arg0.getSource();
 		}
-		if (jcb == panneau.listeCouleurs) {
+		if (jcb == panneau.listeCouleurs || jcb == panneau.listeMauvaisesCouleurs || jcb == panneau.listeBonnesCouleurs) {
 			String s = (String) jcb.getSelectedItem();
 			Color color = null;
 			if (s == "Jaune") {
@@ -46,7 +38,26 @@ public class ControleurParam implements ActionListener, ChangeListener, FocusLis
 			if (s == "Bleu") {
 				color = Color.CYAN;
 			}
-			panneau.listeCouleurs.setBackground(FenetreParametre.couleurFond = color);
+			if (s == "Rouge") {
+				color = Color.RED;
+			}
+			if (s == "Vert") {
+				color = Color.GREEN;
+			}
+			((JComboBox<?>) jcb).setBackground(color);
+			if ( jcb == panneau.listeBonnesCouleurs) {
+				Constants.RIGHT_COLOR = color;
+			}
+			if ( jcb == panneau.listeMauvaisesCouleurs) {
+				Constants.WRONG_COLOR = color;
+			}
+			if ( jcb == panneau.listeCouleurs) {
+				if ( FenetreParametre.editorPane != null) {
+				FenetreParametre.editorPane.setBackground(color);
+				} else {
+					FenetreParametre.couleurFond = color;
+				}
+			}
 			panneau.grabFocus();
 		}
 		if (jcb == panneau.listeTailles) {
@@ -83,56 +94,41 @@ public class ControleurParam implements ActionListener, ChangeListener, FocusLis
 		if (arg0.getSource() == panneau.modeKaraoke) {
 			if (panneau.modeKaraoke.isSelected()) {
 				FenetreParametre.readMode = ReadMode.GUIDED_READING;
-			}	
+			}
 		}
 		if (arg0.getSource() == panneau.modePasDispo) {
 			if (panneau.modePasDispo.isSelected()) {
 				FenetreParametre.readMode = ReadMode.NORMAL;
-<<<<<<< HEAD
 			}
-		}
-		if (arg0.getSource() instanceof JCheckBox) {
-			JCheckBox temp = (JCheckBox) arg0.getSource();
-			for (Component c : ((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).panelModes
-					.getComponents()) {
-				if (c instanceof JCheckBox) {
-					if (temp.isSelected()) {
-						if ((JCheckBox) c != temp) {
-							((JCheckBox) c).setSelected(false);
-						}
-					}
-				}
-			}
-=======
-			}	
->>>>>>> bc1bac6d265c1cbd6ff2fff4eec984c01bbcc2e8
 		}
 		if (arg0.getSource() == panneau.valider) {
-			// si on a pas encore lancé l'exercice
-			if (FenetreParametre.editorPane == null) {
-				try {
-					FenetreParametre.nbFautesTolerees = Math.max(0,
-							Integer.valueOf(panneau.champNbFautesTolerees.getText()));
-				} catch (Exception e) {
-					FenetreParametre.nbFautesTolerees = 0;
-					panneau.champNbFautesTolerees.setText("0");
+			if (verifierValiditeChamp()) {
+				// si on a pas encore lancé l'exercice
+				if (FenetreParametre.editorPane == null) {
+					try {
+						FenetreParametre.nbFautesTolerees = Math.max(0,
+								Integer.valueOf(panneau.champNbFautesTolerees.getText()));
+					} catch (Exception e) {
+						FenetreParametre.nbFautesTolerees = 0;
+						panneau.champNbFautesTolerees.setText("0");
+					}
+					try {
+						FenetreParametre.premierSegment = Math.max(0,
+								Integer.valueOf(panneau.segmentDeDepart.getText()));
+					} catch (Exception e) {
+						FenetreParametre.premierSegment = 0;
+						panneau.segmentDeDepart.setText("0");
+					}
+					FenetreParametre.fen.lancerExercice();
+					panneau.fermer();
+					// si on a deja lancé l'exercice
+				} else {
+					// on reactive l'exercice
+					FenetreParametre.fen.fenetre.setEnabled(true);
+					FenetreParametre.fen.fenetre.pan.controlFrame.setEnabled(true);
+					panneau.fermer();
+					Panneau.premierSegment = FenetreParametre.premierSegment;
 				}
-				try {
-					FenetreParametre.premierSegment = Math.max(0, Integer.valueOf(panneau.segmentDeDepart.getText()));
-				} catch (Exception e) {
-					FenetreParametre.premierSegment = 0;
-					panneau.segmentDeDepart.setText("0");
-				}
-				FenetreParametre.fen.lancerExercice();
-				panneau.fermer();
-				// si on a deja lancé l'exercice
-			} else {
-				// on reactive l'exercice
-				FenetreParametre.fen.fenetre.setEnabled(true);
-				FenetreParametre.fen.fenetre.pan.controlFrame.setEnabled(true);
-				panneau.fermer();
-				Panneau.premierSegment = FenetreParametre.premierSegment;
-				FenetreParametre.editorPane.setBackground(FenetreParametre.couleurFond);
 			}
 		}
 	}
@@ -164,45 +160,50 @@ public class ControleurParam implements ActionListener, ChangeListener, FocusLis
 		}
 	}
 
-	@Override
-	public void focusGained(FocusEvent arg0) {
-		// TODO Auto-generated method stub
+	public boolean verifierValiditeChamp() {
+		boolean valide = true;
 
-	}
-
-	@Override
-	public void focusLost(FocusEvent arg0) {
-		if (arg0.getSource() == panneau.segmentDeDepart) {
-			int premierSegment = -1;
-			try {
-				premierSegment = Integer.valueOf((String) panneau.segmentDeDepart.getText());
-				if (premierSegment > ((Panneau) FenetreParametre.fen.fenetre.getContentPane()).textHandler
-						.getPhrasesCount() || premierSegment < 1) {
-					JOptionPane.showMessageDialog(panneau, "Le segment spécifié n'existe pas.", "Erreur",
-							JOptionPane.ERROR_MESSAGE);
-					premierSegment = 1;
-					panneau.segmentDeDepart.setText("1");
-				}
-			} catch (Exception e) {
+		if (!( panneau.listeCouleurs.getSelectedIndex() != panneau.listeBonnesCouleurs.getSelectedIndex() && panneau.listeBonnesCouleurs.getSelectedIndex() != panneau.listeMauvaisesCouleurs.getSelectedIndex() && panneau.listeMauvaisesCouleurs.getSelectedIndex() != panneau.listeCouleurs.getSelectedIndex())) {
+			JOptionPane.showMessageDialog(panneau, "Les couleurs doivent être différentes", "Erreur",JOptionPane.ERROR_MESSAGE);
+			valide = false;
+		}
+		
+		// premier segment
+		int premierSegment = -1;
+		try {
+			premierSegment = Integer.valueOf((String) panneau.segmentDeDepart.getText());
+			if (premierSegment > ((Panneau) FenetreParametre.fen.fenetre.getContentPane()).textHandler.getPhrasesCount()
+					|| premierSegment < 1) {
+				JOptionPane.showMessageDialog(panneau, "Le segment spécifié n'existe pas.", "Erreur",
+						JOptionPane.ERROR_MESSAGE);
+				premierSegment = 1;
 				panneau.segmentDeDepart.setText("1");
+				valide = false;
 			}
-			FenetreParametre.premierSegment = premierSegment;
+		} catch (Exception e) {
+			panneau.segmentDeDepart.setText("1");
+			valide = false;
 		}
-		if ( arg0.getSource() == panneau.champNbFautesTolerees) {
-			int n = -1;
-			try {
-				n = Integer.valueOf((String) panneau.champNbFautesTolerees.getText());
-				if ( n < 0) {
-					JOptionPane.showMessageDialog(panneau, "Le nombre de fautes tolérées doit être positif ou nul", "Erreur",
-							JOptionPane.ERROR_MESSAGE);
-					n = 1;
-					panneau.champNbFautesTolerees.setText("0");
-				}
-			} catch (Exception e) {
+		FenetreParametre.premierSegment = premierSegment;
+
+		// nb fautes tolérées
+		int n = -1;
+		try {
+			n = Integer.valueOf((String) panneau.champNbFautesTolerees.getText());
+			if (n < 0) {
+				JOptionPane.showMessageDialog(panneau, "Le nombre de fautes tolérées doit être positif ou nul",
+						"Erreur", JOptionPane.ERROR_MESSAGE);
+				n = 1;
 				panneau.champNbFautesTolerees.setText("0");
+				valide = false;
 			}
-			FenetreParametre.nbFautesTolerees = n;
+		} catch (Exception e) {
+			panneau.champNbFautesTolerees.setText("0");
+			valide = false;
 		}
+		FenetreParametre.nbFautesTolerees = n;
+
+		return valide;
 	}
 
 }

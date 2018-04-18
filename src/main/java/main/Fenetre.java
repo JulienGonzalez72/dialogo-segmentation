@@ -1,18 +1,9 @@
 package main;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 
 import javax.swing.*;
 
@@ -68,6 +59,7 @@ public class Fenetre extends JFrame {
 					+ FenetreParametre.couleurFond.getGreen() + "/" + FenetreParametre.couleurFond.getBlue());
 			writer.println("mode:" + FenetreParametre.readMode);
 			writer.println("tempsAttente:"+FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture);
+			writer.println("segmentDepart:"+pan.player.getCurrentPhraseIndex());
 			writer.close();
 		}
 	}
@@ -96,7 +88,6 @@ public class Fenetre extends JFrame {
 				int w = -1, h = -1, x = -1, y = -1, t = -1, tempsPause = -1;
 				Color color = null;
 				String p = null;
-				ReadMode mode = null;
 				int i = 0;
 				while ((ligne = br.readLine()) != null) {
 					switch (i) {
@@ -124,23 +115,14 @@ public class Fenetre extends JFrame {
 								Integer.valueOf(temp.split("/")[2]));
 						break;
 					case 7:
-						String s = String.valueOf(ligne.split(":")[1]);
-						switch(s) {
-						case "GUIDED_READING":
-							mode = ReadMode.GUIDED_READING;
-							break;
-						case "HIGHLIGHT":
-							mode = ReadMode.HIGHLIGHT;
-							break;
-						case "NORMAL":
-							mode = ReadMode.NORMAL;
-							break;
-						}
-						FenetreParametre.readMode = mode;
+						FenetreParametre.readMode = ReadMode.parse(ligne.split(":")[1]);
 						break;
 					case 8:
 						tempsPause = Integer.valueOf(ligne.split(":")[1]);
 						break;
+					case 9:
+						FenetreParametre.premierSegment = Integer.valueOf(ligne.split(":")[1]);
+						((FenetreParametre.PanneauParam)FenetreParametre.fen.getContentPane()).segmentDeDepart.setText(String.valueOf(pan.player.getCurrentPhraseIndex()));
 					default:
 						break;
 					}
@@ -173,6 +155,8 @@ public class Fenetre extends JFrame {
 			pan.buildPagesByRoman(FenetreParametre.premierSegment - 1);
 		}
 	}
+	
+	
 
 	public void start() {
 		setVisible(true);
@@ -200,7 +184,7 @@ public class Fenetre extends JFrame {
 		eMenuItem2.addActionListener((ActionEvent event) -> {
 			this.setVisible(false);
 			this.pan.controlFrame.setVisible(false);
-			new FenetreParametre("Dialogo", 500, 700);
+			((FenetreParametre.PanneauParam) new FenetreParametre(Constants.titreFenetreParam, Constants.largeurFenetreParam, Constants.hauteurFenetreParam).getContentPane()).segmentDeDepart.setText(String.valueOf(pan.player.getCurrentPhraseIndex()));
 		});
 		JMenuItem eMenuItem3 = new JMenuItem("Parametres");
 		eMenuItem3.setMnemonic(KeyEvent.VK_P);

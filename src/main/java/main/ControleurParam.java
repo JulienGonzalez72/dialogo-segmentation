@@ -101,22 +101,6 @@ public class ControleurParam implements ActionListener, ChangeListener {
 				FenetreParametre.readMode = ReadMode.NORMAL;
 			}
 		}
-<<<<<<< HEAD
-=======
-		if (arg0.getSource() instanceof JCheckBox) {
-			JCheckBox temp = (JCheckBox) arg0.getSource();
-			for (Component c : ((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).panelModes
-					.getComponents()) {
-				if (c instanceof JCheckBox) {
-					if (temp.isSelected()) {
-						if ((JCheckBox) c != temp) {
-							((JCheckBox) c).setSelected(false);
-						}
-					}
-				}
-			}
-		}
->>>>>>> 4b516906426f03a755cbccbfb2988ca0170d601d
 		if (arg0.getSource() == panneau.valider) {
 			if (verifierValiditeChamp()) {
 				// si on a pas encore lancé l'exercice

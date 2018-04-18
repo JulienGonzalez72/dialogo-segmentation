@@ -34,7 +34,6 @@ public class ControlerGlobal {
 			int debutRelatifSegment = p.textHandler.getRelativeStartPhrasePosition(p.getNumeroPremierSegmentAffiché(),
 					n);
 			int finRelativeSegment = debutRelatifSegment + p.textHandler.getPhrase(n).length();
-			System.out.println(debutRelatifSegment + ", " + finRelativeSegment);
 			p.editorPane.surlignerPhrase(debutRelatifSegment, finRelativeSegment, Constants.RIGHT_COLOR);
 		}
 	}

@@ -67,7 +67,7 @@ public class ControleurParam implements ActionListener, ChangeListener, FocusLis
 			}
 		}
 		if (arg0.getSource() == panneau.modeSurlignage) {
-			if (((JCheckBox) arg0.getSource()).isSelected()) {
+			if (((JRadioButton) arg0.getSource()).isSelected()) {
 				FenetreParametre.readMode = ReadMode.HIGHLIGHT;
 				if (FenetreParametre.fen.fenetre.pan.player != null) {
 					FenetreParametre.fen.fenetre.pan.editorPane.retablirSurlignageBlue();
@@ -81,30 +81,14 @@ public class ControleurParam implements ActionListener, ChangeListener, FocusLis
 			}
 		}
 		if (arg0.getSource() == panneau.modeKaraoke) {
-			FenetreParametre.readMode = ReadMode.GUIDED_READING;
+			if (panneau.modeKaraoke.isSelected()) {
+				FenetreParametre.readMode = ReadMode.GUIDED_READING;
+			}	
 		}
 		if (arg0.getSource() == panneau.modePasDispo) {
 			if (panneau.modePasDispo.isSelected()) {
-<<<<<<< HEAD
 				FenetreParametre.readMode = ReadMode.NORMAL;
 			}	
-=======
-				FenetreParametre.modeSurlignage = false;
-			}
->>>>>>> a3fa17646c9f52560649ca56033e1707360054e6
-		}
-		if (arg0.getSource() instanceof JCheckBox) {
-			JCheckBox temp = (JCheckBox) arg0.getSource();
-			for (Component c : ((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).panelModes
-					.getComponents()) {
-				if (c instanceof JCheckBox) {
-					if (temp.isSelected()) {
-						if ((JCheckBox) c != temp) {
-							((JCheckBox) c).setSelected(false);
-						}
-					}
-				}
-			}
 		}
 		if (arg0.getSource() == panneau.valider) {
 			// si on a pas encore lancé l'exercice

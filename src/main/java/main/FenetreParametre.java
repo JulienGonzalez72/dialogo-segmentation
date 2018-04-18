@@ -64,7 +64,10 @@ public class FenetreParametre extends JFrame {
 		JTextField champNbFautesTolerees;
 		JButton valider;
 		JRadioButton modeSurlignage, modeKaraoke, modePasDispo;
+<<<<<<< HEAD
 		ButtonGroup modes;
+=======
+>>>>>>> bc1bac6d265c1cbd6ff2fff4eec984c01bbcc2e8
 		JSlider sliderAttente;
 		final Object[] polices;
 		final Object[] tailles;
@@ -89,6 +92,7 @@ public class FenetreParametre extends JFrame {
 			couleurs = new Object[] { "Jaune", "Blanc", "Orange", "Rose", "Bleu" };
 
 			ControleurParam controleur = new ControleurParam(this);
+			addFocusListener(controleur);
 			valider.addActionListener(controleur);
 
 			listePolices = new JComboBox<Object>(polices);
@@ -141,6 +145,7 @@ public class FenetreParametre extends JFrame {
 			JLabel nbFautesTolerees = fastLabel("Nombre de fautes maximum");
 			champNbFautesTolerees = fastTextField("", new Font("OpenDyslexic", Font.PLAIN, 15), "2");
 			champNbFautesTolerees.addActionListener(controleur);
+			champNbFautesTolerees.addFocusListener(controleur);
 			
 			modeSurlignage = new JRadioButton("Mode surlignage");
 			modeSurlignage.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));

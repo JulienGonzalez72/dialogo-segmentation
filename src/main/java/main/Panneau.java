@@ -133,6 +133,9 @@ public class Panneau extends JPanel {
 		pageActuelle++;
 		showPage(pageActuelle);
 		editorPane.désurlignerTout();
+		if( FenetreParametre.readMode == ReadMode.GUIDED_READING && controlerGlobal != null && player != null) {
+			controlerGlobal.highlightPhrase(Constants.RIGHT_COLOR, player.getCurrentPhraseIndex());
+		}
 	}
 
 	public boolean hasNextPage() {
@@ -351,8 +354,19 @@ public class Panneau extends JPanel {
 		try {
 			UIManager.put("OptionPane.background", Color.WHITE);
 			UIManager.put("Panel.background", Color.WHITE);
-			JOptionPane.showMessageDialog(this, "L'exercice est terminé." + "\n" + "Le patient a fait : " + nbErreurs
-					+ " erreur" + (nbErreurs > 1 ? "s" : "") + ".", "Compte Rendu", JOptionPane.INFORMATION_MESSAGE);
+			String message = null;
+			switch (FenetreParametre.readMode) {
+			case NORMAL:
+			case HIGHLIGHT:
+				message = "L'exercice est terminé." + "\n" + "Le patient a fait : " + nbErreurs
+				+ " erreur" + (nbErreurs > 1 ? "s" : "") + ".";
+				break;
+			case GUIDED_READING:
+				message = "L'exercice est terminé.";
+			default:
+				break;
+			}
+			JOptionPane.showMessageDialog(this,message, "Compte Rendu", JOptionPane.INFORMATION_MESSAGE);
 		} finally {
 			UIManager.put("OptionPane.background", optionPaneBG);
 			UIManager.put("Panel.background", panelBG);

@@ -1,9 +1,8 @@
 w:1000
-h:800
-x:460
-y:115
+h:700
+x:810
+y:128
 taillePolice:36
 typePolice:OpenDyslexic Bold
 couleur:255/255/150
-modeSurlignage:true
 tempsAttente:0

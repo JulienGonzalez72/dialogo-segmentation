@@ -66,7 +66,7 @@ public class Fenetre extends JFrame {
 			writer.println("typePolice:" + FenetreParametre.police.getFontName());
 			writer.println("couleur:" + FenetreParametre.couleurFond.getRed() + "/"
 					+ FenetreParametre.couleurFond.getGreen() + "/" + FenetreParametre.couleurFond.getBlue());
-			//writer.println("modeSurlignage:" + FenetreParametre);
+			writer.println("mode:" + FenetreParametre.readMode);
 			writer.println("tempsAttente:"+FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture);
 			writer.close();
 		}
@@ -96,7 +96,7 @@ public class Fenetre extends JFrame {
 				int w = -1, h = -1, x = -1, y = -1, t = -1, tempsPause = -1;
 				Color color = null;
 				String p = null;
-				boolean modeSurlignage = false;
+				ReadMode mode = null;
 				int i = 0;
 				while ((ligne = br.readLine()) != null) {
 					switch (i) {
@@ -124,7 +124,19 @@ public class Fenetre extends JFrame {
 								Integer.valueOf(temp.split("/")[2]));
 						break;
 					case 7:
-						modeSurlignage = Boolean.valueOf(ligne.split(":")[1]);
+						String s = String.valueOf(ligne.split(":")[1]);
+						switch(s) {
+						case "GUIDED_READING":
+							mode = ReadMode.GUIDED_READING;
+							break;
+						case "HIGHLIGHT":
+							mode = ReadMode.HIGHLIGHT;
+							break;
+						case "NORMAL":
+							mode = ReadMode.NORMAL;
+							break;
+						}
+						FenetreParametre.readMode = mode;
 						break;
 					case 8:
 						tempsPause = Integer.valueOf(ligne.split(":")[1]);
@@ -151,11 +163,6 @@ public class Fenetre extends JFrame {
 						.setBackground(FenetreParametre.couleurFond = color);
 				pan.editorPane.setFont(FenetreParametre.police);
 				pan.editorPane.setBackground(color);
-				/*FenetreParametre.modeSurlignage = modeSurlignage;
-				if (FenetreParametre.modeSurlignage) {
-					((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).modeSurlignage
-							.setSelected(true);
-				}*/
 				FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture = tempsPause;
 				System.out.println(tempsPause);
 				((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).sliderAttente.setValue(tempsPause);

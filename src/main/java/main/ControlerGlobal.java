@@ -23,7 +23,7 @@ public class ControlerGlobal {
 	 * Construit les pages à partir du segment de numero spécifié
 	 */
 	public void buildPages(int startPhrase) {
-		p.buildPagesByRoman(startPhrase);
+		p.buildPagesByJulien(startPhrase);
 	}
 
 	/**
@@ -34,11 +34,20 @@ public class ControlerGlobal {
 			int debutRelatifSegment = p.textHandler.getRelativeStartPhrasePosition(p.getNumeroPremierSegmentAffiché(),
 					n);
 			int finRelativeSegment = debutRelatifSegment + p.textHandler.getPhrase(n).length();
-			System.out.println(debutRelatifSegment + ", " + finRelativeSegment);
 			p.editorPane.surlignerPhrase(debutRelatifSegment, finRelativeSegment, Constants.RIGHT_COLOR);
 		}
 	}
-
+	
+	/**
+	 * Supprime le surlignage qui se trouve sur le segment n. Ne fait rien si ce segment n'est pas surligné.
+	 */
+	public void removeHighlightPhrase(int n) {
+		int debutRelatifSegment = p.textHandler.getRelativeStartPhrasePosition(p.getNumeroPremierSegmentAffiché(),
+				n);
+		int finRelativeSegment = debutRelatifSegment + p.textHandler.getPhrase(n).length();
+		p.editorPane.removeHighlight(debutRelatifSegment, finRelativeSegment);
+	}
+	
 	public boolean waitForClick() {
 		return waitForClick(p.nbEssaisRestantPourLeSegmentCourant,p.player.getCurrentPhraseIndex());
 	}

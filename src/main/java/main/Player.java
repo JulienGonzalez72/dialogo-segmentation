@@ -30,6 +30,7 @@ public class Player {
 	 */
 	public List<Runnable> onPhraseEnd = new ArrayList<>();
 	public List<Runnable> onNextPhrase = new ArrayList<>();
+	public List<Runnable> onPreviousPhrase = new ArrayList<>();
 	/**
 	 * Ecouteurs qui s'enclenchent lorsque l'enregistrement est lancé.
 	 */
@@ -180,6 +181,9 @@ public class Player {
 	 * Retourne au segment prédédent et démarre le lecteur.
 	 */
 	public void previousPhrase() {
+		for (Runnable r : onPreviousPhrase) {
+			r.run();
+		}
 		currentPhrase--;
 		repeat();
 	}

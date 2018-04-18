@@ -129,6 +129,19 @@ public class TextPane extends JTextPane {
 			}
 		}
 	}
+	
+	/**
+	 * Enlève tout le surlignage présent entre les bornes start et end.
+	 */
+	public void removeHighlight(int start, int end) {
+		Highlight[] hl = getHighlighter().getHighlights();
+		for (int i = 0; i < hl.length; i++) {
+			if ((hl[i].getStartOffset() >= start && hl[i].getEndOffset() <= end)
+					|| (hl[i].getEndOffset() >= start && hl[i].getEndOffset() <= end)) {
+				getHighlighter().removeHighlight(hl[i]);
+			}
+		}
+	}
 
 	public Rectangle getTextBounds(String str) {
 		return getFont().createGlyphVector(getFontMetrics(getFont()).getFontRenderContext(), str).getPixelBounds(null,

@@ -70,38 +70,32 @@ public class Panneau extends JPanel {
 
 		/// initialise le lecteur et le démarre ///
 		player = new Player(textHandler);
-		player.onBlockEnd.add(new Runnable() {
-			@Override
-			public void run() {
-				if (FenetreParametre.readMode != ReadMode.GUIDED_READING) {
-					setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-				} else {
-					editorPane.désurlignerTout();
-					controlerGlobal.doNext();
-				}
+		player.onBlockEnd.add(() -> {
+			if (FenetreParametre.readMode != ReadMode.GUIDED_READING) {
+				setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			}
+			/// en mode lecture guidée, passe directement au segment suivant ///
+			else {
+				editorPane.désurlignerTout();
+				controlerGlobal.doNext();
 			}
 		});
-		player.onPhraseEnd.add(new Runnable() {
-			@Override
-			public void run() {
-				/// change le curseur pour indiquer que l'utilisateur doit répéter ///
-				Toolkit tk = Toolkit.getDefaultToolkit();
-				Image img = tk.getImage("parler.png");
-				Cursor monCurseur = tk.createCustomCursor(img, new Point(16, 16), "parler.png");
-				setCursor(monCurseur);
-			}
+		player.onPhraseEnd.add(() -> {
+			/// change le curseur pour indiquer que l'utilisateur doit répéter ///
+			Toolkit tk = Toolkit.getDefaultToolkit();
+			Image img = tk.getImage("parler.png");
+			Cursor monCurseur = tk.createCustomCursor(img, new Point(16, 16), "parler.png");
+			setCursor(monCurseur);
 		});
-		player.onPlay.add(new Runnable() {
-			@Override
-			public void run() {
-				/// change le curseur pour indiquer que l'utilisateur doit écouter la phrase ///
-				Toolkit tk = Toolkit.getDefaultToolkit();
-				Image img = tk.getImage("ecouter.png");
-				Cursor monCurseur = tk.createCustomCursor(img, new Point(16, 16), "ecouter.png");
-				setCursor(monCurseur);
-				if (FenetreParametre.readMode == ReadMode.GUIDED_READING) {
-					controlerGlobal.highlightPhrase(Constants.RIGHT_COLOR, player.getCurrentPhraseIndex());
-				}
+		player.onPlay.add(() -> {
+			/// change le curseur pour indiquer que l'utilisateur doit écouter la phrase ///
+			Toolkit tk = Toolkit.getDefaultToolkit();
+			Image img = tk.getImage("ecouter.png");
+			Cursor monCurseur = tk.createCustomCursor(img, new Point(16, 16), "ecouter.png");
+			setCursor(monCurseur);
+			if (FenetreParametre.readMode == ReadMode.GUIDED_READING) {
+				controlerGlobal.highlightPhrase(Constants.RIGHT_COLOR, player.getCurrentPhraseIndex());
+				controlerGlobal.removeHighlightPhrase(player.getCurrentPhraseIndex());
 			}
 		});
 		player.goTo(FenetreParametre.premierSegment - 1);

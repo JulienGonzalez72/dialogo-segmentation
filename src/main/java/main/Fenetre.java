@@ -1,7 +1,11 @@
 package main;
 
+<<<<<<< HEAD
 import java.io.IOException;
 
+=======
+import java.io.*;
+>>>>>>> 8b7179d2d5d4cabb9befd218ae298209011c911e
 import javax.swing.*;
 
 public class Fenetre extends JFrame {
@@ -25,7 +29,11 @@ public class Fenetre extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(true);
 	}
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> 8b7179d2d5d4cabb9befd218ae298209011c911e
 	public void start() {
 		setVisible(true);
 		SwingUtilities.invokeLater(new Runnable() {

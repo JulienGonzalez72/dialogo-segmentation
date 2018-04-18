@@ -130,13 +130,15 @@ public class FenetreParametre extends JFrame {
 			listeBonnesCouleurs.addActionListener(controleur);
 			listeBonnesCouleurs.setBackground(new Color(255, 255, 150));
 			listeBonnesCouleurs.setFont(new Font("OpenDyslexic", Font.PLAIN, 15));
+			listeBonnesCouleurs.setSelectedItem(couleurs[6]);
 
 			listeMauvaisesCouleurs = new JComboBox<Object>(couleurs);
 			((JLabel) listeMauvaisesCouleurs.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 			listeMauvaisesCouleurs.addActionListener(controleur);
 			listeMauvaisesCouleurs.setBackground(new Color(255, 255, 150));
 			listeMauvaisesCouleurs.setFont(new Font("OpenDyslexic", Font.PLAIN, 15));
-
+			listeMauvaisesCouleurs.setSelectedItem(couleurs[5]);
+			
 			segmentDeDepart = fastTextField(String.valueOf(FenetreParametre.premierSegment),
 					new Font("OpenDyslexic", Font.PLAIN, 15), "1");
 			segmentDeDepart.addActionListener(controleur);
@@ -160,6 +162,11 @@ public class FenetreParametre extends JFrame {
 			modeKaraoke.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
 			modeKaraoke.addActionListener(controleur);
 			
+<<<<<<< HEAD
+=======
+			modeKaraoke.setSelected(true);
+
+>>>>>>> 8b7179d2d5d4cabb9befd218ae298209011c911e
 			modePasDispo = new JRadioButton("Mode Normal");
 			modePasDispo.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
 			modePasDispo.addActionListener(controleur);

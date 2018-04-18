@@ -18,4 +18,20 @@ public enum ReadMode {
 	 */
 	NORMAL;
 	
+	public static ReadMode parse(String s) {
+		ReadMode mode = null;
+		switch(s) {
+		case "GUIDED_READING":
+			mode = ReadMode.GUIDED_READING;
+			break;
+		case "HIGHLIGHT":
+			mode = ReadMode.HIGHLIGHT;
+			break;
+		case "NORMAL":
+			mode = ReadMode.NORMAL;
+			break;
+		}
+		return mode;
+	}
+	
 }

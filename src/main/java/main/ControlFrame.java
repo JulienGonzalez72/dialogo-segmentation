@@ -51,7 +51,7 @@ public class ControlFrame extends JFrame {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setVisible(true);
-
+		
 		panel.add(previousButton);
 		previousButton.setIcon(new ImageIcon(previousIcon));
 		previousButton.setEnabled(player.hasPreviousPhrase());

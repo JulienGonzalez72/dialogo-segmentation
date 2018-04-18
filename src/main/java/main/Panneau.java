@@ -71,6 +71,11 @@ public class Panneau extends JPanel {
 
 		/// initialise le lecteur et le démarre ///
 		player = new Player(textHandler);
+		player.onPreviousPhrase.add(() -> {
+			if (FenetreParametre.readMode == ReadMode.GUIDED_READING) {
+				System.out.println("yo");
+			}
+		});
 		player.onBlockEnd.add(() -> {
 			if (FenetreParametre.readMode != ReadMode.GUIDED_READING) {
 				setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -98,6 +103,7 @@ public class Panneau extends JPanel {
 				editorPane.désurlignerTout();
 				controlerGlobal.highlightPhrase(Constants.RIGHT_COLOR, player.getCurrentPhraseIndex());
 			}
+			controlerGlobal.sauvegarder();
 		});
 		player.goTo(FenetreParametre.premierSegment - 1);
 		controlFrame = new ControlFrame(this);

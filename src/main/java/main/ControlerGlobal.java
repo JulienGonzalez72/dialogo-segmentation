@@ -12,11 +12,12 @@ public class ControlerGlobal {
 	}
 
 	/**
-	 * Se place sur le segment de numero n
+	 * Se place sur le segment de numero n et démarre le lecteur
 	 */
 	public void goTo(int n) {
-		p.player.goTo(n);
 		p.showPage(getPageOfPhrase(n));
+		p.player.goTo(n);
+		p.player.play();
 	}
 
 	/**

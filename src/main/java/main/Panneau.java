@@ -131,8 +131,7 @@ public class Panneau extends JPanel {
 	 *
 	 */
 	public void afficherPageSuivante() {
-		pageActuelle++;
-		showPage(pageActuelle);
+		showPage(pageActuelle + 1);
 		editorPane.désurlignerTout();
 		if( FenetreParametre.readMode == ReadMode.GUIDED_READING && controlerGlobal != null && player != null) {
 			controlerGlobal.highlightPhrase(Constants.RIGHT_COLOR, player.getCurrentPhraseIndex());
@@ -145,8 +144,7 @@ public class Panneau extends JPanel {
 
 	public void afficherPagePrecedente() {
 		if (pageActuelle > 0) {
-			pageActuelle--;
-			showPage(pageActuelle);
+			showPage(pageActuelle - 1);
 			editorPane.désurlignerTout();
 		}
 	}
@@ -311,6 +309,7 @@ public class Panneau extends JPanel {
 	}
 
 	public void showPage(int page) {
+		pageActuelle = page;
 		fenetre.setTitle("Lexidia - Page " + page);
 		String texteAfficher = "";
 		// on recupere les segments a afficher dans la page
@@ -375,22 +374,8 @@ public class Panneau extends JPanel {
 		fenetre.setVisible(false);
 		new FenetreParametre("Dialogo", 500, 700);
 	}
-
+	
 	/**
-<<<<<<< HEAD
-=======
-	 * Colorie le segment numero n en couleur c
-	 */
-	public void surlignerSegment(Color c, int n) {
-		if (textHandler.getPhrase(n) != null) {
-			int debutRelatifSegment = textHandler.getRelativeStartPhrasePosition(FenetreParametre.premierSegment - 1,n);
-			int finRelativeSegment = debutRelatifSegment + textHandler.getPhrase(n).length();
-			editorPane.surlignerPhrase(debutRelatifSegment, finRelativeSegment, Constants.RIGHT_COLOR);
-		}
-	}
-
-	/**
->>>>>>> 5b5d31105f46e530e3d84f622f6309d3b5b082be
 	 * Colorie tout jusqu'au segment n en couleur c
 	 */
 	public void surlignerJusquaSegment(Color c, int n) {

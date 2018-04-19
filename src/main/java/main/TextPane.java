@@ -9,7 +9,6 @@ import javax.swing.JTextPane;
 import javax.swing.text.*;
 import javax.swing.text.Highlighter.*;
 
-
 public class TextPane extends JTextPane {
 
 	private static final long serialVersionUID = 1L;
@@ -118,17 +117,16 @@ public class TextPane extends JTextPane {
 			Highlight temp = (Highlight) o;
 			try {
 				Panneau pan = (Panneau) getParent();
-				//TextHandler handler = pan.textHandler;
-				//TODO modifier ce try pour que cela marche dans les pages suivantes
-				highlighter.addHighlight(temp.getStartOffset()+pan.getPagesLength(pan.pageActuelle),
-						temp.getEndOffset()+pan.getPagesLength(pan.pageActuelle), 
-						painter);
+				// TextHandler handler = pan.textHandler;
+				// TODO modifier ce try pour que cela marche dans les pages suivantes
+				highlighter.addHighlight(temp.getStartOffset() + pan.getPagesLength(pan.pageActuelle),
+						temp.getEndOffset() + pan.getPagesLength(pan.pageActuelle), painter);
 			} catch (BadLocationException e) {
 				e.printStackTrace();
 			}
 		}
 	}
-	
+
 	/**
 	 * Enlève tout le surlignage présent entre les bornes start et end.
 	 */
@@ -151,24 +149,43 @@ public class TextPane extends JTextPane {
 		FontMetrics fm = getFontMetrics(getFont());
 		return (float) (1f + fm.getHeight() / getTextBounds("|").getHeight());
 	}
-	
+
 	public void updateColors() throws BadLocationException {
+		List<Object> newBlue = new ArrayList<>();
+		List<Object> newBlueMemory = new ArrayList<>();
+		List<Object> newGreen = new ArrayList<>();
+		List<Object> newRed = new ArrayList<>();
 		for (Object object : blueHighlightTags) {
 			Highlight g = (Highlight) object;
-			object = getHighlighter().addHighlight(g.getStartOffset(), g.getEndOffset(),new DefaultHighlighter.DefaultHighlightPainter(Constants.WRONG_PHRASE_COLOR));
+			object = getHighlighter().addHighlight(g.getStartOffset(), g.getEndOffset(),
+					new DefaultHighlighter.DefaultHighlightPainter(Constants.WRONG_PHRASE_COLOR));
+			newBlue.add(object);
 		}
 		for (Object object : redHighlightTags) {
 			Highlight g = (Highlight) object;
-			object = getHighlighter().addHighlight(g.getStartOffset(), g.getEndOffset(),new DefaultHighlighter.DefaultHighlightPainter(Constants.WRONG_COLOR));
+			object = getHighlighter().addHighlight(g.getStartOffset(), g.getEndOffset(),
+					new DefaultHighlighter.DefaultHighlightPainter(Constants.WRONG_COLOR));
+			newRed.add(object);
 		}
 		for (Object object : greenHighlightTags) {
 			Highlight g = (Highlight) object;
-			object = getHighlighter().addHighlight(g.getStartOffset(), g.getEndOffset(),new DefaultHighlighter.DefaultHighlightPainter(Constants.RIGHT_COLOR));
+			object = getHighlighter().addHighlight(g.getStartOffset(), g.getEndOffset(),
+					new DefaultHighlighter.DefaultHighlightPainter(Constants.RIGHT_COLOR));
+			newGreen.add(object);
 		}
 		for (Object object : blueHighlightTagsMemory) {
 			Highlight g = (Highlight) object;
-			object = getHighlighter().addHighlight(g.getStartOffset(), g.getEndOffset(),new DefaultHighlighter.DefaultHighlightPainter(Constants.WRONG_PHRASE_COLOR));
+			object = getHighlighter().addHighlight(g.getStartOffset(), g.getEndOffset(),
+					new DefaultHighlighter.DefaultHighlightPainter(Constants.WRONG_PHRASE_COLOR));
+			newBlueMemory.add(object);
 		}
+		enleverSurlignageBleu();
+		enleverSurlignageRouge();
+		enleverSurlignageVert();
+		blueHighlightTags = newBlue;
+		redHighlightTags = newRed;
+		greenHighlightTags = newGreen;
+		blueHighlightTagsMemory = newBlueMemory;
 	}
 
 }

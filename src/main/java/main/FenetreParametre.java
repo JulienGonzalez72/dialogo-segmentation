@@ -56,6 +56,7 @@ public class FenetreParametre extends JFrame {
 		JComboBox<Object> listeCouleurs;
 		JComboBox<Object> listeBonnesCouleurs;
 		JComboBox<Object> listeMauvaisesCouleurs;
+		JComboBox<Object> listeCorrectionCouleurs;
 		JTextField segmentDeDepart;
 		JTextField champNbFautesTolerees;
 		JButton valider;
@@ -68,7 +69,7 @@ public class FenetreParametre extends JFrame {
 
 		public PanneauParam() throws NumberFormatException, IOException {
 			fen = FenetreParametre.this;
-			setLayout(new GridLayout(22, 1));
+			setLayout(new GridLayout(24, 1));
 			JLabel titre = fastLabel("Choisissez vos parametres");
 			titre.setBorder(BorderFactory.createLineBorder(Color.blue, 2));
 			add(titre);
@@ -79,6 +80,7 @@ public class FenetreParametre extends JFrame {
 			JLabel couleurDeFond = fastLabel("Couleur de fond : ");
 			JLabel couleurJuste = fastLabel("Couleur pour \"juste\" : ");
 			JLabel couleurFausse = fastLabel("Couleur pour \"faux\" : ");
+			JLabel couleurCorrection = fastLabel("Couleur de correction : ");
 			JLabel segments = fastLabel("Segment de départ ");
 			JLabel attente = fastLabel("Temps d'attente en % du temps de lecture");
 
@@ -130,14 +132,18 @@ public class FenetreParametre extends JFrame {
 			listeBonnesCouleurs.addActionListener(controleur);
 			listeBonnesCouleurs.setBackground(new Color(255, 255, 150));
 			listeBonnesCouleurs.setFont(new Font("OpenDyslexic", Font.PLAIN, 15));
-			listeBonnesCouleurs.setSelectedItem(couleurs[6]);
-
+			
 			listeMauvaisesCouleurs = new JComboBox<Object>(couleurs);
 			((JLabel) listeMauvaisesCouleurs.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 			listeMauvaisesCouleurs.addActionListener(controleur);
 			listeMauvaisesCouleurs.setBackground(new Color(255, 255, 150));
 			listeMauvaisesCouleurs.setFont(new Font("OpenDyslexic", Font.PLAIN, 15));
-			listeMauvaisesCouleurs.setSelectedItem(couleurs[5]);
+			
+			listeCorrectionCouleurs = new JComboBox<Object>(couleurs);
+			((JLabel) listeCorrectionCouleurs.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+			listeCorrectionCouleurs.addActionListener(controleur);
+			listeCorrectionCouleurs.setBackground(new Color(255, 255, 150));
+			listeCorrectionCouleurs.setFont(new Font("OpenDyslexic", Font.PLAIN, 15));
 
 			segmentDeDepart = fastTextField(String.valueOf(FenetreParametre.premierSegment),
 					new Font("OpenDyslexic", Font.PLAIN, 15), "1");
@@ -163,6 +169,7 @@ public class FenetreParametre extends JFrame {
 			modeKaraoke = new JRadioButton("Mode Guidée");
 			modeKaraoke.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
 			modeKaraoke.addActionListener(controleur);
+<<<<<<< HEAD
 			
 			modeKaraoke.setVerticalTextPosition(JRadioButton.TOP);
 			modeKaraoke.setHorizontalTextPosition(JRadioButton.CENTER);
@@ -176,6 +183,37 @@ public class FenetreParametre extends JFrame {
 			modePasDispo.setHorizontalTextPosition(JRadioButton.CENTER);
 			
 			modeKaraoke.setSelected(true);
+=======
+
+			modeKaraoke.setVerticalTextPosition(JRadioButton.TOP);
+			modeKaraoke.setHorizontalTextPosition(JRadioButton.CENTER);
+<<<<<<< HEAD
+			modeKaraoke.setSelected(true);
+
+
+=======
+
+=======
+			
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> 4c67c0d24651dda5736b7a75ef81e0631b8af4df
+			modeKaraoke.setSelected(true);
+
+>>>>>>> 8b7179d2d5d4cabb9befd218ae298209011c911e
+>>>>>>> b8421b0016d808386653b4bec8c7145a76fdae7c
+>>>>>>> b4f0f28e9fe88ebf63b287c8d4d24de597ae0f52
+			modePasDispo = new JRadioButton("Mode Normal");
+			modePasDispo.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
+			modePasDispo.addActionListener(controleur);
+			modePasDispo.setVerticalTextPosition(JRadioButton.TOP);
+			modePasDispo.setHorizontalTextPosition(JRadioButton.CENTER);
+
+			modeKaraoke.setSelected(true);
+
+>>>>>>> 528fdae104be4cf685ae958117339e000edfd4a9
 
 			modes = new ButtonGroup();
 			modes.add(modeSurlignage);
@@ -190,6 +228,8 @@ public class FenetreParametre extends JFrame {
 			fastCentering(listeBonnesCouleurs, this);
 			add(couleurFausse);
 			fastCentering(listeMauvaisesCouleurs, this);
+			add(couleurCorrection);
+			fastCentering(listeCorrectionCouleurs,this);
 			add(new JLabel());
 
 			panelModes = new JPanel(new GridLayout(1, 3));
@@ -291,6 +331,8 @@ public class FenetreParametre extends JFrame {
 						Color wrongColor = new Color(Integer.valueOf(temp.split("/")[6]),
 								Integer.valueOf(temp.split("/")[7]), Integer.valueOf(temp.split("/")[8]));
 		
+						Color correctionColor = new Color(Integer.valueOf(temp.split("/")[9]),
+								Integer.valueOf(temp.split("/")[10]), Integer.valueOf(temp.split("/")[11]));
 						
 						if (color.equals(new Color(255, 255, 150))) {
 							listeCouleurs.setSelectedItem(couleurs[0]);
@@ -357,6 +399,28 @@ public class FenetreParametre extends JFrame {
 						if (wrongColor.equals(Color.GREEN)) {
 							listeMauvaisesCouleurs.setSelectedItem(couleurs[6]);
 						}
+						
+						if (correctionColor.equals(new Color(255, 255, 150))) {
+							listeCorrectionCouleurs.setSelectedItem(couleurs[0]);
+						}
+						if (correctionColor.equals(Color.WHITE)) {
+							listeCorrectionCouleurs.setSelectedItem(couleurs[1]);
+						}
+						if (correctionColor.equals(Color.ORANGE)) {
+							listeCorrectionCouleurs.setSelectedItem(couleurs[2]);
+						}
+						if (correctionColor.equals(Color.PINK)) {
+							listeCorrectionCouleurs.setSelectedItem(couleurs[3]);
+						}
+						if (correctionColor.equals(Color.CYAN)) {
+							listeCorrectionCouleurs.setSelectedItem(couleurs[4]);
+						}
+						if (correctionColor.equals(Color.RED)) {
+							listeCorrectionCouleurs.setSelectedItem(couleurs[5]);
+						}
+						if (correctionColor.equals(Color.GREEN)) {
+							listeMauvaisesCouleurs.setSelectedItem(couleurs[6]);
+						}
 						break;
 					case 7:
 						FenetreParametre.readMode = ReadMode.parse(ligne.split(":")[1]);
@@ -389,9 +453,6 @@ public class FenetreParametre extends JFrame {
 			} catch (FileNotFoundException e) {
 
 			}
-			System.out.println(listeCouleurs.getSelectedItem());
-			System.out.println(listeBonnesCouleurs.getSelectedItem());
-			System.out.println(listeMauvaisesCouleurs.getSelectedItem());
 		
 		}
 

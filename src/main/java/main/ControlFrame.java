@@ -104,10 +104,7 @@ public class ControlFrame extends JFrame {
 		};
 		player.onPhraseEnd.add(update);
 		player.onBlockEnd.add(update);
-		player.onPlay.add(update);
-<<<<<<< HEAD
-
-=======
+		player.onPlay.add(update);	
 		
 		JLabel goToLabel = new JLabel("Passer au segment :");
 		goToLabel.setFont(goToLabel.getFont().deriveFont(Font.ITALIC));
@@ -124,7 +121,7 @@ public class ControlFrame extends JFrame {
 			}
 		});
 		
->>>>>>> 4c67c0d24651dda5736b7a75ef81e0631b8af4df
+
 		addMenu();
 	}
 
@@ -201,7 +198,8 @@ public class ControlFrame extends JFrame {
 					+ FenetreParametre.couleurFond.getGreen() + "/" + FenetreParametre.couleurFond.getBlue() + "/"
 					+ Constants.RIGHT_COLOR.getRed() + "/" + Constants.RIGHT_COLOR.getGreen() + "/"
 					+ Constants.RIGHT_COLOR.getBlue() + "/" + Constants.WRONG_COLOR.getRed() + "/"
-					+ Constants.WRONG_COLOR.getGreen() + "/" + Constants.WRONG_COLOR.getBlue());
+					+ Constants.WRONG_COLOR.getGreen() + "/" + Constants.WRONG_COLOR.getBlue()+"/"+
+					Constants.WRONG_PHRASE_COLOR.getRed()+"/"+Constants.WRONG_PHRASE_COLOR.getGreen()+ "/"+Constants.WRONG_PHRASE_COLOR.getBlue());
 			writer.println("mode:" + FenetreParametre.readMode);
 			writer.println("tempsAttente:" + FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture);
 			writer.close();
@@ -230,7 +228,7 @@ public class ControlFrame extends JFrame {
 				BufferedReader br = new BufferedReader(ipsr);
 				String ligne;
 				int w = -1, h = -1, x = -1, y = -1, t = -1, tempsPause = -1;
-				Color color = null, rightColor = null, wrongColor = null;
+				Color color = null, rightColor = null, wrongColor = null, correctionColor = null;
 				String p = null;
 				ReadMode mode = null;
 				int i = 0;
@@ -262,6 +260,10 @@ public class ControlFrame extends JFrame {
 								Integer.valueOf(temp.split("/")[5]));
 						wrongColor = new Color(Integer.valueOf(temp.split("/")[6]), Integer.valueOf(temp.split("/")[7]),
 								Integer.valueOf(temp.split("/")[8]));
+						correctionColor = new Color(Integer.valueOf(temp.split("/")[9]), Integer.valueOf(temp.split("/")[10]),
+								Integer.valueOf(temp.split("/")[11]));
+						
+						
 						break;
 					case 7:
 						String s = String.valueOf(ligne.split(":")[1]);
@@ -305,6 +307,7 @@ public class ControlFrame extends JFrame {
 				pan.editorPane.setBackground(color);
 				Constants.RIGHT_COLOR = rightColor;
 				Constants.WRONG_COLOR = wrongColor;
+				Constants.WRONG_PHRASE_COLOR = correctionColor;
 				FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture = tempsPause;
 				((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).sliderAttente
 						.setValue(tempsPause);

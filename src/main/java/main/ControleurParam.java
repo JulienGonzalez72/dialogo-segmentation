@@ -1,5 +1,7 @@
 package main;
 
+import java.util.*;
+import java.util.List;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -21,7 +23,7 @@ public class ControleurParam implements ActionListener, ChangeListener {
 			jcb = (JComboBox<?>) arg0.getSource();
 		}
 		if (jcb == panneau.listeCouleurs || jcb == panneau.listeMauvaisesCouleurs
-				|| jcb == panneau.listeBonnesCouleurs) {
+				|| jcb == panneau.listeBonnesCouleurs || panneau.listeCorrectionCouleurs == jcb) {
 			String s = (String) jcb.getSelectedItem();
 			Color color = null;
 			if (s == "Jaune") {
@@ -46,11 +48,14 @@ public class ControleurParam implements ActionListener, ChangeListener {
 				color = Color.GREEN;
 			}
 			((JComboBox<?>) jcb).setBackground(color);
-			if (jcb == panneau.listeBonnesCouleurs) {
-				Constants.RIGHT_COLOR = color;
-			}
 			if (jcb == panneau.listeMauvaisesCouleurs) {
 				Constants.WRONG_COLOR = color;
+			}
+			if (jcb == panneau.listeBonnesCouleurs) {
+				Constants.WRONG_PHRASE_COLOR = color;
+			}
+			if (jcb == panneau.listeCorrectionCouleurs) {
+				Constants.RIGHT_COLOR = color;
 			}
 			if (jcb == panneau.listeCouleurs) {
 				if (FenetreParametre.editorPane != null) {
@@ -163,9 +168,7 @@ public class ControleurParam implements ActionListener, ChangeListener {
 	public boolean verifierValiditeChamp() {
 		boolean valide = true;
 
-		if (!(panneau.listeCouleurs.getSelectedIndex() != panneau.listeBonnesCouleurs.getSelectedIndex()
-				&& panneau.listeBonnesCouleurs.getSelectedIndex() != panneau.listeMauvaisesCouleurs.getSelectedIndex()
-				&& panneau.listeMauvaisesCouleurs.getSelectedIndex() != panneau.listeCouleurs.getSelectedIndex())) {
+		if (!couleursUniques()) {
 			JOptionPane.showMessageDialog(panneau, "Les couleurs doivent être différentes", "Erreur",
 					JOptionPane.ERROR_MESSAGE);
 			valide = false;
@@ -207,6 +210,43 @@ public class ControleurParam implements ActionListener, ChangeListener {
 		FenetreParametre.nbFautesTolerees = n;
 
 		return valide;
+	}
+
+	private boolean couleursUniques() {
+		boolean r = true;
+		List<Color> couleursUtilisées = new ArrayList<Color>();
+		couleursUtilisées.add(Constants.RIGHT_COLOR);
+		couleursUtilisées.add(Constants.WRONG_COLOR);
+		couleursUtilisées.add(Constants.WRONG_PHRASE_COLOR);
+		couleursUtilisées.add(FenetreParametre.couleurFond);
+		System.out.println(Constants.RIGHT_COLOR);
+		System.out.println(Constants.WRONG_COLOR);
+		System.out.println(Constants.WRONG_PHRASE_COLOR);
+		System.out.println(FenetreParametre.couleurFond);
+		System.out.println();
+		if (occurence(Constants.RIGHT_COLOR, couleursUtilisées) != 1) {
+			r = false;
+		}
+		if (occurence(Constants.WRONG_COLOR, couleursUtilisées) != 1) {
+			r = false;
+		}
+		if (occurence(Constants.WRONG_PHRASE_COLOR, couleursUtilisées) != 1) {
+			r = false;
+		}
+		if (occurence(FenetreParametre.couleurFond, couleursUtilisées) != 1) {
+			r = false;
+		}
+		return r;
+	}
+
+	private int occurence(Color c, List<Color> liste) {
+		int r = 0;
+		for (Color c2 : liste) {
+			if (c.equals(c2)) {
+				r++;
+			}
+		}
+		return r;
 	}
 
 }

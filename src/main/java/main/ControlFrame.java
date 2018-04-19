@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -30,6 +31,7 @@ public class ControlFrame extends JFrame {
 	private JButton playButton = new JButton();
 	private JButton nextButton = new JButton();
 	private JButton repeatButton = new JButton();
+	private JTextField goToField = new JTextField();
 	private Player player;
 	private Panneau pan;
 
@@ -45,7 +47,7 @@ public class ControlFrame extends JFrame {
 
 		setTitle("Contrôle");
 		setContentPane(panel);
-		setSize(325, 110);
+		setSize(325, 140);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setVisible(true);
@@ -95,14 +97,33 @@ public class ControlFrame extends JFrame {
 				updateButtons();
 			}
 		});
-
+		
 		Runnable update = () -> {
 			updateButtons();
 		};
 		player.onPhraseEnd.add(update);
 		player.onBlockEnd.add(update);
 		player.onPlay.add(update);
+<<<<<<< HEAD
 
+=======
+		
+		JLabel goToLabel = new JLabel("Passer au segment :");
+		goToLabel.setFont(goToLabel.getFont().deriveFont(Font.ITALIC));
+		panel.add(goToLabel);
+		panel.add(goToField);
+		goToField.setPreferredSize(new Dimension(50, 20));
+		goToField.addActionListener((ActionEvent e) -> {
+			int n;
+			try {
+				n = Integer.parseInt(goToField.getText()) - 1;
+				pan.controlerGlobal.goTo(n);
+			} catch (NumberFormatException ex) {
+				JOptionPane.showMessageDialog(null, ex.getMessage());
+			}
+		});
+		
+>>>>>>> 4c67c0d24651dda5736b7a75ef81e0631b8af4df
 		addMenu();
 	}
 

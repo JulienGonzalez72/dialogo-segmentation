@@ -163,16 +163,27 @@ public class FenetreParametre extends JFrame {
 			modeKaraoke = new JRadioButton("Mode Guidée");
 			modeKaraoke.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
 			modeKaraoke.addActionListener(controleur);
+<<<<<<< HEAD
 			modeKaraoke.setVerticalTextPosition(JRadioButton.TOP);
 			modeKaraoke.setHorizontalTextPosition(JRadioButton.CENTER);
 
+=======
+			
+<<<<<<< HEAD
+=======
+>>>>>>> 4c67c0d24651dda5736b7a75ef81e0631b8af4df
 			modeKaraoke.setSelected(true);
 
+>>>>>>> 8b7179d2d5d4cabb9befd218ae298209011c911e
 			modePasDispo = new JRadioButton("Mode Normal");
 			modePasDispo.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
 			modePasDispo.addActionListener(controleur);
+<<<<<<< HEAD
 			modePasDispo.setVerticalTextPosition(JRadioButton.TOP);
 			modePasDispo.setHorizontalTextPosition(JRadioButton.CENTER);
+=======
+			modeKaraoke.setSelected(true);
+>>>>>>> 4c67c0d24651dda5736b7a75ef81e0631b8af4df
 
 			modes = new ButtonGroup();
 			modes.add(modeSurlignage);

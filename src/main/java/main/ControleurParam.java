@@ -72,6 +72,7 @@ public class ControleurParam implements ActionListener, ChangeListener {
 			panneau.listeTailles.setFont(FenetreParametre.police);
 			if (FenetreParametre.editorPane != null) {
 				FenetreParametre.editorPane.setFont(FenetreParametre.police);
+				((Panneau) FenetreParametre.editorPane.getParent()).rebuildPages();
 			}
 		}
 		if (jcb == panneau.listePolices) {
@@ -140,7 +141,9 @@ public class ControleurParam implements ActionListener, ChangeListener {
 					FenetreParametre.fen.fenetre.setEnabled(true);
 					FenetreParametre.fen.fenetre.pan.controlFrame.setEnabled(true);
 					panneau.fermer();
-					Panneau.premierSegment = FenetreParametre.premierSegment;
+					FenetreParametre.nbFautesTolerees = Integer.valueOf(panneau.champNbFautesTolerees.getText());
+					FenetreParametre.fen.fenetre.pan.nbEssaisParSegment = Integer.valueOf(panneau.champNbFautesTolerees.getText());
+					Panneau.defautNBEssaisParSegment = Integer.valueOf(panneau.champNbFautesTolerees.getText());
 					FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture = panneau.sliderAttente.getValue();
 					if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
 						FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture *= 2;

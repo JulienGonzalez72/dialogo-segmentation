@@ -353,7 +353,6 @@ public class ControlFrame extends JFrame {
 		eMenuItem3.setToolTipText("Parametres de l'exercice");
 		eMenuItem3.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.ALT_MASK));
 		eMenuItem3.addActionListener((ActionEvent event) -> {
-			System.out.println(pan);
 			FenetreParametre.editorPane = pan.editorPane;
 			FenetreParametre.fen.setVisible(true);
 			int x = 4 * Toolkit.getDefaultToolkit().getScreenSize().width / 10;
@@ -361,10 +360,9 @@ public class ControlFrame extends JFrame {
 			FenetreParametre.fen.setLocation(x, y);
 			FenetreParametre.fen.fenetre.setEnabled(false);
 			FenetreParametre.fen.fenetre.pan.controlFrame.setEnabled(false);
-			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).champNbFautesTolerees
-					.setEnabled(false);
-			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).segmentDeDepart.setEnabled(false);
-			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).listeTailles.setEnabled(false);
+			//((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).champNbFautesTolerees.setEnabled(false);
+			//((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).segmentDeDepart.setEnabled(false);
+			//((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).listeTailles.setEnabled(false);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).modeKaraoke.setEnabled(false);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).modeSurlignage.setEnabled(false);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).modeNormal.setEnabled(false);

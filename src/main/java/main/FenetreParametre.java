@@ -294,6 +294,7 @@ public class FenetreParametre extends JFrame {
 						break;
 					case 8:				
 						FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture = Integer.valueOf(ligne.split(":")[1]);
+						sliderAttente.setValue(Integer.valueOf(ligne.split(":")[1]));
 						break;
 					case 9:
 						if (Constants.LOAD_FIRST_PHRASE) {

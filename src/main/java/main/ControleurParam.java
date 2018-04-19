@@ -20,7 +20,8 @@ public class ControleurParam implements ActionListener, ChangeListener {
 		if (arg0.getSource() instanceof JComboBox) {
 			jcb = (JComboBox<?>) arg0.getSource();
 		}
-		if (jcb == panneau.listeCouleurs || jcb == panneau.listeMauvaisesCouleurs || jcb == panneau.listeBonnesCouleurs) {
+		if (jcb == panneau.listeCouleurs || jcb == panneau.listeMauvaisesCouleurs
+				|| jcb == panneau.listeBonnesCouleurs) {
 			String s = (String) jcb.getSelectedItem();
 			Color color = null;
 			if (s == "Jaune") {
@@ -45,18 +46,17 @@ public class ControleurParam implements ActionListener, ChangeListener {
 				color = Color.GREEN;
 			}
 			((JComboBox<?>) jcb).setBackground(color);
-			if ( jcb == panneau.listeBonnesCouleurs) {
+			if (jcb == panneau.listeBonnesCouleurs) {
 				Constants.RIGHT_COLOR = color;
 			}
-			if ( jcb == panneau.listeMauvaisesCouleurs) {
+			if (jcb == panneau.listeMauvaisesCouleurs) {
 				Constants.WRONG_COLOR = color;
 			}
-			if ( jcb == panneau.listeCouleurs) {
-				if ( FenetreParametre.editorPane != null) {
-				FenetreParametre.editorPane.setBackground(color);
-				} else {
-					FenetreParametre.couleurFond = color;
+			if (jcb == panneau.listeCouleurs) {
+				if (FenetreParametre.editorPane != null) {
+					FenetreParametre.editorPane.setBackground(color);
 				}
+				FenetreParametre.couleurFond = color;
 			}
 			panneau.grabFocus();
 		}
@@ -163,11 +163,14 @@ public class ControleurParam implements ActionListener, ChangeListener {
 	public boolean verifierValiditeChamp() {
 		boolean valide = true;
 
-		if (!( panneau.listeCouleurs.getSelectedIndex() != panneau.listeBonnesCouleurs.getSelectedIndex() && panneau.listeBonnesCouleurs.getSelectedIndex() != panneau.listeMauvaisesCouleurs.getSelectedIndex() && panneau.listeMauvaisesCouleurs.getSelectedIndex() != panneau.listeCouleurs.getSelectedIndex())) {
-			JOptionPane.showMessageDialog(panneau, "Les couleurs doivent être différentes", "Erreur",JOptionPane.ERROR_MESSAGE);
+		if (!(panneau.listeCouleurs.getSelectedIndex() != panneau.listeBonnesCouleurs.getSelectedIndex()
+				&& panneau.listeBonnesCouleurs.getSelectedIndex() != panneau.listeMauvaisesCouleurs.getSelectedIndex()
+				&& panneau.listeMauvaisesCouleurs.getSelectedIndex() != panneau.listeCouleurs.getSelectedIndex())) {
+			JOptionPane.showMessageDialog(panneau, "Les couleurs doivent être différentes", "Erreur",
+					JOptionPane.ERROR_MESSAGE);
 			valide = false;
 		}
-		
+
 		// premier segment
 		int premierSegment = -1;
 		try {

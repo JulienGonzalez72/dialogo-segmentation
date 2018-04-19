@@ -1,10 +1,9 @@
-w:1000
-h:700
-x:460
-y:165
+w:325
+h:110
+x:0
+y:0
 taillePolice:12
 typePolice:OpenDyslexic Bold
-couleur:255/255/150
+couleur:0/255/255/255/255/255/255/0/0
 mode:HIGHLIGHT
 tempsAttente:0
-segmentDepart:25

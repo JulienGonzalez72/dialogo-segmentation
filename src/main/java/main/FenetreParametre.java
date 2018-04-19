@@ -84,7 +84,7 @@ public class FenetreParametre extends JFrame {
 
 			polices = new Object[] { "OpenDyslexic", "Andika", "Lexia", "Arial", "Times New Roman" };
 			tailles = new Object[] { "12", "16", "18", "20", "22", "24", "30", "36", "42" };
-			couleurs = new Object[] { "Jaune", "Blanc", "Orange", "Rose", "Bleu","Rouge","Vert" };
+			couleurs = new Object[] { "Jaune", "Blanc", "Orange", "Rose", "Bleu", "Rouge", "Vert" };
 
 			ControleurParam controleur = new ControleurParam(this);
 			valider.addActionListener(controleur);
@@ -138,7 +138,7 @@ public class FenetreParametre extends JFrame {
 			listeMauvaisesCouleurs.setBackground(new Color(255, 255, 150));
 			listeMauvaisesCouleurs.setFont(new Font("OpenDyslexic", Font.PLAIN, 15));
 			listeMauvaisesCouleurs.setSelectedItem(couleurs[5]);
-			
+
 			segmentDeDepart = fastTextField(String.valueOf(FenetreParametre.premierSegment),
 					new Font("OpenDyslexic", Font.PLAIN, 15), "1");
 			segmentDeDepart.addActionListener(controleur);
@@ -157,16 +157,22 @@ public class FenetreParametre extends JFrame {
 			modeSurlignage = new JRadioButton("Mode surlignage");
 			modeSurlignage.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
 			modeSurlignage.addActionListener(controleur);
+			modeSurlignage.setVerticalTextPosition(JRadioButton.TOP);
+			modeSurlignage.setHorizontalTextPosition(JRadioButton.CENTER);
 
-			modeKaraoke = new JRadioButton("Mode Lecture guidée");
+			modeKaraoke = new JRadioButton("Mode Guidée");
 			modeKaraoke.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
 			modeKaraoke.addActionListener(controleur);
-			
+			modeKaraoke.setVerticalTextPosition(JRadioButton.TOP);
+			modeKaraoke.setHorizontalTextPosition(JRadioButton.CENTER);
+
 			modeKaraoke.setSelected(true);
 
 			modePasDispo = new JRadioButton("Mode Normal");
 			modePasDispo.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
 			modePasDispo.addActionListener(controleur);
+			modePasDispo.setVerticalTextPosition(JRadioButton.TOP);
+			modePasDispo.setHorizontalTextPosition(JRadioButton.CENTER);
 
 			modes = new ButtonGroup();
 			modes.add(modeSurlignage);
@@ -184,8 +190,8 @@ public class FenetreParametre extends JFrame {
 			add(new JLabel());
 
 			panelModes = new JPanel(new GridLayout(1, 3));
-			panelModes.add(modeSurlignage);
 			panelModes.add(modeKaraoke);
+			panelModes.add(modeSurlignage);
 			panelModes.add(modePasDispo);
 			add(panelModes);
 			add(new JLabel());
@@ -275,27 +281,82 @@ public class FenetreParametre extends JFrame {
 						String temp = ligne.split(":")[1];
 						Color color = new Color(Integer.valueOf(temp.split("/")[0]),
 								Integer.valueOf(temp.split("/")[1]), Integer.valueOf(temp.split("/")[2]));
-						if (color == new Color(255, 255, 150)) {
+						
+						Color rightColor = new Color(Integer.valueOf(temp.split("/")[3]),
+								Integer.valueOf(temp.split("/")[4]), Integer.valueOf(temp.split("/")[5]));
+						
+						Color wrongColor = new Color(Integer.valueOf(temp.split("/")[6]),
+								Integer.valueOf(temp.split("/")[7]), Integer.valueOf(temp.split("/")[8]));
+						
+						System.out.println(color.toString());
+						System.out.println(rightColor.toString());
+						System.out.println(wrongColor.toString());
+						System.out.println(Color.BLUE.toString());
+						
+						if (color.equals(new Color(255, 255, 150))) {
 							listeCouleurs.setSelectedItem(couleurs[0]);
 						}
-						// "Jaune", "Blanc", "Orange", "Rose", "Bleu"
-						if (color == Color.WHITE) {
+						if (color.equals(Color.WHITE)) {
+							listeCouleurs.setSelectedItem(couleurs[1]);
+						}
+						if (color.equals(Color.ORANGE)) {
 							listeCouleurs.setSelectedItem(couleurs[2]);
 						}
-						if (color == Color.ORANGE) {
+						if (color.equals(Color.PINK)) {
 							listeCouleurs.setSelectedItem(couleurs[3]);
 						}
-						if (color == Color.PINK) {
+						if (color.equals(Color.BLUE)) {
 							listeCouleurs.setSelectedItem(couleurs[4]);
 						}
-						if (color == Color.BLUE) {
+						if (color.equals(Color.RED)) {
 							listeCouleurs.setSelectedItem(couleurs[5]);
 						}
-						if (color == Color.RED) {
+						if (color.equals(Color.GREEN)) {
 							listeCouleurs.setSelectedItem(couleurs[6]);
 						}
-						if (color == Color.GREEN) {
-							listeCouleurs.setSelectedItem(couleurs[7]);
+						
+						if (rightColor.equals(new Color(255, 255, 150))) {
+							listeBonnesCouleurs.setSelectedItem(couleurs[0]);
+						}
+						if (rightColor.equals(Color.WHITE)) {
+							listeBonnesCouleurs.setSelectedItem(couleurs[1]);
+						}
+						if (rightColor.equals(Color.ORANGE)) {
+							listeBonnesCouleurs.setSelectedItem(couleurs[2]);
+						}
+						if (rightColor.equals(Color.PINK)) {
+							listeBonnesCouleurs.setSelectedItem(couleurs[3]);
+						}
+						if (rightColor.equals(Color.BLUE)) {
+							listeBonnesCouleurs.setSelectedItem(couleurs[4]);
+						}
+						if (rightColor.equals(Color.RED)) {
+							listeBonnesCouleurs.setSelectedItem(couleurs[5]);
+						}
+						if (rightColor.equals(Color.GREEN)) {
+							listeBonnesCouleurs.setSelectedItem(couleurs[6]);
+						}
+						
+						if (wrongColor.equals(new Color(255, 255, 150))) {
+							listeMauvaisesCouleurs.setSelectedItem(couleurs[0]);
+						}
+						if (wrongColor.equals(Color.WHITE)) {
+							listeMauvaisesCouleurs.setSelectedItem(couleurs[1]);
+						}
+						if (wrongColor.equals(Color.ORANGE)) {
+							listeMauvaisesCouleurs.setSelectedItem(couleurs[2]);
+						}
+						if (wrongColor.equals(Color.PINK)) {
+							listeMauvaisesCouleurs.setSelectedItem(couleurs[3]);
+						}
+						if (wrongColor.equals(Color.BLUE)) {
+							listeMauvaisesCouleurs.setSelectedItem(couleurs[4]);
+						}
+						if (wrongColor.equals(Color.RED)) {
+							listeMauvaisesCouleurs.setSelectedItem(couleurs[5]);
+						}
+						if (wrongColor.equals(Color.GREEN)) {
+							listeMauvaisesCouleurs.setSelectedItem(couleurs[6]);
 						}
 						break;
 					case 7:

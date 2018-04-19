@@ -82,11 +82,13 @@ public class Panneau extends JPanel {
 			}
 		});
 		player.onPhraseEnd.add(() -> {
-			/// change le curseur pour indiquer que l'utilisateur doit répéter ///
-			Toolkit tk = Toolkit.getDefaultToolkit();
-			Image img = tk.getImage("parler.png");
-			Cursor monCurseur = tk.createCustomCursor(img, new Point(16, 16), "parler.png");
-			setCursor(monCurseur);
+			if (FenetreParametre.readMode != ReadMode.ANTICIPATED) {
+				/// change le curseur pour indiquer que l'utilisateur doit répéter ///
+				Toolkit tk = Toolkit.getDefaultToolkit();
+				Image img = tk.getImage("parler.png");
+				Cursor monCurseur = tk.createCustomCursor(img, new Point(16, 16), "parler.png");
+				setCursor(monCurseur);
+			}		
 		});
 		player.onPlay.add(() -> {
 			/// empêche le redimensionnement lors de la première lecture ///

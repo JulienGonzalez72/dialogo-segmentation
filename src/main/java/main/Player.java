@@ -94,6 +94,7 @@ public class Player {
 	 * Marque un temps de pause.
 	 */
 	public void doWait() {
+		
 		blocked = true;
 		waitTask = new WaitTask();
 		if (playing) {

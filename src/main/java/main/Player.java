@@ -51,19 +51,28 @@ public class Player {
 	}
 	
 	/**
+	 * Charge l'enregistrement correspondant à un segment précis.
+	 */
+	public void load(int phrase) {
+		try {
+			clip = AudioSystem.getClip();
+			clip.open(getAudioStream(Constants.AUDIO_FILE_NAME, phrase));
+			clip.setMicrosecondPosition(lastPosition);
+			clip.start();
+		} catch (LineUnavailableException | IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
 	 * Démarre la lecture (n'a aucun effet si la lecture est déjà démarrée).
 	 */
 	public void play() {
 		if (playing) {
 			return;
 		}
-		try {
-			clip = AudioSystem.getClip();
-			clip.open(getAudioStream(Constants.AUDIO_FILE_NAME, currentPhrase));
-			clip.setMicrosecondPosition(lastPosition);
-			clip.start();
-		} catch (LineUnavailableException | IOException e) {
-			e.printStackTrace();
+		if (clip == null) {
+			load(currentPhrase);
 		}
 		timer = new Timer();
 		playTask = new PlayTask();
@@ -91,7 +100,8 @@ public class Player {
 	}
 	
 	/**
-	 * Marque un temps de pause.
+	 * Marque un temps de pause.<br>Ne fonctionne que si l'enregistrement a été chargé.
+	 * @see {@link #load}
 	 */
 	public void doWait() {
 		blocked = true;
@@ -110,7 +120,7 @@ public class Player {
 			time += 20;
 
 			/// fin du blocage ///
-			if (blocked && time > clip.getMicrosecondPosition() / 1000 * FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture / 100.) {
+			if (blocked && time > clip.getMicrosecondLength() / 1000 * FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture / 100.) {
 				blocked = false;
 				cancel();
 				for (Runnable r : onBlockEnd) {

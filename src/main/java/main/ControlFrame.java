@@ -315,7 +315,7 @@ public class ControlFrame extends JFrame {
 			} catch (Exception e) {
 				System.out.println(e.toString());
 			}
-			pan.buildPagesByRoman(FenetreParametre.premierSegment - 1);
+			pan.rebuildPages();
 		}
 	}
 

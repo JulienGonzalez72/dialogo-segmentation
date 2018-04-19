@@ -169,7 +169,6 @@ public class FenetreParametre extends JFrame {
 			modeKaraoke = new JRadioButton("Mode Guidée");
 			modeKaraoke.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
 			modeKaraoke.addActionListener(controleur);
-<<<<<<< HEAD
 			
 			modeKaraoke.setVerticalTextPosition(JRadioButton.TOP);
 			modeKaraoke.setHorizontalTextPosition(JRadioButton.CENTER);
@@ -183,28 +182,11 @@ public class FenetreParametre extends JFrame {
 			modePasDispo.setHorizontalTextPosition(JRadioButton.CENTER);
 			
 			modeKaraoke.setSelected(true);
-=======
 
 			modeKaraoke.setVerticalTextPosition(JRadioButton.TOP);
 			modeKaraoke.setHorizontalTextPosition(JRadioButton.CENTER);
-<<<<<<< HEAD
 			modeKaraoke.setSelected(true);
 
-
-=======
-
-=======
-			
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
->>>>>>> 4c67c0d24651dda5736b7a75ef81e0631b8af4df
-			modeKaraoke.setSelected(true);
-
->>>>>>> 8b7179d2d5d4cabb9befd218ae298209011c911e
->>>>>>> b8421b0016d808386653b4bec8c7145a76fdae7c
->>>>>>> b4f0f28e9fe88ebf63b287c8d4d24de597ae0f52
 			modePasDispo = new JRadioButton("Mode Normal");
 			modePasDispo.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
 			modePasDispo.addActionListener(controleur);
@@ -212,8 +194,6 @@ public class FenetreParametre extends JFrame {
 			modePasDispo.setHorizontalTextPosition(JRadioButton.CENTER);
 
 			modeKaraoke.setSelected(true);
-
->>>>>>> 528fdae104be4cf685ae958117339e000edfd4a9
 
 			modes = new ButtonGroup();
 			modes.add(modeSurlignage);

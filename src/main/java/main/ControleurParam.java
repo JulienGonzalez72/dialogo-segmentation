@@ -219,11 +219,6 @@ public class ControleurParam implements ActionListener, ChangeListener {
 		couleursUtilisées.add(Constants.WRONG_COLOR);
 		couleursUtilisées.add(Constants.WRONG_PHRASE_COLOR);
 		couleursUtilisées.add(FenetreParametre.couleurFond);
-		System.out.println(Constants.RIGHT_COLOR);
-		System.out.println(Constants.WRONG_COLOR);
-		System.out.println(Constants.WRONG_PHRASE_COLOR);
-		System.out.println(FenetreParametre.couleurFond);
-		System.out.println();
 		if (occurence(Constants.RIGHT_COLOR, couleursUtilisées) != 1) {
 			r = false;
 		}

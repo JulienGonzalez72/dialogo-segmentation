@@ -42,7 +42,8 @@ public class Fenetre extends JFrame {
 			}
 		});
 	}
-	
+
+
 	public void start() {
 		setVisible(true);
 		SwingUtilities.invokeLater(new Runnable() {

@@ -64,6 +64,9 @@ public class Panneau extends JPanel {
 		
 		/// initialise le lecteur et le démarre ///
 		player = new Player(textHandler);
+		if ( FenetreParametre.readMode == ReadMode.ANTICIPATED) {
+			player.waitAfter = false;
+		}
 		player.onPreviousPhrase.add(() -> {
 			if (FenetreParametre.readMode == ReadMode.GUIDED_READING) {
 				

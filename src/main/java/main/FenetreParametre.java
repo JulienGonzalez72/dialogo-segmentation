@@ -18,7 +18,7 @@ public class FenetreParametre extends JFrame {
 	public static TextPane editorPane;
 	public static int nbFautesTolerees;
 	public static int tempsPauseEnPourcentageDuTempsDeLecture;
-	public static ReadMode readMode = ReadMode.GUIDED_READING;
+	public static ReadMode readMode = ReadMode.NORMAL;
 	public Fenetre fenetre;
 
 	public FenetreParametre(String titre, int tailleX, int tailleY) {
@@ -146,7 +146,7 @@ public class FenetreParametre extends JFrame {
 			modeKaraoke = fastRadio("Mode Guidée", controleur);
 			modeNormal = fastRadio("Mode Normal", controleur);
 			modeNormal.setSelected(true);
-
+			
 			modes = new ButtonGroup();
 			modes.add(modeSurlignage);
 			modes.add(modeKaraoke);
@@ -269,9 +269,9 @@ public class FenetreParametre extends JFrame {
 								Integer.valueOf(temp.split("/")[10]), Integer.valueOf(temp.split("/")[11]));
 
 						appliquerCouleur(color, listeCouleurs);
-						appliquerCouleur(rightColor, listeMauvaisesCouleurs);
-						appliquerCouleur(wrongColor, listeBonnesCouleurs);
-						appliquerCouleur(correctionColor, listeCorrectionCouleurs);
+						appliquerCouleur(rightColor, listeCorrectionCouleurs);
+						appliquerCouleur(wrongColor, listeMauvaisesCouleurs);
+						appliquerCouleur(correctionColor, listeBonnesCouleurs);
 						break;
 					case 7:
 						FenetreParametre.readMode = ReadMode.parse(ligne.split(":")[1]);
@@ -285,13 +285,15 @@ public class FenetreParametre extends JFrame {
 						case GUIDED_READING:
 							modeKaraoke.setSelected(true);
 							break;
+						case ANTICIPATED:
+							modeAnticipe.setSelected(true);
+							break;
 						default:
 							break;
 						}
 						break;
-					case 8:
+					case 8:				
 						FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture = Integer.valueOf(ligne.split(":")[1]);
-						sliderAttente.setValue(Integer.valueOf(ligne.split(":")[1]));
 						break;
 					case 9:
 						if (Constants.LOAD_FIRST_PHRASE) {

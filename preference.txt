@@ -6,5 +6,9 @@ taillePolice:12
 typePolice:Andika Basic
 couleur:255/255/150/0/255/255/255/0/0/0/255/0
 mode:ANTICIPATED
+<<<<<<< HEAD
 tempsAttente:0
 segmentDepart:4
+=======
+tempsAttente:100
+>>>>>>> 2fad175d395c2c62b0d3fddad87d3f5b8c8d6c84

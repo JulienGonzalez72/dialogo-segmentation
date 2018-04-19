@@ -36,17 +36,6 @@ public class ControlerGlobal {
 		}
 		p.showPage(getPageOfPhrase(n));
 		p.player.goTo(n);
-		if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
-			/// change le curseur pour indiquer que l'utilisateur doit parler ///
-			Toolkit tk = Toolkit.getDefaultToolkit();
-			Image img = tk.getImage("parler.png");
-			Cursor monCurseur = tk.createCustomCursor(img, new Point(16, 16), "parler.png");
-			p.setCursor(monCurseur);
-			p.player.doWait();
-			/// change le curseur pour indiquer que l'utilisateur ne doit plus parler ///
-			monCurseur = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
-			p.setCursor(monCurseur);
-		}
 		p.player.play();
 	}
 

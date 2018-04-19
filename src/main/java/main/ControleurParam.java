@@ -22,8 +22,8 @@ public class ControleurParam implements ActionListener, ChangeListener {
 		if (arg0.getSource() instanceof JComboBox) {
 			jcb = (JComboBox<?>) arg0.getSource();
 		}
-		if (jcb == panneau.listeCouleurs || jcb == panneau.listeMauvaisesCouleurs
-				|| jcb == panneau.listeBonnesCouleurs || panneau.listeCorrectionCouleurs == jcb) {
+		if (jcb == panneau.listeCouleurs || jcb == panneau.listeMauvaisesCouleurs || jcb == panneau.listeBonnesCouleurs
+				|| panneau.listeCorrectionCouleurs == jcb) {
 			String s = (String) jcb.getSelectedItem();
 			Color color = null;
 			if (s == "Jaune") {
@@ -109,6 +109,9 @@ public class ControleurParam implements ActionListener, ChangeListener {
 		if (arg0.getSource() == panneau.modeAnticipe) {
 			if (panneau.modeAnticipe.isSelected()) {
 				FenetreParametre.readMode = ReadMode.ANTICIPATED;
+				FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture *= 2;
+			} else {
+				FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture /= 2;
 			}
 		}
 		if (arg0.getSource() == panneau.valider) {
@@ -138,6 +141,10 @@ public class ControleurParam implements ActionListener, ChangeListener {
 					FenetreParametre.fen.fenetre.pan.controlFrame.setEnabled(true);
 					panneau.fermer();
 					Panneau.premierSegment = FenetreParametre.premierSegment;
+					FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture = panneau.sliderAttente.getValue();
+					if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
+						FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture *= 2;
+					}
 				}
 			}
 		}

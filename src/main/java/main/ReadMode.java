@@ -35,6 +35,9 @@ public enum ReadMode {
 		case "NORMAL":
 			mode = ReadMode.NORMAL;
 			break;
+		case "ANTICIPATED":
+			mode = ReadMode.ANTICIPATED;
+			break;
 		}
 		return mode;
 	}

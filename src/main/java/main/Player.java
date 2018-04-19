@@ -103,8 +103,10 @@ public class Player {
 	 * Marque un temps de pause.<br>Ne fonctionne que si l'enregistrement a été chargé.
 	 * @see {@link #load}
 	 */
-	public void doWait() {
-		
+	public void doWait() {	
+		if (clip == null) {
+			load(currentPhrase);
+		}	
 		blocked = true;
 		waitTask = new WaitTask();
 		if (playing) {

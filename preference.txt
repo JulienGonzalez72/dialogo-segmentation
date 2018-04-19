@@ -1,9 +1,0 @@
-w:325
-h:140
-x:0
-y:0
-taillePolice:12
-typePolice:Andika Basic
-couleur:255/255/150/0/255/255/255/0/0/0/255/0
-mode:ANTICIPATED
-tempsAttente:0

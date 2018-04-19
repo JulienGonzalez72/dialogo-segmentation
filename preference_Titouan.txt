@@ -1,0 +1,9 @@
+w:1096
+h:467
+x:682
+y:154
+taillePolice:24
+typePolice:OpenDyslexic Bold
+couleur:255/255/150/0/255/0/255/0/0/0/255/255
+mode:NORMAL
+tempsAttente:189

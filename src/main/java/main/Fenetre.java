@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.IOException;
@@ -26,6 +27,7 @@ public class Fenetre extends JFrame {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(true);
+		setMinimumSize(new Dimension(300, 300));
 
 		addComponentListener(new ComponentAdapter() {
 			private int lastWidth = getWidth(), lastHeight = getHeight();

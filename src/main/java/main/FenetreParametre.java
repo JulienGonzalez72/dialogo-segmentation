@@ -183,8 +183,8 @@ public class FenetreParametre extends JFrame {
 			sliderAttente.setMinorTickSpacing(10);
 			sliderAttente.setMajorTickSpacing(50);
 			sliderAttente.addChangeListener(controleur);
+			
 			add(sliderAttente);
-
 			add(new JLabel());
 			add(valider);
 
@@ -193,7 +193,7 @@ public class FenetreParametre extends JFrame {
 		}
 
 		public void chargerPreferences() throws NumberFormatException, IOException {
-			String fichier = "preference.txt";
+			String fichier = "preference_"+Constants.NOM_ELEVE+".txt";
 			InputStream ips;
 			try {
 				ips = new FileInputStream(fichier);

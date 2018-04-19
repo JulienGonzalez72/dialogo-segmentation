@@ -221,7 +221,7 @@ public class ControlerGlobal {
 
 	public void sauvegarder() {
 
-		String fichier = "preference.txt";
+		String fichier = "preference_"+Constants.NOM_ELEVE+".txt";
 
 		// recueration des lignes deja existantes
 		List<String> lignes = new ArrayList<String>();

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -188,14 +189,14 @@ public class ControlFrame extends JFrame {
 		if (yes == 0) {
 			PrintWriter writer = null;
 			try {
-				writer = new PrintWriter("preference.txt", "UTF-8");
+				writer = new PrintWriter("preference_"+Constants.NOM_ELEVE+".txt", "UTF-8");
 			} catch (FileNotFoundException | UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
-			writer.println("w:" + getWidth());
-			writer.println("h:" + getHeight());
-			writer.println("x:" + getX());
-			writer.println("y:" + getY());
+			writer.println("w:" + pan.fenetre.getWidth());
+			writer.println("h:" + pan.fenetre.getHeight());
+			writer.println("x:" + pan.fenetre.getX());
+			writer.println("y:" + pan.fenetre.getY());
 			writer.println("taillePolice:" + FenetreParametre.taillePolice);
 			writer.println("typePolice:" + FenetreParametre.police.getFontName());
 			writer.println(
@@ -227,7 +228,7 @@ public class ControlFrame extends JFrame {
 			UIManager.put("OptionPane.background", optionPaneBG);
 			UIManager.put("Panel.background", panelBG);
 		}
-		String fichier = "preference.txt";
+		String fichier = "preference_"+Constants.NOM_ELEVE+".txt";
 		if (yes == 0) {
 			// lecture du fichier texte
 			try {
@@ -298,7 +299,7 @@ public class ControlFrame extends JFrame {
 					}
 					i++;
 				}
-				setBounds(x, y, w, h);
+				pan.fenetre.setBounds(x, y, w, h);
 				FenetreParametre.taillePolice = t;
 				int index = 999;
 				if (p.equals("OpenDyslexic") || p.equals("OpenDyslexic Bold")) {
@@ -349,7 +350,8 @@ public class ControlFrame extends JFrame {
 			this.setVisible(false);
 			this.pan.controlFrame.setVisible(false);
 			this.pan.fenetre.setVisible(false);
-			new FenetreParametre("Dialogo", Constants.largeurFenetreParam, Constants.hauteurFenetreParam);
+			Point p = new Point(50,50);
+			new FenetreParametre(Constants.titreFenetreParam, Constants.largeurFenetreParam, Constants.hauteurFenetreParam).setLocation(p);
 		});
 		JMenuItem eMenuItem3 = new JMenuItem("Parametres");
 		eMenuItem3.setMnemonic(KeyEvent.VK_P);

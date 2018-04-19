@@ -6,4 +6,6 @@ taillePolice:12
 typePolice:Andika Basic
 couleur:255/255/150/0/255/255/255/0/0/0/255/0
 mode:NORMAL
-tempsAttente:101
+tempsAttente:0
+segmentDepart:4
+

@@ -287,11 +287,7 @@ public class FenetreParametre extends JFrame {
 						
 						Color wrongColor = new Color(Integer.valueOf(temp.split("/")[6]),
 								Integer.valueOf(temp.split("/")[7]), Integer.valueOf(temp.split("/")[8]));
-						
-						System.out.println(color.toString());
-						System.out.println(rightColor.toString());
-						System.out.println(wrongColor.toString());
-						System.out.println(Color.BLUE.toString());
+		
 						
 						if (color.equals(new Color(255, 255, 150))) {
 							listeCouleurs.setSelectedItem(couleurs[0]);
@@ -305,7 +301,7 @@ public class FenetreParametre extends JFrame {
 						if (color.equals(Color.PINK)) {
 							listeCouleurs.setSelectedItem(couleurs[3]);
 						}
-						if (color.equals(Color.BLUE)) {
+						if (color.equals(Color.CYAN)) {
 							listeCouleurs.setSelectedItem(couleurs[4]);
 						}
 						if (color.equals(Color.RED)) {
@@ -327,7 +323,7 @@ public class FenetreParametre extends JFrame {
 						if (rightColor.equals(Color.PINK)) {
 							listeBonnesCouleurs.setSelectedItem(couleurs[3]);
 						}
-						if (rightColor.equals(Color.BLUE)) {
+						if (rightColor.equals(Color.CYAN)) {
 							listeBonnesCouleurs.setSelectedItem(couleurs[4]);
 						}
 						if (rightColor.equals(Color.RED)) {
@@ -349,7 +345,7 @@ public class FenetreParametre extends JFrame {
 						if (wrongColor.equals(Color.PINK)) {
 							listeMauvaisesCouleurs.setSelectedItem(couleurs[3]);
 						}
-						if (wrongColor.equals(Color.BLUE)) {
+						if (wrongColor.equals(Color.CYAN)) {
 							listeMauvaisesCouleurs.setSelectedItem(couleurs[4]);
 						}
 						if (wrongColor.equals(Color.RED)) {
@@ -390,6 +386,10 @@ public class FenetreParametre extends JFrame {
 			} catch (FileNotFoundException e) {
 
 			}
+			System.out.println(listeCouleurs.getSelectedItem());
+			System.out.println(listeBonnesCouleurs.getSelectedItem());
+			System.out.println(listeMauvaisesCouleurs.getSelectedItem());
+		
 		}
 
 		public void fermer() {

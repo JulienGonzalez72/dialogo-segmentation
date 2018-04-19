@@ -32,6 +32,9 @@ public class ControlerGlobal {
 		}
 		p.showPage(getPageOfPhrase(n));
 		p.player.goTo(n);
+		if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
+			p.player.doWait();
+		}
 		p.player.play();
 	}
 

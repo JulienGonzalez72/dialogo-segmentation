@@ -58,6 +58,9 @@ public class ControlFrame extends JFrame {
 		previousButton.setEnabled(player.hasPreviousPhrase());
 		previousButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
+					player.doWait();
+				}
 				pan.controlerGlobal.doPrevious();
 				updateButtons();
 			}
@@ -67,12 +70,17 @@ public class ControlFrame extends JFrame {
 		playButton.setIcon(new ImageIcon(playIcon));
 		playButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
 				if (player.isPlaying()) {
 					player.pause();
 				} else if (player.isPhraseFinished()) {
+					if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
+						player.doWait();
+					}
 					player.repeat();
 				} else {
+					if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
+						player.doWait();
+					}
 					player.play();
 				}
 				updateButtons();
@@ -84,6 +92,9 @@ public class ControlFrame extends JFrame {
 		nextButton.setEnabled(player.hasNextPhrase());
 		nextButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
+					player.doWait();
+				}
 				pan.controlerGlobal.doNext();
 				updateButtons();
 			}
@@ -94,6 +105,9 @@ public class ControlFrame extends JFrame {
 		repeatButton.setEnabled(false);
 		repeatButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
+					player.doWait();
+				}
 				player.repeat();
 				updateButtons();
 			}
@@ -112,6 +126,7 @@ public class ControlFrame extends JFrame {
 		panel.add(goToField);
 		goToField.setPreferredSize(new Dimension(40, 20));
 		goToField.addActionListener((ActionEvent e) -> {
+
 			int n;
 			try {
 				n = Integer.parseInt(goToField.getText()) - 1;

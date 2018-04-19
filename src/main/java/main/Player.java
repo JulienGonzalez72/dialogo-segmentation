@@ -24,6 +24,11 @@ public class Player {
 
 	private Clip clip;
 	private long lastPosition;
+	
+	/**
+	 * Si un temps de pause s'effectue après l'enregistrement (valeur par défaut = <code>true</code>).
+	 */
+	public boolean waitAfter = true;
 
 	/**
 	 * Ecouteurs qui s'enclenchent lorsque un segment a finis d'être prononcé.
@@ -75,14 +80,23 @@ public class Player {
 			if (isPhraseFinished()) {
 				stop();
 				lastPosition = 0;
-				blocked = true;
-				waitTask = new WaitTask();
-				timer.scheduleAtFixedRate(waitTask, 0, 20);
+				if (waitAfter) {
+					doWait();
+				}
 				for (Runnable r : onPhraseEnd) {
 					r.run();
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Marque un temps de pause.
+	 */
+	public void doWait() {
+		blocked = true;
+		waitTask = new WaitTask();
+		timer.scheduleAtFixedRate(waitTask, 0, 20);
 	}
 
 	private class WaitTask extends TimerTask {

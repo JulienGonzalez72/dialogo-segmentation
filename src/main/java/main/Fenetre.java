@@ -3,6 +3,7 @@ package main;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.IOException;
+
 import javax.swing.*;
 
 public class Fenetre extends JFrame {
@@ -41,6 +42,7 @@ public class Fenetre extends JFrame {
 			}
 		});
 	}
+
 
 	public void start() {
 		setVisible(true);

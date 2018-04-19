@@ -121,29 +121,10 @@ public class FenetreParametre extends JFrame {
 			listeTailles.addActionListener(controleur);
 			listeTailles.setFont(new Font("OpenDyslexic", Font.PLAIN, 15));
 
-			listeCouleurs = new JComboBox<Object>(couleurs);
-			((JLabel) listeCouleurs.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-			listeCouleurs.addActionListener(controleur);
-			listeCouleurs.setBackground(new Color(255, 255, 150));
-			listeCouleurs.setFont(new Font("OpenDyslexic", Font.PLAIN, 15));
-
-			listeBonnesCouleurs = new JComboBox<Object>(couleurs);
-			((JLabel) listeBonnesCouleurs.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-			listeBonnesCouleurs.addActionListener(controleur);
-			listeBonnesCouleurs.setBackground(new Color(255, 255, 150));
-			listeBonnesCouleurs.setFont(new Font("OpenDyslexic", Font.PLAIN, 15));
-
-			listeMauvaisesCouleurs = new JComboBox<Object>(couleurs);
-			((JLabel) listeMauvaisesCouleurs.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-			listeMauvaisesCouleurs.addActionListener(controleur);
-			listeMauvaisesCouleurs.setBackground(new Color(255, 255, 150));
-			listeMauvaisesCouleurs.setFont(new Font("OpenDyslexic", Font.PLAIN, 15));
-
-			listeCorrectionCouleurs = new JComboBox<Object>(couleurs);
-			((JLabel) listeCorrectionCouleurs.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-			listeCorrectionCouleurs.addActionListener(controleur);
-			listeCorrectionCouleurs.setBackground(new Color(255, 255, 150));
-			listeCorrectionCouleurs.setFont(new Font("OpenDyslexic", Font.PLAIN, 15));
+			listeCouleurs = fastComboBox(controleur, couleurs);
+			listeBonnesCouleurs = fastComboBox(controleur, couleurs);
+			listeMauvaisesCouleurs = fastComboBox(controleur, couleurs);
+			listeCorrectionCouleurs = fastComboBox(controleur, couleurs);
 
 			segmentDeDepart = fastTextField(String.valueOf(FenetreParametre.premierSegment),
 					new Font("OpenDyslexic", Font.PLAIN, 15), "1");
@@ -371,13 +352,12 @@ public class FenetreParametre extends JFrame {
 			return r;
 		}
 
-		public JComboBox<Object> fastComboBox(String nom, ControleurParam controleur, Object[] elements) {
-			JComboBox<Object> r = new JComboBox<Object>();
-			listeCouleurs = new JComboBox<Object>(couleurs);
-			((JLabel) listeCouleurs.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-			listeCouleurs.addActionListener(controleur);
-			listeCouleurs.setBackground(new Color(255, 255, 150));
-			listeCouleurs.setFont(new Font("OpenDyslexic", Font.PLAIN, 15));
+		public JComboBox<Object> fastComboBox(ControleurParam controleur, Object[] elements) {
+			JComboBox<Object> r = new JComboBox<Object>(elements);
+			((JLabel) r.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+			r.addActionListener(controleur);
+			r.setBackground(new Color(255, 255, 150));
+			r.setFont(new Font("OpenDyslexic", Font.PLAIN, 15));
 			return r;
 		}
 

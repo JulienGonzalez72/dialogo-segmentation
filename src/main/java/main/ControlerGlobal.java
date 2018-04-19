@@ -1,10 +1,6 @@
 package main;
 
 import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -144,7 +140,6 @@ public class ControlerGlobal {
 							handler.getPauseOffset(p.player.getCurrentPhraseIndex() - 1)),
 					handler.getRelativeOffset(p.getNumeroPremierSegmentAffiché(),
 							handler.getPauseOffset(p.player.getCurrentPhraseIndex())));
-			//p.nbEssaisRestantPourLeSegmentCourant = Panneau.defautNBEssaisParSegment;
 		}
 	}
 
@@ -177,7 +172,6 @@ public class ControlerGlobal {
 							handler.getPauseOffset(p.player.getCurrentPhraseIndex() - 1)),
 					handler.getRelativeOffset(p.getNumeroPremierSegmentAffiché(),
 							handler.getPauseOffset(p.player.getCurrentPhraseIndex())));
-			//p.nbEssaisRestantPourLeSegmentCourant = Panneau.defautNBEssaisParSegment;
 		}
 	}
 
@@ -216,10 +210,46 @@ public class ControlerGlobal {
 				}
 			}.execute();
 		} else {
-			p.player.nextPhrase();
+			if (FenetreParametre.readMode != ReadMode.ANTICIPATED) {
+				p.player.nextPhrase();
+			}
+			/// en mode lecture anticipée, attend d'abord ///
+			else {
+				p.player.nextPhrase();
+				p.player.stop();
+				p.player.doWait();
+			}
 		}
 		if (FenetreParametre.readMode != ReadMode.GUIDED_READING && FenetreParametre.readMode != ReadMode.ANTICIPATED) {
 			updateHighlight();
+		} else {
+			p.editorPane.désurlignerTout();
+			highlightPhrase(Constants.RIGHT_COLOR, p.player.getCurrentPhraseIndex());
+		}
+	}
+
+	/**
+	 * Essaye de passer au segment précédent.
+	 */
+	public void doPrevious() {
+		if (FenetreParametre.readMode != ReadMode.ANTICIPATED) {
+			p.player.previousPhrase();
+		}
+		/// en mode lecture anticipée, attend d'abord ///
+		else {
+			p.player.previousPhrase();
+			p.player.stop();
+			p.player.doWait();
+		}
+		// si on était au premier segment de la page on affiche la page précédente
+		if (p.player.getCurrentPhraseIndex() == p.getNumeroPremierSegmentAffiché()) {
+			p.afficherPagePrecedente();
+		}
+		if (FenetreParametre.readMode != ReadMode.GUIDED_READING && FenetreParametre.readMode != ReadMode.ANTICIPATED) {
+			updateHighlight();
+		} else {
+			p.editorPane.désurlignerTout();
+			highlightPhrase(Constants.RIGHT_COLOR, p.player.getCurrentPhraseIndex());
 		}
 	}
 
@@ -262,25 +292,6 @@ public class ControlerGlobal {
 		}
 		writer.close();
 
-	}
-
-	/**
-	 * Essaye de passer au segment précédent.
-	 */
-	public void doPrevious() {
-		// si on était au premier segment de la page on affiche la page précédente
-		if (p.player.getCurrentPhraseIndex() == p.getNumeroPremierSegmentAffiché()) {
-			p.player.previousPhrase();
-			p.afficherPagePrecedente();
-		} else {
-			p.player.previousPhrase();
-		}
-		if (FenetreParametre.readMode != ReadMode.GUIDED_READING && FenetreParametre.readMode != ReadMode.ANTICIPATED) {
-			updateHighlight();
-		} else {
-			p.editorPane.désurlignerTout();
-			highlightPhrase(Constants.RIGHT_COLOR, p.player.getCurrentPhraseIndex());
-		}
 	}
 
 	/**

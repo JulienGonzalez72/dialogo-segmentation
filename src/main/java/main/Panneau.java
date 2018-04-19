@@ -109,7 +109,7 @@ public class Panneau extends JPanel {
 		editorPane.addKeyListener(controlerKey);
 		editorPane.requestFocus();
 		
-		if (FenetreParametre.readMode != ReadMode.GUIDED_READING) {
+		if (FenetreParametre.readMode != ReadMode.GUIDED_READING && FenetreParametre.readMode != ReadMode.ANTICIPATED) {
 			ControlerMouse controlerMouse = new ControlerMouse(this, textHandler);
 			editorPane.addMouseListener(controlerMouse);
 		}
@@ -141,7 +141,7 @@ public class Panneau extends JPanel {
 	public void afficherPageSuivante() {
 		showPage(pageActuelle + 1);
 		editorPane.désurlignerTout();
-		if( FenetreParametre.readMode == ReadMode.GUIDED_READING && controlerGlobal != null && player != null) {
+		if( (FenetreParametre.readMode == ReadMode.GUIDED_READING ||  FenetreParametre.readMode == ReadMode.ANTICIPATED)&& (controlerGlobal != null && player != null)) {
 			controlerGlobal.highlightPhrase(Constants.RIGHT_COLOR, player.getCurrentPhraseIndex());
 		}
 	}
@@ -266,6 +266,7 @@ public class Panneau extends JPanel {
 				message = "L'exercice est terminé." + "\n" + "Le patient a fait : " + nbErreurs
 				+ " erreur" + (nbErreurs > 1 ? "s" : "") + ".";
 				break;
+			case ANTICIPATED:
 			case GUIDED_READING:
 				message = "L'exercice est terminé.";
 			default:

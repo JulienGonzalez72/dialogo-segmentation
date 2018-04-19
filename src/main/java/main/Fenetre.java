@@ -3,7 +3,10 @@ package main;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.IOException;
+<<<<<<< HEAD
+=======
 
+>>>>>>> 9af62975f19182f41d47e5b4c7580574b81d4f6a
 import javax.swing.*;
 
 public class Fenetre extends JFrame {
@@ -26,13 +29,15 @@ public class Fenetre extends JFrame {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(true);
-		
+
 		addComponentListener(new ComponentAdapter() {
 			private int lastWidth = getWidth(), lastHeight = getHeight();
+
 			@Override
 			public void componentResized(ComponentEvent e) {
 				/// lors d'un redimensionnement, refait la mise en page ///
-				if (isResizable() && pan.editorPane != null && pan.editorPane.getWidth() > 0 && (lastWidth != getWidth() || lastHeight != getHeight())) {
+				if (isResizable() && pan.editorPane != null && pan.editorPane.getWidth() > 0
+						&& (lastWidth != getWidth() || lastHeight != getHeight())) {
 					pan.rebuildPages();
 					lastWidth = getWidth();
 					lastHeight = getHeight();
@@ -40,7 +45,11 @@ public class Fenetre extends JFrame {
 			}
 		});
 	}
+<<<<<<< HEAD
+
+=======
 	
+>>>>>>> 9af62975f19182f41d47e5b4c7580574b81d4f6a
 	public void start() {
 		setVisible(true);
 		SwingUtilities.invokeLater(new Runnable() {

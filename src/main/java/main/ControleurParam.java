@@ -101,9 +101,14 @@ public class ControleurParam implements ActionListener, ChangeListener {
 				FenetreParametre.readMode = ReadMode.GUIDED_READING;
 			}
 		}
-		if (arg0.getSource() == panneau.modePasDispo) {
-			if (panneau.modePasDispo.isSelected()) {
+		if (arg0.getSource() == panneau.modeNormal) {
+			if (panneau.modeNormal.isSelected()) {
 				FenetreParametre.readMode = ReadMode.NORMAL;
+			}
+		}
+		if (arg0.getSource() == panneau.modeAnticipe) {
+			if (panneau.modeAnticipe.isSelected()) {
+				FenetreParametre.readMode = ReadMode.ANTICIPATED;
 			}
 		}
 		if (arg0.getSource() == panneau.valider) {

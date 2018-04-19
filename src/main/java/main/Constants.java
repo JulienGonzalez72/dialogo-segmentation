@@ -20,6 +20,7 @@ public final class Constants {
 	public static final int hauteurFenetreParam = 850;
 	public static final int largeurFenetreParam = 450;
 	public static final String titreFenetreParam = "Dialogo by roman and julien";
+	public static final boolean LOAD_FIRST_PHRASE = false;
 
 	/**
 	 * Temps d'attente entre chaque page

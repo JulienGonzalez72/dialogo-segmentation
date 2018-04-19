@@ -60,7 +60,7 @@ public class FenetreParametre extends JFrame {
 		JTextField segmentDeDepart;
 		JTextField champNbFautesTolerees;
 		JButton valider;
-		JRadioButton modeSurlignage, modeKaraoke, modePasDispo;
+		JRadioButton modeSurlignage, modeKaraoke, modeNormal, modeAnticipe;
 		ButtonGroup modes;
 		JSlider sliderAttente;
 		final Object[] polices;
@@ -132,13 +132,13 @@ public class FenetreParametre extends JFrame {
 			listeBonnesCouleurs.addActionListener(controleur);
 			listeBonnesCouleurs.setBackground(new Color(255, 255, 150));
 			listeBonnesCouleurs.setFont(new Font("OpenDyslexic", Font.PLAIN, 15));
-			
+
 			listeMauvaisesCouleurs = new JComboBox<Object>(couleurs);
 			((JLabel) listeMauvaisesCouleurs.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 			listeMauvaisesCouleurs.addActionListener(controleur);
 			listeMauvaisesCouleurs.setBackground(new Color(255, 255, 150));
 			listeMauvaisesCouleurs.setFont(new Font("OpenDyslexic", Font.PLAIN, 15));
-			
+
 			listeCorrectionCouleurs = new JComboBox<Object>(couleurs);
 			((JLabel) listeCorrectionCouleurs.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 			listeCorrectionCouleurs.addActionListener(controleur);
@@ -160,45 +160,18 @@ public class FenetreParametre extends JFrame {
 			champNbFautesTolerees = fastTextField("", new Font("OpenDyslexic", Font.PLAIN, 15), "2");
 			champNbFautesTolerees.addActionListener(controleur);
 
-			modeSurlignage = new JRadioButton("Mode surlignage");
-			modeSurlignage.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
-			modeSurlignage.addActionListener(controleur);
-			modeSurlignage.setVerticalTextPosition(JRadioButton.TOP);
-			modeSurlignage.setHorizontalTextPosition(JRadioButton.CENTER);
+			modeAnticipe = fastRadio("Mode Anticipé", controleur);
+			modeSurlignage = fastRadio("Mode Surlignage", controleur);
+			modeKaraoke = fastRadio("Mode Guidée", controleur);
+			modeNormal = fastRadio("Mode Normal", controleur);
+			modeNormal.setSelected(true);
 
-			modeKaraoke = new JRadioButton("Mode Guidée");
-			modeKaraoke.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
-			modeKaraoke.addActionListener(controleur);
-			
-			modeKaraoke.setVerticalTextPosition(JRadioButton.TOP);
-			modeKaraoke.setHorizontalTextPosition(JRadioButton.CENTER);
-			modeKaraoke.setSelected(true);
-
-			modePasDispo = new JRadioButton("Mode Normal");
-			modePasDispo.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
-			modePasDispo.addActionListener(controleur);
-			
-			modePasDispo.setVerticalTextPosition(JRadioButton.TOP);
-			modePasDispo.setHorizontalTextPosition(JRadioButton.CENTER);
-			
-			modeKaraoke.setSelected(true);
-
-			modeKaraoke.setVerticalTextPosition(JRadioButton.TOP);
-			modeKaraoke.setHorizontalTextPosition(JRadioButton.CENTER);
-			modeKaraoke.setSelected(true);
-
-			modePasDispo = new JRadioButton("Mode Normal");
-			modePasDispo.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
-			modePasDispo.addActionListener(controleur);
-			modePasDispo.setVerticalTextPosition(JRadioButton.TOP);
-			modePasDispo.setHorizontalTextPosition(JRadioButton.CENTER);
-
-			modeKaraoke.setSelected(true);
 
 			modes = new ButtonGroup();
 			modes.add(modeSurlignage);
 			modes.add(modeKaraoke);
-			modes.add(modePasDispo);
+			modes.add(modeNormal);
+			modes.add(modeAnticipe);
 
 			add(nbFautesTolerees);
 			fastCentering(champNbFautesTolerees, this);
@@ -209,13 +182,14 @@ public class FenetreParametre extends JFrame {
 			add(couleurFausse);
 			fastCentering(listeMauvaisesCouleurs, this);
 			add(couleurCorrection);
-			fastCentering(listeCorrectionCouleurs,this);
+			fastCentering(listeCorrectionCouleurs, this);
 			add(new JLabel());
 
-			panelModes = new JPanel(new GridLayout(1, 3));
+			panelModes = new JPanel(new GridLayout(1, 4));
 			panelModes.add(modeKaraoke);
 			panelModes.add(modeSurlignage);
-			panelModes.add(modePasDispo);
+			panelModes.add(modeNormal);
+			panelModes.add(modeAnticipe);
 			add(panelModes);
 			add(new JLabel());
 			add(attente);
@@ -304,109 +278,26 @@ public class FenetreParametre extends JFrame {
 						String temp = ligne.split(":")[1];
 						Color color = new Color(Integer.valueOf(temp.split("/")[0]),
 								Integer.valueOf(temp.split("/")[1]), Integer.valueOf(temp.split("/")[2]));
-						
+
 						Color rightColor = new Color(Integer.valueOf(temp.split("/")[3]),
 								Integer.valueOf(temp.split("/")[4]), Integer.valueOf(temp.split("/")[5]));
-						
+
 						Color wrongColor = new Color(Integer.valueOf(temp.split("/")[6]),
 								Integer.valueOf(temp.split("/")[7]), Integer.valueOf(temp.split("/")[8]));
-		
+
 						Color correctionColor = new Color(Integer.valueOf(temp.split("/")[9]),
 								Integer.valueOf(temp.split("/")[10]), Integer.valueOf(temp.split("/")[11]));
-						
-						if (color.equals(new Color(255, 255, 150))) {
-							listeCouleurs.setSelectedItem(couleurs[0]);
-						}
-						if (color.equals(Color.WHITE)) {
-							listeCouleurs.setSelectedItem(couleurs[1]);
-						}
-						if (color.equals(Color.ORANGE)) {
-							listeCouleurs.setSelectedItem(couleurs[2]);
-						}
-						if (color.equals(Color.PINK)) {
-							listeCouleurs.setSelectedItem(couleurs[3]);
-						}
-						if (color.equals(Color.CYAN)) {
-							listeCouleurs.setSelectedItem(couleurs[4]);
-						}
-						if (color.equals(Color.RED)) {
-							listeCouleurs.setSelectedItem(couleurs[5]);
-						}
-						if (color.equals(Color.GREEN)) {
-							listeCouleurs.setSelectedItem(couleurs[6]);
-						}
-						
-						if (rightColor.equals(new Color(255, 255, 150))) {
-							listeBonnesCouleurs.setSelectedItem(couleurs[0]);
-						}
-						if (rightColor.equals(Color.WHITE)) {
-							listeBonnesCouleurs.setSelectedItem(couleurs[1]);
-						}
-						if (rightColor.equals(Color.ORANGE)) {
-							listeBonnesCouleurs.setSelectedItem(couleurs[2]);
-						}
-						if (rightColor.equals(Color.PINK)) {
-							listeBonnesCouleurs.setSelectedItem(couleurs[3]);
-						}
-						if (rightColor.equals(Color.CYAN)) {
-							listeBonnesCouleurs.setSelectedItem(couleurs[4]);
-						}
-						if (rightColor.equals(Color.RED)) {
-							listeBonnesCouleurs.setSelectedItem(couleurs[5]);
-						}
-						if (rightColor.equals(Color.GREEN)) {
-							listeBonnesCouleurs.setSelectedItem(couleurs[6]);
-						}
-						
-						if (wrongColor.equals(new Color(255, 255, 150))) {
-							listeMauvaisesCouleurs.setSelectedItem(couleurs[0]);
-						}
-						if (wrongColor.equals(Color.WHITE)) {
-							listeMauvaisesCouleurs.setSelectedItem(couleurs[1]);
-						}
-						if (wrongColor.equals(Color.ORANGE)) {
-							listeMauvaisesCouleurs.setSelectedItem(couleurs[2]);
-						}
-						if (wrongColor.equals(Color.PINK)) {
-							listeMauvaisesCouleurs.setSelectedItem(couleurs[3]);
-						}
-						if (wrongColor.equals(Color.CYAN)) {
-							listeMauvaisesCouleurs.setSelectedItem(couleurs[4]);
-						}
-						if (wrongColor.equals(Color.RED)) {
-							listeMauvaisesCouleurs.setSelectedItem(couleurs[5]);
-						}
-						if (wrongColor.equals(Color.GREEN)) {
-							listeMauvaisesCouleurs.setSelectedItem(couleurs[6]);
-						}
-						
-						if (correctionColor.equals(new Color(255, 255, 150))) {
-							listeCorrectionCouleurs.setSelectedItem(couleurs[0]);
-						}
-						if (correctionColor.equals(Color.WHITE)) {
-							listeCorrectionCouleurs.setSelectedItem(couleurs[1]);
-						}
-						if (correctionColor.equals(Color.ORANGE)) {
-							listeCorrectionCouleurs.setSelectedItem(couleurs[2]);
-						}
-						if (correctionColor.equals(Color.PINK)) {
-							listeCorrectionCouleurs.setSelectedItem(couleurs[3]);
-						}
-						if (correctionColor.equals(Color.CYAN)) {
-							listeCorrectionCouleurs.setSelectedItem(couleurs[4]);
-						}
-						if (correctionColor.equals(Color.RED)) {
-							listeCorrectionCouleurs.setSelectedItem(couleurs[5]);
-						}
-						if (correctionColor.equals(Color.GREEN)) {
-							listeMauvaisesCouleurs.setSelectedItem(couleurs[6]);
-						}
+
+						appliquerCouleur(color, listeCouleurs);
+						appliquerCouleur(rightColor, listeMauvaisesCouleurs);
+						appliquerCouleur(wrongColor, listeBonnesCouleurs);
+						appliquerCouleur(correctionColor, listeCorrectionCouleurs);
 						break;
 					case 7:
 						FenetreParametre.readMode = ReadMode.parse(ligne.split(":")[1]);
 						switch (FenetreParametre.readMode) {
 						case NORMAL:
-							modePasDispo.setSelected(true);
+							modeNormal.setSelected(true);
 							break;
 						case HIGHLIGHT:
 							modeSurlignage.setSelected(true);
@@ -423,7 +314,9 @@ public class FenetreParametre extends JFrame {
 						sliderAttente.setValue(Integer.valueOf(ligne.split(":")[1]));
 						break;
 					case 9:
-						segmentDeDepart.setText(String.valueOf(ligne.split(":")[1]));
+						if (Constants.LOAD_FIRST_PHRASE) {
+							segmentDeDepart.setText(String.valueOf(ligne.split(":")[1]));
+						}
 						break;
 					default:
 						break;
@@ -433,7 +326,30 @@ public class FenetreParametre extends JFrame {
 			} catch (FileNotFoundException e) {
 
 			}
-		
+		}
+
+		private void appliquerCouleur(Color color, JComboBox<Object> listeCouleurs) {
+			if (color.equals(new Color(255, 255, 150))) {
+				listeCouleurs.setSelectedItem(couleurs[0]);
+			}
+			if (color.equals(Color.WHITE)) {
+				listeCouleurs.setSelectedItem(couleurs[1]);
+			}
+			if (color.equals(Color.ORANGE)) {
+				listeCouleurs.setSelectedItem(couleurs[2]);
+			}
+			if (color.equals(Color.PINK)) {
+				listeCouleurs.setSelectedItem(couleurs[3]);
+			}
+			if (color.equals(Color.CYAN)) {
+				listeCouleurs.setSelectedItem(couleurs[4]);
+			}
+			if (color.equals(Color.RED)) {
+				listeCouleurs.setSelectedItem(couleurs[5]);
+			}
+			if (color.equals(Color.GREEN)) {
+				listeCouleurs.setSelectedItem(couleurs[6]);
+			}
 		}
 
 		public void fermer() {
@@ -453,6 +369,15 @@ public class FenetreParametre extends JFrame {
 			JLabel r = new JLabel(nom);
 			r.setFont(defaultFont);
 			r.setHorizontalAlignment(JLabel.CENTER);
+			return r;
+		}
+
+		public JRadioButton fastRadio(String nom, ControleurParam controleur) {
+			JRadioButton r = new JRadioButton(nom);
+			r.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
+			r.addActionListener(controleur);
+			r.setVerticalTextPosition(JRadioButton.TOP);
+			r.setHorizontalTextPosition(JRadioButton.CENTER);
 			return r;
 		}
 

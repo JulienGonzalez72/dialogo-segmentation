@@ -214,7 +214,7 @@ public class ControlerGlobal {
 		} else {
 			p.player.nextPhrase();
 		}
-		if (FenetreParametre.readMode != ReadMode.GUIDED_READING) {
+		if (FenetreParametre.readMode != ReadMode.GUIDED_READING && FenetreParametre.readMode != ReadMode.ANTICIPATED) {
 			updateHighlight();
 		}
 	}
@@ -271,7 +271,7 @@ public class ControlerGlobal {
 		} else {
 			p.player.previousPhrase();
 		}
-		if (FenetreParametre.readMode != ReadMode.GUIDED_READING) {
+		if (FenetreParametre.readMode != ReadMode.GUIDED_READING && FenetreParametre.readMode != ReadMode.ANTICIPATED) {
 			updateHighlight();
 		} else {
 			p.editorPane.désurlignerTout();

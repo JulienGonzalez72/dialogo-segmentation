@@ -10,11 +10,11 @@ import javax.swing.*;
 import javax.swing.text.BadLocationException;
 
 public class Panneau extends JPanel {
-
+	
 	private static final long serialVersionUID = 1L;
 	public static int premierSegment;
 	public static int defautNBEssaisParSegment;
-
+	
 	// panneau du texte
 	public TextPane editorPane;
 	public TextHandler textHandler;
@@ -27,12 +27,12 @@ public class Panneau extends JPanel {
 	public ControlFrame controlFrame;
 	public ControlerGlobal controlerGlobal;
 	public ControlerKey controlerKey;
-
+	
 	public Map<Integer, List<Integer>> segmentsEnFonctionDeLaPage = new HashMap<Integer, List<Integer>>();
-
+	
 	/// lecteur des phrases ///
 	public Player player;
-
+	
 	public Panneau(JFrame fenetre) throws IOException {
 		this.controlerGlobal = new ControlerGlobal(this);
 		this.fenetre = fenetre;
@@ -42,14 +42,14 @@ public class Panneau extends JPanel {
 			texteCesures = texteCesures.substring(texteCesures.indexOf("/") + 1, texteCesures.length());
 		}
 		textHandler = new TextHandler(texteCesures);
-
+		
 		this.setLayout(new BorderLayout());
-
+		
 		editorPane = new TextPane();
 		editorPane.setEditable(false);
 		add(editorPane, BorderLayout.CENTER);
 	}
-
+	
 	/**
 	 * S'exécute lorsque le panneau s'est bien intégré à la fenêtre
 	 */
@@ -58,10 +58,10 @@ public class Panneau extends JPanel {
 		editorPane.setFont(FenetreParametre.police);
 		pageActuelle = 0;
 		nbEssaisRestantPourLeSegmentCourant = nbEssaisParSegment = FenetreParametre.nbFautesTolerees;
-
+		
 		/// construit la mise en page virtuelle ///
 		rebuildPages();
-
+		
 		/// initialise le lecteur et le démarre ///
 		player = new Player(textHandler);
 		player.onPreviousPhrase.add(() -> {
@@ -114,7 +114,7 @@ public class Panneau extends JPanel {
 			editorPane.addMouseListener(controlerMouse);
 		}
 	}
-
+	
 	/**
 	 * retourne le contenu du fichier .txt situé à l'emplacement du paramètre
 	 */
@@ -133,7 +133,7 @@ public class Panneau extends JPanel {
 		br.close();
 		return toReturn;
 	}
-
+	
 	/**
 	 * passe a la page suivante et l'affiche
 	 *
@@ -141,7 +141,8 @@ public class Panneau extends JPanel {
 	public void afficherPageSuivante() {
 		showPage(pageActuelle + 1);
 		editorPane.désurlignerTout();
-		if( (FenetreParametre.readMode == ReadMode.GUIDED_READING ||  FenetreParametre.readMode == ReadMode.ANTICIPATED)&& (controlerGlobal != null && player != null)) {
+		if ((FenetreParametre.readMode == ReadMode.GUIDED_READING || FenetreParametre.readMode == ReadMode.ANTICIPATED)
+				&& (controlerGlobal != null && player != null)) {
 			controlerGlobal.highlightPhrase(Constants.RIGHT_COLOR, player.getCurrentPhraseIndex());
 		}
 	}
@@ -156,18 +157,18 @@ public class Panneau extends JPanel {
 		/// calcule le nombre de pages total ///
 		nbPages = segmentsEnFonctionDeLaPage.size();
 	}
-
+	
 	public boolean hasNextPage() {
 		return pageActuelle < nbPages;
 	}
-
+	
 	public void afficherPagePrecedente() {
 		if (pageActuelle > 0) {
 			showPage(pageActuelle - 1);
 			editorPane.désurlignerTout();
 		}
 	}
-
+	
 	public void buildPages(int startPhrase) {
 		segmentsEnFonctionDeLaPage.clear();
 		String text = textHandler.getShowText();
@@ -183,14 +184,16 @@ public class Panneau extends JPanel {
 			} catch (BadLocationException e) {
 				e.printStackTrace();
 			}
-			int off = textHandler.getAbsoluteOffset(lastPhrase, editorPane.viewToModel(new Point((int) (editorPane.getWidth() - Constants.TEXTPANE_MARGING),
-					(int) (editorPane.getHeight() - h))));
+			int off = textHandler.getAbsoluteOffset(lastPhrase,
+					editorPane.viewToModel(new Point((int) (editorPane.getWidth() - Constants.TEXTPANE_MARGING),
+							(int) (editorPane.getHeight() - h))));
 			for (int i = lastOffset; i < off; i++) {
 				int phraseIndex = textHandler.getPhraseIndex(i);
 				if (phraseIndex == -1) {
 					lastOffset = textHandler.getShowText().length();
 				}
-				if (!phrases.contains(phraseIndex) && phraseIndex > lastPhrase && phraseIndex != textHandler.getPhraseIndex(off)) {
+				if (!phrases.contains(phraseIndex) && phraseIndex > lastPhrase
+						&& phraseIndex != textHandler.getPhraseIndex(off)) {
 					lastPhrase = phraseIndex;
 					phrases.add(phraseIndex);
 					lastOffset = i;
@@ -206,13 +209,12 @@ public class Panneau extends JPanel {
 				if (!segmentsEnFonctionDeLaPage.get(page - 1).contains(textHandler.getPhraseIndex(off)))
 					segmentsEnFonctionDeLaPage.get(page - 1).add(textHandler.getPhraseIndex(off));
 				break;
-			}
-			else {
+			} else {
 				text = newText;
 			}
 		}
 	}
-
+	
 	public void showPage(int page) {
 		pageActuelle = page;
 		fenetre.setTitle("Lexidia - Page " + page);
@@ -227,30 +229,30 @@ public class Panneau extends JPanel {
 		}
 		editorPane.setText(texteAfficher);
 	}
-
+	
 	public boolean pageFinis() {
 		// la page actuelle contient t-elle le segment suivant ? si non elle est finis
 		return (!segmentsEnFonctionDeLaPage.get(pageActuelle).contains(player.getCurrentPhraseIndex() + 1))
 				|| player.getCurrentPhraseIndex() + 2 == textHandler.getPhrasesCount();
 	}
-
+	
 	public void indiquerErreur(int debut, int fin) {
 		nbErreurs++;
 		editorPane.enleverSurlignageRouge();
 		editorPane.surlignerPhrase(debut, fin, Constants.WRONG_COLOR);
 	}
-
+	
 	public void indiquerEtCorrigerErreur(int debut, int fin) {
 		nbErreurs++;
 		editorPane.indiceDernierCaractereSurligné = fin;
 		editorPane.surlignerPhrase(debut, fin, Constants.WRONG_PHRASE_COLOR);
 		player.repeat();
 	}
-
+	
 	public int getNumeroPremierSegmentAffiché() {
 		return segmentsEnFonctionDeLaPage.get(pageActuelle).get(0);
 	}
-
+	
 	public void afficherCompteRendu() {
 		// desactivation du controleur
 		editorPane.indiceDernierCaractereSurligné = Integer.MAX_VALUE;
@@ -261,18 +263,18 @@ public class Panneau extends JPanel {
 			UIManager.put("Panel.background", Color.WHITE);
 			String message = null;
 			switch (FenetreParametre.readMode) {
-			case NORMAL:
-			case HIGHLIGHT:
-				message = "L'exercice est terminé." + "\n" + "Le patient a fait : " + nbErreurs
-				+ " erreur" + (nbErreurs > 1 ? "s" : "") + ".";
-				break;
-			case ANTICIPATED:
-			case GUIDED_READING:
-				message = "L'exercice est terminé.";
-			default:
-				break;
+				case NORMAL :
+				case HIGHLIGHT :
+					message = "L'exercice est terminé." + "\n" + "Le patient a fait : " + nbErreurs + " erreur"
+							+ (nbErreurs > 1 ? "s" : "") + ".";
+					break;
+				case ANTICIPATED :
+				case GUIDED_READING :
+					message = "L'exercice est terminé.";
+				default :
+					break;
 			}
-			JOptionPane.showMessageDialog(this,message, "Compte Rendu", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this, message, "Compte Rendu", JOptionPane.INFORMATION_MESSAGE);
 		} finally {
 			UIManager.put("OptionPane.background", optionPaneBG);
 			UIManager.put("Panel.background", panelBG);
@@ -286,17 +288,16 @@ public class Panneau extends JPanel {
 	 */
 	public void surlignerJusquaSegment(Color c, int n) {
 		if (textHandler.getPhrase(n) != null) {
-			int debutRelatifSegment = textHandler.getRelativeStartPhrasePosition(getNumeroPremierSegmentAffiché(),
-					n);
+			int debutRelatifSegment = textHandler.getRelativeStartPhrasePosition(getNumeroPremierSegmentAffiché(), n);
 			int finRelativeSegment = debutRelatifSegment + textHandler.getPhrase(n).length();
 			editorPane.surlignerPhrase(0, finRelativeSegment, Constants.RIGHT_COLOR);
 		}
 	}
-
+	
 	public int getPagesLength(int n) {
 		int start = segmentsEnFonctionDeLaPage.get(n).get(0);
 		int fin = segmentsEnFonctionDeLaPage.get(n).get(segmentsEnFonctionDeLaPage.get(n).size() - 1);
 		return textHandler.getPhrasesLength(start, fin);
 	}
-
+	
 }

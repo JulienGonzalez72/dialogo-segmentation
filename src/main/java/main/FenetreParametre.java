@@ -160,48 +160,12 @@ public class FenetreParametre extends JFrame {
 			champNbFautesTolerees = fastTextField("", new Font("OpenDyslexic", Font.PLAIN, 15), "2");
 			champNbFautesTolerees.addActionListener(controleur);
 
-<<<<<<< HEAD
 			modeAnticipe = fastRadio("Mode Anticipé", controleur);
 			modeSurlignage = fastRadio("Mode Surlignage", controleur);
 			modeKaraoke = fastRadio("Mode Guidée", controleur);
 			modeNormal = fastRadio("Mode Normal", controleur);
 			modeNormal.setSelected(true);
-=======
-			modeSurlignage = new JRadioButton("Mode surlignage");
-			modeSurlignage.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
-			modeSurlignage.addActionListener(controleur);
-			modeSurlignage.setVerticalTextPosition(JRadioButton.TOP);
-			modeSurlignage.setHorizontalTextPosition(JRadioButton.CENTER);
 
-			modeKaraoke = new JRadioButton("Mode Guidée");
-			modeKaraoke.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
-			modeKaraoke.addActionListener(controleur);
-			
-			modeKaraoke.setVerticalTextPosition(JRadioButton.TOP);
-			modeKaraoke.setHorizontalTextPosition(JRadioButton.CENTER);
-			modeKaraoke.setSelected(true);
-
-			modePasDispo = new JRadioButton("Mode Normal");
-			modePasDispo.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
-			modePasDispo.addActionListener(controleur);
-			
-			modePasDispo.setVerticalTextPosition(JRadioButton.TOP);
-			modePasDispo.setHorizontalTextPosition(JRadioButton.CENTER);
-			
-			modeKaraoke.setSelected(true);
-
-			modeKaraoke.setVerticalTextPosition(JRadioButton.TOP);
-			modeKaraoke.setHorizontalTextPosition(JRadioButton.CENTER);
-			modeKaraoke.setSelected(true);
-
-			modePasDispo = new JRadioButton("Mode Normal");
-			modePasDispo.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
-			modePasDispo.addActionListener(controleur);
-			modePasDispo.setVerticalTextPosition(JRadioButton.TOP);
-			modePasDispo.setHorizontalTextPosition(JRadioButton.CENTER);
-
-			modeKaraoke.setSelected(true);
->>>>>>> 9af62975f19182f41d47e5b4c7580574b81d4f6a
 
 			modes = new ButtonGroup();
 			modes.add(modeSurlignage);

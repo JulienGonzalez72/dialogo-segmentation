@@ -48,10 +48,6 @@ public class Panneau extends JPanel {
 		editorPane = new TextPane();
 		editorPane.setEditable(false);
 		add(editorPane, BorderLayout.CENTER);
-		if (FenetreParametre.readMode != ReadMode.GUIDED_READING) {
-			ControlerMouse controlerMouse = new ControlerMouse(this, textHandler);
-			editorPane.addMouseListener(controlerMouse);
-		}
 	}
 
 	/**
@@ -64,9 +60,7 @@ public class Panneau extends JPanel {
 		nbEssaisRestantPourLeSegmentCourant = nbEssaisParSegment = FenetreParametre.nbFautesTolerees;
 
 		/// construit la mise en page virtuelle ///
-		buildPagesByJulien(FenetreParametre.premierSegment - 1);
-		/// affiche la première page ///
-		afficherPageSuivante();
+		rebuildPages();
 		/// calcule le nombre de pages total ///
 		nbPages = segmentsEnFonctionDeLaPage.size();
 
@@ -74,7 +68,7 @@ public class Panneau extends JPanel {
 		player = new Player(textHandler);
 		player.onPreviousPhrase.add(() -> {
 			if (FenetreParametre.readMode == ReadMode.GUIDED_READING) {
-				System.out.println("yo");
+				
 			}
 		});
 		player.onBlockEnd.add(() -> {
@@ -94,6 +88,9 @@ public class Panneau extends JPanel {
 			setCursor(monCurseur);
 		});
 		player.onPlay.add(() -> {
+			/// empêche le redimensionnement lors de la première lecture ///
+			fenetre.setResizable(false);
+			
 			/// change le curseur pour indiquer que l'utilisateur doit écouter la phrase ///
 			Toolkit tk = Toolkit.getDefaultToolkit();
 			Image img = tk.getImage("ecouter.png");
@@ -105,17 +102,23 @@ public class Panneau extends JPanel {
 				controlerGlobal.highlightPhrase(Constants.RIGHT_COLOR, player.getCurrentPhraseIndex());
 			}
 			controlerGlobal.sauvegarder();
+			
+			controlFrame.goToField.setText(String.valueOf(player.getCurrentPhraseIndex() + 1));
 		});
 		player.goTo(FenetreParametre.premierSegment - 1);
 		controlFrame = new ControlFrame(this);
 		controlerKey = new ControlerKey(player);
 		editorPane.addKeyListener(controlerKey);
 		editorPane.requestFocus();
+		
+		if (FenetreParametre.readMode != ReadMode.GUIDED_READING) {
+			ControlerMouse controlerMouse = new ControlerMouse(this, textHandler);
+			editorPane.addMouseListener(controlerMouse);
+		}
 	}
 
 	/**
 	 * retourne le contenu du fichier .txt situé à l'emplacement du paramètre
-	 *
 	 */
 	public static String getTextFromFile(String emplacement) throws IOException {
 		File fichierTxt = new File(emplacement);
@@ -144,6 +147,15 @@ public class Panneau extends JPanel {
 			controlerGlobal.highlightPhrase(Constants.RIGHT_COLOR, player.getCurrentPhraseIndex());
 		}
 	}
+	
+	/**
+	 * Construit les pages et affiche la première.
+	 */
+	public void rebuildPages() {
+		buildPagesByJulien(FenetreParametre.premierSegment - 1);
+		pageActuelle = 0;
+		afficherPageSuivante();
+	}
 
 	public boolean hasNextPage() {
 		return pageActuelle < nbPages;
@@ -156,7 +168,7 @@ public class Panneau extends JPanel {
 		}
 	}
 
-	public void buildPagesByJulien(int startPhrase) {
+	public synchronized void buildPagesByJulien(int startPhrase) {
 		segmentsEnFonctionDeLaPage.clear();
 		String text = textHandler.getShowText();
 		int lastOffset = 0;

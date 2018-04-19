@@ -20,6 +20,7 @@ import java.io.UnsupportedEncodingException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.text.BadLocationException;
 
 public class ControlFrame extends JFrame {
 
@@ -31,7 +32,7 @@ public class ControlFrame extends JFrame {
 	private JButton playButton = new JButton();
 	private JButton nextButton = new JButton();
 	private JButton repeatButton = new JButton();
-	private JTextField goToField = new JTextField();
+	public JTextField goToField = new JTextField();
 	private Player player;
 	private Panneau pan;
 
@@ -109,14 +110,14 @@ public class ControlFrame extends JFrame {
 		goToLabel.setFont(goToLabel.getFont().deriveFont(Font.ITALIC));
 		panel.add(goToLabel);
 		panel.add(goToField);
-		goToField.setPreferredSize(new Dimension(50, 20));
+		goToField.setPreferredSize(new Dimension(40, 20));
 		goToField.addActionListener((ActionEvent e) -> {
 			int n;
 			try {
 				n = Integer.parseInt(goToField.getText()) - 1;
 				pan.controlerGlobal.goTo(n);
-			} catch (NumberFormatException ex) {
-				JOptionPane.showMessageDialog(null, ex.getMessage());
+			} catch (BadLocationException ex) {
+				JOptionPane.showMessageDialog(null, "Numéro de segment incorrect : " + goToField.getText());
 			}
 		});
 		

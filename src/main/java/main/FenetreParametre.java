@@ -240,7 +240,7 @@ public class FenetreParametre extends JFrame {
 						if (p.equals("OpenDyslexic") || p.equals("OpenDyslexic Bold")) {
 							index = 0;
 						}
-						if (p.equals("Andika")) {
+						if (p.equals("Andika") || p.equals("Andika Basic")) {
 							index = 1;
 						}
 						if (p.equals("Lexia")) {

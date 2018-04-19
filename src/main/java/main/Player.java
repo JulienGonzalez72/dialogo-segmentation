@@ -101,13 +101,9 @@ public class Player {
 	 * Marque un temps de pause.
 	 */
 	public void doWait() {
-<<<<<<< HEAD
 		if (clip == null) {
 			load(currentPhrase);
 		}
-=======
-		
->>>>>>> f1fb15e37233388d71f1122911025821fea29e48
 		blocked = true;
 		waitTask = new WaitTask();
 		if (playing) {

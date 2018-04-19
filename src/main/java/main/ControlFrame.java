@@ -414,13 +414,13 @@ public class ControlFrame extends JFrame {
 			FenetreParametre.fen.setLocation(x, y);
 			FenetreParametre.fen.fenetre.setEnabled(false);
 			FenetreParametre.fen.fenetre.pan.controlFrame.setEnabled(false);
-			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).champNbFautesTolerees
-					.setEnabled(false);
+			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).champNbFautesTolerees.setEnabled(false);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).segmentDeDepart.setEnabled(false);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).listeTailles.setEnabled(false);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).modeKaraoke.setEnabled(false);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).modeSurlignage.setEnabled(false);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).modeNormal.setEnabled(false);
+			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).modeAnticipe.setEnabled(false);
 		});
 		JMenuItem eMenuItem4 = new JMenuItem("Stocker Preferences");
 		eMenuItem4.setMnemonic(KeyEvent.VK_S);

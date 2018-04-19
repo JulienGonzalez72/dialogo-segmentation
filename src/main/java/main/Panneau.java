@@ -68,12 +68,10 @@ public class Panneau extends JPanel {
 			player.waitAfter = false;
 		}
 		player.onPreviousPhrase.add(() -> {
-			if (FenetreParametre.readMode == ReadMode.GUIDED_READING) {
-				
-			}
+		
 		});
 		player.onBlockEnd.add(() -> {
-			if (FenetreParametre.readMode != ReadMode.GUIDED_READING) {
+			if (FenetreParametre.readMode != ReadMode.GUIDED_READING && FenetreParametre.readMode != ReadMode.ANTICIPATED) {
 				setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
 			/// en mode lecture guidée, passe directement au segment suivant ///
@@ -82,7 +80,7 @@ public class Panneau extends JPanel {
 			}
 		});
 		player.onPhraseEnd.add(() -> {
-			if (FenetreParametre.readMode != ReadMode.ANTICIPATED) {
+			if (FenetreParametre.readMode != ReadMode.GUIDED_READING && FenetreParametre.readMode != ReadMode.ANTICIPATED) {
 				/// change le curseur pour indiquer que l'utilisateur doit répéter ///
 				Toolkit tk = Toolkit.getDefaultToolkit();
 				Image img = tk.getImage("parler.png");
@@ -100,7 +98,7 @@ public class Panneau extends JPanel {
 			Cursor monCurseur = tk.createCustomCursor(img, new Point(16, 16), "ecouter.png");
 			setCursor(monCurseur);
 			
-			if (FenetreParametre.readMode == ReadMode.GUIDED_READING) {
+			if (FenetreParametre.readMode == ReadMode.GUIDED_READING || FenetreParametre.readMode == ReadMode.ANTICIPATED ) {
 				editorPane.désurlignerTout();
 				controlerGlobal.highlightPhrase(Constants.RIGHT_COLOR, player.getCurrentPhraseIndex());
 			}

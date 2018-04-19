@@ -24,9 +24,10 @@ public class Player {
 
 	private Clip clip;
 	private long lastPosition;
-	
+
 	/**
-	 * Si un temps de pause s'effectue après l'enregistrement (valeur par défaut = <code>true</code>).
+	 * Si un temps de pause s'effectue après l'enregistrement (valeur par défaut =
+	 * <code>true</code>).
 	 */
 	public boolean waitAfter = true;
 
@@ -45,11 +46,11 @@ public class Player {
 	 * l'enregistrement se termine.
 	 */
 	public List<Runnable> onBlockEnd = new ArrayList<>();
-	
+
 	public Player(TextHandler textHandler) {
 		text = textHandler;
 	}
-	
+
 	/**
 	 * Charge l'enregistrement correspondant à un segment précis.
 	 */
@@ -63,7 +64,7 @@ public class Player {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Démarre la lecture (n'a aucun effet si la lecture est déjà démarrée).
 	 */
@@ -96,7 +97,7 @@ public class Player {
 			}
 		}
 	}
-	
+
 	/**
 	 * Marque un temps de pause.
 	 */
@@ -120,7 +121,8 @@ public class Player {
 			time += 20;
 
 			/// fin du blocage ///
-			if (blocked && time > clip.getMicrosecondLength() / 1000 * FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture / 100.) {
+			if (blocked && time > clip.getMicrosecondLength() / 1000
+					* FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture / 100.) {
 				blocked = false;
 				cancel();
 				for (Runnable r : onBlockEnd) {
@@ -244,7 +246,8 @@ public class Player {
 	private static AudioInputStream getAudioStream(String fileName, int n) {
 		try {
 			String num = format(Constants.HAS_INSTRUCTIONS ? n + 2 : n + 1);
-			return AudioSystem.getAudioInputStream(new File("ressources/sounds/" + fileName + "/" + fileName + "(" + num + ").wav"));
+			return AudioSystem.getAudioInputStream(
+					new File("ressources/sounds/" + fileName + "/" + fileName + "(" + num + ").wav"));
 		} catch (UnsupportedAudioFileException | IOException e) {
 			e.printStackTrace();
 			return null;
@@ -260,7 +263,7 @@ public class Player {
 	}
 
 	public void setCurrentPhrase(int numeroSegmentCourant) {
-		currentPhrase = numeroSegmentCourant;	
+		currentPhrase = numeroSegmentCourant;
 	}
 
 }

@@ -1,11 +1,9 @@
 package main;
 
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -47,7 +45,7 @@ public class ControlFrame extends JFrame {
 	public ControlFrame(Panneau pan) {
 		this.pan = pan;
 		player = pan.player;
-
+		setIconImage(getToolkit().getImage("icone.jpg"));
 		setTitle("Contrôle");
 		setContentPane(panel);
 		setSize(325, 140);
@@ -60,17 +58,6 @@ public class ControlFrame extends JFrame {
 		previousButton.setEnabled(player.hasPreviousPhrase());
 		previousButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
-					/// change le curseur pour indiquer que l'utilisateur doit parler ///
-					Toolkit tk = Toolkit.getDefaultToolkit();
-					Image img = tk.getImage("parler.png");
-					Cursor monCurseur = tk.createCustomCursor(img, new Point(16, 16), "parler.png");
-					setCursor(monCurseur);
-					player.doWait();
-					/// change le curseur pour indiquer que l'utilisateur ne doit plus parler ///
-					monCurseur = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
-					setCursor(monCurseur);
-				}
 				pan.controlerGlobal.doPrevious();
 				updateButtons();
 			}
@@ -80,36 +67,19 @@ public class ControlFrame extends JFrame {
 		playButton.setIcon(new ImageIcon(playIcon));
 		playButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (player.isPlaying()) {
-					player.pause();
-				} else if (player.isPhraseFinished()) {
-					if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
-						/// change le curseur pour indiquer que l'utilisateur doit parler ///
-						Toolkit tk = Toolkit.getDefaultToolkit();
-						Image img = tk.getImage("parler.png");
-						Cursor monCurseur = tk.createCustomCursor(img, new Point(16, 16), "parler.png");
-						setCursor(monCurseur);
-						player.doWait();
-						/// change le curseur pour indiquer que l'utilisateur ne doit plus parler ///
-						monCurseur = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
-						setCursor(monCurseur);
-					}
-					player.repeat();
+		
+				if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
+					player.doWait();
 				} else {
-					if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
-						/// change le curseur pour indiquer que l'utilisateur doit parler ///
-						Toolkit tk = Toolkit.getDefaultToolkit();
-						Image img = tk.getImage("parler.png");
-						Cursor monCurseur = tk.createCustomCursor(img, new Point(16, 16), "parler.png");
-						setCursor(monCurseur);
-						player.doWait();
-						/// change le curseur pour indiquer que l'utilisateur ne doit plus parler ///
-						monCurseur = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
-						setCursor(monCurseur);
+					if (player.isPlaying()) {
+						player.pause();
+					} else if (player.isPhraseFinished()) {
+						player.repeat();
+					} else {
+						player.play();
 					}
-					player.play();
+					updateButtons();
 				}
-				updateButtons();
 			}
 		});
 
@@ -118,17 +88,6 @@ public class ControlFrame extends JFrame {
 		nextButton.setEnabled(player.hasNextPhrase());
 		nextButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
-					/// change le curseur pour indiquer que l'utilisateur doit parler ///
-					Toolkit tk = Toolkit.getDefaultToolkit();
-					Image img = tk.getImage("parler.png");
-					Cursor monCurseur = tk.createCustomCursor(img, new Point(16, 16), "parler.png");
-					setCursor(monCurseur);
-					player.doWait();
-					/// change le curseur pour indiquer que l'utilisateur ne doit plus parler ///
-					monCurseur = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
-					setCursor(monCurseur);
-				}
 				pan.controlerGlobal.doNext();
 				updateButtons();
 			}
@@ -139,29 +98,18 @@ public class ControlFrame extends JFrame {
 		repeatButton.setEnabled(false);
 		repeatButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
-					/// change le curseur pour indiquer que l'utilisateur doit parler ///
-					Toolkit tk = Toolkit.getDefaultToolkit();
-					Image img = tk.getImage("parler.png");
-					Cursor monCurseur = tk.createCustomCursor(img, new Point(16, 16), "parler.png");
-					setCursor(monCurseur);
-					player.doWait();
-					/// change le curseur pour indiquer que l'utilisateur ne doit plus parler ///
-					monCurseur = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
-					setCursor(monCurseur);
-				}
 				player.repeat();
 				updateButtons();
 			}
 		});
-		
+
 		Runnable update = () -> {
 			updateButtons();
 		};
 		player.onPhraseEnd.add(update);
 		player.onBlockEnd.add(update);
-		player.onPlay.add(update);	
-		
+		player.onPlay.add(update);
+
 		JLabel goToLabel = new JLabel("Passer au segment :");
 		goToLabel.setFont(goToLabel.getFont().deriveFont(Font.ITALIC));
 		panel.add(goToLabel);
@@ -177,7 +125,6 @@ public class ControlFrame extends JFrame {
 				JOptionPane.showMessageDialog(null, "Numéro de segment incorrect : " + goToField.getText());
 			}
 		});
-		
 
 		addMenu();
 	}
@@ -251,12 +198,13 @@ public class ControlFrame extends JFrame {
 			writer.println("y:" + getY());
 			writer.println("taillePolice:" + FenetreParametre.taillePolice);
 			writer.println("typePolice:" + FenetreParametre.police.getFontName());
-			writer.println("couleur:" + FenetreParametre.couleurFond.getRed() + "/"
-					+ FenetreParametre.couleurFond.getGreen() + "/" + FenetreParametre.couleurFond.getBlue() + "/"
-					+ Constants.RIGHT_COLOR.getRed() + "/" + Constants.RIGHT_COLOR.getGreen() + "/"
-					+ Constants.RIGHT_COLOR.getBlue() + "/" + Constants.WRONG_COLOR.getRed() + "/"
-					+ Constants.WRONG_COLOR.getGreen() + "/" + Constants.WRONG_COLOR.getBlue()+"/"+
-					Constants.WRONG_PHRASE_COLOR.getRed()+"/"+Constants.WRONG_PHRASE_COLOR.getGreen()+ "/"+Constants.WRONG_PHRASE_COLOR.getBlue());
+			writer.println(
+					"couleur:" + FenetreParametre.couleurFond.getRed() + "/" + FenetreParametre.couleurFond.getGreen()
+							+ "/" + FenetreParametre.couleurFond.getBlue() + "/" + Constants.RIGHT_COLOR.getRed() + "/"
+							+ Constants.RIGHT_COLOR.getGreen() + "/" + Constants.RIGHT_COLOR.getBlue() + "/"
+							+ Constants.WRONG_COLOR.getRed() + "/" + Constants.WRONG_COLOR.getGreen() + "/"
+							+ Constants.WRONG_COLOR.getBlue() + "/" + Constants.WRONG_PHRASE_COLOR.getRed() + "/"
+							+ Constants.WRONG_PHRASE_COLOR.getGreen() + "/" + Constants.WRONG_PHRASE_COLOR.getBlue());
 			writer.println("mode:" + FenetreParametre.readMode);
 			writer.println("tempsAttente:" + FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture);
 			writer.close();
@@ -317,10 +265,9 @@ public class ControlFrame extends JFrame {
 								Integer.valueOf(temp.split("/")[5]));
 						wrongColor = new Color(Integer.valueOf(temp.split("/")[6]), Integer.valueOf(temp.split("/")[7]),
 								Integer.valueOf(temp.split("/")[8]));
-						correctionColor = new Color(Integer.valueOf(temp.split("/")[9]), Integer.valueOf(temp.split("/")[10]),
-								Integer.valueOf(temp.split("/")[11]));
-						
-						
+						correctionColor = new Color(Integer.valueOf(temp.split("/")[9]),
+								Integer.valueOf(temp.split("/")[10]), Integer.valueOf(temp.split("/")[11]));
+
 						break;
 					case 7:
 						String s = String.valueOf(ligne.split(":")[1]);
@@ -399,7 +346,7 @@ public class ControlFrame extends JFrame {
 			this.setVisible(false);
 			this.pan.controlFrame.setVisible(false);
 			this.pan.fenetre.setVisible(false);
-			new FenetreParametre("Dialogo", 500, 700);
+			new FenetreParametre("Dialogo", Constants.largeurFenetreParam, Constants.hauteurFenetreParam);
 		});
 		JMenuItem eMenuItem3 = new JMenuItem("Parametres");
 		eMenuItem3.setMnemonic(KeyEvent.VK_P);
@@ -414,7 +361,8 @@ public class ControlFrame extends JFrame {
 			FenetreParametre.fen.setLocation(x, y);
 			FenetreParametre.fen.fenetre.setEnabled(false);
 			FenetreParametre.fen.fenetre.pan.controlFrame.setEnabled(false);
-			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).champNbFautesTolerees.setEnabled(false);
+			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).champNbFautesTolerees
+					.setEnabled(false);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).segmentDeDepart.setEnabled(false);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).listeTailles.setEnabled(false);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).modeKaraoke.setEnabled(false);

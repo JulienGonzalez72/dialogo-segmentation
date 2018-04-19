@@ -42,7 +42,7 @@ public class Player {
 	 */
 	public List<Runnable> onPlay = new ArrayList<>();
 	/**
-	 * Ecouteurs qui s'enclenchent lorsque le temps de pause après la fin de
+	 * Ecouteurs qui s'enclenchent lorsque le temps de pause de
 	 * l'enregistrement se termine.
 	 */
 	public List<Runnable> onBlockEnd = new ArrayList<>();

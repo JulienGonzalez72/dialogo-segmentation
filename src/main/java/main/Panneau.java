@@ -10,11 +10,11 @@ import javax.swing.*;
 import javax.swing.text.BadLocationException;
 
 public class Panneau extends JPanel {
-	
+
 	private static final long serialVersionUID = 1L;
 	public static int premierSegment;
 	public static int defautNBEssaisParSegment;
-	
+
 	// panneau du texte
 	public TextPane editorPane;
 	public TextHandler textHandler;
@@ -27,12 +27,12 @@ public class Panneau extends JPanel {
 	public ControlFrame controlFrame;
 	public ControlerGlobal controlerGlobal;
 	public ControlerKey controlerKey;
-	
+
 	public Map<Integer, List<Integer>> segmentsEnFonctionDeLaPage = new HashMap<Integer, List<Integer>>();
-	
+
 	/// lecteur des phrases ///
 	public Player player;
-	
+
 	public Panneau(JFrame fenetre) throws IOException {
 		this.controlerGlobal = new ControlerGlobal(this);
 		this.fenetre = fenetre;
@@ -42,14 +42,14 @@ public class Panneau extends JPanel {
 			texteCesures = texteCesures.substring(texteCesures.indexOf("/") + 1, texteCesures.length());
 		}
 		textHandler = new TextHandler(texteCesures);
-		
+
 		this.setLayout(new BorderLayout());
-		
+
 		editorPane = new TextPane();
 		editorPane.setEditable(false);
 		add(editorPane, BorderLayout.CENTER);
 	}
-	
+
 	/**
 	 * S'exécute lorsque le panneau s'est bien intégré à la fenêtre
 	 */
@@ -58,52 +58,63 @@ public class Panneau extends JPanel {
 		editorPane.setFont(FenetreParametre.police);
 		pageActuelle = 0;
 		nbEssaisRestantPourLeSegmentCourant = nbEssaisParSegment = FenetreParametre.nbFautesTolerees;
-		
+
 		/// construit la mise en page virtuelle ///
 		rebuildPages();
-		
+
 		/// initialise le lecteur et le démarre ///
 		player = new Player(textHandler);
-		if ( FenetreParametre.readMode == ReadMode.ANTICIPATED) {
+		if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
 			player.waitAfter = false;
 		}
 		player.onPreviousPhrase.add(() -> {
-		
+
 		});
 		player.onBlockEnd.add(() -> {
-			if (FenetreParametre.readMode != ReadMode.GUIDED_READING && FenetreParametre.readMode != ReadMode.ANTICIPATED) {
+			if (FenetreParametre.readMode != ReadMode.GUIDED_READING
+					&& FenetreParametre.readMode != ReadMode.ANTICIPATED) {
 				setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
 			/// en mode lecture guidée, passe directement au segment suivant ///
 			else {
 				controlerGlobal.doNext();
+				player.doWait();
 			}
 		});
 		player.onPhraseEnd.add(() -> {
-			if (FenetreParametre.readMode != ReadMode.GUIDED_READING && FenetreParametre.readMode != ReadMode.ANTICIPATED) {
+			if (FenetreParametre.readMode != ReadMode.GUIDED_READING
+					&& FenetreParametre.readMode != ReadMode.ANTICIPATED) {
 				/// change le curseur pour indiquer que l'utilisateur doit répéter ///
 				Toolkit tk = Toolkit.getDefaultToolkit();
 				Image img = tk.getImage("parler.png");
 				Cursor monCurseur = tk.createCustomCursor(img, new Point(16, 16), "parler.png");
 				setCursor(monCurseur);
-			}		
+			} else {
+				if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
+					controlerGlobal.highlightPhrase(Constants.RIGHT_COLOR, player.getCurrentPhraseIndex());
+				}
+			}
 		});
 		player.onPlay.add(() -> {
 			/// empêche le redimensionnement lors de la première lecture ///
 			fenetre.setResizable(false);
-			
+
 			/// change le curseur pour indiquer que l'utilisateur doit écouter la phrase ///
 			Toolkit tk = Toolkit.getDefaultToolkit();
 			Image img = tk.getImage("ecouter.png");
 			Cursor monCurseur = tk.createCustomCursor(img, new Point(16, 16), "ecouter.png");
 			setCursor(monCurseur);
-			
-			if (FenetreParametre.readMode == ReadMode.GUIDED_READING || FenetreParametre.readMode == ReadMode.ANTICIPATED ) {
+
+			if (FenetreParametre.readMode == ReadMode.GUIDED_READING
+					|| FenetreParametre.readMode == ReadMode.ANTICIPATED) {
 				editorPane.désurlignerTout();
-				controlerGlobal.highlightPhrase(Constants.RIGHT_COLOR, player.getCurrentPhraseIndex());
+				if (FenetreParametre.readMode == ReadMode.GUIDED_READING) {
+					controlerGlobal.highlightPhrase(Constants.RIGHT_COLOR, player.getCurrentPhraseIndex());
+				}
 			}
+
 			controlerGlobal.sauvegarder();
-			
+
 			controlFrame.goToField.setText(String.valueOf(player.getCurrentPhraseIndex() + 1));
 		});
 		player.goTo(FenetreParametre.premierSegment - 1);
@@ -111,13 +122,13 @@ public class Panneau extends JPanel {
 		controlerKey = new ControlerKey(player);
 		editorPane.addKeyListener(controlerKey);
 		editorPane.requestFocus();
-		
+
 		if (FenetreParametre.readMode != ReadMode.GUIDED_READING && FenetreParametre.readMode != ReadMode.ANTICIPATED) {
 			ControlerMouse controlerMouse = new ControlerMouse(this, textHandler);
 			editorPane.addMouseListener(controlerMouse);
 		}
 	}
-	
+
 	/**
 	 * retourne le contenu du fichier .txt situé à l'emplacement du paramètre
 	 */
@@ -136,7 +147,7 @@ public class Panneau extends JPanel {
 		br.close();
 		return toReturn;
 	}
-	
+
 	/**
 	 * passe a la page suivante et l'affiche
 	 *
@@ -149,7 +160,7 @@ public class Panneau extends JPanel {
 			controlerGlobal.highlightPhrase(Constants.RIGHT_COLOR, player.getCurrentPhraseIndex());
 		}
 	}
-	
+
 	/**
 	 * Construit les pages et affiche la première.
 	 */
@@ -160,18 +171,18 @@ public class Panneau extends JPanel {
 		/// calcule le nombre de pages total ///
 		nbPages = segmentsEnFonctionDeLaPage.size();
 	}
-	
+
 	public boolean hasNextPage() {
 		return pageActuelle < nbPages;
 	}
-	
+
 	public void afficherPagePrecedente() {
 		if (pageActuelle > 0) {
 			showPage(pageActuelle - 1);
 			editorPane.désurlignerTout();
 		}
 	}
-	
+
 	public void buildPages(int startPhrase) {
 		segmentsEnFonctionDeLaPage.clear();
 		String text = textHandler.getShowText();
@@ -217,7 +228,7 @@ public class Panneau extends JPanel {
 			}
 		}
 	}
-	
+
 	public void showPage(int page) {
 		pageActuelle = page;
 		fenetre.setTitle("Lexidia - Page " + page);
@@ -232,30 +243,30 @@ public class Panneau extends JPanel {
 		}
 		editorPane.setText(texteAfficher);
 	}
-	
+
 	public boolean pageFinis() {
 		// la page actuelle contient t-elle le segment suivant ? si non elle est finis
 		return (!segmentsEnFonctionDeLaPage.get(pageActuelle).contains(player.getCurrentPhraseIndex() + 1))
 				|| player.getCurrentPhraseIndex() + 2 == textHandler.getPhrasesCount();
 	}
-	
+
 	public void indiquerErreur(int debut, int fin) {
 		nbErreurs++;
 		editorPane.enleverSurlignageRouge();
 		editorPane.surlignerPhrase(debut, fin, Constants.WRONG_COLOR);
 	}
-	
+
 	public void indiquerEtCorrigerErreur(int debut, int fin) {
-		//nbErreurs++;
+		// nbErreurs++;
 		editorPane.indiceDernierCaractereSurligné = fin;
 		editorPane.surlignerPhrase(debut, fin, Constants.WRONG_PHRASE_COLOR);
 		player.repeat();
 	}
-	
+
 	public int getNumeroPremierSegmentAffiché() {
 		return segmentsEnFonctionDeLaPage.get(pageActuelle).get(0);
 	}
-	
+
 	public void afficherCompteRendu() {
 		// desactivation du controleur
 		editorPane.indiceDernierCaractereSurligné = Integer.MAX_VALUE;
@@ -266,16 +277,16 @@ public class Panneau extends JPanel {
 			UIManager.put("Panel.background", Color.WHITE);
 			String message = null;
 			switch (FenetreParametre.readMode) {
-				case NORMAL :
-				case HIGHLIGHT :
-					message = "L'exercice est terminé." + "\n" + "Le patient a fait : " + nbErreurs + " erreur"
-							+ (nbErreurs > 1 ? "s" : "") + ".";
-					break;
-				case ANTICIPATED :
-				case GUIDED_READING :
-					message = "L'exercice est terminé.";
-				default :
-					break;
+			case NORMAL:
+			case HIGHLIGHT:
+				message = "L'exercice est terminé." + "\n" + "Le patient a fait : " + nbErreurs + " erreur"
+						+ (nbErreurs > 1 ? "s" : "") + ".";
+				break;
+			case ANTICIPATED:
+			case GUIDED_READING:
+				message = "L'exercice est terminé.";
+			default:
+				break;
 			}
 			JOptionPane.showMessageDialog(this, message, "Compte Rendu", JOptionPane.INFORMATION_MESSAGE);
 		} finally {
@@ -285,7 +296,7 @@ public class Panneau extends JPanel {
 		fenetre.setVisible(false);
 		new FenetreParametre("Dialogo", 500, 700);
 	}
-	
+
 	/**
 	 * Colorie tout jusqu'au segment n en couleur c
 	 */
@@ -296,11 +307,11 @@ public class Panneau extends JPanel {
 			editorPane.surlignerPhrase(0, finRelativeSegment, Constants.RIGHT_COLOR);
 		}
 	}
-	
+
 	public int getPagesLength(int n) {
 		int start = segmentsEnFonctionDeLaPage.get(n).get(0);
 		int fin = segmentsEnFonctionDeLaPage.get(n).get(segmentsEnFonctionDeLaPage.get(n).size() - 1);
 		return textHandler.getPhrasesLength(start, fin);
 	}
-	
+
 }

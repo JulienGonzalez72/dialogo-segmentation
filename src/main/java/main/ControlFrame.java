@@ -341,6 +341,7 @@ public class ControlFrame extends JFrame {
 		eMenuItem2.addActionListener((ActionEvent event) -> {
 			this.setVisible(false);
 			this.pan.controlFrame.setVisible(false);
+			this.pan.fenetre.setVisible(false);
 			new FenetreParametre("Dialogo", 500, 700);
 		});
 		JMenuItem eMenuItem3 = new JMenuItem("Parametres");

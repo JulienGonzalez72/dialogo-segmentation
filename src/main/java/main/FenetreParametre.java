@@ -166,7 +166,6 @@ public class FenetreParametre extends JFrame {
 			modeNormal = fastRadio("Mode Normal", controleur);
 			modeNormal.setSelected(true);
 
-
 			modes = new ButtonGroup();
 			modes.add(modeSurlignage);
 			modes.add(modeKaraoke);
@@ -369,6 +368,16 @@ public class FenetreParametre extends JFrame {
 			JLabel r = new JLabel(nom);
 			r.setFont(defaultFont);
 			r.setHorizontalAlignment(JLabel.CENTER);
+			return r;
+		}
+
+		public JComboBox<Object> fastComboBox(String nom, ControleurParam controleur, Object[] elements) {
+			JComboBox<Object> r = new JComboBox<Object>();
+			listeCouleurs = new JComboBox<Object>(couleurs);
+			((JLabel) listeCouleurs.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+			listeCouleurs.addActionListener(controleur);
+			listeCouleurs.setBackground(new Color(255, 255, 150));
+			listeCouleurs.setFont(new Font("OpenDyslexic", Font.PLAIN, 15));
 			return r;
 		}
 

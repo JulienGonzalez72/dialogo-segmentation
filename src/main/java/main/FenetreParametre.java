@@ -162,11 +162,6 @@ public class FenetreParametre extends JFrame {
 			modeKaraoke.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
 			modeKaraoke.addActionListener(controleur);
 			
-<<<<<<< HEAD
-=======
-			modeKaraoke.setSelected(true);
-
->>>>>>> 8b7179d2d5d4cabb9befd218ae298209011c911e
 			modePasDispo = new JRadioButton("Mode Normal");
 			modePasDispo.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
 			modePasDispo.addActionListener(controleur);

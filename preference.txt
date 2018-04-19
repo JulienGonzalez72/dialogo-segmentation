@@ -1,10 +1,9 @@
 w:325
-h:90
+h:140
 x:0
 y:0
-taillePolice:36
+taillePolice:30
 typePolice:OpenDyslexic Bold
 couleur:255/255/150
 mode:GUIDED_READING
 tempsAttente:0
-segmentDepart:28

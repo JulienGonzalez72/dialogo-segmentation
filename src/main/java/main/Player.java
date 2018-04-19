@@ -199,6 +199,7 @@ public class Player {
 	 * Recommence la phrase.
 	 */
 	public void repeat() {
+		lastPosition = 0;
 		stop();
 		play();
 	}
@@ -207,6 +208,7 @@ public class Player {
 	 * Se place directement à un segment donné sans démarrer le lecteur.
 	 */
 	public void goTo(int index) {
+		lastPosition = 0;
 		stop();
 		currentPhrase = index;
 	}

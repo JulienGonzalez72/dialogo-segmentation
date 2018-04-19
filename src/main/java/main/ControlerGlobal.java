@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.SwingWorker;
+import javax.swing.text.BadLocationException;
 
 public class ControlerGlobal {
 
@@ -25,7 +26,10 @@ public class ControlerGlobal {
 	/**
 	 * Se place sur le segment de numero n et démarre le lecteur
 	 */
-	public void goTo(int n) {
+	public void goTo(int n) throws BadLocationException {
+		if (n < 0 || n >= p.textHandler.getPhrasesCount()) {
+			throw new BadLocationException("Numéro de segment invalide : " + n, n);
+		}
 		p.showPage(getPageOfPhrase(n));
 		p.player.goTo(n);
 		p.player.play();
@@ -212,14 +216,6 @@ public class ControlerGlobal {
 		}
 		if (FenetreParametre.readMode != ReadMode.GUIDED_READING) {
 			updateHighlight();
-		} else {
-<<<<<<< HEAD
-			//p.editorPane.désurlignerTout();
-			//highlightPhrase(Constants.RIGHT_COLOR, p.player.getCurrentPhraseIndex());
-=======
-			p.editorPane.désurlignerTout();
-			highlightPhrase(Constants.RIGHT_COLOR, p.player.getCurrentPhraseIndex());
->>>>>>> 8b7179d2d5d4cabb9befd218ae298209011c911e
 		}
 	}
 

@@ -71,9 +71,7 @@ public class Player {
 		if (playing) {
 			return;
 		}
-		if (clip == null) {
-			load(currentPhrase);
-		}
+		load(currentPhrase);
 		timer = new Timer();
 		playTask = new PlayTask();
 		timer.scheduleAtFixedRate(playTask, 0, 20);
@@ -89,21 +87,23 @@ public class Player {
 			if (isPhraseFinished()) {
 				stop();
 				lastPosition = 0;
-				if (waitAfter) {
-					doWait();
-				}
 				for (Runnable r : onPhraseEnd) {
 					r.run();
+				}
+				if (waitAfter) {
+					doWait();
 				}
 			}
 		}
 	}
 	
 	/**
-	 * Marque un temps de pause.<br>Ne fonctionne que si l'enregistrement a été chargé.
-	 * @see {@link #load}
+	 * Marque un temps de pause.
 	 */
 	public void doWait() {
+		if (clip == null) {
+			load(currentPhrase);
+		}
 		blocked = true;
 		waitTask = new WaitTask();
 		if (playing) {

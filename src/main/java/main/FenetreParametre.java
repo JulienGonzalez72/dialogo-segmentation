@@ -146,7 +146,7 @@ public class FenetreParametre extends JFrame {
 			modeKaraoke = fastRadio("Mode Guidée", controleur);
 			modeNormal = fastRadio("Mode Normal", controleur);
 			modeNormal.setSelected(true);
-			
+
 			modes = new ButtonGroup();
 			modes.add(modeSurlignage);
 			modes.add(modeKaraoke);
@@ -259,18 +259,15 @@ public class FenetreParametre extends JFrame {
 						Color color = new Color(Integer.valueOf(temp.split("/")[0]),
 								Integer.valueOf(temp.split("/")[1]), Integer.valueOf(temp.split("/")[2]));
 
-						Color correctionColor = new Color(Integer.valueOf(temp.split("/")[3]),
+						Color rightColor = new Color(Integer.valueOf(temp.split("/")[3]),
 								Integer.valueOf(temp.split("/")[4]), Integer.valueOf(temp.split("/")[5]));
 
 						Color wrongColor = new Color(Integer.valueOf(temp.split("/")[6]),
 								Integer.valueOf(temp.split("/")[7]), Integer.valueOf(temp.split("/")[8]));
 
-						Color rightColor = new Color(Integer.valueOf(temp.split("/")[9]),
+						Color correctionColor = new Color(Integer.valueOf(temp.split("/")[9]),
 								Integer.valueOf(temp.split("/")[10]), Integer.valueOf(temp.split("/")[11]));
 
-						System.out.println(rightColor);
-						System.out.println(correctionColor);
-						
 						appliquerCouleur(color, listeCouleurs);
 						appliquerCouleur(rightColor, listeBonnesCouleurs);
 						appliquerCouleur(wrongColor, listeMauvaisesCouleurs);
@@ -295,7 +292,7 @@ public class FenetreParametre extends JFrame {
 							break;
 						}
 						break;
-					case 8:				
+					case 8:
 						FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture = Integer.valueOf(ligne.split(":")[1]);
 						sliderAttente.setValue(Integer.valueOf(ligne.split(":")[1]));
 						break;

@@ -199,12 +199,15 @@ public class ControlFrame extends JFrame {
 			writer.println("taillePolice:" + FenetreParametre.taillePolice);
 			writer.println("typePolice:" + FenetreParametre.police.getFontName());
 			writer.println(
-					"couleur:" + FenetreParametre.couleurFond.getRed() + "/" + FenetreParametre.couleurFond.getGreen()
-							+ "/" + FenetreParametre.couleurFond.getBlue() + "/" + Constants.RIGHT_COLOR.getRed() + "/"
-							+ Constants.RIGHT_COLOR.getGreen() + "/" + Constants.RIGHT_COLOR.getBlue() + "/"
-							+ Constants.WRONG_COLOR.getRed() + "/" + Constants.WRONG_COLOR.getGreen() + "/"
-							+ Constants.WRONG_COLOR.getBlue() + "/" + Constants.WRONG_PHRASE_COLOR.getRed() + "/"
-							+ Constants.WRONG_PHRASE_COLOR.getGreen() + "/" + Constants.WRONG_PHRASE_COLOR.getBlue());
+					"couleur:" 
+			+ FenetreParametre.couleurFond.getRed() + "/" + FenetreParametre.couleurFond.getGreen() + "/" + FenetreParametre.couleurFond.getBlue() + "/" 
+							
+			+ Constants.RIGHT_COLOR.getRed() + "/"+ Constants.RIGHT_COLOR.getGreen() + "/" + Constants.RIGHT_COLOR.getBlue() + "/"
+							
+			+ Constants.WRONG_COLOR.getRed() + "/" + Constants.WRONG_COLOR.getGreen() + "/"+ Constants.WRONG_COLOR.getBlue() + "/" 
+							
+			+ Constants.WRONG_PHRASE_COLOR.getRed() + "/" + Constants.WRONG_PHRASE_COLOR.getGreen() + "/" + Constants.WRONG_PHRASE_COLOR.getBlue());
+			
 			writer.println("mode:" + FenetreParametre.readMode);
 			writer.println("tempsAttente:" + FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture);
 			writer.close();

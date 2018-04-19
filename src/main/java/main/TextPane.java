@@ -151,5 +151,24 @@ public class TextPane extends JTextPane {
 		FontMetrics fm = getFontMetrics(getFont());
 		return (float) (1f + fm.getHeight() / getTextBounds("|").getHeight());
 	}
+	
+	public void updateColors() throws BadLocationException {
+		for (Object object : blueHighlightTags) {
+			Highlight g = (Highlight) object;
+			object = getHighlighter().addHighlight(g.getStartOffset(), g.getEndOffset(),new DefaultHighlighter.DefaultHighlightPainter(Constants.WRONG_PHRASE_COLOR));
+		}
+		for (Object object : redHighlightTags) {
+			Highlight g = (Highlight) object;
+			object = getHighlighter().addHighlight(g.getStartOffset(), g.getEndOffset(),new DefaultHighlighter.DefaultHighlightPainter(Constants.WRONG_COLOR));
+		}
+		for (Object object : greenHighlightTags) {
+			Highlight g = (Highlight) object;
+			object = getHighlighter().addHighlight(g.getStartOffset(), g.getEndOffset(),new DefaultHighlighter.DefaultHighlightPainter(Constants.RIGHT_COLOR));
+		}
+		for (Object object : blueHighlightTagsMemory) {
+			Highlight g = (Highlight) object;
+			object = getHighlighter().addHighlight(g.getStartOffset(), g.getEndOffset(),new DefaultHighlighter.DefaultHighlightPainter(Constants.WRONG_PHRASE_COLOR));
+		}
+	}
 
 }

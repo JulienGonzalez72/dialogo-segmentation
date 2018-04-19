@@ -8,6 +8,7 @@ import java.io.*;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.text.BadLocationException;
 
 public class ControleurParam implements ActionListener, ChangeListener {
 
@@ -51,10 +52,10 @@ public class ControleurParam implements ActionListener, ChangeListener {
 			if (jcb == panneau.listeMauvaisesCouleurs) {
 				Constants.WRONG_COLOR = color;
 			}
-			if (jcb == panneau.listeBonnesCouleurs) {
+			if (jcb == panneau.listeCorrectionCouleurs) {
 				Constants.WRONG_PHRASE_COLOR = color;
 			}
-			if (jcb == panneau.listeCorrectionCouleurs) {
+			if (jcb == panneau.listeBonnesCouleurs) {
 				Constants.RIGHT_COLOR = color;
 			}
 			if (jcb == panneau.listeCouleurs) {
@@ -147,6 +148,11 @@ public class ControleurParam implements ActionListener, ChangeListener {
 					FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture = panneau.sliderAttente.getValue();
 					if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
 						FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture *= 2;
+					}
+					try {
+						FenetreParametre.editorPane.updateColors();
+					} catch (BadLocationException e) {
+						e.printStackTrace();
 					}
 				}
 			}

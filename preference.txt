@@ -1,21 +1,9 @@
 w:325
-<<<<<<< HEAD
-h:110
+h:140
 x:0
 y:0
 taillePolice:12
 typePolice:OpenDyslexic Bold
-couleur:0/255/255/255/255/255/255/0/0
+couleur:0/255/255/255/255/150/255/0/0/255/255/255
 mode:HIGHLIGHT
 tempsAttente:0
-=======
-h:90
-x:0
-y:0
-taillePolice:36
-typePolice:OpenDyslexic Bold
-couleur:255/255/150
-mode:GUIDED_READING
-tempsAttente:0
-segmentDepart:28
->>>>>>> 4c67c0d24651dda5736b7a75ef81e0631b8af4df

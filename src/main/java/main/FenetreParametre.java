@@ -259,19 +259,22 @@ public class FenetreParametre extends JFrame {
 						Color color = new Color(Integer.valueOf(temp.split("/")[0]),
 								Integer.valueOf(temp.split("/")[1]), Integer.valueOf(temp.split("/")[2]));
 
-						Color rightColor = new Color(Integer.valueOf(temp.split("/")[3]),
+						Color correctionColor = new Color(Integer.valueOf(temp.split("/")[3]),
 								Integer.valueOf(temp.split("/")[4]), Integer.valueOf(temp.split("/")[5]));
 
 						Color wrongColor = new Color(Integer.valueOf(temp.split("/")[6]),
 								Integer.valueOf(temp.split("/")[7]), Integer.valueOf(temp.split("/")[8]));
 
-						Color correctionColor = new Color(Integer.valueOf(temp.split("/")[9]),
+						Color rightColor = new Color(Integer.valueOf(temp.split("/")[9]),
 								Integer.valueOf(temp.split("/")[10]), Integer.valueOf(temp.split("/")[11]));
 
+						System.out.println(rightColor);
+						System.out.println(correctionColor);
+						
 						appliquerCouleur(color, listeCouleurs);
-						appliquerCouleur(rightColor, listeCorrectionCouleurs);
+						appliquerCouleur(rightColor, listeBonnesCouleurs);
 						appliquerCouleur(wrongColor, listeMauvaisesCouleurs);
-						appliquerCouleur(correctionColor, listeBonnesCouleurs);
+						appliquerCouleur(correctionColor, listeCorrectionCouleurs);
 						break;
 					case 7:
 						FenetreParametre.readMode = ReadMode.parse(ligne.split(":")[1]);

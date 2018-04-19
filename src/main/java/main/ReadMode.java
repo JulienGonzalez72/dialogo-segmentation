@@ -16,7 +16,12 @@ public enum ReadMode {
 	/**
 	 * Aucun surlignage n'indique au patient sur quel segment il se trouve, seules les erreurs sont surlignées.
 	 */
-	NORMAL;
+	NORMAL,
+	
+	/**
+	 * Lecture anticipée
+	 */
+	ANTICIPATED;
 	
 	public static ReadMode parse(String s) {
 		ReadMode mode = null;

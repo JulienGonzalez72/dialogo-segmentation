@@ -1,13 +1,5 @@
 w:325
-<<<<<<< HEAD
 h:140
-=======
-<<<<<<< HEAD
-h:140
-=======
-<<<<<<< HEAD
-h:110
->>>>>>> b4f0f28e9fe88ebf63b287c8d4d24de597ae0f52
 x:0
 y:0
 taillePolice:12
@@ -15,21 +7,5 @@ typePolice:OpenDyslexic Bold
 couleur:0/255/255/255/255/150/255/0/0/255/255/255
 mode:HIGHLIGHT
 tempsAttente:0
-<<<<<<< HEAD
-=======
-=======
-h:90
->>>>>>> b8421b0016d808386653b4bec8c7145a76fdae7c
-x:0
-y:0
-taillePolice:30
-typePolice:OpenDyslexic Bold
-couleur:255/255/150
-mode:GUIDED_READING
-tempsAttente:0
-<<<<<<< HEAD
-=======
-segmentDepart:28
->>>>>>> 4c67c0d24651dda5736b7a75ef81e0631b8af4df
->>>>>>> b8421b0016d808386653b4bec8c7145a76fdae7c
->>>>>>> b4f0f28e9fe88ebf63b287c8d4d24de597ae0f52
+segmentDepart:104
+

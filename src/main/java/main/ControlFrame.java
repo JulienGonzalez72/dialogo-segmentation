@@ -277,6 +277,9 @@ public class ControlFrame extends JFrame {
 						case "NORMAL":
 							mode = ReadMode.NORMAL;
 							break;
+						case "ANTICIPATED":
+							mode = ReadMode.ANTICIPATED;
+							break;
 						}
 						FenetreParametre.readMode = mode;
 						break;
@@ -359,7 +362,7 @@ public class ControlFrame extends JFrame {
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).listeTailles.setEnabled(false);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).modeKaraoke.setEnabled(false);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).modeSurlignage.setEnabled(false);
-			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).modePasDispo.setEnabled(false);
+			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).modeNormal.setEnabled(false);
 		});
 		JMenuItem eMenuItem4 = new JMenuItem("Stocker Preferences");
 		eMenuItem4.setMnemonic(KeyEvent.VK_S);

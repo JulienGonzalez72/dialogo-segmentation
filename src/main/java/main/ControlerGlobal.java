@@ -122,7 +122,7 @@ public class ControlerGlobal {
 	private void traitementClicFauxModeSurlignage(int offset, TextHandler handler) {
 		p.nbEssaisRestantPourLeSegmentCourant--;
 		// si il reste un essai ou qu'une phrase est en train d'être corrigée
-		if (p.nbEssaisRestantPourLeSegmentCourant > 0) {
+		if (p.nbEssaisRestantPourLeSegmentCourant != 0) {
 			p.indiquerErreur(
 					handler.getRelativeOffset(p.getNumeroPremierSegmentAffiché(),
 							handler.startWordPosition(offset) + 1),
@@ -140,7 +140,7 @@ public class ControlerGlobal {
 							handler.getPauseOffset(p.player.getCurrentPhraseIndex() - 1)),
 					handler.getRelativeOffset(p.getNumeroPremierSegmentAffiché(),
 							handler.getPauseOffset(p.player.getCurrentPhraseIndex())));
-			p.nbEssaisRestantPourLeSegmentCourant = Panneau.defautNBEssaisParSegment;
+			//p.nbEssaisRestantPourLeSegmentCourant = Panneau.defautNBEssaisParSegment;
 		}
 	}
 
@@ -173,7 +173,7 @@ public class ControlerGlobal {
 							handler.getPauseOffset(p.player.getCurrentPhraseIndex() - 1)),
 					handler.getRelativeOffset(p.getNumeroPremierSegmentAffiché(),
 							handler.getPauseOffset(p.player.getCurrentPhraseIndex())));
-			p.nbEssaisRestantPourLeSegmentCourant = Panneau.defautNBEssaisParSegment;
+			//p.nbEssaisRestantPourLeSegmentCourant = Panneau.defautNBEssaisParSegment;
 		}
 	}
 

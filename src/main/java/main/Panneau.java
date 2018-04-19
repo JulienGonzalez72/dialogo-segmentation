@@ -243,7 +243,7 @@ public class Panneau extends JPanel {
 	}
 	
 	public void indiquerEtCorrigerErreur(int debut, int fin) {
-		nbErreurs++;
+		//nbErreurs++;
 		editorPane.indiceDernierCaractereSurligné = fin;
 		editorPane.surlignerPhrase(debut, fin, Constants.WRONG_PHRASE_COLOR);
 		player.repeat();

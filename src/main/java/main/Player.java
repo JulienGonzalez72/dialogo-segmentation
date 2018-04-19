@@ -96,6 +96,10 @@ public class Player {
 	public void doWait() {
 		blocked = true;
 		waitTask = new WaitTask();
+		if (playing) {
+			timer.cancel();
+		}
+		timer = new Timer();
 		timer.scheduleAtFixedRate(waitTask, 0, 20);
 	}
 

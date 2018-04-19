@@ -390,9 +390,7 @@ public class ControlFrame extends JFrame {
 		file.add(eMenuItem4);
 		file.add(eMenuItem5);
 		file.add(eMenuItem);
-
 		menubar.add(file);
-
 		setJMenuBar(menubar);
 	}
 

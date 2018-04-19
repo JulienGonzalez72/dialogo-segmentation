@@ -244,6 +244,7 @@ public class Panneau extends JPanel {
 		nbErreurs++;
 		editorPane.indiceDernierCaractereSurligné = fin;
 		editorPane.surlignerPhrase(debut, fin, Constants.WRONG_PHRASE_COLOR);
+		player.repeat();
 	}
 
 	public int getNumeroPremierSegmentAffiché() {

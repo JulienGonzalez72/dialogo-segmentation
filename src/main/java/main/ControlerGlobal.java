@@ -39,7 +39,7 @@ public class ControlerGlobal {
 	 * Construit les pages à partir du segment de numero spécifié
 	 */
 	public void buildPages(int startPhrase) {
-		p.buildPagesByJulien(startPhrase);
+		p.buildPages(startPhrase);
 	}
 
 	/**

@@ -61,8 +61,6 @@ public class Panneau extends JPanel {
 
 		/// construit la mise en page virtuelle ///
 		rebuildPages();
-		/// calcule le nombre de pages total ///
-		nbPages = segmentsEnFonctionDeLaPage.size();
 
 		/// initialise le lecteur et le démarre ///
 		player = new Player(textHandler);
@@ -152,9 +150,11 @@ public class Panneau extends JPanel {
 	 * Construit les pages et affiche la première.
 	 */
 	public void rebuildPages() {
-		buildPagesByJulien(FenetreParametre.premierSegment - 1);
+		buildPages(FenetreParametre.premierSegment - 1);
 		pageActuelle = 0;
 		afficherPageSuivante();
+		/// calcule le nombre de pages total ///
+		nbPages = segmentsEnFonctionDeLaPage.size();
 	}
 
 	public boolean hasNextPage() {
@@ -168,7 +168,7 @@ public class Panneau extends JPanel {
 		}
 	}
 
-	public synchronized void buildPagesByJulien(int startPhrase) {
+	public void buildPages(int startPhrase) {
 		segmentsEnFonctionDeLaPage.clear();
 		String text = textHandler.getShowText();
 		int lastOffset = 0;
@@ -211,120 +211,6 @@ public class Panneau extends JPanel {
 				text = newText;
 			}
 		}
-	}
-
-	public void buildPages(int startPhrase) {
-		segmentsEnFonctionDeLaPage.clear();
-		float maxArea = ((getWidth() - 4 * Constants.TEXTPANE_MARGING) * (getHeight() - 4 * Constants.TEXTPANE_MARGING))
-				/ editorPane.getSpacingFactor();
-		int segment = startPhrase;
-		int numPage = 1;
-		while (segment < textHandler.getPhrasesCount()) {
-			String page = "";
-			List<Integer> segmentsNum = new ArrayList<Integer>();
-			while (true) {
-				String str = textHandler.getPhrase(segment);
-				/// le dernier segment a été atteint ///
-				if (segment >= textHandler.getPhrasesCount())
-					break;
-				/// le segment dépasse la limite ///
-				if (editorPane.getTextBounds(page + str).getWidth()
-						* editorPane.getTextBounds(page + str).getHeight() >= maxArea)
-					break;
-				/// le segment rentre dans la page, il est alors ajouté à la page ///
-				else {
-					page += str;
-					segmentsNum.add(segment);
-					segment++;
-				}
-			}
-			segmentsEnFonctionDeLaPage.put(numPage, segmentsNum);
-			numPage++;
-		}
-	}
-
-	public void buildPagesByRoman(int startPhrase) {
-		segmentsEnFonctionDeLaPage.clear();
-		float m = Constants.TEXTPANE_MARGING;
-		// numero de la page courante
-		int page = 1;
-		// numero du segment courant
-		int segment = startPhrase;
-		// numero de la lettre courante du segment courant
-		int lettre = 0;
-		List<Integer> segments = new ArrayList<>();
-		String chaineSegmentCourant = "";
-		String chaineLigneCourante = "";
-		boolean finis = false;
-		// tant qu'on a pas finis
-		while (!finis) {
-			// on fait ce for tant que il reste de la place pour une ligne de plus dans la
-			// page
-			for (int i = 1; !finis && (getHauteur("|") * 3 * (i)) < (getHeight() - m); i++) {
-				// on fait ce for tant qu'il reste de la palce pour une lettre dans la ligne
-				while (!finis && getLargeur(chaineLigneCourante) < (getWidth() - (m * 2))) {
-					// si on a finis un segment
-					if (!finis && chaineSegmentCourant.length() == textHandler.getPhrase(segment).length()) {
-						// on reinitialise la chaine qui contient le segment en construction
-						chaineSegmentCourant = "";
-						// on ajoute le segment à la liste des segments de la page
-						segments.add(segment);
-						// si on a placé tous les segments
-						if (segment + 1 == textHandler.getPhrasesCount()) {
-							// on a finis l'algo
-							finis = true;
-						}
-						// on passe au segment suivant
-						segment++;
-						// on revient a la lettre 0
-						lettre = 0;
-					}
-					// si on a pas finis l'algo
-					if (!finis) {
-						// on rajoute a la chaine du segment courant et a lla chaine de la lignecourante
-						// la lettre courante du segment courant
-						chaineSegmentCourant += textHandler.getPhrase(segment).charAt(lettre);
-						chaineLigneCourante += textHandler.getPhrase(segment).charAt(lettre);
-						// on passe à la ligne suivante
-						lettre++;
-					}
-				}
-				// on reinitialise la chaine de la ligne courante
-				chaineLigneCourante = "";
-				/*
-				 * System.out.println(); System.out.println("Page numero : "+page);
-				 * System.out.println("Ligne numero : "+(i));
-				 * System.out.println("Taille totale disponible : "+(getHeight() - m));
-				 * System.out.println("Taille après ajout d'une nouvelle ligne : "+(getHauteur(
-				 * "|") *3* (i+1))); System.out.println();
-				 */
-			}
-			// on ajoute les segments de la page dans la page
-			segmentsEnFonctionDeLaPage.put(page, segments);
-			// la liste des segments courant est reinitialisée
-			segments = new ArrayList<>();
-			// on passe à la page suivante
-			page++;
-		}
-	}
-
-	private double getLargeur(String s) {
-		return editorPane.getTextBounds(s).getWidth();
-	}
-
-	private double getHauteur(String s) {
-		return editorPane.getTextBounds(s).getHeight();
-	}
-
-	@SuppressWarnings("unused")
-	private double getHauteurMax(String s) {
-		double r = 0.0;
-		for (char c : s.toCharArray()) {
-			if (getHauteur(String.valueOf(c)) > r) {
-				r = getHauteur(String.valueOf(c));
-			}
-		}
-		return r;
 	}
 
 	public void showPage(int page) {

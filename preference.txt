@@ -7,5 +7,9 @@ typePolice:OpenDyslexic Bold
 couleur:0/255/255/255/255/150/255/0/0/255/255/255
 mode:HIGHLIGHT
 tempsAttente:0
+<<<<<<< HEAD
 segmentDepart:104
 
+=======
+segmentDepart:106
+>>>>>>> 9af62975f19182f41d47e5b4c7580574b81d4f6a

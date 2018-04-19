@@ -54,6 +54,7 @@ public class Panneau extends JPanel {
 	 * S'exécute lorsque le panneau s'est bien intégré à la fenêtre
 	 */
 	public void init() {
+		editorPane.setBackground(FenetreParametre.couleurFond);
 		editorPane.setFont(FenetreParametre.police);
 		pageActuelle = 0;
 		nbEssaisRestantPourLeSegmentCourant = nbEssaisParSegment = FenetreParametre.nbFautesTolerees;
@@ -354,7 +355,6 @@ public class Panneau extends JPanel {
 	}
 
 	public void indiquerEtCorrigerErreur(int debut, int fin) {
-		// nbEssaisRestantPourLeSegmentCourant = Panneau.defautNBEssaisParSegment;
 		nbErreurs++;
 		editorPane.indiceDernierCaractereSurligné = fin;
 		editorPane.surlignerPhrase(debut, fin, Constants.WRONG_PHRASE_COLOR);

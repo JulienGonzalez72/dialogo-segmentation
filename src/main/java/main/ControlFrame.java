@@ -45,14 +45,14 @@ public class ControlFrame extends JFrame {
 	public ControlFrame(Panneau pan) {
 		this.pan = pan;
 		player = pan.player;
-		
+
 		setTitle("Contrôle");
 		setContentPane(panel);
 		setSize(325, 140);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setVisible(true);
-		
+
 		panel.add(previousButton);
 		previousButton.setIcon(new ImageIcon(previousIcon));
 		previousButton.setEnabled(player.hasPreviousPhrase());
@@ -105,6 +105,9 @@ public class ControlFrame extends JFrame {
 		player.onPhraseEnd.add(update);
 		player.onBlockEnd.add(update);
 		player.onPlay.add(update);
+<<<<<<< HEAD
+
+=======
 		
 		JLabel goToLabel = new JLabel("Passer au segment :");
 		goToLabel.setFont(goToLabel.getFont().deriveFont(Font.ITALIC));
@@ -121,6 +124,7 @@ public class ControlFrame extends JFrame {
 			}
 		});
 		
+>>>>>>> 4c67c0d24651dda5736b7a75ef81e0631b8af4df
 		addMenu();
 	}
 
@@ -194,9 +198,12 @@ public class ControlFrame extends JFrame {
 			writer.println("taillePolice:" + FenetreParametre.taillePolice);
 			writer.println("typePolice:" + FenetreParametre.police.getFontName());
 			writer.println("couleur:" + FenetreParametre.couleurFond.getRed() + "/"
-					+ FenetreParametre.couleurFond.getGreen() + "/" + FenetreParametre.couleurFond.getBlue());
+					+ FenetreParametre.couleurFond.getGreen() + "/" + FenetreParametre.couleurFond.getBlue() + "/"
+					+ Constants.RIGHT_COLOR.getRed() + "/" + Constants.RIGHT_COLOR.getGreen() + "/"
+					+ Constants.RIGHT_COLOR.getBlue() + "/" + Constants.WRONG_COLOR.getRed() + "/"
+					+ Constants.WRONG_COLOR.getGreen() + "/" + Constants.WRONG_COLOR.getBlue());
 			writer.println("mode:" + FenetreParametre.readMode);
-			writer.println("tempsAttente:"+FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture);
+			writer.println("tempsAttente:" + FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture);
 			writer.close();
 		}
 	}
@@ -223,7 +230,7 @@ public class ControlFrame extends JFrame {
 				BufferedReader br = new BufferedReader(ipsr);
 				String ligne;
 				int w = -1, h = -1, x = -1, y = -1, t = -1, tempsPause = -1;
-				Color color = null;
+				Color color = null, rightColor = null, wrongColor = null;
 				String p = null;
 				ReadMode mode = null;
 				int i = 0;
@@ -251,10 +258,14 @@ public class ControlFrame extends JFrame {
 						String temp = ligne.split(":")[1];
 						color = new Color(Integer.valueOf(temp.split("/")[0]), Integer.valueOf(temp.split("/")[1]),
 								Integer.valueOf(temp.split("/")[2]));
+						rightColor = new Color(Integer.valueOf(temp.split("/")[3]), Integer.valueOf(temp.split("/")[4]),
+								Integer.valueOf(temp.split("/")[5]));
+						wrongColor = new Color(Integer.valueOf(temp.split("/")[6]), Integer.valueOf(temp.split("/")[7]),
+								Integer.valueOf(temp.split("/")[8]));
 						break;
 					case 7:
 						String s = String.valueOf(ligne.split(":")[1]);
-						switch(s) {
+						switch (s) {
 						case "GUIDED_READING":
 							mode = ReadMode.GUIDED_READING;
 							break;
@@ -292,9 +303,11 @@ public class ControlFrame extends JFrame {
 						.setBackground(FenetreParametre.couleurFond = color);
 				pan.editorPane.setFont(FenetreParametre.police);
 				pan.editorPane.setBackground(color);
+				Constants.RIGHT_COLOR = rightColor;
+				Constants.WRONG_COLOR = wrongColor;
 				FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture = tempsPause;
-				System.out.println(tempsPause);
-				((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).sliderAttente.setValue(tempsPause);
+				((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).sliderAttente
+						.setValue(tempsPause);
 				br.close();
 			} catch (Exception e) {
 				System.out.println(e.toString());

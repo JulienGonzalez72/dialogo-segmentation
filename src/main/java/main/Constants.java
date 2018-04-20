@@ -18,8 +18,8 @@ public final class Constants {
 	public static final int MIN_WAIT_TIME_PERCENT = 0;
 	public static final int MAX_WAIT_TIME_PERCENT = 300;
 	public static final int DEFAULT_WAIT_TIME_PERCENT = 0;
-	public static final int hauteurFenetreParam = 900;
-	public static final int largeurFenetreParam = 550;
+	public static final int hauteurFenetreParam = 700;
+	public static final int largeurFenetreParam = 450;
 	public static final String titreFenetreParam = "Dialogo by roman and julien";
 	public static final boolean LOAD_FIRST_PHRASE = false;
 

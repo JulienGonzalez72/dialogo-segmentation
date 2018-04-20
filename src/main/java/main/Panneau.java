@@ -189,10 +189,16 @@ public class Panneau extends JPanel {
 		int page = 1;
 		int lastPhrase = startPhrase - 1;
 		while (lastPhrase < textHandler.getPhrasesCount()) {
+			System.out.println("/////PASSAGE/////");
 			List<Integer> phrases = new ArrayList<>();
 			editorPane.setText(text);
 			int h = 0;
 			try {
+				System.out.println(editorPane);
+				System.out.println();
+				System.out.println(editorPane.modelToView(0));
+				System.out.println();
+				System.out.println(editorPane.modelToView(0).height);
 				h = editorPane.modelToView(0).height;
 			} catch (BadLocationException e) {
 				e.printStackTrace();

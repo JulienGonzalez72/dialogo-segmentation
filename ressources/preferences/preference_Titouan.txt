@@ -6,8 +6,4 @@ taillePolice:24
 typePolice:OpenDyslexic Bold
 couleur:255/255/150/0/255/0/255/0/0/0/255/255
 mode:NORMAL
-<<<<<<< HEAD
 tempsAttente:20
-=======
-tempsAttente:47
->>>>>>> 69d56850cac93cf8f01818e271c13b78cfc06147

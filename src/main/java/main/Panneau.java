@@ -61,12 +61,12 @@ public class Panneau extends JPanel {
 		nbEssaisRestantPourLeSegmentCourant = nbEssaisParSegment = FenetreParametre.nbFautesTolerees;
 
 		/// construit la mise en page virtuelle ///
-		 rebuildPages();
+		//rebuildPages();
 
 		/// initialise le lecteur et le démarre ///
 		player = new Player(textHandler);
 
-		if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
+		/*if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
 			player.waitAfter = false;
 		}
 		player.onPreviousPhrase.add(() -> {
@@ -118,11 +118,10 @@ public class Panneau extends JPanel {
 
 			controlFrame.disableAll();
 		});
-		player.goTo(FenetreParametre.premierSegment - 1);
+		player.goTo(FenetreParametre.premierSegment - 1);*/
 
-		/*
-		 * Thread t = new SegmentedThread(controlerGlobal); t.start();
-		 */
+		Thread t = new AnticipatedThread(controlerGlobal);
+		t.start();
 
 		controlFrame = new ControlFrame(this);
 		controlerKey = new ControlerKey(player);
@@ -207,8 +206,7 @@ public class Panneau extends JPanel {
 				h = editorPane.modelToView(0).height;
 			} catch (BadLocationException e) {
 				e.printStackTrace();
-			}
-
+			} catch (NullPointerException e) {}
 			int off = textHandler.getAbsoluteOffset(lastPhrase,
 					editorPane.viewToModel(new Point((int) (editorPane.getWidth() - Constants.TEXTPANE_MARGING),
 							(int) (editorPane.getHeight() - h))));

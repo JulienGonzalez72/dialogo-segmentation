@@ -1,6 +1,8 @@
 package main;
 
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.*;
 import java.util.Map;
 import java.util.ArrayList;
@@ -60,11 +62,11 @@ public class Panneau extends JPanel {
 		nbEssaisRestantPourLeSegmentCourant = nbEssaisParSegment = FenetreParametre.nbFautesTolerees;
 
 		/// construit la mise en page virtuelle ///
-		rebuildPages();
+		//rebuildPages();
 
 		/// initialise le lecteur et le démarre ///
 		player = new Player(textHandler);
-		if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
+		/*if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
 			player.waitAfter = false;
 		}
 		player.onPreviousPhrase.add(() -> {
@@ -121,7 +123,10 @@ public class Panneau extends JPanel {
 			
 			controlFrame.disableAll();
 		});
-		player.goTo(FenetreParametre.premierSegment - 1);
+		player.goTo(FenetreParametre.premierSegment - 1);*/
+		GuidedThread t = new GuidedThread(controlerGlobal);
+		t.start();
+		
 		controlFrame = new ControlFrame(this);
 		controlerKey = new ControlerKey(player);
 		editorPane.addKeyListener(controlerKey);
@@ -234,6 +239,10 @@ public class Panneau extends JPanel {
 	}
 
 	public void showPage(int page) {
+		/// on ne fait rien si on est déjà sur cette page ///
+		if (pageActuelle == page) {
+			return;
+		}
 		pageActuelle = page;
 		fenetre.setTitle("Lexidia - Page " + page);
 		String texteAfficher = "";

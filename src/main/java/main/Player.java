@@ -67,6 +67,16 @@ public class Player {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Joue un segment de phrase.
+	 */
+	public void play(int phrase) {
+		stop();
+		lastPosition = 0;
+		currentPhrase = phrase;
+		play();
+	}
 
 	/**
 	 * Démarre la lecture (n'a aucun effet si la lecture est déjà démarrée).
@@ -250,6 +260,13 @@ public class Player {
 		lastPosition = 0;
 		stop();
 		currentPhrase = index;
+	}
+	
+	/**
+	 * Retourne la durée en millisecondes de l'enregistrement courant.
+	 */
+	public long getDuration() {
+		return clip != null ? clip.getMicrosecondLength() / 1000 : 0;
 	}
 
 	private static AudioInputStream getAudioStream(String fileName, int n) {

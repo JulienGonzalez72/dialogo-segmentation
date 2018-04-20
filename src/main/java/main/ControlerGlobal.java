@@ -34,12 +34,37 @@ public class ControlerGlobal {
 		p.player.goTo(n);
 		p.player.play();
 	}
-
+	
 	/**
 	 * Construit les pages à partir du segment de numero spécifié
 	 */
 	public void buildPages(int startPhrase) {
 		p.buildPages(startPhrase);
+	}
+	
+	public void showPage(int page) {
+		p.showPage(page);
+	}
+	
+	public void play(int phrase) {
+		p.player.play(phrase);
+	}
+	
+	public int getPhrasesCount() {
+		return p.textHandler.getPhrasesCount();
+	}
+	
+	public void rebuildPages() {
+		p.buildPages(FenetreParametre.premierSegment - 1);
+	}
+	
+	public long getPhraseDuration(int phrase) {
+		p.player.load(phrase);
+		return p.player.getDuration();
+	}
+	
+	public long getWaitTime(int phrase) {
+		return (long) (getPhraseDuration(phrase) * FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture / 100.);
 	}
 
 	/**

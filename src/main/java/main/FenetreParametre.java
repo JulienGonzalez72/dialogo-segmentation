@@ -139,7 +139,6 @@ public class FenetreParametre extends JFrame {
 			
 			midPanel.add(police);
 			midPanel.add(taillePolice);
-			//midPanel.add(listePolices);
 			fastCentering(listePolices, midPanel,"   ");
 			fastCentering(listeTailles, midPanel,"   ");
 			

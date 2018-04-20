@@ -189,7 +189,7 @@ public class ControlFrame extends JFrame {
 		if (yes == 0) {
 			PrintWriter writer = null;
 			try {
-				writer = new PrintWriter("preference_"+Constants.NOM_ELEVE+".txt", "UTF-8");
+				writer = new PrintWriter("./preferences/preference_"+Constants.NOM_ELEVE+".txt", "UTF-8");
 			} catch (FileNotFoundException | UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
@@ -228,7 +228,7 @@ public class ControlFrame extends JFrame {
 			UIManager.put("OptionPane.background", optionPaneBG);
 			UIManager.put("Panel.background", panelBG);
 		}
-		String fichier = "preference_"+Constants.NOM_ELEVE+".txt";
+		String fichier = "./preferences/preference_"+Constants.NOM_ELEVE+".txt";
 		if (yes == 0) {
 			// lecture du fichier texte
 			try {

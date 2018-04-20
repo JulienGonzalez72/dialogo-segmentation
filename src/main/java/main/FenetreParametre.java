@@ -193,7 +193,7 @@ public class FenetreParametre extends JFrame {
 		}
 
 		public void chargerPreferences() throws NumberFormatException, IOException {
-			String fichier = "preference_"+Constants.NOM_ELEVE+".txt";
+			String fichier = "./preferences/preference_"+Constants.NOM_ELEVE+".txt";
 			InputStream ips;
 			try {
 				ips = new FileInputStream(fichier);

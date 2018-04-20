@@ -16,7 +16,7 @@ public class ControlerMouse implements MouseListener {
 
 	public void mousePressed(MouseEvent e) {
 		if (!view.player.isBlocked()  && e.getClickCount() < 2) {
-			view.controlerGlobal.waitForClick(view.nbEssaisRestantPourLeSegmentCourant,view.player.getCurrentPhraseIndex());
+			view.controlerGlobal.doClick(view.nbEssaisRestantPourLeSegmentCourant,view.player.getCurrentPhraseIndex());
 		}
 	}
 

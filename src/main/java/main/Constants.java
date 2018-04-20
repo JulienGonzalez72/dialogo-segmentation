@@ -45,5 +45,8 @@ public final class Constants {
 	public static final boolean HAS_INSTRUCTIONS = true;
 
 	public static final long LEFT_DELAY = 500;
+	
+	public static final String CURSOR_LISTEN = "ecouter.png";
+	public static final String CURSOR_SPEAK = "parler.png";
 
 }

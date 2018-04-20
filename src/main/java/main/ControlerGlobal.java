@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -65,6 +66,22 @@ public class ControlerGlobal {
 	
 	public long getWaitTime(int phrase) {
 		return (long) (getPhraseDuration(phrase) * FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture / 100.);
+	}
+	
+	/**
+	 * Mets en pause le thread courant pendant un certain temps.
+	 * @param time le temps de pause, en millisecondes
+	 * @param cursorName le type de curseur à définir pendant l'attente (peut être Constants.CURSOR_SPEAK ou Constants.CURSOR_LISTEN)
+	 */
+	public void doWait(long time, String cursorName) {
+		try {
+			Cursor oldCursor = p.getCursor();
+			p.setCursor(cursorName);
+			Thread.sleep(time);
+			p.setCursor(oldCursor);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

@@ -124,7 +124,7 @@ public class Panneau extends JPanel {
 			controlFrame.disableAll();
 		});
 		player.goTo(FenetreParametre.premierSegment - 1);*/
-		GuidedThread t = new GuidedThread(controlerGlobal);
+		Thread t = new SegmentedThread(controlerGlobal);
 		t.start();
 		
 		controlFrame = new ControlFrame(this);
@@ -136,6 +136,13 @@ public class Panneau extends JPanel {
 			ControlerMouse controlerMouse = new ControlerMouse(this, textHandler);
 			editorPane.addMouseListener(controlerMouse);
 		}
+	}
+	
+	public void setCursor(String fileName) {
+		Toolkit tk = Toolkit.getDefaultToolkit();
+		Image img = tk.getImage(fileName);
+		Cursor monCurseur = tk.createCustomCursor(img, new Point(16, 16), fileName);
+		setCursor(monCurseur);
 	}
 
 	/**

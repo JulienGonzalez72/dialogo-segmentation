@@ -27,6 +27,7 @@ public class Panneau extends JPanel {
 	public ControlFrame controlFrame;
 	public ControlerGlobal controlerGlobal;
 	public ControlerKey controlerKey;
+	public ControlerMouse controlerMouse;
 
 	public Map<Integer, List<Integer>> segmentsEnFonctionDeLaPage = new HashMap<Integer, List<Integer>>();
 
@@ -128,12 +129,9 @@ public class Panneau extends JPanel {
 		controlFrame = new ControlFrame(this);
 		controlerKey = new ControlerKey(player);
 		editorPane.addKeyListener(controlerKey);
+		controlerMouse = new ControlerMouse(this, textHandler);
+		editorPane.addMouseListener(controlerMouse);
 		editorPane.requestFocus();
-
-		if (FenetreParametre.readMode != ReadMode.GUIDED_READING && FenetreParametre.readMode != ReadMode.ANTICIPATED) {
-			ControlerMouse controlerMouse = new ControlerMouse(this, textHandler);
-			editorPane.addMouseListener(controlerMouse);
-		}
 	}
 	
 	public void setCursor(String fileName) {

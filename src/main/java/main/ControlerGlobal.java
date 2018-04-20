@@ -83,6 +83,43 @@ public class ControlerGlobal {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Attente d’un clic de la souris sur le dernier mot du segment.
+	 * <ul>
+	 * <li>Paramètre d’entrée 1: Numéro de segment</li>
+	 * <li>Paramètre d’entrée 2 : Nombre d’essais autorisé</li>
+	 * <li>Paramètre de sortie : True ou False (réussite)</li>
+	 * <li>On ne sort de cette fonction que lorsqu’un clic sur le dernier mot du segment a été réalisé (dans ce cas on sort avec true)
+	 * ou le Nombre d’essais autorisés (qui peut être égal à 1) a été atteint (dans ce cas on sort avec false).</li>
+	 * <li>Si le clic se fait sur une partie erronée, on surligne cette partie avec une couleur qui indique une erreur</li>
+	 * </ul>
+	 */
+	public boolean waitForClick(int n, int nbTry) {
+		p.controlerMouse.clicking = false;
+		while (true) {
+			Thread.yield();
+			if (p.controlerMouse.clicking) {
+				/// cherche la position exacte dans le texte ///
+				int offset = p.textHandler.getAbsoluteOffset(p.getNumeroPremierSegmentAffiché(),
+						p.editorPane.getCaretPosition());
+				/// si le clic est juste ///
+				if (p.textHandler.wordPause(offset)
+						&& p.textHandler.getPhraseIndex(offset) == p.player.getCurrentPhraseIndex()) {
+					return true;
+				}
+				/// si le clic est faux ///
+				else {
+					/// indique l'erreur en rouge ///
+					p.indiquerErreur(
+							p.textHandler.getRelativeOffset(p.getNumeroPremierSegmentAffiché(),
+									p.textHandler.startWordPosition(offset) + 1),
+							p.textHandler.getRelativeOffset(p.getNumeroPremierSegmentAffiché(), p.textHandler.endWordPosition(offset)));
+					return false;
+				}
+			}
+		}
+	}
 
 	/**
 	 * Colorie le segment numero n en couleur c
@@ -104,6 +141,13 @@ public class ControlerGlobal {
 		int debutRelatifSegment = p.textHandler.getRelativeStartPhrasePosition(p.getNumeroPremierSegmentAffiché(), n);
 		int finRelativeSegment = debutRelatifSegment + p.textHandler.getPhrase(n).length();
 		p.editorPane.removeHighlight(debutRelatifSegment, finRelativeSegment);
+	}
+	
+	/**
+	 * Enlève tout le surlignage d'erreur.
+	 */
+	public void removeWrongHighlights() {
+		p.editorPane.enleverSurlignageRouge();
 	}
 
 	public boolean doClick() {

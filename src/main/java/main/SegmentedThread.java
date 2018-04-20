@@ -23,10 +23,25 @@ public class SegmentedThread extends Thread {
 			controler.doWait(controler.getPhraseDuration(N), Constants.CURSOR_LISTEN);
 			/// attente de la fin du temps de pause ///
 			controler.doWait(controler.getWaitTime(N), Constants.CURSOR_SPEAK);
-			/// attente d'un clic sur le dernier mot du segment N ///
-			
-			/// si échec ///
-			
+			while (true) {
+				controler.removeWrongHighlights();
+				/// attente d'un clic sur le dernier mot du segment N ///
+				boolean rightClick = controler.waitForClick(N, FenetreParametre.nbFautesTolerees);
+				/// si échec ///
+				if (!rightClick) {
+					/// surlignage du segment de phrase N ///
+					controler.highlightPhrase(Constants.WRONG_PHRASE_COLOR, N);
+					/// play du son correspondant au segment N ///
+					controler.play(N);
+					/// attente de la fin du son ///
+					controler.doWait(controler.getPhraseDuration(N), Constants.CURSOR_LISTEN);
+				}
+				else {
+					/// suppression du surlignage du segment de phrase N ///
+					controler.removeHighlightPhrase(N);
+					break;
+				}
+			}
 			/// N=N+1 ///
 			N++;
 		}

@@ -61,11 +61,12 @@ public class Panneau extends JPanel {
 		nbEssaisRestantPourLeSegmentCourant = nbEssaisParSegment = FenetreParametre.nbFautesTolerees;
 
 		/// construit la mise en page virtuelle ///
-		//rebuildPages();
+		 rebuildPages();
 
 		/// initialise le lecteur et le démarre ///
 		player = new Player(textHandler);
-		/*if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
+
+		if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
 			player.waitAfter = false;
 		}
 		player.onPreviousPhrase.add(() -> {
@@ -73,31 +74,27 @@ public class Panneau extends JPanel {
 		});
 		player.onBlockEnd.add(() -> {
 			controlFrame.enableAll();
-			
+
 			if (FenetreParametre.readMode != ReadMode.GUIDED_READING
 					&& FenetreParametre.readMode != ReadMode.ANTICIPATED) {
 				setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-			}
-			/// en mode lecture guidée, passe directement au segment suivant ///
+			} /// en mode lecture guidée, passe directement au segment suivant ///
 			else if (FenetreParametre.readMode == ReadMode.GUIDED_READING) {
 				controlerGlobal.doNext();
-			}
-			/// en mode lecture anticipée, joue l'enregistrement après le temps de pause ///
+			} /// en mode lecture anticipée, joue l'enregistrement après le temps de pause ///
 			else if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
 				player.play();
 			}
 		});
-		player.onPhraseEnd.add(() -> {
-			/// en mode lecture anticipée, passe au segment suivant ///
+		player.onPhraseEnd.add(() -> { /// en mode lecture anticipée, passe au segment suivant ///
 			if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
 				controlerGlobal.doNext();
 			}
 		});
-		player.onPlay.add(() -> {
-			/// empêche le redimensionnement lors de la première lecture ///
+		player.onPlay.add(() -> { /// empêche le redimensionnement lors de la première lecture ///
 			fenetre.setResizable(false);
 
-			/// change le curseur pour indiquer que l'utilisateur doit écouter la phrase ///
+			/// change le curseur pour indiquer que l'utilisateur doit écouter la phrase
 			Toolkit tk = Toolkit.getDefaultToolkit();
 			Image img = tk.getImage("ecouter.png");
 			Cursor monCurseur = tk.createCustomCursor(img, new Point(16, 16), "ecouter.png");
@@ -113,19 +110,20 @@ public class Panneau extends JPanel {
 
 			controlFrame.goToField.setText(String.valueOf(player.getCurrentPhraseIndex() + 1));
 		});
-		player.onWait.add(() -> {
-			/// change le curseur pour indiquer que l'utilisateur doit répéter ///
+		player.onWait.add(() -> { /// change le curseur pour indiquer que l'utilisateur doit répéter ///
 			Toolkit tk = Toolkit.getDefaultToolkit();
 			Image img = tk.getImage("parler.png");
 			Cursor monCurseur = tk.createCustomCursor(img, new Point(16, 16), "parler.png");
 			setCursor(monCurseur);
-			
+
 			controlFrame.disableAll();
 		});
-		player.goTo(FenetreParametre.premierSegment - 1);*/
-		Thread t = new SegmentedThread(controlerGlobal);
-		t.start();
-		
+		player.goTo(FenetreParametre.premierSegment - 1);
+
+		/*
+		 * Thread t = new SegmentedThread(controlerGlobal); t.start();
+		 */
+
 		controlFrame = new ControlFrame(this);
 		controlerKey = new ControlerKey(player);
 		editorPane.addKeyListener(controlerKey);
@@ -133,7 +131,7 @@ public class Panneau extends JPanel {
 		editorPane.addMouseListener(controlerMouse);
 		editorPane.requestFocus();
 	}
-	
+
 	public void setCursor(String fileName) {
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Image img = tk.getImage(fileName);
@@ -210,6 +208,7 @@ public class Panneau extends JPanel {
 			} catch (BadLocationException e) {
 				e.printStackTrace();
 			}
+
 			int off = textHandler.getAbsoluteOffset(lastPhrase,
 					editorPane.viewToModel(new Point((int) (editorPane.getWidth() - Constants.TEXTPANE_MARGING),
 							(int) (editorPane.getHeight() - h))));
@@ -232,7 +231,7 @@ public class Panneau extends JPanel {
 			String newText = textHandler.getShowText().substring(lastOffset);
 			/// dernière page ///
 			if (newText.equals(text)) {
-				if ( !segmentsEnFonctionDeLaPage.get(page - 1).contains(textHandler.getPhraseIndex(off))) {
+				if (!segmentsEnFonctionDeLaPage.get(page - 1).contains(textHandler.getPhraseIndex(off))) {
 					segmentsEnFonctionDeLaPage.get(page - 1).add(textHandler.getPhraseIndex(off));
 				}
 				break;
@@ -311,8 +310,10 @@ public class Panneau extends JPanel {
 			UIManager.put("Panel.background", panelBG);
 		}
 		fenetre.setVisible(false);
-		Point p = new Point(50,50);
-		new FenetreParametre(Constants.titreFenetreParam, Constants.largeurFenetreParam, Constants.hauteurFenetreParam).setLocation(p);;
+		Point p = new Point(50, 50);
+		new FenetreParametre(Constants.titreFenetreParam, Constants.largeurFenetreParam, Constants.hauteurFenetreParam)
+				.setLocation(p);
+		;
 	}
 
 	/**

@@ -106,8 +106,8 @@ public class ControlerGlobal {
 		p.editorPane.removeHighlight(debutRelatifSegment, finRelativeSegment);
 	}
 
-	public boolean waitForClick() {
-		return waitForClick(p.nbEssaisRestantPourLeSegmentCourant, p.player.getCurrentPhraseIndex());
+	public boolean doClick() {
+		return doClick(p.nbEssaisRestantPourLeSegmentCourant, p.player.getCurrentPhraseIndex());
 	}
 
 	/**
@@ -115,7 +115,7 @@ public class ControlerGlobal {
 	 * - soit le clic soit juste, renvoie true <br>
 	 * - soit il n'y a plus d'essais, renvoie false
 	 */
-	public boolean waitForClick(int nbTry, int numeroSegmentCourant) {
+	public boolean doClick(int nbTry, int numeroSegmentCourant) {
 		p.nbEssaisRestantPourLeSegmentCourant = nbTry;
 		p.player.setCurrentPhrase(numeroSegmentCourant);
 		boolean r = false;
@@ -297,7 +297,7 @@ public class ControlerGlobal {
 
 	public void sauvegarder() {
 
-		String fichier = "./ressources/preferences/preference_"+Constants.NOM_ELEVE+".txt";
+		String fichier = "preference_"+Constants.NOM_ELEVE+".txt";
 
 		// recueration des lignes deja existantes
 		List<String> lignes = new ArrayList<String>();

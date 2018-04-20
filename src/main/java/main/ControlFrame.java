@@ -68,19 +68,21 @@ public class ControlFrame extends JFrame {
 		playButton.setIcon(new ImageIcon(playIcon));
 		playButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-		
-				if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
-					player.doWait();
+				if (player.isPlaying()) {
+					player.pause();
+				} else if (player.isPhraseFinished()) {
+					player.repeat();
 				} else {
-					if (player.isPlaying()) {
-						player.pause();
-					} else if (player.isPhraseFinished()) {
-						player.repeat();
-					} else {
+					/// on attend d'abord en mode lecture anticipée ///
+					if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
+						player.doWait();
+						pan.controlerGlobal.highlightPhrase(Constants.RIGHT_COLOR, player.getCurrentPhraseIndex());
+					}
+					else {
 						player.play();
 					}
-					updateButtons();
 				}
+				updateButtons();
 			}
 		});
 

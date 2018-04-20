@@ -1,6 +1,8 @@
 package main;
 
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.*;
 import java.util.Map;
 import java.util.ArrayList;
@@ -60,39 +62,36 @@ public class Panneau extends JPanel {
 		nbEssaisRestantPourLeSegmentCourant = nbEssaisParSegment = FenetreParametre.nbFautesTolerees;
 
 		/// construit la mise en page virtuelle ///
-		rebuildPages();
+		//rebuildPages();
 
 		/// initialise le lecteur et le démarre ///
 		player = new Player(textHandler);
-		if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
+		/*if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
 			player.waitAfter = false;
 		}
 		player.onPreviousPhrase.add(() -> {
 
 		});
 		player.onBlockEnd.add(() -> {
+			controlFrame.enableAll();
+			
 			if (FenetreParametre.readMode != ReadMode.GUIDED_READING
 					&& FenetreParametre.readMode != ReadMode.ANTICIPATED) {
 				setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
 			/// en mode lecture guidée, passe directement au segment suivant ///
-			else {
+			else if (FenetreParametre.readMode == ReadMode.GUIDED_READING) {
 				controlerGlobal.doNext();
-				player.doWait();
+			}
+			/// en mode lecture anticipée, joue l'enregistrement après le temps de pause ///
+			else if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
+				player.play();
 			}
 		});
 		player.onPhraseEnd.add(() -> {
-			if (FenetreParametre.readMode != ReadMode.GUIDED_READING
-					&& FenetreParametre.readMode != ReadMode.ANTICIPATED) {
-				/// change le curseur pour indiquer que l'utilisateur doit répéter ///
-				Toolkit tk = Toolkit.getDefaultToolkit();
-				Image img = tk.getImage("parler.png");
-				Cursor monCurseur = tk.createCustomCursor(img, new Point(16, 16), "parler.png");
-				setCursor(monCurseur);
-			} else {
-				if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
-					controlerGlobal.highlightPhrase(Constants.RIGHT_COLOR, player.getCurrentPhraseIndex());
-				}
+			/// en mode lecture anticipée, passe au segment suivant ///
+			if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
+				controlerGlobal.doNext();
 			}
 		});
 		player.onPlay.add(() -> {
@@ -108,16 +107,26 @@ public class Panneau extends JPanel {
 			if (FenetreParametre.readMode == ReadMode.GUIDED_READING
 					|| FenetreParametre.readMode == ReadMode.ANTICIPATED) {
 				editorPane.désurlignerTout();
-				if (FenetreParametre.readMode == ReadMode.GUIDED_READING) {
-					controlerGlobal.highlightPhrase(Constants.RIGHT_COLOR, player.getCurrentPhraseIndex());
-				}
+				controlerGlobal.highlightPhrase(Constants.RIGHT_COLOR, player.getCurrentPhraseIndex());
 			}
 
 			controlerGlobal.sauvegarder();
 
 			controlFrame.goToField.setText(String.valueOf(player.getCurrentPhraseIndex() + 1));
 		});
-		player.goTo(FenetreParametre.premierSegment - 1);
+		player.onWait.add(() -> {
+			/// change le curseur pour indiquer que l'utilisateur doit répéter ///
+			Toolkit tk = Toolkit.getDefaultToolkit();
+			Image img = tk.getImage("parler.png");
+			Cursor monCurseur = tk.createCustomCursor(img, new Point(16, 16), "parler.png");
+			setCursor(monCurseur);
+			
+			controlFrame.disableAll();
+		});
+		player.goTo(FenetreParametre.premierSegment - 1);*/
+		GuidedThread t = new GuidedThread(controlerGlobal);
+		t.start();
+		
 		controlFrame = new ControlFrame(this);
 		controlerKey = new ControlerKey(player);
 		editorPane.addKeyListener(controlerKey);
@@ -231,6 +240,10 @@ public class Panneau extends JPanel {
 	}
 
 	public void showPage(int page) {
+		/// on ne fait rien si on est déjà sur cette page ///
+		if (pageActuelle == page) {
+			return;
+		}
 		pageActuelle = page;
 		fenetre.setTitle("Lexidia - Page " + page);
 		String texteAfficher = "";

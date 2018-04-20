@@ -46,6 +46,10 @@ public class Player {
 	 * l'enregistrement se termine.
 	 */
 	public List<Runnable> onBlockEnd = new ArrayList<>();
+	/**
+	 * Ecouteurs qui se déclenchent lorsque l'utilisateur est mis en attente pour répéter.
+	 */
+	public List<Runnable> onWait = new ArrayList<>();
 
 	public Player(TextHandler textHandler) {
 		text = textHandler;
@@ -59,10 +63,19 @@ public class Player {
 			clip = AudioSystem.getClip();
 			clip.open(getAudioStream(Constants.AUDIO_FILE_NAME, phrase));
 			clip.setMicrosecondPosition(lastPosition);
-			clip.start();
 		} catch (LineUnavailableException | IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Joue un segment de phrase.
+	 */
+	public void play(int phrase) {
+		stop();
+		lastPosition = 0;
+		currentPhrase = phrase;
+		play();
 	}
 
 	/**
@@ -73,6 +86,7 @@ public class Player {
 			return;
 		}
 		load(currentPhrase);
+		clip.start();
 		timer = new Timer();
 		playTask = new PlayTask();
 		timer.scheduleAtFixedRate(playTask, 0, 20);
@@ -99,9 +113,11 @@ public class Player {
 	}
 
 	/**
-	 * Marque un temps de pause.
+	 * Marque un temps de pause. Ne fait rien si la pause est en cours.
 	 */
 	public void doWait() {
+		if (blocked)
+			return;
 		if (clip == null) {
 			load(currentPhrase);
 		}
@@ -112,6 +128,9 @@ public class Player {
 		}
 		timer = new Timer();
 		timer.scheduleAtFixedRate(waitTask, 0, 20);
+		for (Runnable r : onWait) {
+			r.run();
+		}
 	}
 
 	private class WaitTask extends TimerTask {
@@ -241,6 +260,13 @@ public class Player {
 		lastPosition = 0;
 		stop();
 		currentPhrase = index;
+	}
+	
+	/**
+	 * Retourne la durée en millisecondes de l'enregistrement courant.
+	 */
+	public long getDuration() {
+		return clip != null ? clip.getMicrosecondLength() / 1000 : 0;
 	}
 
 	private static AudioInputStream getAudioStream(String fileName, int n) {

@@ -53,6 +53,7 @@ public class ControleurParam implements ActionListener, ChangeListener {
 				Constants.WRONG_COLOR = color;
 			}
 			if (jcb == panneau.listeCorrectionCouleurs) {
+				
 				Constants.WRONG_PHRASE_COLOR = color;
 			}
 			if (jcb == panneau.listeBonnesCouleurs) {

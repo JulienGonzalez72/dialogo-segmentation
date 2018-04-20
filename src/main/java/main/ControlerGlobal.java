@@ -23,6 +23,14 @@ public class ControlerGlobal {
 	public ControlerGlobal(Panneau p) {
 		this.p = p;
 	}
+	
+	public int getNbEssaisRestantsPourSegmentCourant() {
+		return p.nbEssaisRestantPourLeSegmentCourant;
+	}
+	
+	public void decrementerEssaisRestants() {
+		p.nbEssaisRestantPourLeSegmentCourant--;
+	}
 
 	/**
 	 * Se place sur le segment de numero n et démarre le lecteur
@@ -392,6 +400,10 @@ public class ControlerGlobal {
 			}
 		}
 		return numeroPage;
+	}
+
+	public void highlightUntilPhrase(Color c, int n) {
+		p.surlignerJusquaSegment(c, n);	
 	}
 
 }

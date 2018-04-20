@@ -7,6 +7,8 @@ public class ControlerMouse implements MouseListener {
 	public static int nbErreurs;
 	Panneau view;
 	TextHandler handler;
+	
+	public boolean clicking;
 
 	public ControlerMouse(Panneau p, TextHandler handler) {
 		view = p;
@@ -15,9 +17,10 @@ public class ControlerMouse implements MouseListener {
 	}
 
 	public void mousePressed(MouseEvent e) {
-		if (!view.player.isBlocked()  && e.getClickCount() < 2) {
+		clicking = true;
+		/*if (!view.player.isBlocked()  && e.getClickCount() < 2) {
 			view.controlerGlobal.doClick(view.nbEssaisRestantPourLeSegmentCourant,view.player.getCurrentPhraseIndex());
-		}
+		}*/
 	}
 
 	public void mouseEntered(MouseEvent e) {
@@ -32,7 +35,7 @@ public class ControlerMouse implements MouseListener {
 	}
 
 	public void mouseReleased(MouseEvent e) {
-
+		clicking = false;
 	}
 
 }

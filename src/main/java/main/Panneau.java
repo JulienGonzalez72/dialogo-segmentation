@@ -1,8 +1,6 @@
 package main;
 
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.io.*;
 import java.util.Map;
 import java.util.ArrayList;

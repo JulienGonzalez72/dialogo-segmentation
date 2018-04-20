@@ -69,10 +69,10 @@ public class FenetreParametre extends JFrame {
 
 		public PanneauParam() throws NumberFormatException, IOException {
 			fen = FenetreParametre.this;
-			setLayout(new GridLayout(24, 1));
+			setLayout(new BorderLayout());
 			JLabel titre = fastLabel("Choisissez vos parametres");
 			titre.setBorder(BorderFactory.createLineBorder(Color.blue, 2));
-			add(titre);
+			add(titre,BorderLayout.NORTH);
 
 			valider = fastButton("Valider les parametres", new Font("OpenDyslexic", Font.BOLD, 18), Color.green);
 			JLabel police = fastLabel("Police : ");
@@ -83,7 +83,7 @@ public class FenetreParametre extends JFrame {
 			JLabel couleurCorrection = fastLabel("Couleur de correction : ");
 			JLabel segments = fastLabel("Segment de départ ");
 			JLabel attente = fastLabel("Temps d'attente en % du temps de lecture");
-
+			
 			polices = new Object[] { "OpenDyslexic", "Andika", "Lexia", "Arial", "Times New Roman" };
 			tailles = new Object[] { "12", "16", "18", "20", "22", "24", "30", "36", "42" };
 			couleurs = new Object[] { "Jaune", "Blanc", "Orange", "Rose", "Bleu", "Rouge", "Vert" };
@@ -130,16 +130,33 @@ public class FenetreParametre extends JFrame {
 					new Font("OpenDyslexic", Font.PLAIN, 15), "1");
 			segmentDeDepart.addActionListener(controleur);
 
-			add(police);
-			fastCentering(listePolices, this);
-			add(taillePolice);
-			fastCentering(listeTailles, this);
-			add(segments);
-			fastCentering(segmentDeDepart, this);
-
 			JLabel nbFautesTolerees = fastLabel("Nombre de fautes maximum");
 			champNbFautesTolerees = fastTextField("", new Font("OpenDyslexic", Font.PLAIN, 15), "2");
 			champNbFautesTolerees.addActionListener(controleur);
+			
+
+			JPanel midPanel = new JPanel(new GridLayout(8, 2));
+			
+			midPanel.add(police);
+			midPanel.add(taillePolice);
+			//midPanel.add(listePolices);
+			fastCentering(listePolices, midPanel,"   ");
+			fastCentering(listeTailles, midPanel,"   ");
+			
+			midPanel.add(segments);
+			midPanel.add(nbFautesTolerees);
+			fastCentering(segmentDeDepart, midPanel,"   ");
+			fastCentering(champNbFautesTolerees, midPanel,"   ");
+			
+			midPanel.add(couleurDeFond);	
+			midPanel.add(couleurJuste);
+			fastCentering(listeCouleurs, midPanel,"   ");
+			fastCentering(listeBonnesCouleurs, midPanel,"   ");
+			
+			midPanel.add(couleurFausse);
+			midPanel.add(couleurCorrection);
+			fastCentering(listeMauvaisesCouleurs, midPanel,"   ");
+			fastCentering(listeCorrectionCouleurs, midPanel,"   ");
 
 			modeAnticipe = fastRadio("Mode Anticipé", controleur);
 			modeSurlignage = fastRadio("Mode Surlignage", controleur);
@@ -153,27 +170,6 @@ public class FenetreParametre extends JFrame {
 			modes.add(modeNormal);
 			modes.add(modeAnticipe);
 
-			add(nbFautesTolerees);
-			fastCentering(champNbFautesTolerees, this);
-			add(couleurDeFond);
-			fastCentering(listeCouleurs, this);
-			add(couleurJuste);
-			fastCentering(listeBonnesCouleurs, this);
-			add(couleurFausse);
-			fastCentering(listeMauvaisesCouleurs, this);
-			add(couleurCorrection);
-			fastCentering(listeCorrectionCouleurs, this);
-			add(new JLabel());
-
-			panelModes = new JPanel(new GridLayout(1, 4));
-			panelModes.add(modeKaraoke);
-			panelModes.add(modeSurlignage);
-			panelModes.add(modeNormal);
-			panelModes.add(modeAnticipe);
-			add(panelModes);
-			add(new JLabel());
-			add(attente);
-
 			sliderAttente = new JSlider();
 			sliderAttente.setMaximum(Constants.MAX_WAIT_TIME_PERCENT);
 			sliderAttente.setMinimum(Constants.MIN_WAIT_TIME_PERCENT);
@@ -184,16 +180,31 @@ public class FenetreParametre extends JFrame {
 			sliderAttente.setMajorTickSpacing(50);
 			sliderAttente.addChangeListener(controleur);
 			
-			add(sliderAttente);
-			add(new JLabel());
-			add(valider);
+			JPanel panelSud = new JPanel(new GridLayout(7,1));
+			
+			panelModes = new JPanel(new GridLayout(1, 4));
+			panelModes.add(modeKaraoke);
+			panelModes.add(modeSurlignage);
+			panelModes.add(modeNormal);
+			panelModes.add(modeAnticipe);
+			panelSud.add(new JLabel());
+			panelSud.add(panelModes);
+			panelSud.add(new JLabel());
+			panelSud.add(add(attente));
+			panelSud.add(sliderAttente);
+			panelSud.add(new JLabel());
+			panelSud.add(valider);
 
+			add(midPanel,BorderLayout.CENTER);
+			add(panelSud,BorderLayout.SOUTH);
+			
+			
 			chargerPreferences();
 
 		}
 
 		public void chargerPreferences() throws NumberFormatException, IOException {
-			String fichier = "./preferences/preference_"+Constants.NOM_ELEVE+".txt";
+			String fichier = "./ressources/preferences/preference_"+Constants.NOM_ELEVE+".txt";
 			InputStream ips;
 			try {
 				ips = new FileInputStream(fichier);
@@ -391,12 +402,13 @@ public class FenetreParametre extends JFrame {
 
 		/**
 		 * Centre le composant c dans le panneau p
+		 * @param marge = taille de la marge
 		 */
-		public void fastCentering(Component c, JPanel p) {
-			JPanel temp = new JPanel(new GridLayout(1, 3));
-			temp.add(new JLabel());
-			temp.add(c);
-			temp.add(new JLabel());
+		private void fastCentering(Component c, JPanel p, String marge) {
+			JPanel temp = new JPanel(new BorderLayout());
+			temp.add(new JLabel(marge), BorderLayout.WEST);			
+			temp.add(c,BorderLayout.CENTER);
+			temp.add(new JLabel(marge), BorderLayout.EAST);
 			p.add(temp);
 		}
 

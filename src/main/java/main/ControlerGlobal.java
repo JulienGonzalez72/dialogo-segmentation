@@ -280,7 +280,7 @@ public class ControlerGlobal {
 
 	public void sauvegarder() {
 
-		String fichier = "./preferences/preference_"+Constants.NOM_ELEVE+".txt";
+		String fichier = "./ressources/preferences/preference_"+Constants.NOM_ELEVE+".txt";
 
 		// recueration des lignes deja existantes
 		List<String> lignes = new ArrayList<String>();

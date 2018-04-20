@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -190,23 +191,26 @@ public class ControlFrame extends JFrame {
 		if (yes == 0) {
 			PrintWriter writer = null;
 			try {
-				writer = new PrintWriter("preference.txt", "UTF-8");
+				writer = new PrintWriter("preference_"+Constants.NOM_ELEVE+".txt", "UTF-8");
 			} catch (FileNotFoundException | UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
-			writer.println("w:" + getWidth());
-			writer.println("h:" + getHeight());
-			writer.println("x:" + getX());
-			writer.println("y:" + getY());
+			writer.println("w:" + pan.fenetre.getWidth());
+			writer.println("h:" + pan.fenetre.getHeight());
+			writer.println("x:" + pan.fenetre.getX());
+			writer.println("y:" + pan.fenetre.getY());
 			writer.println("taillePolice:" + FenetreParametre.taillePolice);
 			writer.println("typePolice:" + FenetreParametre.police.getFontName());
 			writer.println(
-					"couleur:" + FenetreParametre.couleurFond.getRed() + "/" + FenetreParametre.couleurFond.getGreen()
-							+ "/" + FenetreParametre.couleurFond.getBlue() + "/" + Constants.RIGHT_COLOR.getRed() + "/"
-							+ Constants.RIGHT_COLOR.getGreen() + "/" + Constants.RIGHT_COLOR.getBlue() + "/"
-							+ Constants.WRONG_COLOR.getRed() + "/" + Constants.WRONG_COLOR.getGreen() + "/"
-							+ Constants.WRONG_COLOR.getBlue() + "/" + Constants.WRONG_PHRASE_COLOR.getRed() + "/"
-							+ Constants.WRONG_PHRASE_COLOR.getGreen() + "/" + Constants.WRONG_PHRASE_COLOR.getBlue());
+					"couleur:" 
+			+ FenetreParametre.couleurFond.getRed() + "/" + FenetreParametre.couleurFond.getGreen() + "/" + FenetreParametre.couleurFond.getBlue() + "/" 
+							
+			+ Constants.RIGHT_COLOR.getRed() + "/"+ Constants.RIGHT_COLOR.getGreen() + "/" + Constants.RIGHT_COLOR.getBlue() + "/"
+							
+			+ Constants.WRONG_COLOR.getRed() + "/" + Constants.WRONG_COLOR.getGreen() + "/"+ Constants.WRONG_COLOR.getBlue() + "/" 
+							
+			+ Constants.WRONG_PHRASE_COLOR.getRed() + "/" + Constants.WRONG_PHRASE_COLOR.getGreen() + "/" + Constants.WRONG_PHRASE_COLOR.getBlue());
+			
 			writer.println("mode:" + FenetreParametre.readMode);
 			writer.println("tempsAttente:" + FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture);
 			writer.close();
@@ -226,7 +230,7 @@ public class ControlFrame extends JFrame {
 			UIManager.put("OptionPane.background", optionPaneBG);
 			UIManager.put("Panel.background", panelBG);
 		}
-		String fichier = "preference.txt";
+		String fichier = "preference_"+Constants.NOM_ELEVE+".txt";
 		if (yes == 0) {
 			// lecture du fichier texte
 			try {
@@ -297,7 +301,7 @@ public class ControlFrame extends JFrame {
 					}
 					i++;
 				}
-				setBounds(x, y, w, h);
+				pan.fenetre.setBounds(x, y, w, h);
 				FenetreParametre.taillePolice = t;
 				int index = 999;
 				if (p.equals("OpenDyslexic") || p.equals("OpenDyslexic Bold")) {
@@ -348,14 +352,14 @@ public class ControlFrame extends JFrame {
 			this.setVisible(false);
 			this.pan.controlFrame.setVisible(false);
 			this.pan.fenetre.setVisible(false);
-			new FenetreParametre("Dialogo", Constants.largeurFenetreParam, Constants.hauteurFenetreParam);
+			Point p = new Point(50,50);
+			new FenetreParametre(Constants.titreFenetreParam, Constants.largeurFenetreParam, Constants.hauteurFenetreParam).setLocation(p);
 		});
 		JMenuItem eMenuItem3 = new JMenuItem("Parametres");
 		eMenuItem3.setMnemonic(KeyEvent.VK_P);
 		eMenuItem3.setToolTipText("Parametres de l'exercice");
 		eMenuItem3.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.ALT_MASK));
 		eMenuItem3.addActionListener((ActionEvent event) -> {
-			System.out.println(pan);
 			FenetreParametre.editorPane = pan.editorPane;
 			FenetreParametre.fen.setVisible(true);
 			int x = 4 * Toolkit.getDefaultToolkit().getScreenSize().width / 10;
@@ -363,10 +367,7 @@ public class ControlFrame extends JFrame {
 			FenetreParametre.fen.setLocation(x, y);
 			FenetreParametre.fen.fenetre.setEnabled(false);
 			FenetreParametre.fen.fenetre.pan.controlFrame.setEnabled(false);
-			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).champNbFautesTolerees
-					.setEnabled(false);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).segmentDeDepart.setEnabled(false);
-			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).listeTailles.setEnabled(false);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).modeKaraoke.setEnabled(false);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).modeSurlignage.setEnabled(false);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).modeNormal.setEnabled(false);
@@ -391,9 +392,7 @@ public class ControlFrame extends JFrame {
 		file.add(eMenuItem4);
 		file.add(eMenuItem5);
 		file.add(eMenuItem);
-
 		menubar.add(file);
-
 		setJMenuBar(menubar);
 	}
 

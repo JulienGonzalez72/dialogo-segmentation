@@ -229,8 +229,9 @@ public class Panneau extends JPanel {
 			String newText = textHandler.getShowText().substring(lastOffset);
 			/// dernière page ///
 			if (newText.equals(text)) {
-				if (!segmentsEnFonctionDeLaPage.get(page - 1).contains(textHandler.getPhraseIndex(off)))
+				if ( !segmentsEnFonctionDeLaPage.get(page - 1).contains(textHandler.getPhraseIndex(off))) {
 					segmentsEnFonctionDeLaPage.get(page - 1).add(textHandler.getPhraseIndex(off));
+				}
 				break;
 			} else {
 				text = newText;
@@ -307,7 +308,8 @@ public class Panneau extends JPanel {
 			UIManager.put("Panel.background", panelBG);
 		}
 		fenetre.setVisible(false);
-		new FenetreParametre("Dialogo", 500, 700);
+		Point p = new Point(50,50);
+		new FenetreParametre(Constants.titreFenetreParam, Constants.largeurFenetreParam, Constants.hauteurFenetreParam).setLocation(p);;
 	}
 
 	/**

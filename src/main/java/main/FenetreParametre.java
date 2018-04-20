@@ -146,7 +146,7 @@ public class FenetreParametre extends JFrame {
 			modeKaraoke = fastRadio("Mode Guidée", controleur);
 			modeNormal = fastRadio("Mode Normal", controleur);
 			modeNormal.setSelected(true);
-			
+
 			modes = new ButtonGroup();
 			modes.add(modeSurlignage);
 			modes.add(modeKaraoke);
@@ -183,8 +183,8 @@ public class FenetreParametre extends JFrame {
 			sliderAttente.setMinorTickSpacing(10);
 			sliderAttente.setMajorTickSpacing(50);
 			sliderAttente.addChangeListener(controleur);
+			
 			add(sliderAttente);
-
 			add(new JLabel());
 			add(valider);
 
@@ -193,7 +193,7 @@ public class FenetreParametre extends JFrame {
 		}
 
 		public void chargerPreferences() throws NumberFormatException, IOException {
-			String fichier = "preference.txt";
+			String fichier = "preference_"+Constants.NOM_ELEVE+".txt";
 			InputStream ips;
 			try {
 				ips = new FileInputStream(fichier);
@@ -269,9 +269,9 @@ public class FenetreParametre extends JFrame {
 								Integer.valueOf(temp.split("/")[10]), Integer.valueOf(temp.split("/")[11]));
 
 						appliquerCouleur(color, listeCouleurs);
-						appliquerCouleur(rightColor, listeCorrectionCouleurs);
+						appliquerCouleur(rightColor, listeBonnesCouleurs);
 						appliquerCouleur(wrongColor, listeMauvaisesCouleurs);
-						appliquerCouleur(correctionColor, listeBonnesCouleurs);
+						appliquerCouleur(correctionColor, listeCorrectionCouleurs);
 						break;
 					case 7:
 						FenetreParametre.readMode = ReadMode.parse(ligne.split(":")[1]);
@@ -292,8 +292,9 @@ public class FenetreParametre extends JFrame {
 							break;
 						}
 						break;
-					case 8:				
+					case 8:
 						FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture = Integer.valueOf(ligne.split(":")[1]);
+						sliderAttente.setValue(Integer.valueOf(ligne.split(":")[1]));
 						break;
 					case 9:
 						if (Constants.LOAD_FIRST_PHRASE) {

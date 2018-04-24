@@ -63,10 +63,18 @@ public class Panneau extends JPanel {
 
 		/// construit la mise en page virtuelle ///
 		//rebuildPages();
+<<<<<<< HEAD
 
 		/// initialise le lecteur et le démarre ///
 		player = new Player(textHandler);
 		
+=======
+
+
+		/// initialise le lecteur et le démarre ///
+		player = new Player(textHandler);
+
+>>>>>>> 5711b5287a1bd9f88c43303a4a1c074ad0a41991
 		/*if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
 			player.waitAfter = false;
 		}
@@ -120,6 +128,7 @@ public class Panneau extends JPanel {
 			controlFrame.disableAll();
 		});
 		player.goTo(FenetreParametre.premierSegment - 1);*/
+<<<<<<< HEAD
 		
 		switch (FenetreParametre.readMode) {
 			case ANTICIPATED : task = new AnticipatedThread(controlerGlobal);
@@ -132,6 +141,11 @@ public class Panneau extends JPanel {
 				break;
 		}
 		task.start();
+=======
+
+		Thread t = new SegmentedThread(controlerGlobal);
+		t.start();
+>>>>>>> 5711b5287a1bd9f88c43303a4a1c074ad0a41991
 
 		controlFrame = new ControlFrame(this);
 		controlerKey = new ControlerKey(player);

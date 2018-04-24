@@ -281,7 +281,10 @@ public class Panneau extends JPanel {
 			texteAfficher += string;
 		}
 		editorPane.setText(texteAfficher);
+		
 	}
+	
+	
 
 	public boolean pageFinis() {
 		// la page actuelle contient t-elle le segment suivant ? si non elle est finis

@@ -87,15 +87,6 @@ public class ControleurParam implements ActionListener, ChangeListener {
 		if (arg0.getSource() == panneau.modeSurlignage) {
 			if (((JRadioButton) arg0.getSource()).isSelected()) {
 				FenetreParametre.readMode = ReadMode.HIGHLIGHT;
-				if (FenetreParametre.fen.fenetre.pan.player != null) {
-					FenetreParametre.fen.fenetre.pan.editorPane.retablirSurlignageBlue();
-					FenetreParametre.fen.fenetre.pan.surlignerJusquaSegment(Constants.RIGHT_COLOR,
-							FenetreParametre.fen.fenetre.pan.player.getCurrentPhraseIndex() - 1);
-				}
-			} else {
-				if (FenetreParametre.editorPane != null) {
-					FenetreParametre.editorPane.désurlignerTout();
-				}
 			}
 		}
 		if (arg0.getSource() == panneau.modeKaraoke) {
@@ -150,16 +141,18 @@ public class ControleurParam implements ActionListener, ChangeListener {
 					FenetreParametre.fen.fenetre.pan.controlFrame.setEnabled(true);
 					panneau.fermer();
 					FenetreParametre.nbFautesTolerees = Integer.valueOf(panneau.champNbFautesTolerees.getText());
-					FenetreParametre.fen.fenetre.pan.nbEssaisParSegment = Integer.valueOf(panneau.champNbFautesTolerees.getText());
+					FenetreParametre.fen.fenetre.pan.nbEssaisParSegment = Integer
+							.valueOf(panneau.champNbFautesTolerees.getText());
 					Panneau.defautNBEssaisParSegment = Integer.valueOf(panneau.champNbFautesTolerees.getText());
 					FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture = panneau.sliderAttente.getValue();
 					if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
 						FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture *= 2;
-					}
-					try {
-						FenetreParametre.editorPane.updateColors();
-					} catch (BadLocationException e) {
-						e.printStackTrace();
+					} else if (FenetreParametre.readMode == ReadMode.HIGHLIGHT) {
+						try {
+							FenetreParametre.editorPane.updateColors();
+						} catch (BadLocationException e) {
+							e.printStackTrace();
+						}
 					}
 				}
 			}
@@ -185,7 +178,7 @@ public class ControleurParam implements ActionListener, ChangeListener {
 		}
 		return null;
 	}
-	
+
 	public static Font getFont(String police, int style, int size) {
 		int index = -1;
 		if (police.equals("OpenDyslexic") || police.equals("OpenDyslexic Bold")) {
@@ -203,7 +196,7 @@ public class ControleurParam implements ActionListener, ChangeListener {
 		if (police.equals("Times New Roman") || police.equals("Times New Roman Gras")) {
 			index = 4;
 		}
-		return getFont(police,index,style,size);
+		return getFont(police, index, style, size);
 	}
 
 	@Override

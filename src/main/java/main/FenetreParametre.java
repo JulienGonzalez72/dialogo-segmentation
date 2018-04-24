@@ -19,7 +19,7 @@ public class FenetreParametre extends JFrame {
 	public static int nbFautesTolerees;
 	public static int tempsPauseEnPourcentageDuTempsDeLecture;
 	public static ReadMode readMode = ReadMode.NORMAL;
-	public static boolean rejouerSon;
+	public static boolean rejouerSon = true;
 	public Fenetre fenetre;
 
 	public FenetreParametre(String titre, int tailleX, int tailleY) {
@@ -61,7 +61,7 @@ public class FenetreParametre extends JFrame {
 		JTextField segmentDeDepart;
 		JTextField champNbFautesTolerees;
 		JButton valider;
-		JRadioButton rejouerSon;
+		JCheckBox rejouerSon;
 		JRadioButton modeSurlignage, modeKaraoke, modeNormal, modeAnticipe;
 		ButtonGroup modes;
 		JSlider sliderAttente;
@@ -183,7 +183,8 @@ public class FenetreParametre extends JFrame {
 			
 			JPanel panelSud = new JPanel(new GridLayout(9,1));
 			panelSud.add(new JLabel());
-			rejouerSon = fastRadio("Rejouer les phrases si erreur",controleur);
+			rejouerSon = fastCheckBox("Rejouer les phrases si erreur",controleur);
+			rejouerSon.setSelected(true);
 			JPanel temp = new JPanel(new GridLayout(1, 3));
 			temp.add(new JLabel());
 			temp.add(rejouerSon);
@@ -391,6 +392,16 @@ public class FenetreParametre extends JFrame {
 			r.setHorizontalTextPosition(JRadioButton.CENTER);
 			return r;
 		}
+		
+		private JCheckBox fastCheckBox(String nom, ControleurParam controleur) {
+			JCheckBox r = new JCheckBox(nom);
+			r.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
+			r.addActionListener(controleur);
+			r.setVerticalTextPosition(JRadioButton.TOP);
+			r.setHorizontalTextPosition(JRadioButton.CENTER);
+			return r;
+		}
+
 
 		public JTextField fastTextField(String nom, Font font, String texteParDefaut) {
 			JTextField r = new JTextField(nom);

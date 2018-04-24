@@ -2,11 +2,8 @@ package main;
 
 public class AnticipatedThread extends ReadThread {
 
-	private ControlerGlobal controler;
-
 	public AnticipatedThread(ControlerGlobal controler, int N) {
-		super(N);
-		this.controler = controler;
+		super(controler,N);
 	}
 	
 	public void run() {

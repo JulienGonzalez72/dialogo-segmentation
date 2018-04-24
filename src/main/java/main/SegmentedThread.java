@@ -2,11 +2,8 @@ package main;
 
 public class SegmentedThread extends ReadThread {
 
-	private ControlerGlobal controler;
-
 	public SegmentedThread(ControlerGlobal controler, int N) {
-		super(N);
-		this.controler = controler;
+		super(controler,N);
 	}
 
 	public void run() {

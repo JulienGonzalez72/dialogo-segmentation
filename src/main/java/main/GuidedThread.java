@@ -29,7 +29,6 @@ public class GuidedThread extends ReadThread {
 		/// suppression du surlignage du segment de phrase N ///
 		controler.removeHighlightPhrase(N);
 		/// appel des écouteurs de fin de segment ///
-		//System.out.println(Thread.interrupted());
 		for (Runnable r : onPhraseEnd) {
 			r.run();
 		}

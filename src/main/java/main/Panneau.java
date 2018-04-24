@@ -141,7 +141,7 @@ public class Panneau extends JPanel {
 			task.onPhraseEnd.add(this);
 			task.start();
 		}});*/
-		controlerGlobal.goTo(0);
+		controlerGlobal.goTo(FenetreParametre.premierSegment - 1);
 
 		controlFrame = new ControlFrame(this);
 		controlerKey = new ControlerKey(player);

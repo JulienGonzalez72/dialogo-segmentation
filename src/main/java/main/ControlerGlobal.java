@@ -39,9 +39,6 @@ public class ControlerGlobal {
 		if (n < 0 || n >= p.textHandler.getPhrasesCount()) {
 			throw new IllegalArgumentException("Numéro de segment invalide : " + n);
 		}
-		/*p.showPage(getPageOfPhrase(n));
-		p.player.goTo(n);
-		p.player.play();*/
 		if (activeThread != null) {
 			activeThread.doStop();
 		}
@@ -49,7 +46,7 @@ public class ControlerGlobal {
 		activeThread.onPhraseEnd.add(new Runnable() {
 			public void run() {
 				/// fin du dernier segment du texte ///
-				if (n == p.textHandler.getPhrasesCount() - 1) {
+				if (n == p.textHandler.getPhrasesCount() - 2) {
 					p.afficherCompteRendu();
 				}
 				/// passe au segment suivant ///
@@ -356,7 +353,7 @@ public class ControlerGlobal {
 	 */
 	public void doPrevious() {
 		if (true) {
-			goTo(p.player.getCurrentPhraseIndex() + 1);
+			goTo(p.player.getCurrentPhraseIndex() - 1);
 			return;
 		}
 		

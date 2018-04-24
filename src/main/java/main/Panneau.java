@@ -215,6 +215,12 @@ public class Panneau extends JPanel {
 			editorPane.setText(text);
 			int h = 0;
 			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			try {
 				h = editorPane.modelToView(0).height;
 			} catch (BadLocationException e) {
 				e.printStackTrace();

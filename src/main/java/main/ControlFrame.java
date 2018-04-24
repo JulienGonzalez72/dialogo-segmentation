@@ -372,6 +372,11 @@ public class ControlFrame extends JFrame {
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).modeSurlignage.setEnabled(false);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).modeNormal.setEnabled(false);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).modeAnticipe.setEnabled(false);
+			//grisage de la taille et du style de la police si on est plus au premier segment
+			if ( (player.getCurrentPhraseIndex()+1) - FenetreParametre.premierSegment != 0 ) {
+				((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).listePolices.setEnabled(false);
+				((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).listeTailles.setEnabled(false);
+			}
 		});
 		JMenuItem eMenuItem4 = new JMenuItem("Stocker Preferences");
 		eMenuItem4.setMnemonic(KeyEvent.VK_S);

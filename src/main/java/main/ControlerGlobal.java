@@ -138,7 +138,7 @@ public class ControlerGlobal {
 			int debutRelatifSegment = p.textHandler.getRelativeStartPhrasePosition(p.getNumeroPremierSegmentAffiché(),
 					n);
 			int finRelativeSegment = debutRelatifSegment + p.textHandler.getPhrase(n).length();
-			p.editorPane.surlignerPhrase(debutRelatifSegment, finRelativeSegment, Constants.RIGHT_COLOR);
+			p.editorPane.surlignerPhrase(debutRelatifSegment, finRelativeSegment, c);
 		}
 	}
 

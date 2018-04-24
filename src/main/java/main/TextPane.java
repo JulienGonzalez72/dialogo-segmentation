@@ -107,7 +107,6 @@ public class TextPane extends JTextPane {
 	}
 
 	public void retablirSurlignageBlue() {
-		System.out.println(blueHighlightTagsMemory.toString());
 		blueHighlightTags.addAll(blueHighlightTagsMemory);
 		blueHighlightTags = TextPane.antiDoublon((ArrayList<Object>) blueHighlightTags);
 		blueHighlightTagsMemory = TextPane.antiDoublon((ArrayList<Object>) blueHighlightTagsMemory);

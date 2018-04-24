@@ -1,6 +1,6 @@
 package main;
 
-public class HighlightThread extends Thread {
+public class HighlightThread extends ReadThread {
 
 	private ControlerGlobal controler;
 
@@ -44,6 +44,11 @@ public class HighlightThread extends Thread {
 			N++;
 		}
 
+	}
+
+	@Override
+	public void run(int N) {
+		
 	}
 
 }

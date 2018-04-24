@@ -62,13 +62,8 @@ public class Panneau extends JPanel {
 		nbEssaisRestantPourLeSegmentCourant = nbEssaisParSegment = FenetreParametre.nbFautesTolerees;
 		
 		/// construit la mise en page virtuelle ///
-<<<<<<< HEAD
 		rebuildPages();
-		
-=======
-		//rebuildPages();
 
->>>>>>> c4f57c48c5bd986079425d29dec62304a05b4053
 		/// initialise le lecteur et le démarre ///
 		player = new Player(textHandler);
 
@@ -139,7 +134,6 @@ public class Panneau extends JPanel {
 				break;
 		}
 		task.start();
-<<<<<<< HEAD
 		
 		task.onPhraseEnd.add(new Runnable () {public void run() {
 			task.interrupt();
@@ -148,8 +142,6 @@ public class Panneau extends JPanel {
 			task.start();
 		}});*/
 		controlerGlobal.goTo(0);
-=======
->>>>>>> c4f57c48c5bd986079425d29dec62304a05b4053
 
 		controlFrame = new ControlFrame(this);
 		controlerKey = new ControlerKey(player);

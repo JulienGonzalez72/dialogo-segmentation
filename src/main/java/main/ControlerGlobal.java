@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 import java.util.List;
 
-import javax.swing.SwingWorker;
+//import javax.swing.SwingWorker;
 
 public class ControlerGlobal {
 
@@ -140,7 +140,11 @@ public class ControlerGlobal {
 							p.textHandler.getRelativeOffset(p.getNumeroPremierSegmentAffiché(),
 									p.textHandler.startWordPosition(offset) + 1),
 							p.textHandler.getRelativeOffset(p.getNumeroPremierSegmentAffiché(), p.textHandler.endWordPosition(offset)));
-					return false;
+					if ( (nbTry-1) == 0) {
+						return false;
+					} else {
+						return waitForClick(n,nbTry-1);
+					}
 				}
 			}
 		}
@@ -313,7 +317,7 @@ public class ControlerGlobal {
 		}
 		
 		// si la page est finis on affiche la suivante
-		if (p.pageFinis()) {
+		/*if (p.pageFinis()) {
 			p.controlFrame.disableAll();
 			new SwingWorker<Object, Object>() {
 				// Ce traitement sera exécuté dans un autre thread :
@@ -349,7 +353,7 @@ public class ControlerGlobal {
 		} else {
 			p.editorPane.désurlignerTout();
 			highlightPhrase(Constants.RIGHT_COLOR, p.player.getCurrentPhraseIndex());
-		}
+		}*/
 	}
 
 	/**
@@ -447,6 +451,8 @@ public class ControlerGlobal {
 			case GUIDED_READING : t = new GuidedThread(this, n);
 				break;
 			case NORMAL : t = new SegmentedThread(this, n);
+				break;
+			case HIGHLIGHT : t = new HighlightThread(this, n);
 				break;
 			default : t = null;
 				break;

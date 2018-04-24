@@ -29,21 +29,23 @@ public class HighlightThread extends ReadThread {
 				boolean rightClick = controler.waitForClick(N, FenetreParametre.nbFautesTolerees);
 				/// si échec ///
 				if (!rightClick) {
-					// on decremente le nombre d'essais restants
-						/// surlignage du segment de phrase N ///
-						controler.highlightUntilPhrase(Constants.WRONG_PHRASE_COLOR, N);
-						/// play du son correspondant au segment N ///
-						controler.play(N);
-						/// attente de la fin du son ///
-						controler.doWait(controler.getPhraseDuration(N), Constants.CURSOR_LISTEN);
-				} else {
+					/// surlignage du segment de phrase N ///
+					controler.highlightPhrase(Constants.WRONG_PHRASE_COLOR, N);
+					/// play du son correspondant au segment N ///
+					controler.play(N);
+					/// attente de la fin du son ///
+					controler.doWait(controler.getPhraseDuration(N), Constants.CURSOR_LISTEN);
+				}
+				else {
+					//surlignage en RIGHT_COLOR
+					controler.highlightPhrase(Constants.RIGHT_COLOR, N);
 					break;
 				}
 			}
 			/// N=N+1 ///
 			N++;
 		}
-
+		
 	}
 
 	@Override

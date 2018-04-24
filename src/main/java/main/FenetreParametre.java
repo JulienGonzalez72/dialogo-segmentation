@@ -19,6 +19,7 @@ public class FenetreParametre extends JFrame {
 	public static int nbFautesTolerees;
 	public static int tempsPauseEnPourcentageDuTempsDeLecture;
 	public static ReadMode readMode = ReadMode.NORMAL;
+	public static boolean rejouerSon;
 	public Fenetre fenetre;
 
 	public FenetreParametre(String titre, int tailleX, int tailleY) {
@@ -60,6 +61,7 @@ public class FenetreParametre extends JFrame {
 		JTextField segmentDeDepart;
 		JTextField champNbFautesTolerees;
 		JButton valider;
+		JRadioButton rejouerSon;
 		JRadioButton modeSurlignage, modeKaraoke, modeNormal, modeAnticipe;
 		ButtonGroup modes;
 		JSlider sliderAttente;
@@ -179,7 +181,14 @@ public class FenetreParametre extends JFrame {
 			sliderAttente.setMajorTickSpacing(50);
 			sliderAttente.addChangeListener(controleur);
 			
-			JPanel panelSud = new JPanel(new GridLayout(7,1));
+			JPanel panelSud = new JPanel(new GridLayout(9,1));
+			panelSud.add(new JLabel());
+			rejouerSon = fastRadio("Rejouer les phrases si erreur",controleur);
+			JPanel temp = new JPanel(new GridLayout(1, 3));
+			temp.add(new JLabel());
+			temp.add(rejouerSon);
+			temp.add(new JLabel());
+			panelSud.add(temp);
 			
 			panelModes = new JPanel(new GridLayout(1, 4));
 			panelModes.add(modeKaraoke);
@@ -307,8 +316,8 @@ public class FenetreParametre extends JFrame {
 						sliderAttente.setValue(Integer.valueOf(ligne.split(":")[1]));
 						break;
 					case 9:
-						if (Constants.LOAD_FIRST_PHRASE) {
-							segmentDeDepart.setText(String.valueOf(ligne.split(":")[1]));
+						if ( Boolean.valueOf(ligne.split(":")[1])) {
+							rejouerSon.setSelected(true);
 						}
 						break;
 					default:

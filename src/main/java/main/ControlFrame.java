@@ -77,8 +77,7 @@ public class ControlFrame extends JFrame {
 					if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
 						player.doWait();
 						pan.controlerGlobal.highlightPhrase(Constants.RIGHT_COLOR, player.getCurrentPhraseIndex());
-					}
-					else {
+					} else {
 						player.play();
 					}
 				}
@@ -191,7 +190,8 @@ public class ControlFrame extends JFrame {
 		if (yes == 0) {
 			PrintWriter writer = null;
 			try {
-				writer = new PrintWriter("./ressources/preferences/preference_"+Constants.NOM_ELEVE+".txt", "UTF-8");
+				writer = new PrintWriter("./ressources/preferences/preference_" + Constants.NOM_ELEVE + ".txt",
+						"UTF-8");
 			} catch (FileNotFoundException | UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
@@ -201,18 +201,21 @@ public class ControlFrame extends JFrame {
 			writer.println("y:" + pan.fenetre.getY());
 			writer.println("taillePolice:" + FenetreParametre.taillePolice);
 			writer.println("typePolice:" + FenetreParametre.police.getFontName());
-			writer.println(
-					"couleur:" 
-			+ FenetreParametre.couleurFond.getRed() + "/" + FenetreParametre.couleurFond.getGreen() + "/" + FenetreParametre.couleurFond.getBlue() + "/" 
-							
-			+ Constants.RIGHT_COLOR.getRed() + "/"+ Constants.RIGHT_COLOR.getGreen() + "/" + Constants.RIGHT_COLOR.getBlue() + "/"
-							
-			+ Constants.WRONG_COLOR.getRed() + "/" + Constants.WRONG_COLOR.getGreen() + "/"+ Constants.WRONG_COLOR.getBlue() + "/" 
-							
-			+ Constants.WRONG_PHRASE_COLOR.getRed() + "/" + Constants.WRONG_PHRASE_COLOR.getGreen() + "/" + Constants.WRONG_PHRASE_COLOR.getBlue());
-			
+			writer.println("couleur:" + FenetreParametre.couleurFond.getRed() + "/"
+					+ FenetreParametre.couleurFond.getGreen() + "/" + FenetreParametre.couleurFond.getBlue() + "/"
+
+					+ Constants.RIGHT_COLOR.getRed() + "/" + Constants.RIGHT_COLOR.getGreen() + "/"
+					+ Constants.RIGHT_COLOR.getBlue() + "/"
+
+					+ Constants.WRONG_COLOR.getRed() + "/" + Constants.WRONG_COLOR.getGreen() + "/"
+					+ Constants.WRONG_COLOR.getBlue() + "/"
+
+					+ Constants.WRONG_PHRASE_COLOR.getRed() + "/" + Constants.WRONG_PHRASE_COLOR.getGreen() + "/"
+					+ Constants.WRONG_PHRASE_COLOR.getBlue());
+
 			writer.println("mode:" + FenetreParametre.readMode);
 			writer.println("tempsAttente:" + FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture);
+			writer.println("rejouerSon:" + FenetreParametre.rejouerSon);
 			writer.close();
 		}
 	}
@@ -230,7 +233,7 @@ public class ControlFrame extends JFrame {
 			UIManager.put("OptionPane.background", optionPaneBG);
 			UIManager.put("Panel.background", panelBG);
 		}
-		String fichier = "./ressources/preferences/preference_"+Constants.NOM_ELEVE+".txt";
+		String fichier = "./ressources/preferences/preference_" + Constants.NOM_ELEVE + ".txt";
 		if (yes == 0) {
 			// lecture du fichier texte
 			try {
@@ -296,6 +299,9 @@ public class ControlFrame extends JFrame {
 					case 8:
 						tempsPause = Integer.valueOf(ligne.split(":")[1]);
 						break;
+					case 9:
+						FenetreParametre.rejouerSon = Boolean.valueOf(ligne.split(":")[1]);
+						break;
 					default:
 						break;
 					}
@@ -352,8 +358,9 @@ public class ControlFrame extends JFrame {
 			this.setVisible(false);
 			this.pan.controlFrame.setVisible(false);
 			this.pan.fenetre.setVisible(false);
-			Point p = new Point(50,50);
-			new FenetreParametre(Constants.titreFenetreParam, Constants.largeurFenetreParam, Constants.hauteurFenetreParam).setLocation(p);
+			Point p = new Point(50, 50);
+			new FenetreParametre(Constants.titreFenetreParam, Constants.largeurFenetreParam,
+					Constants.hauteurFenetreParam).setLocation(p);
 		});
 		JMenuItem eMenuItem3 = new JMenuItem("Parametres");
 		eMenuItem3.setMnemonic(KeyEvent.VK_P);
@@ -372,8 +379,9 @@ public class ControlFrame extends JFrame {
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).modeSurlignage.setEnabled(false);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).modeNormal.setEnabled(false);
 			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).modeAnticipe.setEnabled(false);
-			//grisage de la taille et du style de la police si on est plus au premier segment
-			if ( (player.getCurrentPhraseIndex()+1) - FenetreParametre.premierSegment != 0 ) {
+			// grisage de la taille et du style de la police si on est plus au premier
+			// segment
+			if ((player.getCurrentPhraseIndex() + 1) - FenetreParametre.premierSegment != 0) {
 				((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).listePolices.setEnabled(false);
 				((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).listeTailles.setEnabled(false);
 			}

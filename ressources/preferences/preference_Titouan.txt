@@ -2,8 +2,9 @@ w:900
 h:700
 x:510
 y:165
-taillePolice:24
+taillePolice:36
 typePolice:OpenDyslexic Bold
 couleur:255/255/150/0/255/0/255/0/0/0/255/255
 mode:NORMAL
 tempsAttente:0
+rejouerSon:true

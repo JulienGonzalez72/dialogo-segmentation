@@ -116,6 +116,9 @@ public class ControleurParam implements ActionListener, ChangeListener {
 				FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture /= 2;
 			}
 		}
+		if (arg0.getSource() == panneau.rejouerSon) {
+			FenetreParametre.rejouerSon = panneau.rejouerSon.isSelected();
+		}
 		if (arg0.getSource() == panneau.valider) {
 			if (verifierValiditeChamp()) {
 				try {

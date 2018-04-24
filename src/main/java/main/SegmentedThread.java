@@ -1,54 +1,48 @@
 package main;
 
 public class SegmentedThread extends ReadThread {
-	
+
 	private ControlerGlobal controler;
-	
+
 	public SegmentedThread(ControlerGlobal controler, int N) {
 		super(N);
 		this.controler = controler;
 	}
-	
+
 	public void run() {
-		/// mapage et mise en page de la totalité du texte ///
-		controler.rebuildPages();
-		/// N = numéro de segment initial ///
-		int N = FenetreParametre.premierSegment - 1;
-		/// tant que N <= nombre de segments du texte ///
-		while (N < controler.getPhrasesCount()) {
-			/// affichage de la page correspondant au segment N ///
-			controler.showPage(controler.getPageOfPhrase(N));
-			/// play du son correspondant au segment N ///
-			controler.play(N);
-			/// attente de la fin du son ///
-			controler.doWait(controler.getCurrentPhraseDuration(), Constants.CURSOR_LISTEN);
-			/// attente de la fin du temps de pause ///
-			controler.doWait(controler.getCurrentWaitTime(), Constants.CURSOR_SPEAK);
-			while (true) {
-				controler.removeWrongHighlights();
-				/// attente d'un clic sur le dernier mot du segment N ///
-				boolean rightClick = controler.waitForClick(N, FenetreParametre.nbFautesTolerees);
-				/// si échec ///
-				if (!rightClick) {
-					/// surlignage du segment de phrase N ///
-					controler.highlightPhrase(Constants.WRONG_PHRASE_COLOR, N);
-					if ( FenetreParametre.rejouerSon) {
-						/// play du son correspondant au segment N ///
-						controler.play(N);
-						/// attente de la fin du son ///
-						controler.doWait(controler.getCurrentPhraseDuration(), Constants.CURSOR_LISTEN);
-					}			
-				}
-				else {
-					/// suppression du surlignage du segment de phrase N ///
-					controler.removeHighlightPhrase(N);
-					break;
+		/// affichage de la page correspondant au segment N ///
+		controler.showPage(controler.getPageOfPhrase(N));
+		/// play du son correspondant au segment N ///
+		controler.play(N);
+		/// attente de la fin du son ///
+		controler.doWait(controler.getCurrentPhraseDuration(), Constants.CURSOR_LISTEN);
+		/// attente de la fin du temps de pause ///
+		controler.doWait(controler.getCurrentWaitTime(), Constants.CURSOR_SPEAK);
+		// attente d'un clic
+		boolean clicJuste = controler.waitForClick(N, FenetreParametre.nbFautesTolerees);
+		boolean rejouer = true;
+		while (!clicJuste) {
+			// surligner phrase avec correction
+			controler.highlightPhrase(Constants.WRONG_PHRASE_COLOR, N);
+			if (FenetreParametre.rejouerSon) {
+				if (rejouer) {
+					/// play du son correspondant au segment N ///
+					controler.play(N);
+					/// attente de la fin du son ///
+					controler.doWait(controler.getCurrentPhraseDuration(), Constants.CURSOR_LISTEN);
+					rejouer = false;
 				}
 			}
-			/// N=N+1 ///
-			N++;
+			clicJuste = controler.waitForClick(N, FenetreParametre.nbFautesTolerees);
 		}
-		
+		// enlever surlignage
+		controler.removeHighlightPhrase(N);
+		controler.removeWrongHighlights();
+		/// appel des écouteurs de fin de segment ///
+		for (Runnable r : onPhraseEnd) {
+			r.run();
+		}
+
 	}
-	
+
 }

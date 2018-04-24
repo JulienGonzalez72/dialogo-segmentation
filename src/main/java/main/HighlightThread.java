@@ -18,25 +18,29 @@ public class HighlightThread extends ReadThread {
 		controler.doWait(controler.getCurrentPhraseDuration(), Constants.CURSOR_LISTEN);
 		/// attente de la fin du temps de pause ///
 		controler.doWait(controler.getCurrentWaitTime(), Constants.CURSOR_SPEAK);
-		//attente d'un clic
+		// attente d'un clic
 		boolean clicJuste = controler.waitForClick(N, FenetreParametre.nbFautesTolerees);
 		boolean trouveDuPremierCoup = clicJuste;
+		boolean rejouer = true;
 		while (!clicJuste) {
-			//surligner phrase avec correction
+			// surligner phrase avec correction
 			controler.highlightPhrase(Constants.WRONG_PHRASE_COLOR, N);
 			if (FenetreParametre.rejouerSon) {
-				/// play du son correspondant au segment N ///
-				controler.play(N);
-				/// attente de la fin du son ///
-				controler.doWait(controler.getCurrentPhraseDuration(), Constants.CURSOR_LISTEN);
-			}	
+				if (rejouer) {
+					/// play du son correspondant au segment N ///
+					controler.play(N);
+					/// attente de la fin du son ///
+					controler.doWait(controler.getCurrentPhraseDuration(), Constants.CURSOR_LISTEN);
+					rejouer = false;
+				}
+			}
 			clicJuste = controler.waitForClick(N, FenetreParametre.nbFautesTolerees);
-		} 	
-		if ( trouveDuPremierCoup) {
-			//surligner phrase avec correction
+		}
+		if (trouveDuPremierCoup) {
+			// surligner phrase avec correction
 			controler.highlightPhrase(Constants.RIGHT_COLOR, N);
-		}		
-		//enlever surlignage rouge
+		}
+		// enlever surlignage rouge
 		controler.removeWrongHighlights();
 		/// appel des écouteurs de fin de segment ///
 		for (Runnable r : onPhraseEnd) {

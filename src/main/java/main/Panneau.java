@@ -63,7 +63,11 @@ public class Panneau extends JPanel {
 		
 		/// construit la mise en page virtuelle ///
 		rebuildPages();
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> f3ea27f70a8017044890d5e5a0404cc565839f41
 		/// initialise le lecteur et le démarre ///
 		player = new Player(textHandler);
 

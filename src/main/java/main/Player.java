@@ -27,9 +27,9 @@ public class Player {
 
 	/**
 	 * Si un temps de pause s'effectue après l'enregistrement (valeur par défaut =
-	 * <code>true</code>).
+	 * <code>false</code>).
 	 */
-	public boolean waitAfter = true;
+	public boolean waitAfter = false;
 
 	/**
 	 * Ecouteurs qui s'enclenchent lorsque un segment a finis d'être prononcé.
@@ -155,12 +155,12 @@ public class Player {
 	 * Arrête la lecture (n'a aucun effet si elle n'est pas en cours).
 	 */
 	public void stop() {
+		if (clip != null) {
+			clip.stop();
+		}
 		if (playTask != null) {
 			playTask.cancel();
 			playTask = null;
-		}
-		if (clip != null) {
-			clip.stop();
 		}
 		playing = false;
 	}

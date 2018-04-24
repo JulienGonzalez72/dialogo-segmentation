@@ -4,7 +4,8 @@ public class SegmentedThread extends ReadThread {
 	
 	private ControlerGlobal controler;
 	
-	public SegmentedThread(ControlerGlobal controler) {
+	public SegmentedThread(ControlerGlobal controler, int N) {
+		super(N);
 		this.controler = controler;
 	}
 	
@@ -46,10 +47,6 @@ public class SegmentedThread extends ReadThread {
 			N++;
 		}
 		
-	}
-
-	@Override
-	public void run(int N) {
 	}
 	
 }

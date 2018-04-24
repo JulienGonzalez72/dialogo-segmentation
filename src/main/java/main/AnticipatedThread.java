@@ -4,7 +4,8 @@ public class AnticipatedThread extends ReadThread {
 	
 	private ControlerGlobal controler;
 	
-	public AnticipatedThread(ControlerGlobal controler) {
+	public AnticipatedThread(ControlerGlobal controler, int N) {
+		super(N);
 		this.controler = controler;
 	}
 	
@@ -30,10 +31,6 @@ public class AnticipatedThread extends ReadThread {
 			/// N=N+1 ///
 			N++;
 		}
-	}
-
-	@Override
-	public void run(int N) {
 	}
 	
 }

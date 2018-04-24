@@ -14,11 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.SwingWorker;
-import javax.swing.text.BadLocationException;
 
 public class ControlerGlobal {
 
-	Panneau p;
+	public Panneau p;
+	private ReadThread activeThread;
 
 	public ControlerGlobal(Panneau p) {
 		this.p = p;
@@ -33,16 +33,32 @@ public class ControlerGlobal {
 	}
 
 	/**
-	 * Se place sur le segment de numero n et démarre le lecteur
+	 * Se place sur le segment de numero n et démarre le lecteur.
 	 */
-	public void goTo(int n) throws BadLocationException {
+	public void goTo(int n) throws IllegalArgumentException {
 		if (n < 0 || n >= p.textHandler.getPhrasesCount()) {
-			throw new BadLocationException("Numéro de segment invalide : " + n, n);
+			throw new IllegalArgumentException("Numéro de segment invalide : " + n);
 		}
 		/*p.showPage(getPageOfPhrase(n));
 		p.player.goTo(n);
 		p.player.play();*/
-		p.task.goTo(n);
+		if (activeThread != null) {
+			activeThread.doStop();
+		}
+		activeThread = getReadThread(n);
+		activeThread.onPhraseEnd.add(new Runnable() {
+			public void run() {
+				/// fin du dernier segment du texte ///
+				if (n == p.textHandler.getPhrasesCount() - 1) {
+					p.afficherCompteRendu();
+				}
+				/// passe au segment suivant ///
+				else {
+					goTo(n + 1);
+				}
+			}
+		});
+		activeThread.start();
 	}
 	
 	/**
@@ -89,7 +105,7 @@ public class ControlerGlobal {
 			Thread.sleep(time);
 			p.setCursor(oldCursor);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 	
@@ -138,7 +154,7 @@ public class ControlerGlobal {
 			int debutRelatifSegment = p.textHandler.getRelativeStartPhrasePosition(p.getNumeroPremierSegmentAffiché(),
 					n);
 			int finRelativeSegment = debutRelatifSegment + p.textHandler.getPhrase(n).length();
-			p.editorPane.surlignerPhrase(debutRelatifSegment, finRelativeSegment, Constants.RIGHT_COLOR);
+			p.editorPane.surlignerPhrase(debutRelatifSegment, finRelativeSegment, c);
 		}
 	}
 
@@ -150,6 +166,14 @@ public class ControlerGlobal {
 		int debutRelatifSegment = p.textHandler.getRelativeStartPhrasePosition(p.getNumeroPremierSegmentAffiché(), n);
 		int finRelativeSegment = debutRelatifSegment + p.textHandler.getPhrase(n).length();
 		p.editorPane.removeHighlight(debutRelatifSegment, finRelativeSegment);
+	}
+	
+	/**
+	 * Arrête l'enregistrement courant et enlève tout le surlignage.
+	 */
+	public void stopAll() {
+		p.player.stop();
+		p.editorPane.désurlignerTout();
 	}
 	
 	/**
@@ -283,6 +307,11 @@ public class ControlerGlobal {
 	 * c'était le dernier segment de la page.
 	 */
 	public void doNext() {
+		if (true) {
+			goTo(p.player.getCurrentPhraseIndex() + 1);
+			return;
+		}
+		
 		// si la page est finis on affiche la suivante
 		if (p.pageFinis()) {
 			p.controlFrame.disableAll();
@@ -405,6 +434,24 @@ public class ControlerGlobal {
 
 	public void highlightUntilPhrase(Color c, int n) {
 		p.surlignerJusquaSegment(c, n);	
+	}
+	
+	/**
+	 * Créé un processus associé à la lecture d'un seul segment dans le mode de lecture actuel.
+	 */
+	public ReadThread getReadThread(int n) {
+		ReadThread t;
+		switch (FenetreParametre.readMode) {
+			case ANTICIPATED : t = new AnticipatedThread(this, n);
+				break;
+			case GUIDED_READING : t = new GuidedThread(this, n);
+				break;
+			case NORMAL : t = new SegmentedThread(this, n);
+				break;
+			default : t = null;
+				break;
+		}
+		return t;
 	}
 
 }

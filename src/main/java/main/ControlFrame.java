@@ -21,7 +21,6 @@ import java.io.UnsupportedEncodingException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.text.BadLocationException;
 
 public class ControlFrame extends JFrame {
 
@@ -119,12 +118,11 @@ public class ControlFrame extends JFrame {
 		panel.add(goToField);
 		goToField.setPreferredSize(new Dimension(40, 20));
 		goToField.addActionListener((ActionEvent e) -> {
-
 			int n;
 			try {
 				n = Integer.parseInt(goToField.getText()) - 1;
 				pan.controlerGlobal.goTo(n);
-			} catch (BadLocationException ex) {
+			} catch (IllegalArgumentException ex) {
 				JOptionPane.showMessageDialog(null, "Numéro de segment incorrect : " + goToField.getText());
 			}
 		});

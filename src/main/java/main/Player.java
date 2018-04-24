@@ -157,6 +157,7 @@ public class Player {
 	public void stop() {
 		if (playTask != null) {
 			playTask.cancel();
+			playTask = null;
 		}
 		if (clip != null) {
 			clip.stop();

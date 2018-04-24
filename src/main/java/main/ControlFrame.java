@@ -67,7 +67,7 @@ public class ControlFrame extends JFrame {
 		playButton.setIcon(new ImageIcon(playIcon));
 		playButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (player.isPlaying()) {
+				/*if (player.isPlaying()) {
 					player.pause();
 				} else if (player.isPhraseFinished()) {
 					player.repeat();
@@ -79,6 +79,12 @@ public class ControlFrame extends JFrame {
 					} else {
 						player.play();
 					}
+				}*/
+				if (player.isPlaying()) {
+					pan.controlerGlobal.doStop();
+				}
+				else {
+					pan.controlerGlobal.doPlay();
 				}
 				updateButtons();
 			}
@@ -99,7 +105,7 @@ public class ControlFrame extends JFrame {
 		repeatButton.setEnabled(false);
 		repeatButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				player.repeat();
+				pan.controlerGlobal.doPlay();
 				updateButtons();
 			}
 		});
@@ -127,6 +133,7 @@ public class ControlFrame extends JFrame {
 		});
 
 		addMenu();
+		updateButtons();
 	}
 
 	public void updateButtons() {

@@ -2,11 +2,8 @@ package main;
 
 public class GuidedThread extends ReadThread {
 	
-	private ControlerGlobal controler;
-	
 	public GuidedThread(ControlerGlobal controler, int N) {
-		super(N);
-		this.controler = controler;
+		super(controler, N);
 	}
 	
 	public void run() {

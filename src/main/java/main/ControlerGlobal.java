@@ -18,6 +18,9 @@ import java.util.List;
 public class ControlerGlobal {
 
 	public Panneau p;
+	/**
+	 * Thread de lecture actif
+	 */
 	private ReadThread activeThread;
 
 	public ControlerGlobal(Panneau p) {
@@ -314,77 +317,29 @@ public class ControlerGlobal {
 	public void doNext() {
 		if (true) {
 			goTo(p.player.getCurrentPhraseIndex() + 1);
-			return;
 		}
-		
-		// si la page est finis on affiche la suivante
-		/*if (p.pageFinis()) {
-			p.controlFrame.disableAll();
-			new SwingWorker<Object, Object>() {
-				// Ce traitement sera exécuté dans un autre thread :
-				protected Object doInBackground() throws Exception {
-					Thread.sleep(Constants.PAGE_WAIT_TIME);
-					return null;
-				}
-
-				// Ce traitement sera exécuté à la fin dans l'EDT
-				protected void done() {
-					if (p.hasNextPage()) {
-						p.controlFrame.enableAll();
-						p.player.nextPhrase();
-						p.afficherPageSuivante();
-					} else {
-						p.afficherCompteRendu();
-					}
-				}
-			}.execute();
-		} else {
-			if (FenetreParametre.readMode != ReadMode.ANTICIPATED) {
-				p.player.nextPhrase();
-			}
-			/// en mode lecture anticipée, attend d'abord ///
-			else {
-				p.player.nextPhrase();
-				p.player.stop();
-				p.player.doWait();
-			}
-		}
-		if (FenetreParametre.readMode != ReadMode.GUIDED_READING && FenetreParametre.readMode != ReadMode.ANTICIPATED) {
-			updateHighlight();
-		} else {
-			p.editorPane.désurlignerTout();
-			highlightPhrase(Constants.RIGHT_COLOR, p.player.getCurrentPhraseIndex());
-		}*/
 	}
 
 	/**
 	 * Essaye de passer au segment précédent.
 	 */
 	public void doPrevious() {
-		if (true) {
-			goTo(p.player.getCurrentPhraseIndex() - 1);
-			return;
-		}
-		
-		/*if (FenetreParametre.readMode != ReadMode.ANTICIPATED) {
-			p.player.previousPhrase();
-		}
-		/// en mode lecture anticipée, attend d'abord ///
-		else {
-			p.player.previousPhrase();
-			p.player.stop();
-			p.player.doWait();
-		}
-		// si on était au premier segment de la page on affiche la page précédente
-		if (p.player.getCurrentPhraseIndex() == p.getNumeroPremierSegmentAffiché()) {
-			p.afficherPagePrecedente();
-		}
-		if (FenetreParametre.readMode != ReadMode.GUIDED_READING && FenetreParametre.readMode != ReadMode.ANTICIPATED) {
-			updateHighlight();
-		} else {
-			p.editorPane.désurlignerTout();
-			highlightPhrase(Constants.RIGHT_COLOR, p.player.getCurrentPhraseIndex());
-		}*/
+		goTo(p.player.getCurrentPhraseIndex() - 1);
+	}
+	
+	/**
+	 * Essaye d'arrêter l'enregistrement en cours.
+	 */
+	public void doStop() {
+		p.player.stop();
+		activeThread.doStop();
+	}
+	
+	/**
+	 * Essaye de reprendre l'enregistrement. Si il est déjà démarré, reprend depuis le début.
+	 */
+	public void doPlay() {
+		goTo(p.player.getCurrentPhraseIndex());
 	}
 
 	public void sauvegarder() {

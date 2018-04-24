@@ -242,7 +242,7 @@ public class Player {
 	 * Retourne true si il y a au moins un segment avant le segment actuel.
 	 */
 	public boolean hasPreviousPhrase() {
-		return currentPhrase > 0;
+		return currentPhrase > FenetreParametre.premierSegment - 1;
 	}
 
 	/**

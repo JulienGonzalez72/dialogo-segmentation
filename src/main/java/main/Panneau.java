@@ -62,8 +62,13 @@ public class Panneau extends JPanel {
 		nbEssaisRestantPourLeSegmentCourant = nbEssaisParSegment = FenetreParametre.nbFautesTolerees;
 		
 		/// construit la mise en page virtuelle ///
+<<<<<<< HEAD
 		rebuildPages();
 		
+=======
+		//rebuildPages();
+
+>>>>>>> c4f57c48c5bd986079425d29dec62304a05b4053
 		/// initialise le lecteur et le démarre ///
 		player = new Player(textHandler);
 
@@ -128,10 +133,13 @@ public class Panneau extends JPanel {
 				break;
 			case NORMAL : task = new SegmentedThread(controlerGlobal);
 				break;
+			case HIGHLIGHT : task = new HighlightThread(controlerGlobal);
+				break;
 			default : System.exit(-1);
 				break;
 		}
 		task.start();
+<<<<<<< HEAD
 		
 		task.onPhraseEnd.add(new Runnable () {public void run() {
 			task.interrupt();
@@ -140,6 +148,8 @@ public class Panneau extends JPanel {
 			task.start();
 		}});*/
 		controlerGlobal.goTo(0);
+=======
+>>>>>>> c4f57c48c5bd986079425d29dec62304a05b4053
 
 		controlFrame = new ControlFrame(this);
 		controlerKey = new ControlerKey(player);
@@ -220,6 +230,12 @@ public class Panneau extends JPanel {
 			List<Integer> phrases = new ArrayList<>();
 			editorPane.setText(text);
 			int h = 0;
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			try {
 				h = editorPane.modelToView(0).height;
 			} catch (BadLocationException e) {

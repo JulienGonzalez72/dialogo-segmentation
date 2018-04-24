@@ -16,7 +16,6 @@ public class TextPane extends JTextPane {
 	private List<Object> redHighlightTags = new ArrayList<>();
 	private List<Object> blueHighlightTags = new ArrayList<>();
 	private List<Object> greenHighlightTags = new ArrayList<>();
-	private List<Object> blueHighlightTagsMemory = new ArrayList<>();
 
 	public TextPane() {
 		setFont(FenetreParametre.police);
@@ -67,7 +66,6 @@ public class TextPane extends JTextPane {
 		for (Object tag : blueHighlightTags) {
 			getHighlighter().removeHighlight(tag);
 		}
-		blueHighlightTagsMemory.addAll(blueHighlightTags);
 		blueHighlightTags.clear();
 	}
 
@@ -91,40 +89,7 @@ public class TextPane extends JTextPane {
 		indiceDernierCaractereSurligné = 0;
 		redHighlightTags.clear();
 		greenHighlightTags.clear();
-		blueHighlightTagsMemory.addAll(blueHighlightTags);
 		blueHighlightTags.clear();
-	}
-
-	private static ArrayList<Object> antiDoublon(ArrayList<Object> al) {
-		ArrayList<Object> al2 = new ArrayList<Object>();
-		for (int i = 0; i < al.size(); i++) {
-			Object o = al.get(i);
-			if (!al2.contains(o))
-				al2.add(o);
-		}
-		al = null;
-		return al2;
-	}
-
-	public void retablirSurlignageBlue() {
-		System.out.println(blueHighlightTagsMemory.toString());
-		blueHighlightTags.addAll(blueHighlightTagsMemory);
-		blueHighlightTags = TextPane.antiDoublon((ArrayList<Object>) blueHighlightTags);
-		blueHighlightTagsMemory = TextPane.antiDoublon((ArrayList<Object>) blueHighlightTagsMemory);
-		Highlighter highlighter = this.getHighlighter();
-		HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(Constants.WRONG_PHRASE_COLOR);
-		for (Object o : blueHighlightTags) {
-			Highlight temp = (Highlight) o;
-			try {
-				Panneau pan = (Panneau) getParent();
-				// TextHandler handler = pan.textHandler;
-				// TODO modifier ce try pour que cela marche dans les pages suivantes
-				highlighter.addHighlight(temp.getStartOffset() + pan.getPagesLength(pan.pageActuelle),
-						temp.getEndOffset() + pan.getPagesLength(pan.pageActuelle), painter);
-			} catch (BadLocationException e) {
-				e.printStackTrace();
-			}
-		}
 	}
 
 	/**
@@ -152,7 +117,6 @@ public class TextPane extends JTextPane {
 
 	public void updateColors() throws BadLocationException {
 		List<Object> newBlue = new ArrayList<>();
-		List<Object> newBlueMemory = new ArrayList<>();
 		List<Object> newGreen = new ArrayList<>();
 		List<Object> newRed = new ArrayList<>();
 		for (Object object : blueHighlightTags) {
@@ -173,19 +137,12 @@ public class TextPane extends JTextPane {
 					new DefaultHighlighter.DefaultHighlightPainter(Constants.RIGHT_COLOR));
 			newGreen.add(object);
 		}
-		for (Object object : blueHighlightTagsMemory) {
-			Highlight g = (Highlight) object;
-			object = getHighlighter().addHighlight(g.getStartOffset(), g.getEndOffset(),
-					new DefaultHighlighter.DefaultHighlightPainter(Constants.WRONG_PHRASE_COLOR));
-			newBlueMemory.add(object);
-		}
 		enleverSurlignageBleu();
 		enleverSurlignageRouge();
 		enleverSurlignageVert();
 		blueHighlightTags = newBlue;
 		redHighlightTags = newRed;
 		greenHighlightTags = newGreen;
-		blueHighlightTagsMemory = newBlueMemory;
 	}
 
 }

@@ -53,7 +53,6 @@ public class ControleurParam implements ActionListener, ChangeListener {
 				Constants.WRONG_COLOR = color;
 			}
 			if (jcb == panneau.listeCorrectionCouleurs) {
-				
 				Constants.WRONG_PHRASE_COLOR = color;
 			}
 			if (jcb == panneau.listeBonnesCouleurs) {
@@ -88,15 +87,6 @@ public class ControleurParam implements ActionListener, ChangeListener {
 		if (arg0.getSource() == panneau.modeSurlignage) {
 			if (((JRadioButton) arg0.getSource()).isSelected()) {
 				FenetreParametre.readMode = ReadMode.HIGHLIGHT;
-				if (FenetreParametre.fen.fenetre.pan.player != null) {
-					FenetreParametre.fen.fenetre.pan.editorPane.retablirSurlignageBlue();
-					FenetreParametre.fen.fenetre.pan.surlignerJusquaSegment(Constants.RIGHT_COLOR,
-							FenetreParametre.fen.fenetre.pan.player.getCurrentPhraseIndex() - 1);
-				}
-			} else {
-				if (FenetreParametre.editorPane != null) {
-					FenetreParametre.editorPane.désurlignerTout();
-				}
 			}
 		}
 		if (arg0.getSource() == panneau.modeKaraoke) {
@@ -117,8 +107,15 @@ public class ControleurParam implements ActionListener, ChangeListener {
 				FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture /= 2;
 			}
 		}
+		if (arg0.getSource() == panneau.rejouerSon) {
+			FenetreParametre.rejouerSon = panneau.rejouerSon.isSelected();
+		}
 		if (arg0.getSource() == panneau.valider) {
 			if (verifierValiditeChamp()) {
+				try {
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
 				// si on a pas encore lancé l'exercice
 				if (FenetreParametre.editorPane == null) {
 					try {
@@ -144,16 +141,18 @@ public class ControleurParam implements ActionListener, ChangeListener {
 					FenetreParametre.fen.fenetre.pan.controlFrame.setEnabled(true);
 					panneau.fermer();
 					FenetreParametre.nbFautesTolerees = Integer.valueOf(panneau.champNbFautesTolerees.getText());
-					FenetreParametre.fen.fenetre.pan.nbEssaisParSegment = Integer.valueOf(panneau.champNbFautesTolerees.getText());
+					FenetreParametre.fen.fenetre.pan.nbEssaisParSegment = Integer
+							.valueOf(panneau.champNbFautesTolerees.getText());
 					Panneau.defautNBEssaisParSegment = Integer.valueOf(panneau.champNbFautesTolerees.getText());
 					FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture = panneau.sliderAttente.getValue();
 					if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
 						FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture *= 2;
-					}
-					try {
-						FenetreParametre.editorPane.updateColors();
-					} catch (BadLocationException e) {
-						e.printStackTrace();
+					} else if (FenetreParametre.readMode == ReadMode.HIGHLIGHT) {
+						try {
+							FenetreParametre.editorPane.updateColors();
+						} catch (BadLocationException e) {
+							e.printStackTrace();
+						}
 					}
 				}
 			}
@@ -178,6 +177,26 @@ public class ControleurParam implements ActionListener, ChangeListener {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public static Font getFont(String police, int style, int size) {
+		int index = -1;
+		if (police.equals("OpenDyslexic") || police.equals("OpenDyslexic Bold")) {
+			index = 0;
+		}
+		if (police.equals("Andika") || police.equals("Andika Basic")) {
+			index = 1;
+		}
+		if (police.equals("Lexia")) {
+			index = 2;
+		}
+		if (police.equals("Arial") || police.equals("Arial Gras")) {
+			index = 3;
+		}
+		if (police.equals("Times New Roman") || police.equals("Times New Roman Gras")) {
+			index = 4;
+		}
+		return getFont(police, index, style, size);
 	}
 
 	@Override

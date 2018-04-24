@@ -102,9 +102,6 @@ public class ControleurParam implements ActionListener, ChangeListener {
 		if (arg0.getSource() == panneau.modeAnticipe) {
 			if (panneau.modeAnticipe.isSelected()) {
 				FenetreParametre.readMode = ReadMode.ANTICIPATED;
-				FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture *= 2;
-			} else {
-				FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture /= 2;
 			}
 		}
 		if (arg0.getSource() == panneau.rejouerSon) {
@@ -145,9 +142,9 @@ public class ControleurParam implements ActionListener, ChangeListener {
 							.valueOf(panneau.champNbFautesTolerees.getText());
 					Panneau.defautNBEssaisParSegment = Integer.valueOf(panneau.champNbFautesTolerees.getText());
 					FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture = panneau.sliderAttente.getValue();
-					if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
+					/*if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
 						FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture *= 2;
-					} else if (FenetreParametre.readMode == ReadMode.HIGHLIGHT) {
+					} else */if (FenetreParametre.readMode == ReadMode.HIGHLIGHT) {
 						try {
 							FenetreParametre.editorPane.updateColors();
 						} catch (BadLocationException e) {

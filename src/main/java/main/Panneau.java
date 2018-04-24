@@ -28,6 +28,7 @@ public class Panneau extends JPanel {
 	public ControlerGlobal controlerGlobal;
 	public ControlerKey controlerKey;
 	public ControlerMouse controlerMouse;
+	public ReadThread task;
 
 	public Map<Integer, List<Integer>> segmentsEnFonctionDeLaPage = new HashMap<Integer, List<Integer>>();
 
@@ -61,16 +62,11 @@ public class Panneau extends JPanel {
 		nbEssaisRestantPourLeSegmentCourant = nbEssaisParSegment = FenetreParametre.nbFautesTolerees;
 
 		/// construit la mise en page virtuelle ///
-<<<<<<< HEAD
 		//rebuildPages();
-=======
-		/// rebuildPages();
->>>>>>> 03d038fd75a72cbbe6ada2b7736faad07f41463f
 
 		/// initialise le lecteur et le démarre ///
 		player = new Player(textHandler);
-
-<<<<<<< HEAD
+		
 		/*if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
 			player.waitAfter = false;
 		}
@@ -124,57 +120,18 @@ public class Panneau extends JPanel {
 			controlFrame.disableAll();
 		});
 		player.goTo(FenetreParametre.premierSegment - 1);*/
-
-		Thread t = new AnticipatedThread(controlerGlobal);
-		t.start();
-=======
-		/*
-		 * if (FenetreParametre.readMode == ReadMode.ANTICIPATED) { player.waitAfter =
-		 * false; } player.onPreviousPhrase.add(() -> {
-		 * 
-		 * }); player.onBlockEnd.add(() -> { controlFrame.enableAll();
-		 * 
-		 * if (FenetreParametre.readMode != ReadMode.GUIDED_READING &&
-		 * FenetreParametre.readMode != ReadMode.ANTICIPATED) {
-		 * setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); } /// en mode
-		 * lecture guidée, passe directement au segment suivant /// else if
-		 * (FenetreParametre.readMode == ReadMode.GUIDED_READING) {
-		 * controlerGlobal.doNext(); } /// en mode lecture anticipée, joue
-		 * l'enregistrement après le temps de pause /// else if
-		 * (FenetreParametre.readMode == ReadMode.ANTICIPATED) { player.play(); } });
-		 * player.onPhraseEnd.add(() -> { /// en mode lecture anticipée, passe au
-		 * segment suivant /// if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
-		 * controlerGlobal.doNext(); } }); player.onPlay.add(() -> { /// empêche le
-		 * redimensionnement lors de la première lecture ///
-		 * fenetre.setResizable(false);
-		 * 
-		 * /// change le curseur pour indiquer que l'utilisateur doit écouter la phrase
-		 * Toolkit tk = Toolkit.getDefaultToolkit(); Image img =
-		 * tk.getImage("ecouter.png"); Cursor monCurseur = tk.createCustomCursor(img,
-		 * new Point(16, 16), "ecouter.png"); setCursor(monCurseur);
-		 * 
-		 * if (FenetreParametre.readMode == ReadMode.GUIDED_READING ||
-		 * FenetreParametre.readMode == ReadMode.ANTICIPATED) {
-		 * editorPane.désurlignerTout();
-		 * controlerGlobal.highlightPhrase(Constants.RIGHT_COLOR,
-		 * player.getCurrentPhraseIndex()); }
-		 * 
-		 * controlerGlobal.sauvegarder();
-		 * 
-		 * controlFrame.goToField.setText(String.valueOf(player.getCurrentPhraseIndex()
-		 * + 1)); }); player.onWait.add(() -> { /// change le curseur pour indiquer que
-		 * l'utilisateur doit répéter /// Toolkit tk = Toolkit.getDefaultToolkit();
-		 * Image img = tk.getImage("parler.png"); Cursor monCurseur =
-		 * tk.createCustomCursor(img, new Point(16, 16), "parler.png");
-		 * setCursor(monCurseur);
-		 * 
-		 * controlFrame.disableAll(); }); player.goTo(FenetreParametre.premierSegment -
-		 * 1);
-		 */
->>>>>>> 03d038fd75a72cbbe6ada2b7736faad07f41463f
-
-		Thread t = new AnticipatedThread(controlerGlobal);
-		t.start();
+		
+		switch (FenetreParametre.readMode) {
+			case ANTICIPATED : task = new AnticipatedThread(controlerGlobal);
+				break;
+			case GUIDED_READING : task = new GuidedThread(controlerGlobal);
+				break;
+			case NORMAL : task = new SegmentedThread(controlerGlobal);
+				break;
+			default : System.exit(-1);
+				break;
+		}
+		task.start();
 
 		controlFrame = new ControlFrame(this);
 		controlerKey = new ControlerKey(player);

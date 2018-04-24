@@ -1,6 +1,6 @@
 package main;
 
-public class GuidedThread extends Thread {
+public class GuidedThread extends ReadThread {
 	
 	private ControlerGlobal controler;
 	
@@ -12,7 +12,8 @@ public class GuidedThread extends Thread {
 		/// mapage et mise en page de la totalité du texte ///
 		controler.rebuildPages();
 		/// N = numéro de segment initial ///
-		int N = FenetreParametre.premierSegment - 1;
+		//int N = FenetreParametre.premierSegment - 1;
+		//run(N);
 		/// tant que N <= nombre de segments du texte ///
 		while (N < controler.getPhrasesCount() - 1) {
 			/// affichage de la page correspondant au segment N ///
@@ -30,6 +31,11 @@ public class GuidedThread extends Thread {
 			/// N=N+1 ///
 			N++;
 		}
+	}
+
+	@Override
+	public void run(int N) {
+		
 	}
 	
 }

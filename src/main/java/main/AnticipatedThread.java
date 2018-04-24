@@ -1,6 +1,6 @@
 package main;
 
-public class AnticipatedThread extends Thread {
+public class AnticipatedThread extends ReadThread {
 	
 	private ControlerGlobal controler;
 	
@@ -30,6 +30,10 @@ public class AnticipatedThread extends Thread {
 			/// N=N+1 ///
 			N++;
 		}
+	}
+
+	@Override
+	public void run(int N) {
 	}
 	
 }

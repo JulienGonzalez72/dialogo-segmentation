@@ -31,9 +31,10 @@ public class ControlerGlobal {
 		if (n < 0 || n >= p.textHandler.getPhrasesCount()) {
 			throw new BadLocationException("Numéro de segment invalide : " + n, n);
 		}
-		p.showPage(getPageOfPhrase(n));
+		/*p.showPage(getPageOfPhrase(n));
 		p.player.goTo(n);
-		p.player.play();
+		p.player.play();*/
+		p.task.goTo(n);
 	}
 	
 	/**

@@ -1,6 +1,6 @@
 package main;
 
-public class SegmentedThread extends Thread {
+public class SegmentedThread extends ReadThread {
 	
 	private ControlerGlobal controler;
 	
@@ -46,6 +46,10 @@ public class SegmentedThread extends Thread {
 			N++;
 		}
 		
+	}
+
+	@Override
+	public void run(int N) {
 	}
 	
 }

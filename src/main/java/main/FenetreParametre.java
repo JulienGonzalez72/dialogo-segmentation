@@ -184,10 +184,8 @@ public class FenetreParametre extends JFrame {
 			panelSud.add(new JLabel());
 			rejouerSon = fastCheckBox("Rejouer les phrases si erreur", controleur);
 			rejouerSon.setSelected(true);
-			JPanel temp = new JPanel(new GridLayout(1, 3));
-			temp.add(new JLabel());
+			JPanel temp = new JPanel();
 			temp.add(rejouerSon);
-			temp.add(new JLabel());
 			panelSud.add(temp);
 
 			panelModes = new JPanel(new GridLayout(1, 4));

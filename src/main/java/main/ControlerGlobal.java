@@ -84,13 +84,12 @@ public class ControlerGlobal {
 		p.buildPages(FenetreParametre.premierSegment - 1);
 	}
 	
-	public long getPhraseDuration(int phrase) {
-		p.player.load(phrase);
+	public long getCurrentPhraseDuration() {
 		return p.player.getDuration();
 	}
 	
-	public long getWaitTime(int phrase) {
-		return (long) (getPhraseDuration(phrase) * FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture / 100.);
+	public long getCurrentWaitTime() {
+		return (long) (getCurrentPhraseDuration() * FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture / 100.);
 	}
 	
 	/**
@@ -356,6 +355,11 @@ public class ControlerGlobal {
 	 * Essaye de passer au segment précédent.
 	 */
 	public void doPrevious() {
+		if (true) {
+			goTo(p.player.getCurrentPhraseIndex() + 1);
+			return;
+		}
+		
 		if (FenetreParametre.readMode != ReadMode.ANTICIPATED) {
 			p.player.previousPhrase();
 		}

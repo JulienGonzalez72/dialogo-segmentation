@@ -84,6 +84,11 @@ public class ControlerGlobal {
 		p.buildPages(FenetreParametre.premierSegment - 1);
 	}
 	
+	public long getPhraseDuration(int phrase) {
+		p.player.load(phrase);
+		return p.player.getDuration();
+	}
+	
 	public long getCurrentPhraseDuration() {
 		return p.player.getDuration();
 	}
@@ -364,7 +369,7 @@ public class ControlerGlobal {
 			return;
 		}
 		
-		if (FenetreParametre.readMode != ReadMode.ANTICIPATED) {
+		/*if (FenetreParametre.readMode != ReadMode.ANTICIPATED) {
 			p.player.previousPhrase();
 		}
 		/// en mode lecture anticipée, attend d'abord ///
@@ -382,7 +387,7 @@ public class ControlerGlobal {
 		} else {
 			p.editorPane.désurlignerTout();
 			highlightPhrase(Constants.RIGHT_COLOR, p.player.getCurrentPhraseIndex());
-		}
+		}*/
 	}
 
 	public void sauvegarder() {

@@ -15,9 +15,9 @@ public class HighlightThread extends ReadThread {
 		/// play du son correspondant au segment N ///
 		controler.play(N);
 		/// attente de la fin du son ///
-		controler.doWait(controler.getPhraseDuration(N), Constants.CURSOR_LISTEN);
+		controler.doWait(controler.getCurrentPhraseDuration(), Constants.CURSOR_LISTEN);
 		/// attente de la fin du temps de pause ///
-		controler.doWait(controler.getWaitTime(N), Constants.CURSOR_SPEAK);
+		controler.doWait(controler.getCurrentWaitTime(), Constants.CURSOR_SPEAK);
 		//attente d'un clic
 		boolean clicJuste = controler.waitForClick(N, FenetreParametre.nbFautesTolerees);
 		boolean trouveDuPremierCoup = clicJuste;
@@ -28,7 +28,7 @@ public class HighlightThread extends ReadThread {
 				/// play du son correspondant au segment N ///
 				controler.play(N);
 				/// attente de la fin du son ///
-				controler.doWait(controler.getPhraseDuration(N), Constants.CURSOR_LISTEN);
+				controler.doWait(controler.getCurrentPhraseDuration(), Constants.CURSOR_LISTEN);
 			}	
 			clicJuste = controler.waitForClick(N, FenetreParametre.nbFautesTolerees);
 		} 	

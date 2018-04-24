@@ -32,6 +32,7 @@ public class ControlerMouse implements MouseListener {
 	}
 
 	public void mouseClicked(MouseEvent e) {
+		
 	}
 
 	public void mouseReleased(MouseEvent e) {

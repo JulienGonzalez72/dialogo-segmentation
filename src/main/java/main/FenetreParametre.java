@@ -74,7 +74,7 @@ public class FenetreParametre extends JFrame {
 			setLayout(new BorderLayout());
 			JLabel titre = fastLabel("Choisissez vos parametres");
 			titre.setBorder(BorderFactory.createLineBorder(Color.blue, 2));
-			add(titre,BorderLayout.NORTH);
+			add(titre, BorderLayout.NORTH);
 
 			valider = fastButton("Valider les parametres", new Font("OpenDyslexic", Font.BOLD, 18), Color.green);
 			JLabel police = fastLabel("Police : ");
@@ -85,7 +85,7 @@ public class FenetreParametre extends JFrame {
 			JLabel couleurCorrection = fastLabel("Couleur de correction : ");
 			JLabel segments = fastLabel("Segment de départ ");
 			JLabel attente = fastLabel("Temps d'attente en % du temps de lecture");
-			
+
 			polices = new Object[] { "OpenDyslexic", "Andika", "Lexia", "Arial", "Times New Roman" };
 			tailles = new Object[] { "12", "16", "18", "20", "22", "24", "30", "36", "42" };
 			couleurs = new Object[] { "Jaune", "Blanc", "Orange", "Rose", "Bleu", "Rouge", "Vert" };
@@ -135,29 +135,28 @@ public class FenetreParametre extends JFrame {
 			JLabel nbFautesTolerees = fastLabel("Nombre de fautes maximum");
 			champNbFautesTolerees = fastTextField("", new Font("OpenDyslexic", Font.PLAIN, 15), "2");
 			champNbFautesTolerees.addActionListener(controleur);
-			
 
 			JPanel midPanel = new JPanel(new GridLayout(8, 2));
-			
+
 			midPanel.add(police);
 			midPanel.add(taillePolice);
-			fastCentering(listePolices, midPanel,"   ");
-			fastCentering(listeTailles, midPanel,"   ");
-			
+			fastCentering(listePolices, midPanel, "   ");
+			fastCentering(listeTailles, midPanel, "   ");
+
 			midPanel.add(segments);
 			midPanel.add(nbFautesTolerees);
-			fastCentering(segmentDeDepart, midPanel,"   ");
-			fastCentering(champNbFautesTolerees, midPanel,"   ");
-			
-			midPanel.add(couleurDeFond);	
+			fastCentering(segmentDeDepart, midPanel, "   ");
+			fastCentering(champNbFautesTolerees, midPanel, "   ");
+
+			midPanel.add(couleurDeFond);
 			midPanel.add(couleurJuste);
-			fastCentering(listeCouleurs, midPanel,"   ");
-			fastCentering(listeBonnesCouleurs, midPanel,"   ");
-			
+			fastCentering(listeCouleurs, midPanel, "   ");
+			fastCentering(listeBonnesCouleurs, midPanel, "   ");
+
 			midPanel.add(couleurFausse);
 			midPanel.add(couleurCorrection);
-			fastCentering(listeMauvaisesCouleurs, midPanel,"   ");
-			fastCentering(listeCorrectionCouleurs, midPanel,"   ");
+			fastCentering(listeMauvaisesCouleurs, midPanel, "   ");
+			fastCentering(listeCorrectionCouleurs, midPanel, "   ");
 
 			modeAnticipe = fastRadio("Mode Anticipé", controleur);
 			modeSurlignage = fastRadio("Mode Surlignage", controleur);
@@ -180,17 +179,17 @@ public class FenetreParametre extends JFrame {
 			sliderAttente.setMinorTickSpacing(10);
 			sliderAttente.setMajorTickSpacing(50);
 			sliderAttente.addChangeListener(controleur);
-			
-			JPanel panelSud = new JPanel(new GridLayout(9,1));
+
+			JPanel panelSud = new JPanel(new GridLayout(9, 1));
 			panelSud.add(new JLabel());
-			rejouerSon = fastCheckBox("Rejouer les phrases si erreur",controleur);
+			rejouerSon = fastCheckBox("Rejouer les phrases si erreur", controleur);
 			rejouerSon.setSelected(true);
 			JPanel temp = new JPanel(new GridLayout(1, 3));
 			temp.add(new JLabel());
 			temp.add(rejouerSon);
 			temp.add(new JLabel());
 			panelSud.add(temp);
-			
+
 			panelModes = new JPanel(new GridLayout(1, 4));
 			panelModes.add(modeKaraoke);
 			panelModes.add(modeSurlignage);
@@ -204,16 +203,15 @@ public class FenetreParametre extends JFrame {
 			panelSud.add(new JLabel());
 			panelSud.add(valider);
 
-			add(midPanel,BorderLayout.CENTER);
-			add(panelSud,BorderLayout.SOUTH);
-			
-			
+			add(midPanel, BorderLayout.CENTER);
+			add(panelSud, BorderLayout.SOUTH);
+
 			chargerPreferences();
 
 		}
 
 		public void chargerPreferences() throws NumberFormatException, IOException {
-			String fichier = "./ressources/preferences/preference_"+Constants.NOM_ELEVE+".txt";
+			String fichier = "./ressources/preferences/preference_" + Constants.NOM_ELEVE + ".txt";
 			InputStream ips;
 			try {
 				ips = new FileInputStream(fichier);
@@ -317,9 +315,7 @@ public class FenetreParametre extends JFrame {
 						sliderAttente.setValue(Integer.valueOf(ligne.split(":")[1]));
 						break;
 					case 9:
-						if ( Boolean.valueOf(ligne.split(":")[1])) {
-							rejouerSon.setSelected(true);
-						}
+						rejouerSon.setSelected(Boolean.valueOf(ligne.split(":")[1]));
 						break;
 					default:
 						break;
@@ -392,7 +388,7 @@ public class FenetreParametre extends JFrame {
 			r.setHorizontalTextPosition(JRadioButton.CENTER);
 			return r;
 		}
-		
+
 		private JCheckBox fastCheckBox(String nom, ControleurParam controleur) {
 			JCheckBox r = new JCheckBox(nom);
 			r.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
@@ -401,7 +397,6 @@ public class FenetreParametre extends JFrame {
 			r.setHorizontalTextPosition(JRadioButton.CENTER);
 			return r;
 		}
-
 
 		public JTextField fastTextField(String nom, Font font, String texteParDefaut) {
 			JTextField r = new JTextField(nom);
@@ -421,12 +416,14 @@ public class FenetreParametre extends JFrame {
 
 		/**
 		 * Centre le composant c dans le panneau p
-		 * @param marge = taille de la marge
+		 * 
+		 * @param marge
+		 *            = taille de la marge
 		 */
 		private void fastCentering(Component c, JPanel p, String marge) {
 			JPanel temp = new JPanel(new BorderLayout());
-			temp.add(new JLabel(marge), BorderLayout.WEST);			
-			temp.add(c,BorderLayout.CENTER);
+			temp.add(new JLabel(marge), BorderLayout.WEST);
+			temp.add(c, BorderLayout.CENTER);
 			temp.add(new JLabel(marge), BorderLayout.EAST);
 			p.add(temp);
 		}

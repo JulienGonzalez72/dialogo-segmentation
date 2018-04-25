@@ -11,8 +11,6 @@ public class SegmentedThread extends ReadThread {
 		controler.showPage(controler.getPageOfPhrase(N));
 		/// play du son correspondant au segment N ///
 		controler.play(N);
-		/// attente de la fin du son ///
-		controler.doWait(controler.getCurrentPhraseDuration(), Constants.CURSOR_LISTEN);
 		/// attente de la fin du temps de pause ///
 		controler.doWait(controler.getCurrentWaitTime(), Constants.CURSOR_SPEAK);
 		int nbTry = FenetreParametre.nbFautesTolerees;
@@ -24,13 +22,9 @@ public class SegmentedThread extends ReadThread {
 				controler.highlightPhrase(Constants.WRONG_PHRASE_COLOR, N);
 				// rejouer son
 				controler.play(N);
-				/// attente de la fin du son ///
-				controler.doWait(controler.getCurrentPhraseDuration(), Constants.CURSOR_LISTEN);
 			} else {
 				if (FenetreParametre.rejouerSon) {
 					controler.play(N);
-					/// attente de la fin du son ///
-					controler.doWait(controler.getCurrentPhraseDuration(), Constants.CURSOR_LISTEN);
 				}
 			}
 		}

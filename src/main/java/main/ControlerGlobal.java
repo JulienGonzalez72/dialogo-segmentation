@@ -71,15 +71,11 @@ public class ControlerGlobal {
 	public void showPage(int page) {
 		p.showPage(page);
 	}
-<<<<<<< HEAD
 	
 	/**
 	 * Joue un fichier .wav correspondant à un segment de phrase.
 	 * On sortira de cette fonction lorsque le fichier .wav aura été totalement joué.
 	 */
-=======
-
->>>>>>> 490a820b667f27b34ec69b144c3918fb3d04f38b
 	public void play(int phrase) {
 		p.setCursor(Constants.CURSOR_LISTEN);
 		p.player.play(phrase);
@@ -141,19 +137,10 @@ public class ControlerGlobal {
 	 * <li>Paramètre d’entrée 1: Numéro de segment</li>
 	 * <li>Paramètre d’entrée 2 : Nombre d’essais autorisé</li>
 	 * <li>Paramètre de sortie : True ou False (réussite)</li>
-<<<<<<< HEAD
 	 * <li>On sort de cette fonction lorsqu’un clic a été réalisé.
 	 * Si le clic a été réalisé sur le bon mot on sort avec true, et si le clic a été réalisé sur une partie erronée,
 	 * on surligne cette partie avec une couleur qui indique une erreur, Rouge ? En paramètre ?
 	 * Et on sort avec False.
-=======
-	 * <li>On ne sort de cette fonction que lorsqu’un clic sur le dernier mot du
-	 * segment a été réalisé (dans ce cas on sort avec true) ou le Nombre d’essais
-	 * autorisés (qui peut être égal à 1) a été atteint (dans ce cas on sort avec
-	 * false).</li>
-	 * <li>Si le clic se fait sur une partie erronée, on surligne cette partie avec
-	 * une couleur qui indique une erreur</li>
->>>>>>> 490a820b667f27b34ec69b144c3918fb3d04f38b
 	 * </ul>
 	 */
 	public boolean waitForClick(int n, int nbTry) {

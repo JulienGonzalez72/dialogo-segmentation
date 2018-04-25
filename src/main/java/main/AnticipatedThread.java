@@ -17,8 +17,6 @@ public class AnticipatedThread extends ReadThread {
 		controler.doWait(controler.getCurrentWaitTime(), Constants.CURSOR_SPEAK);
 		/// play du son correspondant au segment N ///
 		controler.play(N);
-		/// attente de la fin du son ///
-		controler.doWait(controler.getCurrentPhraseDuration(), Constants.CURSOR_LISTEN);
 		// enlever surlignages
 		controler.removeHighlightPhrase(N);
 		/// appel des écouteurs de fin de segment ///

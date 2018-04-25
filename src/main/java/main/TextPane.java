@@ -56,22 +56,22 @@ public class TextPane extends JTextPane {
 	}
 
 	public void enleverSurlignageRouge() {
-		for (Object tag : redHighlightTags) {
-			getHighlighter().removeHighlight(tag);
+		for (int i = 0; i < redHighlightTags.size(); i++) {
+			getHighlighter().removeHighlight(redHighlightTags.get(i));
 		}
 		redHighlightTags.clear();
 	}
 
 	public void enleverSurlignageBleu() {
-		for (Object tag : blueHighlightTags) {
-			getHighlighter().removeHighlight(tag);
+		for (int i = 0; i < blueHighlightTags.size(); i++) {
+			getHighlighter().removeHighlight(blueHighlightTags.get(i));
 		}
 		blueHighlightTags.clear();
 	}
 
 	public void enleverSurlignageVert() {
-		for (Object tag : greenHighlightTags) {
-			getHighlighter().removeHighlight(tag);
+		for (int i = 0; i < greenHighlightTags.size(); i++) {
+			getHighlighter().removeHighlight(greenHighlightTags.get(i));
 		}
 		greenHighlightTags.clear();
 	}

@@ -1,4 +1,4 @@
-package main;
+package main.model;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -11,6 +11,9 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+
+import main.Constants;
+import main.view.FenetreParametre;
 
 public class Player {
 

@@ -1,6 +1,8 @@
-package main;
+package main.model;
 
 import java.util.*;
+
+import main.Constants;
 
 public class TextHandler {
 

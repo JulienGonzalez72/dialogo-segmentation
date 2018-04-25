@@ -1,4 +1,4 @@
-package main;
+package main.view;
 
 import java.awt.Color;
 import java.awt.FontMetrics;
@@ -8,6 +8,8 @@ import java.util.*;
 import javax.swing.JTextPane;
 import javax.swing.text.*;
 import javax.swing.text.Highlighter.*;
+
+import main.Constants;
 
 public class TextPane extends JTextPane {
 

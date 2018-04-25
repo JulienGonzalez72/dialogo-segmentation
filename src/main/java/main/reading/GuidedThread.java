@@ -1,4 +1,7 @@
-package main;
+package main.reading;
+
+import main.Constants;
+import main.controler.ControlerGlobal;
 
 public class GuidedThread extends ReadThread {
 	

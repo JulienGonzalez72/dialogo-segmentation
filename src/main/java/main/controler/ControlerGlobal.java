@@ -1,4 +1,4 @@
-package main;
+package main.controler;
 
 import java.awt.Color;
 import java.awt.Cursor;
@@ -12,6 +12,17 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import java.util.List;
+
+import main.Constants;
+import main.model.TextHandler;
+import main.reading.AnticipatedThread;
+import main.reading.GuidedThread;
+import main.reading.HighlightThread;
+import main.reading.ReadMode;
+import main.reading.ReadThread;
+import main.reading.SegmentedThread;
+import main.view.FenetreParametre;
+import main.view.Panneau;
 
 //import javax.swing.SwingWorker;
 
@@ -62,24 +73,23 @@ public class ControlerGlobal {
 	}
 
 	/**
-	 * Construit les pages à partir du segment de numero spécifié
+	 * Construit les pages à partir du segment de numero spécifié.
 	 */
 	public void buildPages(int startPhrase) {
 		p.buildPages(startPhrase);
 	}
 
+	/**
+	 * Affiche la page indiquée.
+	 */
 	public void showPage(int page) {
 		p.showPage(page);
 	}
-<<<<<<< HEAD
 	
 	/**
 	 * Joue un fichier .wav correspondant à un segment de phrase.
 	 * On sortira de cette fonction lorsque le fichier .wav aura été totalement joué.
 	 */
-=======
-
->>>>>>> 490a820b667f27b34ec69b144c3918fb3d04f38b
 	public void play(int phrase) {
 		p.setCursor(Constants.CURSOR_LISTEN);
 		p.player.play(phrase);
@@ -95,23 +105,31 @@ public class ControlerGlobal {
 		}
 	}
 
+	/**
+	 * Retourne le nombre de segments total du texte.
+	 */
 	public int getPhrasesCount() {
 		return p.textHandler.getPhrasesCount();
 	}
 
-	public void rebuildPages() {
-		p.buildPages(FenetreParametre.premierSegment - 1);
-	}
-
+	/**
+	 * Retourne la durée en millisecondes de l'enregistrement qui correspond au segment de phrase indiqué.
+	 */
 	public long getPhraseDuration(int phrase) {
 		p.player.load(phrase);
 		return p.player.getDuration();
 	}
 
+	/**
+	 * Retourne la durée en millisecondes de l'enregistrement courant.
+	 */
 	public long getCurrentPhraseDuration() {
 		return p.player.getDuration();
 	}
 
+	/**
+	 * Retourne le temps d'attente en millisecondes correspondant à l'enregistrement courant.
+	 */
 	public long getCurrentWaitTime() {
 		return (long) (getCurrentPhraseDuration() * FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture / 100.);
 	}
@@ -141,19 +159,10 @@ public class ControlerGlobal {
 	 * <li>Paramètre d’entrée 1: Numéro de segment</li>
 	 * <li>Paramètre d’entrée 2 : Nombre d’essais autorisé</li>
 	 * <li>Paramètre de sortie : True ou False (réussite)</li>
-<<<<<<< HEAD
 	 * <li>On sort de cette fonction lorsqu’un clic a été réalisé.
 	 * Si le clic a été réalisé sur le bon mot on sort avec true, et si le clic a été réalisé sur une partie erronée,
 	 * on surligne cette partie avec une couleur qui indique une erreur, Rouge ? En paramètre ?
 	 * Et on sort avec False.
-=======
-	 * <li>On ne sort de cette fonction que lorsqu’un clic sur le dernier mot du
-	 * segment a été réalisé (dans ce cas on sort avec true) ou le Nombre d’essais
-	 * autorisés (qui peut être égal à 1) a été atteint (dans ce cas on sort avec
-	 * false).</li>
-	 * <li>Si le clic se fait sur une partie erronée, on surligne cette partie avec
-	 * une couleur qui indique une erreur</li>
->>>>>>> 490a820b667f27b34ec69b144c3918fb3d04f38b
 	 * </ul>
 	 */
 	public boolean waitForClick(int n, int nbTry) {
@@ -436,21 +445,21 @@ public class ControlerGlobal {
 	public ReadThread getReadThread(int n) {
 		ReadThread t;
 		switch (FenetreParametre.readMode) {
-		case ANTICIPATED:
-			t = new AnticipatedThread(this, n);
-			break;
-		case GUIDED_READING:
-			t = new GuidedThread(this, n);
-			break;
-		case NORMAL:
-			t = new SegmentedThread(this, n);
-			break;
-		case HIGHLIGHT:
-			t = new HighlightThread(this, n);
-			break;
-		default:
-			t = null;
-			break;
+			case ANTICIPATED:
+				t = new AnticipatedThread(this, n);
+				break;
+			case GUIDED_READING:
+				t = new GuidedThread(this, n);
+				break;
+			case NORMAL:
+				t = new SegmentedThread(this, n);
+				break;
+			case HIGHLIGHT:
+				t = new HighlightThread(this, n);
+				break;
+			default:
+				t = null;
+				break;
 		}
 		return t;
 	}

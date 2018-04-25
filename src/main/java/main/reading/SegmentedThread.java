@@ -1,13 +1,16 @@
-package main;
+package main.reading;
 
-public class HighlightThread extends ReadThread {
+import main.Constants;
+import main.controler.ControlerGlobal;
+import main.view.FenetreParametre;
 
-	public HighlightThread(ControlerGlobal controler, int N) {
+public class SegmentedThread extends ReadThread {
+
+	public SegmentedThread(ControlerGlobal controler, int N) {
 		super(controler, N);
 	}
 
 	public void run() {
-
 		/// affichage de la page correspondant au segment N ///
 		controler.showPage(controler.getPageOfPhrase(N));
 		/// play du son correspondant au segment N ///
@@ -17,7 +20,7 @@ public class HighlightThread extends ReadThread {
 		/// attente de la fin du temps de pause ///
 		controler.doWait(controler.getCurrentWaitTime(), Constants.CURSOR_SPEAK);
 		int nbTry = FenetreParametre.nbFautesTolerees;
-		// tant que on a pas fait le bon clic
+		//tant que on a pas fait le bon clic
 		while (!controler.waitForClick(N, nbTry)) {
 			nbTry--;
 			if (nbTry == 0) {
@@ -35,15 +38,14 @@ public class HighlightThread extends ReadThread {
 				}
 			}
 		}
-		if ( nbTry == FenetreParametre.nbFautesTolerees) {
-			controler.highlightPhrase(Constants.RIGHT_COLOR, N);
-		}
 		// enlever surlignage
+		controler.removeHighlightPhrase(N);
 		controler.removeWrongHighlights();
 		/// appel des écouteurs de fin de segment ///
 		for (Runnable r : onPhraseEnd) {
 			r.run();
 		}
+
 	}
 
 }

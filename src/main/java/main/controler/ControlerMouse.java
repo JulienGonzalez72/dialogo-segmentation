@@ -1,6 +1,9 @@
-package main;
+package main.controler;
 
 import java.awt.event.*;
+
+import main.model.TextHandler;
+import main.view.Panneau;
 
 public class ControlerMouse implements MouseListener {
 

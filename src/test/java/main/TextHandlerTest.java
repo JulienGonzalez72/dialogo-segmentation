@@ -6,6 +6,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import main.model.TextHandler;
+import main.view.Panneau;
+
 public class TextHandlerTest {
 	
 	private TextHandler handler;

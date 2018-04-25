@@ -149,7 +149,10 @@ public class Panneau extends JPanel {
 			editorPane.désurlignerTout();
 		}
 	}
-
+	
+	/**
+	 * Construit les pages
+	 */
 	public void buildPages(int startPhrase) {
 		segmentsEnFonctionDeLaPage.clear();
 		String text = textHandler.getShowText();
@@ -237,13 +240,6 @@ public class Panneau extends JPanel {
 		editorPane.surlignerPhrase(debut, fin, Constants.WRONG_COLOR);
 	}
 
-	public void indiquerEtCorrigerErreur(int debut, int fin) {
-		// nbErreurs++;
-		editorPane.indiceDernierCaractereSurligné = fin;
-		editorPane.surlignerPhrase(debut, fin, Constants.WRONG_PHRASE_COLOR);
-		player.repeat();
-	}
-
 	public int getNumeroPremierSegmentAffiché() {
 		return segmentsEnFonctionDeLaPage.get(pageActuelle).get(0);
 	}
@@ -292,6 +288,9 @@ public class Panneau extends JPanel {
 		}
 	}
 
+	/**
+	 * Retourne la longueur du segment n
+	 */
 	public int getPagesLength(int n) {
 		int start = segmentsEnFonctionDeLaPage.get(n).get(0);
 		int fin = segmentsEnFonctionDeLaPage.get(n).get(segmentsEnFonctionDeLaPage.get(n).size() - 1);

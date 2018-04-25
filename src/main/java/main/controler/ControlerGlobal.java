@@ -128,7 +128,6 @@ public class ControlerGlobal {
 			Thread.sleep(time);
 			p.setCursor(Cursor.getDefaultCursor());
 		} catch (InterruptedException e) {
-			// e.printStackTrace();
 		}
 	}
 

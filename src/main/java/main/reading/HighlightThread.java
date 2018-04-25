@@ -14,31 +14,44 @@ public class HighlightThread extends ReadThread {
 		super(controler, N);
 	}
 
-	static Map<Integer, Color> coloriage = new HashMap<>();
-	static int lastN = 0;
+	/**
+	 * mémorisation des surlignages
+	 */
+	private static Map<Integer, Color> coloriage = new HashMap<>();
+
+	/**
+	 * dernière phrase traitée
+	 */
+	private static int lastN = 0;
 
 	public void run() {
 		/// affichage de la page correspondant au segment N ///
 		controler.showPage(controler.getPageOfPhrase(N));
-		// surlignage si suivant
+		// si on a avancé dans le texte
 		if (lastN < N) {
+			// on surligne depuis le départ jusqu'à l'arrivée
 			for (int i = lastN; i < N; i++) {
+				// si le segment n'a pas de couleur retenue
 				if (!coloriage.containsKey(i)) {
+					// on le colorie
 					if (pageActuelleContient(i)) {
 						controler.highlightPhrase(Constants.RIGHT_COLOR, i);
 					}
+					// et on stocke sa couleur
 					coloriage.put(i, Constants.RIGHT_COLOR);
 				} else {
+					// on le colorie avc la couleur stockée
 					if (pageActuelleContient(i)) {
 						controler.highlightPhrase(coloriage.get(i), i);
 					}
 				}
 			}
-		// surlignage si précédent
+			// si on a reculé dans le texte
 		} else if (lastN > N) {
+			// on désurligne depuis le départ jusqu'à l'arrivée et on déstocke la couleur
 			for (int i = lastN; i > N; i--) {
 				controler.removeHighlightPhrase(i);
-				coloriage.remove(i-1);
+				coloriage.remove(i - 1);
 			}
 		}
 		// si changement de page il y a récupération des anciens surlignages
@@ -50,14 +63,17 @@ public class HighlightThread extends ReadThread {
 				}
 			}
 		}
+		// mise a jour du segment précédent
 		lastN = N;
 		/// play du son correspondant au segment N ///
 		controler.play(N);
 		/// attente de la fin du temps de pause ///
 		controler.doWait(controler.getCurrentWaitTime(), Constants.CURSOR_SPEAK);
+		// restauration du nombre d'essais
 		int nbTry = FenetreParametre.nbFautesTolerees;
 		// tant que on a pas fait le bon clic
 		while (!controler.waitForClick(N)) {
+			// décrémentation du nombre d'essais restants
 			nbTry--;
 			if (nbTry == 0) {
 				/// on arrête l'exécution si le thread est terminé ///
@@ -76,13 +92,15 @@ public class HighlightThread extends ReadThread {
 				}
 			}
 		}
+		// si on a plus d'essais restants
 		if (nbTry == FenetreParametre.nbFautesTolerees) {
 			/// on arrête l'exécution si le thread est terminé ///
 			if (!running) {
 				return;
 			}
+			// surligange du segment
 			controler.highlightPhrase(Constants.RIGHT_COLOR, N);
-			// stockage coloriage
+			// stockage du coloriage du segment
 			coloriage.put(N, Constants.RIGHT_COLOR);
 		}
 		// enlever surlignage

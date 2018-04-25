@@ -8,6 +8,10 @@ import main.model.Player;
 public class ControlerKey implements KeyListener {
 
 	private Player player;
+	
+	/**
+	 *  Moment du dernier clic
+	 */
 	private long lastClick;
 	
 	public ControlerKey(Player player) {

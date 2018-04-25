@@ -11,6 +11,9 @@ public class ControlerMouse implements MouseListener {
 	Panneau view;
 	TextHandler handler;
 	
+	/**
+	 * Icone de la souris lors d'une phase d'écoute
+	 */
 	public boolean clicking;
 
 	public ControlerMouse(Panneau p, TextHandler handler) {
@@ -21,9 +24,6 @@ public class ControlerMouse implements MouseListener {
 
 	public void mousePressed(MouseEvent e) {
 		clicking = true;
-		/*if (!view.player.isBlocked()  && e.getClickCount() < 2) {
-			view.controlerGlobal.doClick(view.nbEssaisRestantPourLeSegmentCourant,view.player.getCurrentPhraseIndex());
-		}*/
 	}
 
 	public void mouseEntered(MouseEvent e) {

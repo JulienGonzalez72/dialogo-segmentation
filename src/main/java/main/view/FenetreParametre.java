@@ -13,7 +13,7 @@ public class FenetreParametre extends JFrame {
 	private static final long serialVersionUID = 1L;
 	public static Font police = ControleurParam.getFont(null, 0, Font.BOLD, Constants.DEFAULT_FONT_SIZE);
 	public static int taillePolice = Constants.DEFAULT_FONT_SIZE;
-	public static Color couleurFond = new Color(255, 255, 150);
+	public static Color couleurFond = Constants.BG_COLOR;
 	public static String titre;
 	public static int tailleX;
 	public static int tailleY;
@@ -30,7 +30,7 @@ public class FenetreParametre extends JFrame {
 		setIconImage(getToolkit().getImage("icone.jpg"));
 		FenetreParametre.police = ControleurParam.getFont(null, 0, Font.BOLD, Constants.DEFAULT_FONT_SIZE);
 		FenetreParametre.taillePolice = Constants.DEFAULT_FONT_SIZE;
-		FenetreParametre.couleurFond = new Color(255, 255, 150);
+		FenetreParametre.couleurFond = Constants.BG_COLOR;
 		FenetreParametre.editorPane = null;
 		FenetreParametre.titre = titre;
 		FenetreParametre.tailleX = tailleX;
@@ -162,10 +162,14 @@ public class FenetreParametre extends JFrame {
 			fastCentering(listeMauvaisesCouleurs, midPanel, "   ");
 			fastCentering(listeCorrectionCouleurs, midPanel, "   ");
 
-			modeAnticipe = fastRadio("Mode Anticipé", controleur);
-			modeSurlignage = fastRadio("Mode Surlignage", controleur);
-			modeKaraoke = fastRadio("Mode Guidée", controleur);
-			modeNormal = fastRadio("Mode Normal", controleur);
+			modeAnticipe = fastRadio("Anticipé", controleur);
+			modeAnticipe.setToolTipText("Mode karaoke");
+			modeSurlignage = fastRadio("Surlignage", controleur);
+			modeSurlignage.setToolTipText("Mode de lecture segmentée : version surlignage");
+			modeKaraoke = fastRadio("Guidé", controleur);
+			modeKaraoke.setToolTipText("Mode guidé");
+			modeNormal = fastRadio("Segmenté", controleur);
+			modeNormal.setToolTipText("Mode de lecture segmentée");
 			modeNormal.setSelected(true);
 
 			modes = new ButtonGroup();
@@ -330,7 +334,7 @@ public class FenetreParametre extends JFrame {
 		}
 
 		private void appliquerCouleur(Color color, JComboBox<Object> listeCouleurs) {
-			if (color.equals(new Color(255, 255, 150))) {
+			if (color.equals(Constants.BG_COLOR)) {
 				listeCouleurs.setSelectedItem(couleurs[0]);
 			}
 			if (color.equals(Color.WHITE)) {
@@ -377,7 +381,7 @@ public class FenetreParametre extends JFrame {
 			JComboBox<Object> r = new JComboBox<Object>(elements);
 			((JLabel) r.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 			r.addActionListener(controleur);
-			r.setBackground(new Color(255, 255, 150));
+			r.setBackground(Constants.BG_COLOR);
 			r.setFont(new Font("OpenDyslexic", Font.PLAIN, 15));
 			return r;
 		}
@@ -419,8 +423,7 @@ public class FenetreParametre extends JFrame {
 		/**
 		 * Centre le composant c dans le panneau p
 		 * 
-		 * @param marge
-		 *            = taille de la marge
+		 * @param marge = taille de la marge
 		 */
 		private void fastCentering(Component c, JPanel p, String marge) {
 			JPanel temp = new JPanel(new BorderLayout());

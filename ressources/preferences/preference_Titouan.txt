@@ -3,8 +3,8 @@ h:850
 x:460
 y:90
 taillePolice:42
-typePolice:OpenDyslexic Bold
-couleur:255/255/150/0/255/0/255/0/0/0/255/255
+typePolice:Andika Basic
+couleur:255/255/0/0/255/0/255/0/0/0/255/255
 mode:HIGHLIGHT
 tempsAttente:0
 rejouerSon:false

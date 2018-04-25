@@ -9,6 +9,7 @@ public final class Constants {
 	public static Color WRONG_COLOR = new Color(255, 40, 40);
 	public static Color RIGHT_COLOR = Color.GREEN;
 	public static Color WRONG_PHRASE_COLOR = Color.CYAN;
+	public static Color BG_COLOR = new Color(255, 255, 150);
 	public static String NOM_ELEVE = "Titouan";
 
 	/*

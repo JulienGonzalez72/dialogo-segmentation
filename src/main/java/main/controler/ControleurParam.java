@@ -33,7 +33,7 @@ public class ControleurParam implements ActionListener, ChangeListener {
 			String s = (String) jcb.getSelectedItem();
 			Color color = null;
 			if (s == "Jaune") {
-				color = new Color(255, 255, 150);
+				color = Constants.BG_COLOR;
 			}
 			if (s == "Orange") {
 				color = Color.ORANGE;
@@ -65,7 +65,8 @@ public class ControleurParam implements ActionListener, ChangeListener {
 			}
 			if (jcb == panneau.listeCouleurs) {
 				if (FenetreParametre.editorPane != null) {
-					FenetreParametre.editorPane.setBackground(color);
+					FenetreParametre.editorPane.insertIcon(new ImageIcon("souris.jpg"));
+					//FenetreParametre.editorPane.setBackground(color);
 				}
 				FenetreParametre.couleurFond = color;
 			}

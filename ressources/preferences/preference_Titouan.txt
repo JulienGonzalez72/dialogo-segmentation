@@ -3,15 +3,8 @@ h:850
 x:526
 y:33
 taillePolice:42
-<<<<<<< HEAD
 typePolice:Andika Basic
 couleur:255/255/0/0/255/0/255/0/0/0/255/255
 mode:HIGHLIGHT
 tempsAttente:0
-=======
-typePolice:OpenDyslexic Bold
-couleur:255/255/150/0/255/0/255/0/0/0/255/255
-mode:ANTICIPATED
-tempsAttente:49
->>>>>>> 54babdf81713df4a4d44df3c5a4c73d144072d50
 rejouerSon:false

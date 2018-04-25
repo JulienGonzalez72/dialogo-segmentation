@@ -65,8 +65,7 @@ public class ControleurParam implements ActionListener, ChangeListener {
 			}
 			if (jcb == panneau.listeCouleurs) {
 				if (FenetreParametre.editorPane != null) {
-					FenetreParametre.editorPane.insertIcon(new ImageIcon("souris.jpg"));
-					//FenetreParametre.editorPane.setBackground(color);
+					FenetreParametre.editorPane.setBackground(color);
 				}
 				FenetreParametre.couleurFond = color;
 			}

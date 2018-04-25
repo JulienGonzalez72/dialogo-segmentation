@@ -24,7 +24,6 @@ public class Main {
 			}
 		}
 		try {
-			//UIManager.setLookAndFeel(UIManager.getInstalledLookAndFeels()[1].getClassName());
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 		} catch (Exception e) {
 			e.printStackTrace();

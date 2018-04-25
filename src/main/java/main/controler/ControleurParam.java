@@ -116,7 +116,6 @@ public class ControleurParam implements ActionListener, ChangeListener {
 			if (verifierValiditeChamp()) {
 				try {
 				} catch (Exception e) {
-					// TODO: handle exception
 				}
 				// si on a pas encore lancé l'exercice
 				if (FenetreParametre.editorPane == null) {
@@ -148,9 +147,7 @@ public class ControleurParam implements ActionListener, ChangeListener {
 							.valueOf(panneau.champNbFautesTolerees.getText());
 					Panneau.defautNBEssaisParSegment = Integer.valueOf(panneau.champNbFautesTolerees.getText());
 					FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture = panneau.sliderAttente.getValue();
-					/*if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
-						FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture *= 2;
-					} else */if (FenetreParametre.readMode == ReadMode.HIGHLIGHT) {
+					if (FenetreParametre.readMode == ReadMode.HIGHLIGHT) {
 						try {
 							FenetreParametre.editorPane.updateColors();
 						} catch (BadLocationException e) {
@@ -162,6 +159,13 @@ public class ControleurParam implements ActionListener, ChangeListener {
 		}
 	}
 
+	/**
+	 * Retourne le font correspondant à :
+	 *  @param1 : la police 
+	 *  @param2 : l'index du font dans la liste des polices de la FenetreParametre
+	 *  @param3 : le style 
+	 *  @param4 : la taille 
+	 */
 	public static Font getFont(String police, int selectedIndex, int style, int size) {
 		try {
 			Font font;
@@ -182,26 +186,6 @@ public class ControleurParam implements ActionListener, ChangeListener {
 		return null;
 	}
 
-	public static Font getFont(String police, int style, int size) {
-		int index = -1;
-		if (police.equals("OpenDyslexic") || police.equals("OpenDyslexic Bold")) {
-			index = 0;
-		}
-		if (police.equals("Andika") || police.equals("Andika Basic")) {
-			index = 1;
-		}
-		if (police.equals("Lexia")) {
-			index = 2;
-		}
-		if (police.equals("Arial") || police.equals("Arial Gras")) {
-			index = 3;
-		}
-		if (police.equals("Times New Roman") || police.equals("Times New Roman Gras")) {
-			index = 4;
-		}
-		return getFont(police, index, style, size);
-	}
-
 	@Override
 	public void stateChanged(ChangeEvent arg0) {
 		if (arg0.getSource() == panneau.sliderAttente) {
@@ -209,6 +193,12 @@ public class ControleurParam implements ActionListener, ChangeListener {
 		}
 	}
 
+	
+	/**
+	 * Retourne vrai si :
+	 * - Aucune couleur n'est sélectionnée en double
+	 * - Les champs saisies sont cohérents
+	 */
 	public boolean verifierValiditeChamp() {
 		boolean valide = true;
 
@@ -252,10 +242,12 @@ public class ControleurParam implements ActionListener, ChangeListener {
 			valide = false;
 		}
 		FenetreParametre.nbFautesTolerees = n;
-
 		return valide;
 	}
 
+	/**
+	 * Retourne vrai si toutes les couleurs des paramètres sont uniques
+	 */
 	private boolean couleursUniques() {
 		boolean r = true;
 		List<Color> couleursUtilisées = new ArrayList<Color>();
@@ -278,6 +270,9 @@ public class ControleurParam implements ActionListener, ChangeListener {
 		return r;
 	}
 
+	/**
+	 * Retourne le nombre d'apparition de la couleur dans la FenetreParametre
+	 */
 	private int occurence(Color c, List<Color> liste) {
 		int r = 0;
 		for (Color c2 : liste) {

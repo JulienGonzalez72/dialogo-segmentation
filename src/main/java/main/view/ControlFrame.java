@@ -29,7 +29,7 @@ import main.reading.ReadMode;
 
 public class ControlFrame extends JFrame {
 
-	private static int imageSize = 40;
+	private static int imageSize = Constants.tailleImageFrame;
 	private static Image previousIcon, playIcon, pauseIcon, nextIcon, repeatIcon;
 
 	private JPanel panel = new JPanel();
@@ -72,19 +72,6 @@ public class ControlFrame extends JFrame {
 		playButton.setIcon(new ImageIcon(playIcon));
 		playButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				/*if (player.isPlaying()) {
-					player.pause();
-				} else if (player.isPhraseFinished()) {
-					player.repeat();
-				} else {
-					/// on attend d'abord en mode lecture anticipée ///
-					if (FenetreParametre.readMode == ReadMode.ANTICIPATED) {
-						player.doWait();
-						pan.controlerGlobal.highlightPhrase(Constants.RIGHT_COLOR, player.getCurrentPhraseIndex());
-					} else {
-						player.play();
-					}
-				}*/
 				if (player.isPlaying()) {
 					pan.controlerGlobal.doStop();
 				}
@@ -353,7 +340,7 @@ public class ControlFrame extends JFrame {
 		}
 	}
 
-	public void addMenu() {
+	private void addMenu() {
 		JMenuBar menubar = new JMenuBar();
 
 		JMenu file = new JMenu("Options");

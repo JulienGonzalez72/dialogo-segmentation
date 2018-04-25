@@ -9,6 +9,8 @@ import java.io.IOException;
 
 import javax.swing.SwingUtilities;
 
+import main.view.FenetreParametre;
+
 public class Main {
 
 	public static void main(String[] args) {

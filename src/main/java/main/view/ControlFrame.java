@@ -1,4 +1,4 @@
-package main;
+package main.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -21,6 +21,11 @@ import java.io.UnsupportedEncodingException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import main.Constants;
+import main.controler.ControleurParam;
+import main.model.Player;
+import main.reading.ReadMode;
 
 public class ControlFrame extends JFrame {
 

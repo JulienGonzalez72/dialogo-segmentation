@@ -1,4 +1,8 @@
-package main;
+package main.reading;
+
+import main.Constants;
+import main.controler.ControlerGlobal;
+import main.view.FenetreParametre;
 
 import java.awt.Color;
 import java.util.HashMap;

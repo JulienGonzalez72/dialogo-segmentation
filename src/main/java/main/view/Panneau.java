@@ -1,4 +1,4 @@
-package main;
+package main.view;
 
 import java.awt.*;
 import java.io.*;
@@ -8,6 +8,15 @@ import java.util.HashMap;
 import java.util.List;
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
+
+import main.Constants;
+import main.controler.ControlerGlobal;
+import main.controler.ControlerKey;
+import main.controler.ControlerMouse;
+import main.model.Player;
+import main.model.TextHandler;
+import main.reading.ReadMode;
+import main.reading.ReadThread;
 
 public class Panneau extends JPanel {
 

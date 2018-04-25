@@ -1,8 +1,12 @@
-package main;
+package main.view;
 
 import java.awt.*;
 import java.io.*;
 import javax.swing.*;
+
+import main.Constants;
+import main.controler.ControleurParam;
+import main.reading.ReadMode;
 
 public class FenetreParametre extends JFrame {
 
@@ -51,23 +55,23 @@ public class FenetreParametre extends JFrame {
 
 		private static final long serialVersionUID = 1L;
 
-		JPanel panelModes;
-		JComboBox<Object> listePolices;
-		JComboBox<Object> listeTailles;
-		JComboBox<Object> listeCouleurs;
-		JComboBox<Object> listeBonnesCouleurs;
-		JComboBox<Object> listeMauvaisesCouleurs;
-		JComboBox<Object> listeCorrectionCouleurs;
-		JTextField segmentDeDepart;
-		JTextField champNbFautesTolerees;
-		JButton valider;
-		JCheckBox rejouerSon;
-		JRadioButton modeSurlignage, modeKaraoke, modeNormal, modeAnticipe;
-		ButtonGroup modes;
-		JSlider sliderAttente;
-		final Object[] polices;
-		final Object[] tailles;
-		final Object[] couleurs;
+		public JPanel panelModes;
+		public JComboBox<Object> listePolices;
+		public JComboBox<Object> listeTailles;
+		public JComboBox<Object> listeCouleurs;
+		public JComboBox<Object> listeBonnesCouleurs;
+		public JComboBox<Object> listeMauvaisesCouleurs;
+		public JComboBox<Object> listeCorrectionCouleurs;
+		public JTextField segmentDeDepart;
+		public JTextField champNbFautesTolerees;
+		public JButton valider;
+		public JCheckBox rejouerSon;
+		public JRadioButton modeSurlignage, modeKaraoke, modeNormal, modeAnticipe;
+		public ButtonGroup modes;
+		public JSlider sliderAttente;
+		public final Object[] polices;
+		public final Object[] tailles;
+		public final Object[] couleurs;
 
 		public PanneauParam() throws NumberFormatException, IOException {
 			fen = FenetreParametre.this;

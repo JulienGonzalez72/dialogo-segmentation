@@ -1,6 +1,9 @@
-package main;
+package main.controler;
 
 import java.awt.event.*;
+
+import main.Constants;
+import main.model.Player;
 
 public class ControlerKey implements KeyListener {
 

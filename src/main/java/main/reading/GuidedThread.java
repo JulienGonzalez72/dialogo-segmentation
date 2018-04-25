@@ -1,0 +1,35 @@
+package main.reading;
+
+import main.Constants;
+import main.controler.ControlerGlobal;
+
+public class GuidedThread extends ReadThread {
+	
+	public GuidedThread(ControlerGlobal controler, int N) {
+		super(controler, N);
+	}
+	
+	public void run() {
+		/// réinitiliase l'état ///
+		controler.stopAll();
+		/// affichage de la page correspondant au segment N ///
+		controler.showPage(controler.getPageOfPhrase(N));
+		/// surlignage du segment N ///
+		controler.highlightPhrase(Constants.RIGHT_COLOR, N);
+		/// play du son correspondant au segment N ///
+		controler.play(N);
+		/// attente de la fin du temps de pause ///
+		controler.doWait(controler.getCurrentWaitTime(), Constants.CURSOR_SPEAK);
+		/// on arrête l'exécution si le thread est terminé ///
+		if (!running) {
+			return;
+		}
+		/// suppression du surlignage du segment de phrase N ///
+		controler.removeHighlightPhrase(N);
+		/// appel des écouteurs de fin de segment ///
+		for (Runnable r : onPhraseEnd) {
+			r.run();
+		}
+	}
+	
+}

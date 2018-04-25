@@ -1,4 +1,4 @@
-package main;
+package main.controler;
 
 import java.util.*;
 import java.util.List;
@@ -9,6 +9,11 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.BadLocationException;
+
+import main.Constants;
+import main.reading.ReadMode;
+import main.view.FenetreParametre;
+import main.view.Panneau;
 
 public class ControleurParam implements ActionListener, ChangeListener {
 

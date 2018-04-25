@@ -1,4 +1,8 @@
-package main;
+package main.reading;
+
+import main.Constants;
+import main.controler.ControlerGlobal;
+import main.view.FenetreParametre;
 
 public class SegmentedThread extends ReadThread {
 

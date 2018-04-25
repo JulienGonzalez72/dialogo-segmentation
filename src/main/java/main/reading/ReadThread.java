@@ -1,6 +1,8 @@
-package main;
+package main.reading;
 
 import java.util.*;
+
+import main.controler.ControlerGlobal;
 
 public abstract class ReadThread extends Thread {
 	

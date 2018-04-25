@@ -136,7 +136,6 @@ public class ControlerGlobal {
 	 * Attente d’un clic de la souris sur le dernier mot du segment.
 	 * <ul>
 	 * <li>Paramètre d’entrée 1: Numéro de segment</li>
-	 * <li>Paramètre d’entrée 2 : Nombre d’essais autorisé</li>
 	 * <li>Paramètre de sortie : True ou False (réussite)</li>
 	 * <li>On sort de cette fonction lorsqu’un clic a été réalisé.
 	 * Si le clic a été réalisé sur le bon mot on sort avec true, et si le clic a été réalisé sur une partie erronée,

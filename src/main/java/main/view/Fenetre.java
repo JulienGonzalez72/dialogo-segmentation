@@ -49,6 +49,14 @@ public class Fenetre extends JFrame {
 
 
 	public void start() {
+		try {
+			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+				| UnsupportedLookAndFeelException ex) {
+			ex.printStackTrace();
+		}
+		SwingUtilities.updateComponentTreeUI(this);
+		
 		setVisible(true);
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {

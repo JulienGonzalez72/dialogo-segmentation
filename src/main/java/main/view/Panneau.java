@@ -55,7 +55,7 @@ public class Panneau extends JPanel {
 		textHandler = new TextHandler(texteCesures);
 
 		this.setLayout(new BorderLayout());
-
+		
 		editorPane = new TextPane();
 		editorPane.setEditable(false);
 		add(editorPane, BorderLayout.CENTER);

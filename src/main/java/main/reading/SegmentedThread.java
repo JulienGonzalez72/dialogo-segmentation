@@ -19,7 +19,7 @@ public class SegmentedThread extends ReadThread {
 		controler.doWait(controler.getCurrentWaitTime(), Constants.CURSOR_SPEAK);
 		int nbTry = FenetreParametre.nbFautesTolerees;
 		//tant que on a pas fait le bon clic
-		while (!controler.waitForClick(N, nbTry)) {
+		while (!controler.waitForClick(N)) {
 			nbTry--;
 			if (nbTry == 0) {
 				// surligner phrase avec correction

@@ -130,6 +130,7 @@ public class ControleurParam implements ActionListener, ChangeListener {
 						panneau.segmentDeDepart.setText("0");
 					}
 					FenetreParametre.fen.lancerExercice();
+					FenetreParametre.rejouerSon = panneau.rejouerSon.isSelected();
 					panneau.fermer();
 					// si on a deja lancé l'exercice
 				} else {

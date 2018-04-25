@@ -60,12 +60,12 @@ public class HighlightThread extends ReadThread {
 		while (!controler.waitForClick(N)) {
 			nbTry--;
 			if (nbTry == 0) {
-				// surligner phrase avec correction
-				controler.highlightPhrase(Constants.WRONG_PHRASE_COLOR, N);
 				/// on arrête l'exécution si le thread est terminé ///
 				if (!running) {
 					return;
 				}
+				// surligner phrase avec correction
+				controler.highlightPhrase(Constants.WRONG_PHRASE_COLOR, N);
 				// stockage coloriage
 				coloriage.put(N, Constants.WRONG_PHRASE_COLOR);
 				// rejouer son

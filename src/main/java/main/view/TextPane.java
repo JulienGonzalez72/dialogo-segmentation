@@ -2,6 +2,7 @@ package main.view;
 
 import java.awt.Color;
 import java.awt.FontMetrics;
+import java.awt.Graphics;
 import java.awt.Rectangle;
 
 import java.util.*;
@@ -145,6 +146,13 @@ public class TextPane extends JTextPane {
 		blueHighlightTags = newBlue;
 		redHighlightTags = newRed;
 		greenHighlightTags = newGreen;
+	}
+	
+	@Override
+	public void paintComponent(Graphics g) {
+		g.setColor(Color.YELLOW);
+		g.fillRect(0, 0, getWidth(), getHeight());
+		super.paintComponent(g);
 	}
 
 }

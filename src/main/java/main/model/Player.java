@@ -62,6 +62,7 @@ public class Player {
 	 * Charge l'enregistrement correspondant à un segment précis.
 	 */
 	public void load(int phrase) {
+		currentPhrase = phrase;
 		try {
 			clip = AudioSystem.getClip();
 			clip.open(getAudioStream(Constants.AUDIO_FILE_NAME, phrase));

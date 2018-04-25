@@ -10,17 +10,27 @@ public class AnticipatedThread extends ReadThread {
 	}
 	
 	public void run() {
+		/// réinitiliase l'état ///
+		controler.stopAll();
+		/// chargement du son ///
+		controler.loadSound(N);
 		/// affichage de la page correspondant au segment N ///
 		controler.showPage(controler.getPageOfPhrase(N));
-		//surlignage de la phrase
+		/// surlignage du segment N ///
 		controler.highlightPhrase(Constants.RIGHT_COLOR, N);
-		//chargement du son pour savoir combien de temps on attends
-		controler.p.player.load(N);
 		/// attente de la fin du temps de pause ///
 		controler.doWait(controler.getCurrentWaitTime(), Constants.CURSOR_SPEAK);
+		/// on arrête l'exécution si le thread est terminé ///
+		if (!running) {
+			return;
+		}
 		/// play du son correspondant au segment N ///
 		controler.play(N);
-		// enlever surlignages
+		/// on arrête l'exécution si le thread est terminé ///
+		if (!running) {
+			return;
+		}
+		/// suppression du surlignage du segment de phrase N ///
 		controler.removeHighlightPhrase(N);
 		/// appel des écouteurs de fin de segment ///
 		for (Runnable r : onPhraseEnd) {

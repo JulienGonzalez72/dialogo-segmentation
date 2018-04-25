@@ -197,6 +197,14 @@ public class ControlerGlobal {
 		p.player.stop();
 		p.editorPane.désurlignerTout();
 	}
+	
+	/**
+	 * Charge un segment de phrase dans le lecteur sans le démarrer.<br>
+	 * Pas nécessaire si on démarre le lecteur directement avec la méthode {@link #play}.
+	 */
+	public void loadSound(int phrase) {
+		p.player.load(phrase);
+	}
 
 	/**
 	 * Enlève tout le surlignage d'erreur.

@@ -130,12 +130,16 @@ public class ControlFrame extends JFrame {
 			} catch (IllegalArgumentException ex) {
 				JOptionPane.showMessageDialog(null, "Numéro de segment incorrect : " + goToField.getText());
 			}
+			updateButtons();
 		});
 
 		addMenu();
 		updateButtons();
 	}
 
+	/**
+	 * Actualise l'état de tous les composants de la fenêtre de contrôle.
+	 */
 	public void updateButtons() {
 		if (usable) {
 			previousButton.setEnabled(player.hasPreviousPhrase());
@@ -149,6 +153,7 @@ public class ControlFrame extends JFrame {
 			nextButton.setEnabled(false);
 			repeatButton.setEnabled(false);
 		}
+		goToField.setText(String.valueOf(player.getCurrentPhraseIndex() + 1));
 	}
 
 	public void disableAll() {

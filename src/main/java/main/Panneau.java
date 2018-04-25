@@ -156,6 +156,10 @@ public class Panneau extends JPanel {
 		Cursor monCurseur = tk.createCustomCursor(img, new Point(16, 16), fileName);
 		setCursor(monCurseur);
 	}
+	
+	public String getCursorName() {
+		return getCursor().getName();
+	}
 
 	/**
 	 * retourne le contenu du fichier .txt situé à l'emplacement du paramètre

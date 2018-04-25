@@ -72,8 +72,23 @@ public class ControlerGlobal {
 		p.showPage(page);
 	}
 	
+	/**
+	 * Joue un fichier .wav correspondant à un segment de phrase.
+	 * On sortira de cette fonction lorsque le fichier .wav aura été totalement joué.
+	 */
 	public void play(int phrase) {
+		p.setCursor(Constants.CURSOR_LISTEN);
 		p.player.play(phrase);
+		while (true) {
+			if (p.player.isPhraseFinished()) {
+				p.setCursor(Cursor.getDefaultCursor());
+				break;
+			}
+			/// fixe toujours le curseur d'écoute pendant toute la durée de l'enregistrement ///
+			else if (!p.getCursorName().equals(Constants.CURSOR_SPEAK)) {
+				p.setCursor(Constants.CURSOR_LISTEN);
+			}
+		}
 	}
 	
 	public int getPhrasesCount() {
@@ -104,10 +119,9 @@ public class ControlerGlobal {
 	 */
 	public void doWait(long time, String cursorName) {
 		try {
-			Cursor oldCursor = p.getCursor();
 			p.setCursor(cursorName);
 			Thread.sleep(time);
-			p.setCursor(oldCursor);
+			p.setCursor(Cursor.getDefaultCursor());
 		} catch (InterruptedException e) {
 			//e.printStackTrace();
 		}
@@ -119,9 +133,10 @@ public class ControlerGlobal {
 	 * <li>Paramètre d’entrée 1: Numéro de segment</li>
 	 * <li>Paramètre d’entrée 2 : Nombre d’essais autorisé</li>
 	 * <li>Paramètre de sortie : True ou False (réussite)</li>
-	 * <li>On ne sort de cette fonction que lorsqu’un clic sur le dernier mot du segment a été réalisé (dans ce cas on sort avec true)
-	 * ou le Nombre d’essais autorisés (qui peut être égal à 1) a été atteint (dans ce cas on sort avec false).</li>
-	 * <li>Si le clic se fait sur une partie erronée, on surligne cette partie avec une couleur qui indique une erreur</li>
+	 * <li>On sort de cette fonction lorsqu’un clic a été réalisé.
+	 * Si le clic a été réalisé sur le bon mot on sort avec true, et si le clic a été réalisé sur une partie erronée,
+	 * on surligne cette partie avec une couleur qui indique une erreur, Rouge ? En paramètre ?
+	 * Et on sort avec False.
 	 * </ul>
 	 */
 	public boolean waitForClick(int n, int nbTry) {

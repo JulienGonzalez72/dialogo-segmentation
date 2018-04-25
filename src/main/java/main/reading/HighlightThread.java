@@ -22,7 +22,7 @@ public class HighlightThread extends ReadThread {
 		controler.showPage(controler.getPageOfPhrase(N));
 		// surlignage si suivant
 		if (lastN < N) {
-			for (int i = 0; i < N; i++) {
+			for (int i = lastN; i < N; i++) {
 				if (!coloriage.containsKey(i)) {
 					if (pageActuelleContient(i)) {
 						controler.highlightPhrase(Constants.RIGHT_COLOR, i);
@@ -34,15 +34,13 @@ public class HighlightThread extends ReadThread {
 					}
 				}
 			}
-			// surlignage si précédent
+		// surlignage si précédent
 		} else if (lastN > N) {
-			System.out.println("lastN : "+lastN+" / N : "+N);
 			for (int i = lastN; i > N; i--) {
 				controler.removeHighlightPhrase(i);
-				coloriage.remove(i);
+				coloriage.remove(i-1);
 			}
 		}
-		System.out.println(coloriage.toString());
 		// si changement de page il y a récupération des anciens surlignages
 		if (!pageActuelleContient(lastN) && lastN > N) {
 			for (int i = 0; i < coloriage.keySet().size(); i++) {
@@ -59,11 +57,15 @@ public class HighlightThread extends ReadThread {
 		controler.doWait(controler.getCurrentWaitTime(), Constants.CURSOR_SPEAK);
 		int nbTry = FenetreParametre.nbFautesTolerees;
 		// tant que on a pas fait le bon clic
-		while (!controler.waitForClick(N, nbTry)) {
+		while (!controler.waitForClick(N)) {
 			nbTry--;
 			if (nbTry == 0) {
 				// surligner phrase avec correction
 				controler.highlightPhrase(Constants.WRONG_PHRASE_COLOR, N);
+				/// on arrête l'exécution si le thread est terminé ///
+				if (!running) {
+					return;
+				}
 				// stockage coloriage
 				coloriage.put(N, Constants.WRONG_PHRASE_COLOR);
 				// rejouer son
@@ -75,6 +77,10 @@ public class HighlightThread extends ReadThread {
 			}
 		}
 		if (nbTry == FenetreParametre.nbFautesTolerees) {
+			/// on arrête l'exécution si le thread est terminé ///
+			if (!running) {
+				return;
+			}
 			controler.highlightPhrase(Constants.RIGHT_COLOR, N);
 			// stockage coloriage
 			coloriage.put(N, Constants.RIGHT_COLOR);

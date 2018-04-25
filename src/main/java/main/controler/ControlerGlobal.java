@@ -144,7 +144,7 @@ public class ControlerGlobal {
 	 * Et on sort avec False.
 	 * </ul>
 	 */
-	public boolean waitForClick(int n, int nbTry) {
+	public boolean waitForClick(int n) {
 		p.controlerMouse.clicking = false;
 		while (true) {
 			Thread.yield();

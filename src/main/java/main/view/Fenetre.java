@@ -7,6 +7,8 @@ import java.io.IOException;
 
 import javax.swing.*;
 
+import main.Constants;
+
 public class Fenetre extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -27,7 +29,7 @@ public class Fenetre extends JFrame {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(true);
-		setMinimumSize(new Dimension(300, 300));
+		setMinimumSize(new Dimension(Constants.MIN_FENETRE_WIDTH, Constants.MIN_FENETRE_HEIGHT));
 
 		addComponentListener(new ComponentAdapter() {
 			private int lastWidth = getWidth(), lastHeight = getHeight();

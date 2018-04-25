@@ -4,13 +4,12 @@ import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-
 import java.util.*;
 import javax.swing.JTextPane;
 import javax.swing.text.*;
 import javax.swing.text.Highlighter.*;
-
 import main.Constants;
+
 
 public class TextPane extends JTextPane {
 
@@ -21,6 +20,7 @@ public class TextPane extends JTextPane {
 	private List<Object> greenHighlightTags = new ArrayList<>();
 
 	public TextPane() {
+
 		setFont(FenetreParametre.police);
 		setBackground(FenetreParametre.couleurFond);
 		setSelectionColor(new Color(0, 0, 0, 0));

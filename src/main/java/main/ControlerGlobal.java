@@ -26,11 +26,11 @@ public class ControlerGlobal {
 	public ControlerGlobal(Panneau p) {
 		this.p = p;
 	}
-	
+
 	public int getNbEssaisRestantsPourSegmentCourant() {
 		return p.nbEssaisRestantPourLeSegmentCourant;
 	}
-	
+
 	public void decrementerEssaisRestants() {
 		p.nbEssaisRestantPourLeSegmentCourant--;
 	}
@@ -60,47 +60,51 @@ public class ControlerGlobal {
 		});
 		activeThread.start();
 	}
-	
+
 	/**
 	 * Construit les pages à partir du segment de numero spécifié
 	 */
 	public void buildPages(int startPhrase) {
 		p.buildPages(startPhrase);
 	}
-	
+
 	public void showPage(int page) {
 		p.showPage(page);
 	}
-	
+
 	public void play(int phrase) {
 		p.player.play(phrase);
 	}
-	
+
 	public int getPhrasesCount() {
 		return p.textHandler.getPhrasesCount();
 	}
-	
+
 	public void rebuildPages() {
 		p.buildPages(FenetreParametre.premierSegment - 1);
 	}
-	
+
 	public long getPhraseDuration(int phrase) {
 		p.player.load(phrase);
 		return p.player.getDuration();
 	}
-	
+
 	public long getCurrentPhraseDuration() {
 		return p.player.getDuration();
 	}
-	
+
 	public long getCurrentWaitTime() {
 		return (long) (getCurrentPhraseDuration() * FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture / 100.);
 	}
-	
+
 	/**
 	 * Mets en pause le thread courant pendant un certain temps.
-	 * @param time le temps de pause, en millisecondes
-	 * @param cursorName le type de curseur à définir pendant l'attente (peut être Constants.CURSOR_SPEAK ou Constants.CURSOR_LISTEN)
+	 * 
+	 * @param time
+	 *            le temps de pause, en millisecondes
+	 * @param cursorName
+	 *            le type de curseur à définir pendant l'attente (peut être
+	 *            Constants.CURSOR_SPEAK ou Constants.CURSOR_LISTEN)
 	 */
 	public void doWait(long time, String cursorName) {
 		try {
@@ -109,19 +113,22 @@ public class ControlerGlobal {
 			Thread.sleep(time);
 			p.setCursor(oldCursor);
 		} catch (InterruptedException e) {
-			//e.printStackTrace();
+			// e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Attente d’un clic de la souris sur le dernier mot du segment.
 	 * <ul>
 	 * <li>Paramètre d’entrée 1: Numéro de segment</li>
 	 * <li>Paramètre d’entrée 2 : Nombre d’essais autorisé</li>
 	 * <li>Paramètre de sortie : True ou False (réussite)</li>
-	 * <li>On ne sort de cette fonction que lorsqu’un clic sur le dernier mot du segment a été réalisé (dans ce cas on sort avec true)
-	 * ou le Nombre d’essais autorisés (qui peut être égal à 1) a été atteint (dans ce cas on sort avec false).</li>
-	 * <li>Si le clic se fait sur une partie erronée, on surligne cette partie avec une couleur qui indique une erreur</li>
+	 * <li>On ne sort de cette fonction que lorsqu’un clic sur le dernier mot du
+	 * segment a été réalisé (dans ce cas on sort avec true) ou le Nombre d’essais
+	 * autorisés (qui peut être égal à 1) a été atteint (dans ce cas on sort avec
+	 * false).</li>
+	 * <li>Si le clic se fait sur une partie erronée, on surligne cette partie avec
+	 * une couleur qui indique une erreur</li>
 	 * </ul>
 	 */
 	public boolean waitForClick(int n, int nbTry) {
@@ -130,11 +137,9 @@ public class ControlerGlobal {
 			Thread.yield();
 			if (p.controlerMouse.clicking) {
 				/// cherche la position exacte dans le texte ///
-				int offset = p.textHandler.getAbsoluteOffset(p.getNumeroPremierSegmentAffiché(),
-						p.editorPane.getCaretPosition());
+				int offset = p.textHandler.getAbsoluteOffset(p.getNumeroPremierSegmentAffiché(),p.editorPane.getCaretPosition());
 				/// si le clic est juste ///
-				if (p.textHandler.wordPause(offset)
-						&& p.textHandler.getPhraseIndex(offset) == p.player.getCurrentPhraseIndex()) {
+				if (p.textHandler.wordPause(offset) && p.textHandler.getPhraseIndex(offset) == p.player.getCurrentPhraseIndex()) {
 					return true;
 				}
 				/// si le clic est faux ///
@@ -143,12 +148,9 @@ public class ControlerGlobal {
 					p.indiquerErreur(
 							p.textHandler.getRelativeOffset(p.getNumeroPremierSegmentAffiché(),
 									p.textHandler.startWordPosition(offset) + 1),
-							p.textHandler.getRelativeOffset(p.getNumeroPremierSegmentAffiché(), p.textHandler.endWordPosition(offset)));
-					if ( (nbTry-1) == 0) {
-						return false;
-					} else {
-						return waitForClick(n,nbTry-1);
-					}
+							p.textHandler.getRelativeOffset(p.getNumeroPremierSegmentAffiché(),
+									p.textHandler.endWordPosition(offset)));
+					return false;
 				}
 			}
 		}
@@ -175,7 +177,7 @@ public class ControlerGlobal {
 		int finRelativeSegment = debutRelatifSegment + p.textHandler.getPhrase(n).length();
 		p.editorPane.removeHighlight(debutRelatifSegment, finRelativeSegment);
 	}
-	
+
 	/**
 	 * Arrête l'enregistrement courant et enlève tout le surlignage.
 	 */
@@ -183,7 +185,7 @@ public class ControlerGlobal {
 		p.player.stop();
 		p.editorPane.désurlignerTout();
 	}
-	
+
 	/**
 	 * Enlève tout le surlignage d'erreur.
 	 */
@@ -326,7 +328,7 @@ public class ControlerGlobal {
 	public void doPrevious() {
 		goTo(p.player.getCurrentPhraseIndex() - 1);
 	}
-	
+
 	/**
 	 * Essaye d'arrêter l'enregistrement en cours.
 	 */
@@ -334,9 +336,10 @@ public class ControlerGlobal {
 		p.player.stop();
 		activeThread.doStop();
 	}
-	
+
 	/**
-	 * Essaye de reprendre l'enregistrement. Si il est déjà démarré, reprend depuis le début.
+	 * Essaye de reprendre l'enregistrement. Si il est déjà démarré, reprend depuis
+	 * le début.
 	 */
 	public void doPlay() {
 		goTo(p.player.getCurrentPhraseIndex());
@@ -344,7 +347,7 @@ public class ControlerGlobal {
 
 	public void sauvegarder() {
 
-		String fichier = "preference_"+Constants.NOM_ELEVE+".txt";
+		String fichier = "preference_" + Constants.NOM_ELEVE + ".txt";
 
 		// recueration des lignes deja existantes
 		List<String> lignes = new ArrayList<String>();
@@ -398,25 +401,31 @@ public class ControlerGlobal {
 	}
 
 	public void highlightUntilPhrase(Color c, int n) {
-		p.surlignerJusquaSegment(c, n);	
+		p.surlignerJusquaSegment(c, n);
 	}
-	
+
 	/**
-	 * Créé un processus associé à la lecture d'un seul segment dans le mode de lecture actuel.
+	 * Créé un processus associé à la lecture d'un seul segment dans le mode de
+	 * lecture actuel.
 	 */
 	public ReadThread getReadThread(int n) {
 		ReadThread t;
 		switch (FenetreParametre.readMode) {
-			case ANTICIPATED : t = new AnticipatedThread(this, n);
-				break;
-			case GUIDED_READING : t = new GuidedThread(this, n);
-				break;
-			case NORMAL : t = new SegmentedThread(this, n);
-				break;
-			case HIGHLIGHT : t = new HighlightThread(this, n);
-				break;
-			default : t = null;
-				break;
+		case ANTICIPATED:
+			t = new AnticipatedThread(this, n);
+			break;
+		case GUIDED_READING:
+			t = new GuidedThread(this, n);
+			break;
+		case NORMAL:
+			t = new SegmentedThread(this, n);
+			break;
+		case HIGHLIGHT:
+			t = new HighlightThread(this, n);
+			break;
+		default:
+			t = null;
+			break;
 		}
 		return t;
 	}

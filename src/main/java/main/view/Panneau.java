@@ -62,7 +62,7 @@ public class Panneau extends JPanel {
 	}
 
 	/**
-	 * S'exécute lorsque le panneau s'est bien intégré à la fenêtre
+	 * S'exécute lorsque le panneau s'est bien intégré à la fenêtre.
 	 */
 	public void init() {
 		editorPane.setBackground(FenetreParametre.couleurFond);
@@ -74,8 +74,8 @@ public class Panneau extends JPanel {
 		rebuildPages();
 		/// initialise le lecteur et le démarre ///
 		player = new Player(textHandler);
-		
-		controlerGlobal.goTo(FenetreParametre.premierSegment - 1);
+		player.load(FenetreParametre.premierSegment - 1);
+		//controlerGlobal.goTo(FenetreParametre.premierSegment - 1);
 
 		controlFrame = new ControlFrame(this);
 		controlerKey = new ControlerKey(player);

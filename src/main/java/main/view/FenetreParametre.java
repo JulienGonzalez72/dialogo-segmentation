@@ -1,8 +1,12 @@
 package main.view;
 
 import java.awt.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.*;
+
 import javax.swing.*;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 import main.Constants;
 import main.controler.ControleurParam;
@@ -140,7 +144,7 @@ public class FenetreParametre extends JFrame {
 			champNbFautesTolerees = fastTextField("", new Font("OpenDyslexic", Font.PLAIN, 15), "2");
 			champNbFautesTolerees.addActionListener(controleur);
 
-			JPanel midPanel = new JPanel(new GridLayout(8, 2));
+			JPanel midPanel = new JPanel(new GridLayout(10, 2));
 
 			midPanel.add(police);
 			midPanel.add(taillePolice);
@@ -161,6 +165,30 @@ public class FenetreParametre extends JFrame {
 			midPanel.add(couleurCorrection);
 			fastCentering(listeMauvaisesCouleurs, midPanel, "   ");
 			fastCentering(listeCorrectionCouleurs, midPanel, "   ");
+			
+			LookAndFeelInfo[] lfs = UIManager.getInstalledLookAndFeels();
+			JComboBox<Object> lfBox = fastComboBox(controleur, new Object[0]);
+			for (int i = 0; i < lfs.length; i++) {
+				lfBox.addItem(lfs[i].getName());
+				if (UIManager.getLookAndFeel().getName().equals(lfs[i].getName())) {
+					lfBox.setSelectedIndex(i);
+				}
+			}
+			lfBox.addItemListener(new ItemListener() {
+				@Override
+				public void itemStateChanged(ItemEvent e) {
+					try {
+						UIManager.setLookAndFeel(lfs[lfBox.getSelectedIndex()].getClassName());
+						SwingUtilities.updateComponentTreeUI(FenetreParametre.this);
+					} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+							| UnsupportedLookAndFeelException ex) {
+						ex.printStackTrace();
+					}
+				}
+			});
+			midPanel.add(fastLabel("Look And Feel"));
+			midPanel.add(new JLabel());
+			fastCentering(lfBox, midPanel, "   ");
 
 			modeAnticipe = fastRadio("Anticipé", controleur);
 			modeAnticipe.setToolTipText("Mode karaoke");

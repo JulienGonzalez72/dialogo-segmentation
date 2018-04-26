@@ -32,6 +32,9 @@ public class ControlerGlobal {
 		if (n < 0 || n >= p.textHandler.getPhrasesCount()) {
 			throw new IllegalArgumentException("Numéro de segment invalide : " + n);
 		}
+		/// empêche le redimensionnement de la fenêtre lors de la première lecture ///
+		p.fenetre.setResizable(false);
+		
 		if (activeThread != null) {
 			activeThread.doStop();
 		}

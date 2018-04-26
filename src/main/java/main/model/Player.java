@@ -293,8 +293,8 @@ public class Player {
 		return str;
 	}
 
-	public void setCurrentPhrase(int numeroSegmentCourant) {
-		currentPhrase = numeroSegmentCourant;
+	public void setCurrentPhrase(int currentPhrase) {
+		this.currentPhrase = currentPhrase;
 	}
 
 }

@@ -34,8 +34,6 @@ public class TextPane extends JTextPane {
 		getStyledDocument().setParagraphAttributes(0, 0, attrs, false);
 	}
 
-	public int indiceDernierCaractereSurligné;
-
 	/**
 	 * surligne tout de début à fin avec la couleur spécifiée
 	 *
@@ -89,7 +87,6 @@ public class TextPane extends JTextPane {
 	 */
 	public void désurlignerTout() {
 		getHighlighter().removeAllHighlights();
-		indiceDernierCaractereSurligné = 0;
 		redHighlightTags.clear();
 		greenHighlightTags.clear();
 		blueHighlightTags.clear();

@@ -212,9 +212,9 @@ public class ControleurParam implements ActionListener, ChangeListener {
 		int premierSegment = -1;
 		try {
 			premierSegment = Integer.valueOf((String) panneau.segmentDeDepart.getText());
-			if (premierSegment > ((Panneau) FenetreParametre.fen.fenetre.getContentPane()).textHandler.getPhrasesCount()
+			if (premierSegment+2 > ((Panneau) FenetreParametre.fen.fenetre.getContentPane()).textHandler.getPhrasesCount()
 					|| premierSegment < 1) {
-				JOptionPane.showMessageDialog(panneau, "Le segment spécifié n'existe pas.", "Erreur",
+				JOptionPane.showMessageDialog(panneau, "Entrez un segment inférieur à "+(((Panneau) FenetreParametre.fen.fenetre.getContentPane()).textHandler.getPhrasesCount()-1), "Erreur",
 						JOptionPane.ERROR_MESSAGE);
 				premierSegment = 1;
 				panneau.segmentDeDepart.setText("1");

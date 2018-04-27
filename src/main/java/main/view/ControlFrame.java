@@ -361,8 +361,15 @@ public class ControlFrame extends JFrame {
 			this.pan.controlFrame.setVisible(false);
 			this.pan.fenetre.setVisible(false);
 			Point p = new Point(50, 50);
-			new FenetreParametre(Constants.titreFenetreParam, Constants.largeurFenetreParam,
-					Constants.hauteurFenetreParam).setLocation(p);
+			try {
+				UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			FenetreParametre temp = new FenetreParametre(Constants.titreFenetreParam, Constants.largeurFenetreParam,
+					Constants.hauteurFenetreParam);
+			temp.setLocation(p);
+			SwingUtilities.updateComponentTreeUI(temp);
 		});
 		JMenuItem eMenuItem3 = new JMenuItem("Parametres");
 		eMenuItem3.setMnemonic(KeyEvent.VK_P);

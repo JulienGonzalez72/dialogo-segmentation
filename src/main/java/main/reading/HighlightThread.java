@@ -75,11 +75,13 @@ public class HighlightThread extends ReadThread {
 		while (!controler.waitForClick(N)) {
 			// décrémentation du nombre d'essais restants
 			nbTry--;
-			if (nbTry == 0) {
+			if (nbTry <= 0) {
 				/// on arrête l'exécution si le thread est terminé ///
 				if (!running) {
 					return;
 				}
+				//incrémentation des erreurs de segments
+				controler.incrementerErreurSegment();
 				// surligner phrase avec correction
 				controler.highlightPhrase(Constants.WRONG_PHRASE_COLOR, N);
 				// stockage coloriage

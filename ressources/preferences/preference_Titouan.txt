@@ -1,10 +1,10 @@
-w:1000
-h:850
-x:300
-y:5
+w:800
+h:400
+x:506
+y:126
 taillePolice:36
-typePolice:OpenDyslexic Bold
+typePolice:Lexia
 couleur:255/255/150/0/255/0/255/0/0/0/255/255
 mode:HIGHLIGHT
-tempsAttente:48
+tempsAttente:101
 rejouerSon:false

@@ -29,7 +29,7 @@ public class ControlerGlobal {
 	 * Se place sur le segment de numero n et démarre le lecteur.
 	 */
 	public void goTo(int n) throws IllegalArgumentException {
-		if (n < 0 || n >= p.textHandler.getPhrasesCount()) {
+		if (n < FenetreParametre.premierSegment - 1 || n >= p.textHandler.getPhrasesCount() - 1) {
 			throw new IllegalArgumentException("Numéro de segment invalide : " + n);
 		}
 		/// empêche le redimensionnement de la fenêtre lors de la première lecture ///

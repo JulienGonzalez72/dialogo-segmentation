@@ -33,7 +33,7 @@ public class ControleurParam implements ActionListener, ChangeListener {
 			String s = (String) jcb.getSelectedItem();
 			Color color = null;
 			if (s == "Jaune") {
-				color = Constants.BG_COLOR;
+				color = new Color(255, 255, 150);
 			}
 			if (s == "Orange") {
 				color = Color.ORANGE;

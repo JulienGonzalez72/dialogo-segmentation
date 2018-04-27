@@ -273,7 +273,7 @@ public class Panneau extends JPanel {
 			case HIGHLIGHT:
 				message = "L'exercice est terminé." + "\n" + "Le patient a fait " + nbErreurs + " erreur"
 						+ (nbErreurs > 1 ? "s" : "") + " de clic.\n" + "Le patient a fait " + nbErreursParSegment
-						+ " erreur" + (nbErreursParSegment > 1 ? "s" : "") + " de segments.";
+						+ " erreur" + (nbErreursParSegment > 1 ? "s" : "") + " de segment.";
 				break;
 			case ANTICIPATED:
 			case GUIDED_READING:

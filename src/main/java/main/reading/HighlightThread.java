@@ -72,6 +72,7 @@ public class HighlightThread extends ReadThread {
 		// restauration du nombre d'essais
 		int nbTry = FenetreParametre.nbFautesTolerees;
 		// tant que on a pas fait le bon clic
+		boolean doOne = true;
 		while (!controler.waitForClick(N)) {
 			// décrémentation du nombre d'essais restants
 			nbTry--;
@@ -80,8 +81,11 @@ public class HighlightThread extends ReadThread {
 				if (!running) {
 					return;
 				}
-				//incrémentation des erreurs de segments
-				controler.incrementerErreurSegment();
+				if (doOne) {
+					// incrémentation des erreurs de segments
+					controler.incrementerErreurSegment();
+					doOne = false;
+				}
 				// surligner phrase avec correction
 				controler.highlightPhrase(Constants.WRONG_PHRASE_COLOR, N);
 				// stockage coloriage

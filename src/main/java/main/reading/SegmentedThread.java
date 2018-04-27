@@ -18,12 +18,16 @@ public class SegmentedThread extends ReadThread {
 		/// attente de la fin du temps de pause ///
 		controler.doWait(controler.getCurrentWaitTime(), Constants.CURSOR_SPEAK);
 		int nbTry = FenetreParametre.nbFautesTolerees;
-		//tant que on a pas fait le bon clic
+		boolean doOne = true;
+		// tant que on a pas fait le bon clic
 		while (!controler.waitForClick(N)) {
 			nbTry--;
 			if (nbTry == 0) {
-				//incrémentation des erreurs de segments
-				controler.incrementerErreurSegment();
+				if (doOne) {
+					// incrémentation des erreurs de segments
+					controler.incrementerErreurSegment();
+					doOne = false;
+				}
 				// surligner phrase avec correction
 				controler.highlightPhrase(Constants.WRONG_PHRASE_COLOR, N);
 				// rejouer son

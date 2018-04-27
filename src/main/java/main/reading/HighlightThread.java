@@ -80,6 +80,8 @@ public class HighlightThread extends ReadThread {
 				if (!running) {
 					return;
 				}
+				//incrémentation des erreurs de segments
+				controler.incrementerErreurSegment();
 				// surligner phrase avec correction
 				controler.highlightPhrase(Constants.WRONG_PHRASE_COLOR, N);
 				// stockage coloriage

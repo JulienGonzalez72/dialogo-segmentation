@@ -32,6 +32,7 @@ public class Panneau extends JPanel {
 	public int nbEssaisParSegment = defautNBEssaisParSegment;
 	public int nbEssaisRestantPourLeSegmentCourant = defautNBEssaisParSegment;
 	public int nbErreurs;
+	public int nbErreursParSegment;
 	public JFrame fenetre;
 	public ControlFrame controlFrame;
 	public ControlerGlobal controlerGlobal;
@@ -55,7 +56,7 @@ public class Panneau extends JPanel {
 		textHandler = new TextHandler(texteCesures);
 
 		this.setLayout(new BorderLayout());
-		
+
 		editorPane = new TextPane();
 		editorPane.setEditable(false);
 		add(editorPane, BorderLayout.CENTER);
@@ -69,13 +70,13 @@ public class Panneau extends JPanel {
 		editorPane.setFont(FenetreParametre.police);
 		pageActuelle = 0;
 		nbEssaisRestantPourLeSegmentCourant = nbEssaisParSegment = FenetreParametre.nbFautesTolerees;
-		
+
 		/// construit la mise en page virtuelle ///
 		rebuildPages();
 		/// initialise le lecteur et le démarre ///
 		player = new Player(textHandler);
 		player.load(FenetreParametre.premierSegment - 1);
-		//controlerGlobal.goTo(FenetreParametre.premierSegment - 1);
+		// controlerGlobal.goTo(FenetreParametre.premierSegment - 1);
 
 		controlFrame = new ControlFrame(this);
 		controlerKey = new ControlerKey(player);
@@ -91,7 +92,7 @@ public class Panneau extends JPanel {
 		Cursor monCurseur = tk.createCustomCursor(img, new Point(16, 16), fileName);
 		setCursor(monCurseur);
 	}
-	
+
 	public String getCursorName() {
 		return getCursor().getName();
 	}
@@ -149,7 +150,7 @@ public class Panneau extends JPanel {
 			editorPane.désurlignerTout();
 		}
 	}
-	
+
 	/**
 	 * Construit les pages
 	 */
@@ -173,7 +174,8 @@ public class Panneau extends JPanel {
 				h = editorPane.modelToView(0).height;
 			} catch (BadLocationException e) {
 				e.printStackTrace();
-			} catch (NullPointerException e) {}
+			} catch (NullPointerException e) {
+			}
 			int off = textHandler.getAbsoluteOffset(lastPhrase,
 					editorPane.viewToModel(new Point((int) (editorPane.getWidth() - Constants.TEXTPANE_MARGING),
 							(int) (editorPane.getHeight() - h))));
@@ -223,10 +225,8 @@ public class Panneau extends JPanel {
 			texteAfficher += string;
 		}
 		editorPane.setText(texteAfficher);
-		
+
 	}
-	
-	
 
 	public boolean pageFinis() {
 		// la page actuelle contient t-elle le segment suivant ? si non elle est finis
@@ -256,8 +256,9 @@ public class Panneau extends JPanel {
 			switch (FenetreParametre.readMode) {
 			case NORMAL:
 			case HIGHLIGHT:
-				message = "L'exercice est terminé." + "\n" + "Le patient a fait : " + nbErreurs + " erreur"
-						+ (nbErreurs > 1 ? "s" : "") + ".";
+				message = "L'exercice est terminé." + "\n" + "Le patient a fait " + nbErreurs + " erreur"
+						+ (nbErreurs > 1 ? "s" : "") + " de clic.\n" + " Le patient a fait " + nbErreursParSegment
+						+ " erreur" + (nbErreursParSegment > 1 ? "s" : "") + " de segments.";
 				break;
 			case ANTICIPATED:
 			case GUIDED_READING:

@@ -294,4 +294,8 @@ public class ControlerGlobal {
 		return t;
 	}
 
+	public void incrementerErreurSegment() {
+		p.nbErreursParSegment++;	
+	}
+
 }

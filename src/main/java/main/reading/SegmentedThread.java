@@ -22,6 +22,8 @@ public class SegmentedThread extends ReadThread {
 		while (!controler.waitForClick(N)) {
 			nbTry--;
 			if (nbTry == 0) {
+				//incrémentation des erreurs de segments
+				controler.incrementerErreurSegment();
 				// surligner phrase avec correction
 				controler.highlightPhrase(Constants.WRONG_PHRASE_COLOR, N);
 				// rejouer son

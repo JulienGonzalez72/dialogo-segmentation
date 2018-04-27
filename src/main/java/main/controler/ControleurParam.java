@@ -113,6 +113,8 @@ public class ControleurParam implements ActionListener, ChangeListener {
 			FenetreParametre.rejouerSon = panneau.rejouerSon.isSelected();
 		}
 		if (arg0.getSource() == panneau.valider) {
+			//mise a jour de la couleur de la barre de progression
+			FenetreParametre.fen.fenetre.pan.progressBar.setForeground(Constants.RIGHT_COLOR);
 			if (verifierValiditeChamp()) {
 				try {
 				} catch (Exception e) {

@@ -44,6 +44,11 @@ public class Panneau extends JPanel {
 
 	/// lecteur des phrases ///
 	public Player player;
+	
+	/**
+	 *  Barre de progression
+	 */
+	public JProgressBar progressBar;
 
 	public Panneau(JFrame fenetre) throws IOException {
 		this.controlerGlobal = new ControlerGlobal(this);
@@ -60,12 +65,19 @@ public class Panneau extends JPanel {
 		editorPane = new TextPane();
 		editorPane.setEditable(false);
 		add(editorPane, BorderLayout.CENTER);
+		
+		progressBar = new JProgressBar(0, (textHandler.getPhrasesCount()-1));
+		progressBar.setStringPainted(true);
+		progressBar.setForeground(Constants.RIGHT_COLOR);
+		add(progressBar, BorderLayout.SOUTH);
 	}
 
 	/**
 	 * S'exécute lorsque le panneau s'est bien intégré à la fenêtre.
 	 */
 	public void init() {
+		progressBar.setString(FenetreParametre.premierSegment+"/"+(textHandler.getPhrasesCount()-1));
+		progressBar.setValue(FenetreParametre.premierSegment);
 		editorPane.setBackground(FenetreParametre.couleurFond);
 		editorPane.setFont(FenetreParametre.police);
 		pageActuelle = 0;
@@ -245,6 +257,9 @@ public class Panneau extends JPanel {
 	}
 
 	public void afficherCompteRendu() {
+		//met a jour la barre de progression
+		progressBar.setValue(textHandler.getPhrasesCount()-1);
+		progressBar.setString((textHandler.getPhrasesCount()-1)+"/"+(textHandler.getPhrasesCount()-1));
 		// desactivation du controleur
 		controlFrame.setVisible(false);
 		Object optionPaneBG = UIManager.get("OptionPane.background");
@@ -257,7 +272,7 @@ public class Panneau extends JPanel {
 			case NORMAL:
 			case HIGHLIGHT:
 				message = "L'exercice est terminé." + "\n" + "Le patient a fait " + nbErreurs + " erreur"
-						+ (nbErreurs > 1 ? "s" : "") + " de clic.\n" + " Le patient a fait " + nbErreursParSegment
+						+ (nbErreurs > 1 ? "s" : "") + " de clic.\n" + "Le patient a fait " + nbErreursParSegment
 						+ " erreur" + (nbErreursParSegment > 1 ? "s" : "") + " de segments.";
 				break;
 			case ANTICIPATED:

@@ -191,7 +191,7 @@ public class FenetreParametre extends JFrame {
 			fastCentering(lfBox, midPanel, "   ");
 
 			modeAnticipe = fastRadio("Anticipé", controleur);
-			modeAnticipe.setToolTipText("Mode karaoke");
+			modeAnticipe.setToolTipText("Mode Anticipé");
 			modeSurlignage = fastRadio("Suivi", controleur);
 			modeSurlignage.setToolTipText("Mode de lecture segmentée : version surlignage");
 			modeKaraoke = fastRadio("Guidé", controleur);

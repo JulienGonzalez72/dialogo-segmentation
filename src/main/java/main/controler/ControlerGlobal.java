@@ -35,6 +35,10 @@ public class ControlerGlobal {
 		/// empêche le redimensionnement de la fenêtre lors de la première lecture ///
 		p.fenetre.setResizable(false);
 		
+		//met a jour la barre de progression
+		p.progressBar.setValue(n);
+		p.progressBar.setString(n+"/"+(p.textHandler.getPhrasesCount()-1));
+		
 		if (activeThread != null) {
 			activeThread.doStop();
 		}

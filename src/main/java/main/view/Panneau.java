@@ -226,7 +226,7 @@ public class Panneau extends JPanel {
 			return;
 		}
 		pageActuelle = page;
-		fenetre.setTitle("Lexidia - Page " + page);
+		fenetre.setTitle("Lexidia - "+FenetreParametre.readMode+" - Page " + page);
 		String texteAfficher = "";
 		// on recupere les segments a afficher dans la page
 		List<String> liste = new ArrayList<String>();

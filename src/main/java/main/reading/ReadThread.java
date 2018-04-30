@@ -2,7 +2,8 @@ package main.reading;
 
 import java.util.*;
 
-import main.controler.ControlerGlobal;
+import main.controler.ControlerText;
+import main.model.Player;
 
 public abstract class ReadThread extends Thread {
 	
@@ -16,9 +17,10 @@ public abstract class ReadThread extends Thread {
 	**/
 	public List<Runnable> onPhraseEnd = new ArrayList<>();
 	public boolean running = true;
-	public ControlerGlobal controler;
+	public ControlerText controler;
+	public Player player;
 	
-	public ReadThread(ControlerGlobal controler, int N) {
+	public ReadThread(ControlerText controler, int N) {
 		this.controler = controler;
 		this.N = N;
 	}

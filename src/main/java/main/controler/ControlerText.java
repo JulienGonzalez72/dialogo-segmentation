@@ -3,24 +3,33 @@ package main.controler;
 import java.awt.Color;
 import java.awt.Cursor;
 import main.Constants;
+<<<<<<< HEAD:src/main/java/main/controler/ControlerGlobal.java
 import main.reading.*;
 import main.view.Panneau;
 
 public class ControlerGlobal {
+=======
+import main.view.FenetreParametre;
+import main.view.Panneau;
+
+public class ControlerText {
+>>>>>>> 6053799deedfbe63b37fb2b44be7353a2dbd57a5:src/main/java/main/controler/ControlerText.java
 
 	public Panneau p;
-	/**
-	 * Thread de lecture actif
-	 */
-	private ReadThread activeThread;
 
 	/**
 	 * Construit un contrôleur à partir du panneau correspondant.
 	 */
-	public ControlerGlobal(Panneau p) {
+	public ControlerText(Panneau p) {
 		this.p = p;
 	}
+<<<<<<< HEAD:src/main/java/main/controler/ControlerGlobal.java
 
+=======
+<<<<<<< HEAD:src/main/java/main/controler/ControlerText.java
+=======
+	
+>>>>>>> 6053799deedfbe63b37fb2b44be7353a2dbd57a5:src/main/java/main/controler/ControlerText.java
 	/**
 	 * Se place sur le segment de numero n et démarre le lecteur.
 	 */
@@ -57,6 +66,7 @@ public class ControlerGlobal {
 		System.out.println(Thread.activeCount() + " //// " + System.currentTimeMillis());
 		activeThread.start();
 	}
+>>>>>>> 3d10d562a026221f85d982a46ae1e21be2fcaf2a:src/main/java/main/controler/ControlerGlobal.java
 
 	/**
 	 * Construit les pages à partir du segment de numero spécifié.
@@ -73,8 +83,14 @@ public class ControlerGlobal {
 	}
 
 	/**
+<<<<<<< HEAD:src/main/java/main/controler/ControlerGlobal.java
 	 * Joue un fichier .wav correspondant à un segment de phrase. On sortira de
 	 * cette fonction lorsque le fichier .wav aura été totalement joué.
+=======
+	 * Joue un fichier .wav correspondant à un segment de phrase.
+	 * On sortira de cette fonction lorsque le fichier .wav aura été totalement joué.
+	 * METHODE DE TEST
+>>>>>>> 6053799deedfbe63b37fb2b44be7353a2dbd57a5:src/main/java/main/controler/ControlerText.java
 	 */
 	public void play(int phrase) {
 		p.setCursor(Constants.CURSOR_LISTEN);
@@ -138,6 +154,7 @@ public class ControlerGlobal {
 			Thread.sleep(time);
 			p.setCursor(Cursor.getDefaultCursor());
 		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
 		}
 	}
 
@@ -224,6 +241,7 @@ public class ControlerGlobal {
 	public void removeWrongHighlights() {
 		p.editorPane.enleverSurlignageRouge();
 	}
+<<<<<<< HEAD:src/main/java/main/controler/ControlerGlobal.java
 
 	/**
 	 * Essaye de passer au segment suivant, passe à la page suivante si c'était le
@@ -257,6 +275,8 @@ public class ControlerGlobal {
 	public void doPlay() {
 		goTo(p.player.getCurrentPhraseIndex());
 	}
+=======
+>>>>>>> 6053799deedfbe63b37fb2b44be7353a2dbd57a5:src/main/java/main/controler/ControlerText.java
 
 	/**
 	 * Retourne la page qui contient le segment, ou -1 si le segment n'existe pas.
@@ -279,6 +299,8 @@ public class ControlerGlobal {
 		p.surlignerJusquaSegment(c, n);
 	}
 
+<<<<<<< HEAD:src/main/java/main/controler/ControlerText.java
+=======
 	/**
 	 * Créé un processus associé à la lecture d'un seul segment dans le mode de
 	 * lecture actuel.
@@ -305,6 +327,7 @@ public class ControlerGlobal {
 		return t;
 	}
 
+>>>>>>> 3d10d562a026221f85d982a46ae1e21be2fcaf2a:src/main/java/main/controler/ControlerGlobal.java
 	public void incrementerErreurSegment() {
 		p.nbErreursParSegment++;
 	}

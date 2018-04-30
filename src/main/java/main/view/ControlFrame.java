@@ -56,7 +56,7 @@ public class ControlFrame extends JFrame {
 		previousButton.setEnabled(player.hasPreviousPhrase());
 		previousButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				pan.controlerGlobal.doPrevious();
+				pan.pilot.doPrevious();
 				updateButtons();
 			}
 		});
@@ -66,9 +66,16 @@ public class ControlFrame extends JFrame {
 		playButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (player.isPlaying()) {
+<<<<<<< HEAD
+					pan.pilot.doStop();
+				}
+				else {
+					pan.pilot.doPlay();
+=======
 					pan.controlerGlobal.doStop();
 				} else {
 					pan.controlerGlobal.doPlay();
+>>>>>>> 3d10d562a026221f85d982a46ae1e21be2fcaf2a
 				}
 				updateButtons();
 			}
@@ -79,8 +86,13 @@ public class ControlFrame extends JFrame {
 		nextButton.setEnabled(player.hasNextPhrase());
 		nextButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+<<<<<<< HEAD
+				pan.pilot.doNext();
+				updateButtons();
+=======
 					pan.controlerGlobal.doNext();
 					updateButtons();
+>>>>>>> 3d10d562a026221f85d982a46ae1e21be2fcaf2a
 			}
 		});
 
@@ -89,7 +101,7 @@ public class ControlFrame extends JFrame {
 		repeatButton.setEnabled(false);
 		repeatButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				pan.controlerGlobal.doPlay();
+				pan.pilot.doPlay();
 				updateButtons();
 			}
 		});
@@ -110,7 +122,7 @@ public class ControlFrame extends JFrame {
 			int n;
 			try {
 				n = Integer.parseInt(goToField.getText()) - 1;
-				pan.controlerGlobal.goTo(n);
+				pan.pilot.goTo(n);
 			} catch (IllegalArgumentException ex) {
 				JOptionPane.showMessageDialog(null, "Numéro de segment incorrect : " + goToField.getText());
 			}
@@ -131,18 +143,40 @@ public class ControlFrame extends JFrame {
 			playButton.setIcon(new ImageIcon(player.isPlaying() ? pauseIcon : playIcon));
 			nextButton.setEnabled(player.hasNextPhrase());
 			repeatButton.setEnabled(player.isPlaying());
+			goToField.setEnabled(true);
 		} else {
 			previousButton.setEnabled(false);
 			playButton.setEnabled(false);
 			nextButton.setEnabled(false);
 			repeatButton.setEnabled(false);
+			goToField.setEnabled(false);
 		}
+<<<<<<< HEAD
+=======
 		//goToField.setText(String.valueOf(player.getCurrentPhraseIndex() + 1));
+>>>>>>> 3d10d562a026221f85d982a46ae1e21be2fcaf2a
 	}
 
 	public void disableAll() {
 		usable = false;
 		updateButtons();
+	}
+	
+	/**
+	 * Désactive tous les boutons de la fenêtre de contrôle puis les ré-active après le temps duration.
+	 */
+	public void disableAll(long duration) {
+		disableAll();
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Thread.sleep(duration);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				enableAll();
+			}
+		});
 	}
 
 	public void enableAll() {

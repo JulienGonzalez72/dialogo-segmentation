@@ -2,11 +2,21 @@ package main.controler;
 
 import java.awt.Color;
 import java.awt.Cursor;
-
 import main.Constants;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD:src/main/java/main/controler/ControlerGlobal.java
+import main.reading.*;
+import main.view.Panneau;
+
+public class ControlerGlobal {
+=======
+import main.view.FenetreParametre;
+>>>>>>> 67f95c8b6b2bee3b73310353d8b8a284f2142584
 import main.view.Panneau;
 
 public class ControlerText {
+>>>>>>> 6053799deedfbe63b37fb2b44be7353a2dbd57a5:src/main/java/main/controler/ControlerText.java
 
 	public Panneau p;
 
@@ -16,6 +26,53 @@ public class ControlerText {
 	public ControlerText(Panneau p) {
 		this.p = p;
 	}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD:src/main/java/main/controler/ControlerGlobal.java
+
+=======
+<<<<<<< HEAD:src/main/java/main/controler/ControlerText.java
+=======
+	
+>>>>>>> 6053799deedfbe63b37fb2b44be7353a2dbd57a5:src/main/java/main/controler/ControlerText.java
+	/**
+	 * Se place sur le segment de numero n et démarre le lecteur.
+	 */
+	public void goTo(int n) throws IllegalArgumentException {
+		if (n < p.param.premierSegment - 1 || n >= p.textHandler.getPhrasesCount() - 1) {
+			throw new IllegalArgumentException("Numéro de segment invalide : " + n);
+		}
+		// vire le surlignagerouge
+		p.editorPane.enleverSurlignageRouge();
+
+		/// empêche le redimensionnement de la fenêtre lors de la première lecture ///
+		p.fenetre.setResizable(false);
+
+		// met a jour la barre de progression
+		p.progressBar.setValue(n);
+		p.progressBar.setString(n + "/" + (p.textHandler.getPhrasesCount() - 1));
+
+		if (activeThread != null) {
+			activeThread.doStop();
+		}
+		activeThread = getReadThread(n);
+		activeThread.onPhraseEnd.add(new Runnable() {
+			public void run() {
+				/// fin du dernier segment du texte ///
+				if (n == p.textHandler.getPhrasesCount() - 2) {
+					p.afficherCompteRendu();
+				}
+				/// passe au segment suivant ///
+				else {
+					goTo(n + 1);
+				}
+			}
+		});
+		System.out.println(Thread.activeCount() + " //// " + System.currentTimeMillis());
+		activeThread.start();
+	}
+>>>>>>> 3d10d562a026221f85d982a46ae1e21be2fcaf2a:src/main/java/main/controler/ControlerGlobal.java
+>>>>>>> 67f95c8b6b2bee3b73310353d8b8a284f2142584
 
 	/**
 	 * Construit les pages à partir du segment de numero spécifié.
@@ -30,11 +87,16 @@ public class ControlerText {
 	public void showPage(int page) {
 		p.showPage(page);
 	}
-	
+
 	/**
+<<<<<<< HEAD:src/main/java/main/controler/ControlerGlobal.java
+	 * Joue un fichier .wav correspondant à un segment de phrase. On sortira de
+	 * cette fonction lorsque le fichier .wav aura été totalement joué.
+=======
 	 * Joue un fichier .wav correspondant à un segment de phrase.
 	 * On sortira de cette fonction lorsque le fichier .wav aura été totalement joué.
 	 * METHODE DE TEST
+>>>>>>> 6053799deedfbe63b37fb2b44be7353a2dbd57a5:src/main/java/main/controler/ControlerText.java
 	 */
 	public void play(int phrase) {
 		p.setCursor(Constants.CURSOR_LISTEN);
@@ -44,7 +106,8 @@ public class ControlerText {
 				p.setCursor(Cursor.getDefaultCursor());
 				break;
 			}
-			/// fixe toujours le curseur d'écoute pendant toute la durée de l'enregistrement ///
+			/// fixe toujours le curseur d'écoute pendant toute la durée de l'enregistrement
+			/// ///
 			else if (!p.getCursorName().equals(Constants.CURSOR_SPEAK)) {
 				p.setCursor(Constants.CURSOR_LISTEN);
 			}
@@ -59,7 +122,8 @@ public class ControlerText {
 	}
 
 	/**
-	 * Retourne la durée en millisecondes de l'enregistrement qui correspond au segment de phrase indiqué.
+	 * Retourne la durée en millisecondes de l'enregistrement qui correspond au
+	 * segment de phrase indiqué.
 	 */
 	public long getPhraseDuration(int phrase) {
 		p.player.load(phrase);
@@ -74,7 +138,8 @@ public class ControlerText {
 	}
 
 	/**
-	 * Retourne le temps d'attente en millisecondes correspondant à l'enregistrement courant.
+	 * Retourne le temps d'attente en millisecondes correspondant à l'enregistrement
+	 * courant.
 	 */
 	public long getCurrentWaitTime() {
 		return (long) (getCurrentPhraseDuration() * p.param.tempsPauseEnPourcentageDuTempsDeLecture / 100.);
@@ -104,10 +169,10 @@ public class ControlerText {
 	 * <ul>
 	 * <li>Paramètre d’entrée 1: Numéro de segment</li>
 	 * <li>Paramètre de sortie : True ou False (réussite)</li>
-	 * <li>On sort de cette fonction lorsqu’un clic a été réalisé.
-	 * Si le clic a été réalisé sur le bon mot on sort avec true, et si le clic a été réalisé sur une partie erronée,
-	 * on surligne cette partie avec une couleur qui indique une erreur, Rouge ? En paramètre ?
-	 * Et on sort avec False.
+	 * <li>On sort de cette fonction lorsqu’un clic a été réalisé. Si le clic a été
+	 * réalisé sur le bon mot on sort avec true, et si le clic a été réalisé sur une
+	 * partie erronée, on surligne cette partie avec une couleur qui indique une
+	 * erreur, Rouge ? En paramètre ? Et on sort avec False.
 	 * </ul>
 	 */
 	public boolean waitForClick(int n) {
@@ -116,9 +181,11 @@ public class ControlerText {
 			Thread.yield();
 			if (p.controlerMouse.clicking) {
 				/// cherche la position exacte dans le texte ///
-				int offset = p.textHandler.getAbsoluteOffset(p.getNumeroPremierSegmentAffiché(),p.editorPane.getCaretPosition());
+				int offset = p.textHandler.getAbsoluteOffset(p.getNumeroPremierSegmentAffiché(),
+						p.editorPane.getCaretPosition());
 				/// si le clic est juste ///
-				if (p.textHandler.wordPause(offset) && p.textHandler.getPhraseIndex(offset) == p.player.getCurrentPhraseIndex()) {
+				if (p.textHandler.wordPause(offset)
+						&& p.textHandler.getPhraseIndex(offset) == p.player.getCurrentPhraseIndex()) {
 					return true;
 				}
 				/// si le clic est faux ///
@@ -164,10 +231,11 @@ public class ControlerText {
 		p.player.stop();
 		p.editorPane.désurlignerTout();
 	}
-	
+
 	/**
 	 * Charge un segment de phrase dans le lecteur sans le démarrer.<br>
-	 * Pas nécessaire si on démarre le lecteur directement avec la méthode {@link #play}.
+	 * Pas nécessaire si on démarre le lecteur directement avec la méthode
+	 * {@link #play}.
 	 */
 	public void loadSound(int phrase) {
 		p.player.load(phrase);
@@ -179,6 +247,42 @@ public class ControlerText {
 	public void removeWrongHighlights() {
 		p.editorPane.enleverSurlignageRouge();
 	}
+<<<<<<< HEAD:src/main/java/main/controler/ControlerGlobal.java
+
+	/**
+	 * Essaye de passer au segment suivant, passe à la page suivante si c'était le
+	 * dernier segment de la page. Déclenche une erreur si on était au dernier
+	 * segment du texte.
+	 */
+	public void doNext() {
+		goTo(p.player.getCurrentPhraseIndex() + 1);
+	}
+
+	/**
+	 * Essaye de passer au segment précédent. Déclenche une erreur si on était au
+	 * premier segment du texte.
+	 */
+	public void doPrevious() {
+		goTo(p.player.getCurrentPhraseIndex() - 1);
+	}
+
+	/**
+	 * Essaye d'arrêter l'enregistrement en cours.
+	 */
+	public void doStop() {
+		p.player.stop();
+		activeThread.doStop();
+	}
+
+	/**
+	 * Essaye de reprendre l'enregistrement. Si il est déjà démarré, reprend depuis
+	 * le début.
+	 */
+	public void doPlay() {
+		goTo(p.player.getCurrentPhraseIndex());
+	}
+=======
+>>>>>>> 6053799deedfbe63b37fb2b44be7353a2dbd57a5:src/main/java/main/controler/ControlerText.java
 
 	/**
 	 * Retourne la page qui contient le segment, ou -1 si le segment n'existe pas.
@@ -200,9 +304,42 @@ public class ControlerText {
 	public void highlightUntilPhrase(Color c, int n) {
 		p.surlignerJusquaSegment(c, n);
 	}
+<<<<<<< HEAD
 	
+=======
+
+<<<<<<< HEAD:src/main/java/main/controler/ControlerText.java
+=======
+	/**
+	 * Créé un processus associé à la lecture d'un seul segment dans le mode de
+	 * lecture actuel.
+	 */
+	public ReadThread getReadThread(int n) {
+		ReadThread t;
+		switch (p.param.readMode) {
+		case ANTICIPATED:
+			t = new AnticipatedThread(this, n);
+			break;
+		case GUIDED_READING:
+			t = new GuidedThread(this, n);
+			break;
+		case NORMAL:
+			t = new SegmentedThread(this, n);
+			break;
+		case HIGHLIGHT:
+			t = new HighlightThread(this, n);
+			break;
+		default:
+			t = null;
+			break;
+		}
+		return t;
+	}
+
+>>>>>>> 3d10d562a026221f85d982a46ae1e21be2fcaf2a:src/main/java/main/controler/ControlerGlobal.java
+>>>>>>> 67f95c8b6b2bee3b73310353d8b8a284f2142584
 	public void incrementerErreurSegment() {
-		p.nbErreursParSegment++;	
+		p.nbErreursParSegment++;
 	}
 
 }

@@ -66,16 +66,10 @@ public class ControlFrame extends JFrame {
 		playButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (player.isPlaying()) {
-<<<<<<< HEAD
 					pan.pilot.doStop();
 				}
 				else {
 					pan.pilot.doPlay();
-=======
-					pan.controlerGlobal.doStop();
-				} else {
-					pan.controlerGlobal.doPlay();
->>>>>>> 3d10d562a026221f85d982a46ae1e21be2fcaf2a
 				}
 				updateButtons();
 			}
@@ -86,13 +80,8 @@ public class ControlFrame extends JFrame {
 		nextButton.setEnabled(player.hasNextPhrase());
 		nextButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-<<<<<<< HEAD
 				pan.pilot.doNext();
 				updateButtons();
-=======
-					pan.controlerGlobal.doNext();
-					updateButtons();
->>>>>>> 3d10d562a026221f85d982a46ae1e21be2fcaf2a
 			}
 		});
 
@@ -151,10 +140,6 @@ public class ControlFrame extends JFrame {
 			repeatButton.setEnabled(false);
 			goToField.setEnabled(false);
 		}
-<<<<<<< HEAD
-=======
-		//goToField.setText(String.valueOf(player.getCurrentPhraseIndex() + 1));
->>>>>>> 3d10d562a026221f85d982a46ae1e21be2fcaf2a
 	}
 
 	public void disableAll() {

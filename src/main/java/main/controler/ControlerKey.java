@@ -5,14 +5,14 @@ import main.Constants;
 
 public class ControlerKey implements KeyListener {
 
-	ControlerGlobal controler;
+	ControlerText controler;
 
 	/**
 	 * Moment du dernier clic
 	 */
 	private long lastClick;
 
-	public ControlerKey(ControlerGlobal c) {
+	public ControlerKey(ControlerText c) {
 		this.controler = c;
 	}
 

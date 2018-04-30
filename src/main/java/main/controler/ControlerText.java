@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Cursor;
 
 import main.Constants;
-import main.view.FenetreParametre;
 import main.view.Panneau;
 
 public class ControlerText {
@@ -17,45 +16,6 @@ public class ControlerText {
 	public ControlerText(Panneau p) {
 		this.p = p;
 	}
-<<<<<<< HEAD:src/main/java/main/controler/ControlerText.java
-=======
-	
-	/**
-	 * Se place sur le segment de numero n et démarre le lecteur.
-	 */
-	 public void goTo(int n) throws IllegalArgumentException {	
-		if (n < p.param.premierSegment - 1 || n >= p.textHandler.getPhrasesCount() - 1) {
-			throw new IllegalArgumentException("Numéro de segment invalide : " + n);
-		}
-		//vire le surlignagerouge
-		p.editorPane.enleverSurlignageRouge();
-		
-		/// empêche le redimensionnement de la fenêtre lors de la première lecture ///
-		p.fenetre.setResizable(false);
-		
-		//met a jour la barre de progression
-		p.progressBar.setValue(n);
-		p.progressBar.setString(n+"/"+(p.textHandler.getPhrasesCount()-1));
-		
-		if (activeThread != null) {
-			activeThread.doStop();
-		}
-		activeThread = getReadThread(n);
-		activeThread.onPhraseEnd.add(new Runnable() {
-			public void run() {
-				/// fin du dernier segment du texte ///
-				if (n == p.textHandler.getPhrasesCount() - 2) {
-					p.afficherCompteRendu();
-				}
-				/// passe au segment suivant ///
-				else {
-					goTo(n + 1);
-				}
-			}
-		});
-		activeThread.start();
-	}
->>>>>>> 3d10d562a026221f85d982a46ae1e21be2fcaf2a:src/main/java/main/controler/ControlerGlobal.java
 
 	/**
 	 * Construit les pages à partir du segment de numero spécifié.
@@ -240,36 +200,7 @@ public class ControlerText {
 	public void highlightUntilPhrase(Color c, int n) {
 		p.surlignerJusquaSegment(c, n);
 	}
-
-<<<<<<< HEAD:src/main/java/main/controler/ControlerText.java
-=======
-	/**
-	 * Créé un processus associé à la lecture d'un seul segment dans le mode de
-	 * lecture actuel.
-	 */
-	public ReadThread getReadThread(int n) {
-		ReadThread t;
-		switch (p.param.readMode) {
-			case ANTICIPATED:
-				t = new AnticipatedThread(this, n);
-				break;
-			case GUIDED_READING:
-				t = new GuidedThread(this, n);
-				break;
-			case NORMAL:
-				t = new SegmentedThread(this, n);
-				break;
-			case HIGHLIGHT:
-				t = new HighlightThread(this, n);
-				break;
-			default:
-				t = null;
-				break;
-		}
-		return t;
-	}
-
->>>>>>> 3d10d562a026221f85d982a46ae1e21be2fcaf2a:src/main/java/main/controler/ControlerGlobal.java
+	
 	public void incrementerErreurSegment() {
 		p.nbErreursParSegment++;	
 	}

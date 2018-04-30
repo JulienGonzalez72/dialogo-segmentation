@@ -27,7 +27,7 @@ public class Pilot {
 	 * Se place sur le segment de numero n et démarre le lecteur.
 	 */
 	public void goTo(int n) throws IllegalArgumentException {
-		if (n < FenetreParametre.premierSegment - 1 || n >= p.textHandler.getPhrasesCount() - 1) {
+		if (n < p.param.premierSegment - 1 || n >= p.textHandler.getPhrasesCount() - 1) {
 			throw new IllegalArgumentException("Numéro de segment invalide : " + n);
 		}
 		/// désactive les boutons de contrôle pour éviter le spam ///
@@ -99,7 +99,7 @@ public class Pilot {
 	 */
 	public ReadThread getReadThread(int n) {
 		ReadThread t;
-		switch (FenetreParametre.readMode) {
+		switch (p.param.readMode) {
 			case ANTICIPATED:
 				t = new AnticipatedThread(controler, n);
 				break;
@@ -117,6 +117,10 @@ public class Pilot {
 				break;
 		}
 		return t;
+	}
+	
+	public int getCurrentPhraseIndex() {
+		return p.player.getCurrentPhraseIndex();
 	}
 	
 }

@@ -1,21 +1,19 @@
 package main.controler;
 
 import java.awt.event.*;
-
 import main.Constants;
-import main.model.Player;
 
 public class ControlerKey implements KeyListener {
 
-	private Player player;
-	
+	ControlerGlobal controler;
+
 	/**
-	 *  Moment du dernier clic
+	 * Moment du dernier clic
 	 */
 	private long lastClick;
-	
-	public ControlerKey(Player player) {
-		this.player = player;
+
+	public ControlerKey(ControlerGlobal c) {
+		this.controler = c;
 	}
 
 	@Override
@@ -23,23 +21,23 @@ public class ControlerKey implements KeyListener {
 		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 			/// recommence le segment ///
 			if (e.getWhen() - lastClick > Constants.LEFT_DELAY) {
-				player.repeat();
+				controler.goTo(controler.p.player.getCurrentPhraseIndex());
 			}
 			/// retourne au segment précédent ///
-			else if (player.hasPreviousPhrase()) {
-				player.previousPhrase();
+			else if (controler.p.player.hasPreviousPhrase()) {
+				controler.goTo(controler.p.player.getCurrentPhraseIndex() - 1);
 			}
 			lastClick = e.getWhen();
 		}
-		
+
 		else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 			/// pause ///
-			if (player.isPlaying()) {
-				player.stop();
+			if (controler.p.player.isPlaying()) {
+				controler.p.player.stop();
 			}
 			/// reprend le segment ///
 			else {
-				player.play();
+				controler.p.player.play();
 			}
 		}
 	}
@@ -51,5 +49,5 @@ public class ControlerKey implements KeyListener {
 	@Override
 	public void keyTyped(KeyEvent e) {
 	}
-	
+
 }

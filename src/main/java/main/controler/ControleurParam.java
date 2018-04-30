@@ -11,6 +11,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.text.BadLocationException;
 
 import main.Constants;
+import main.Parametres;
 import main.reading.ReadMode;
 import main.view.FenetreParametre;
 import main.view.Panneau;
@@ -18,9 +19,13 @@ import main.view.Panneau;
 public class ControleurParam implements ActionListener, ChangeListener {
 
 	FenetreParametre.PanneauParam panneau;
+	FenetreParametre fen;
+	Parametres param;
 
-	public ControleurParam(FenetreParametre.PanneauParam p) {
+	public ControleurParam(FenetreParametre fen, FenetreParametre.PanneauParam p) {
 		this.panneau = p;
+		this.fen = fen;
+		param = fen.param;
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
@@ -64,94 +69,94 @@ public class ControleurParam implements ActionListener, ChangeListener {
 				Constants.RIGHT_COLOR = color;
 			}
 			if (jcb == panneau.listeCouleurs) {
-				if (FenetreParametre.editorPane != null) {
-					FenetreParametre.editorPane.setBackground(color);
+				if (fen.editorPane != null) {
+					fen.editorPane.setBackground(color);
 				}
-				FenetreParametre.couleurFond = color;
+				param.couleurFond = color;
 			}
 			panneau.grabFocus();
 		}
 		if (jcb == panneau.listeTailles) {
 			int taille = Integer.valueOf((String) jcb.getSelectedItem());
-			FenetreParametre.taillePolice = taille;
-			FenetreParametre.police = FenetreParametre.police.deriveFont((float) taille);
-			panneau.listeTailles.setFont(FenetreParametre.police);
-			if (FenetreParametre.editorPane != null) {
-				FenetreParametre.editorPane.setFont(FenetreParametre.police);
-				((Panneau) FenetreParametre.editorPane.getParent()).rebuildPages();
+			param.taillePolice = taille;
+			param.police = param.police.deriveFont((float) taille);
+			panneau.listeTailles.setFont(param.police);
+			if (fen.editorPane != null) {
+				fen.editorPane.setFont(param.police);
+				((Panneau) fen.editorPane.getParent()).rebuildPages();
 			}
 		}
 		if (jcb == panneau.listePolices) {
 			String police = (String) jcb.getSelectedItem();
-			FenetreParametre.police = getFont(police, jcb.getSelectedIndex(), Font.BOLD, FenetreParametre.taillePolice);
-			panneau.listePolices.setFont(FenetreParametre.police);
-			if (FenetreParametre.editorPane != null) {
-				FenetreParametre.editorPane.setFont(FenetreParametre.police);
+			param.police = getFont(police, jcb.getSelectedIndex(), Font.BOLD, param.taillePolice);
+			panneau.listePolices.setFont(param.police);
+			if (fen.editorPane != null) {
+				fen.editorPane.setFont(param.police);
 			}
 		}
 		if (arg0.getSource() == panneau.modeSurlignage) {
 			if (((JRadioButton) arg0.getSource()).isSelected()) {
-				FenetreParametre.readMode = ReadMode.HIGHLIGHT;
+				param.readMode = ReadMode.HIGHLIGHT;
 			}
 		}
 		if (arg0.getSource() == panneau.modeKaraoke) {
 			if (panneau.modeKaraoke.isSelected()) {
-				FenetreParametre.readMode = ReadMode.GUIDED_READING;
+				param.readMode = ReadMode.GUIDED_READING;
 			}
 		}
 		if (arg0.getSource() == panneau.modeNormal) {
 			if (panneau.modeNormal.isSelected()) {
-				FenetreParametre.readMode = ReadMode.NORMAL;
+				param.readMode = ReadMode.NORMAL;
 			}
 		}
 		if (arg0.getSource() == panneau.modeAnticipe) {
 			if (panneau.modeAnticipe.isSelected()) {
-				FenetreParametre.readMode = ReadMode.ANTICIPATED;
+				param.readMode = ReadMode.ANTICIPATED;
 			}
 		}
 		if (arg0.getSource() == panneau.rejouerSon) {
-			FenetreParametre.rejouerSon = panneau.rejouerSon.isSelected();
+			param.rejouerSon = panneau.rejouerSon.isSelected();
 		}
 		if (arg0.getSource() == panneau.valider) {
 			//mise a jour de la couleur de la barre de progression
-			FenetreParametre.fen.fenetre.pan.progressBar.setForeground(Constants.RIGHT_COLOR);
+			fen.fenetre.pan.progressBar.setForeground(Constants.RIGHT_COLOR);
 			if (verifierValiditeChamp()) {
 				try {
 				} catch (Exception e) {
 				}
 				// si on a pas encore lancé l'exercice
-				if (FenetreParametre.editorPane == null) {
+				if (fen.editorPane == null) {
 					try {
-						FenetreParametre.nbFautesTolerees = Math.max(0,
+						param.nbFautesTolerees = Math.max(0,
 								Integer.valueOf(panneau.champNbFautesTolerees.getText()));
 					} catch (Exception e) {
-						FenetreParametre.nbFautesTolerees = 0;
+						param.nbFautesTolerees = 0;
 						panneau.champNbFautesTolerees.setText("0");
 					}
 					try {
-						FenetreParametre.premierSegment = Math.max(0,
+						param.premierSegment = Math.max(0,
 								Integer.valueOf(panneau.segmentDeDepart.getText()));
 					} catch (Exception e) {
-						FenetreParametre.premierSegment = 0;
+						param.premierSegment = 0;
 						panneau.segmentDeDepart.setText("0");
 					}
-					FenetreParametre.fen.lancerExercice();
-					FenetreParametre.rejouerSon = panneau.rejouerSon.isSelected();
+					fen.lancerExercice();
+					param.rejouerSon = panneau.rejouerSon.isSelected();
 					panneau.fermer();
 					// si on a deja lancé l'exercice
 				} else {
 					// on reactive l'exercice
-					FenetreParametre.fen.fenetre.setEnabled(true);
-					FenetreParametre.fen.fenetre.pan.controlFrame.setEnabled(true);
+					fen.fenetre.setEnabled(true);
+					fen.fenetre.pan.controlFrame.setEnabled(true);
 					panneau.fermer();
-					FenetreParametre.nbFautesTolerees = Integer.valueOf(panneau.champNbFautesTolerees.getText());
-					FenetreParametre.fen.fenetre.pan.nbEssaisParSegment = Integer
+					param.nbFautesTolerees = Integer.valueOf(panneau.champNbFautesTolerees.getText());
+					fen.fenetre.pan.nbEssaisParSegment = Integer
 							.valueOf(panneau.champNbFautesTolerees.getText());
 					Panneau.defautNBEssaisParSegment = Integer.valueOf(panneau.champNbFautesTolerees.getText());
-					FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture = panneau.sliderAttente.getValue();
-					if (FenetreParametre.readMode == ReadMode.HIGHLIGHT) {
+					param.tempsPauseEnPourcentageDuTempsDeLecture = panneau.sliderAttente.getValue();
+					if (param.readMode == ReadMode.HIGHLIGHT) {
 						try {
-							FenetreParametre.editorPane.updateColors();
+							fen.editorPane.updateColors();
 						} catch (BadLocationException e) {
 							e.printStackTrace();
 						}
@@ -191,7 +196,7 @@ public class ControleurParam implements ActionListener, ChangeListener {
 	@Override
 	public void stateChanged(ChangeEvent arg0) {
 		if (arg0.getSource() == panneau.sliderAttente) {
-			FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture = panneau.sliderAttente.getValue();
+			param.tempsPauseEnPourcentageDuTempsDeLecture = panneau.sliderAttente.getValue();
 		}
 	}
 
@@ -214,9 +219,9 @@ public class ControleurParam implements ActionListener, ChangeListener {
 		int premierSegment = -1;
 		try {
 			premierSegment = Integer.valueOf((String) panneau.segmentDeDepart.getText());
-			if (premierSegment+2 > ((Panneau) FenetreParametre.fen.fenetre.getContentPane()).textHandler.getPhrasesCount()
+			if (premierSegment+2 > ((Panneau) fen.fenetre.getContentPane()).textHandler.getPhrasesCount()
 					|| premierSegment < 1) {
-				JOptionPane.showMessageDialog(panneau, "Entrez un segment inférieur à "+(((Panneau) FenetreParametre.fen.fenetre.getContentPane()).textHandler.getPhrasesCount()-1), "Erreur",
+				JOptionPane.showMessageDialog(panneau, "Entrez un segment inférieur à "+(((Panneau) fen.fenetre.getContentPane()).textHandler.getPhrasesCount()-1), "Erreur",
 						JOptionPane.ERROR_MESSAGE);
 				premierSegment = 1;
 				panneau.segmentDeDepart.setText("1");
@@ -226,7 +231,7 @@ public class ControleurParam implements ActionListener, ChangeListener {
 			panneau.segmentDeDepart.setText("1");
 			valide = false;
 		}
-		FenetreParametre.premierSegment = premierSegment;
+		param.premierSegment = premierSegment;
 
 		// nb fautes tolérées
 		int n = -1;
@@ -243,7 +248,7 @@ public class ControleurParam implements ActionListener, ChangeListener {
 			panneau.champNbFautesTolerees.setText("0");
 			valide = false;
 		}
-		FenetreParametre.nbFautesTolerees = n;
+		param.nbFautesTolerees = n;
 		return valide;
 	}
 
@@ -256,7 +261,7 @@ public class ControleurParam implements ActionListener, ChangeListener {
 		couleursUtilisées.add(Constants.RIGHT_COLOR);
 		couleursUtilisées.add(Constants.WRONG_COLOR);
 		couleursUtilisées.add(Constants.WRONG_PHRASE_COLOR);
-		couleursUtilisées.add(FenetreParametre.couleurFond);
+		couleursUtilisées.add(param.couleurFond);
 		if (occurence(Constants.RIGHT_COLOR, couleursUtilisées) != 1) {
 			r = false;
 		}
@@ -266,7 +271,7 @@ public class ControleurParam implements ActionListener, ChangeListener {
 		if (occurence(Constants.WRONG_PHRASE_COLOR, couleursUtilisées) != 1) {
 			r = false;
 		}
-		if (occurence(FenetreParametre.couleurFond, couleursUtilisées) != 1) {
+		if (occurence(param.couleurFond, couleursUtilisées) != 1) {
 			r = false;
 		}
 		return r;

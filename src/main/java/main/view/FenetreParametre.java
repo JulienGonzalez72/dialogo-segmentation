@@ -9,36 +9,26 @@ import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 import main.Constants;
+import main.Parametres;
 import main.controler.ControleurParam;
 import main.reading.ReadMode;
 
 public class FenetreParametre extends JFrame {
 
-	private static final long serialVersionUID = 1L;
-	public static Font police = ControleurParam.getFont(null, 0, Font.BOLD, Constants.DEFAULT_FONT_SIZE);
-	public static int taillePolice = Constants.DEFAULT_FONT_SIZE;
-	public static Color couleurFond = Constants.BG_COLOR;
-	public static String titre;
-	public static int tailleX;
-	public static int tailleY;
-	public static int premierSegment;
-	public static FenetreParametre fen;
-	public static TextPane editorPane;
-	public static int nbFautesTolerees;
-	public static int tempsPauseEnPourcentageDuTempsDeLecture;
-	public static ReadMode readMode = ReadMode.NORMAL;
-	public static boolean rejouerSon = true;
 	public Fenetre fenetre;
+	public Parametres param;
+	public TextPane editorPane;
 
 	public FenetreParametre(String titre, int tailleX, int tailleY) {
+		param = new Parametres();
 		setIconImage(getToolkit().getImage("icone.jpg"));
-		FenetreParametre.police = ControleurParam.getFont(null, 0, Font.BOLD, Constants.DEFAULT_FONT_SIZE);
-		FenetreParametre.taillePolice = Constants.DEFAULT_FONT_SIZE;
-		FenetreParametre.couleurFond = Constants.BG_COLOR;
-		FenetreParametre.editorPane = null;
-		FenetreParametre.titre = titre;
-		FenetreParametre.tailleX = tailleX;
-		FenetreParametre.tailleY = tailleY;
+		param.police = ControleurParam.getFont(null, 0, Font.BOLD, Constants.DEFAULT_FONT_SIZE);
+		param.taillePolice = Constants.DEFAULT_FONT_SIZE;
+		param.couleurFond = Constants.BG_COLOR;
+		editorPane = null;
+		param.titre = titre;
+		param.tailleX = tailleX;
+		param.tailleY = tailleY;
 		setTitle(titre);
 		setSize(tailleX, tailleY);
 		setLocationRelativeTo(null);
@@ -46,13 +36,13 @@ public class FenetreParametre extends JFrame {
 		setResizable(true);
 		PanneauParam pan = null;
 		try {
-			pan = new PanneauParam();
+			pan = new PanneauParam(this);
 		} catch (NumberFormatException | IOException e) {
 			e.printStackTrace();
 		}
 		setContentPane(pan);
 		setVisible(true);
-		fenetre = new Fenetre(titre, tailleX * 2, tailleY);
+		fenetre = new Fenetre(titre, tailleX * 2, tailleY,this,param);
 	}
 
 	public class PanneauParam extends JPanel {
@@ -76,9 +66,10 @@ public class FenetreParametre extends JFrame {
 		public final Object[] polices;
 		public final Object[] tailles;
 		public final Object[] couleurs;
+		public FenetreParametre fen;
 
-		public PanneauParam() throws NumberFormatException, IOException {
-			fen = FenetreParametre.this;
+		public PanneauParam(FenetreParametre fen) throws NumberFormatException, IOException {
+			this.fen = fen;
 			setLayout(new BorderLayout());
 			JLabel titre = fastLabel("Choisissez vos parametres");
 			titre.setBorder(BorderFactory.createLineBorder(Color.blue, 2));
@@ -98,7 +89,7 @@ public class FenetreParametre extends JFrame {
 			tailles = new Object[] { "12", "16", "18", "20", "22", "24", "30", "36", "42" };
 			couleurs = new Object[] { "Jaune", "Blanc", "Orange", "Rose", "Bleu", "Rouge", "Vert" };
 
-			ControleurParam controleur = new ControleurParam(this);
+			ControleurParam controleur = new ControleurParam(fen,this);
 			valider.addActionListener(controleur);
 
 			listePolices = new JComboBox<Object>(polices);
@@ -136,7 +127,7 @@ public class FenetreParametre extends JFrame {
 			listeMauvaisesCouleurs = fastComboBox(controleur, couleurs);
 			listeCorrectionCouleurs = fastComboBox(controleur, couleurs);
 
-			segmentDeDepart = fastTextField(String.valueOf(FenetreParametre.premierSegment),
+			segmentDeDepart = fastTextField(String.valueOf(param.premierSegment),
 					new Font("OpenDyslexic", Font.PLAIN, 15), "1");
 			segmentDeDepart.addActionListener(controleur);
 
@@ -326,8 +317,8 @@ public class FenetreParametre extends JFrame {
 						appliquerCouleur(correctionColor, listeCorrectionCouleurs);
 						break;
 					case 7:
-						FenetreParametre.readMode = ReadMode.parse(ligne.split(":")[1]);
-						switch (FenetreParametre.readMode) {
+						param.readMode = ReadMode.parse(ligne.split(":")[1]);
+						switch (param.readMode) {
 						case NORMAL:
 							modeNormal.setSelected(true);
 							break;
@@ -345,7 +336,7 @@ public class FenetreParametre extends JFrame {
 						}
 						break;
 					case 8:
-						FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture = Integer.valueOf(ligne.split(":")[1]);
+						param.tempsPauseEnPourcentageDuTempsDeLecture = Integer.valueOf(ligne.split(":")[1]);
 						sliderAttente.setValue(Integer.valueOf(ligne.split(":")[1]));
 						break;
 					case 9:
@@ -464,8 +455,8 @@ public class FenetreParametre extends JFrame {
 	}
 
 	public void lancerExercice() {
-		Panneau.premierSegment = FenetreParametre.premierSegment;
-		Panneau.defautNBEssaisParSegment = FenetreParametre.nbFautesTolerees;
+		Panneau.premierSegment = param.premierSegment;
+		Panneau.defautNBEssaisParSegment = param.nbFautesTolerees;
 		fenetre.start();
 	}
 

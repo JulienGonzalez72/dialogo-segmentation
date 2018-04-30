@@ -2,8 +2,6 @@ package main.reading;
 
 import main.Constants;
 import main.controler.ControlerGlobal;
-import main.view.FenetreParametre;
-
 import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
@@ -70,7 +68,7 @@ public class HighlightThread extends ReadThread {
 		/// attente de la fin du temps de pause ///
 		controler.doWait(controler.getCurrentWaitTime(), Constants.CURSOR_SPEAK);
 		// restauration du nombre d'essais
-		int nbTry = FenetreParametre.nbFautesTolerees;
+		int nbTry = controler.p.param.nbFautesTolerees;
 		// tant que on a pas fait le bon clic
 		boolean doOne = true;
 		while (!controler.waitForClick(N)) {
@@ -93,13 +91,13 @@ public class HighlightThread extends ReadThread {
 				// rejouer son
 				controler.play(N);
 			} else {
-				if (FenetreParametre.rejouerSon) {
+				if (controler.p.param.rejouerSon) {
 					controler.play(N);
 				}
 			}
 		}
 		// si on a plus d'essais restants
-		if (nbTry == FenetreParametre.nbFautesTolerees) {
+		if (nbTry == controler.p.param.nbFautesTolerees) {
 			/// on arrête l'exécution si le thread est terminé ///
 			if (!running) {
 				return;

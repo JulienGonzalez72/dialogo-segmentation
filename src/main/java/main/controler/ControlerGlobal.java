@@ -28,8 +28,8 @@ public class ControlerGlobal {
 	/**
 	 * Se place sur le segment de numero n et démarre le lecteur.
 	 */
-	public void goTo(int n) throws IllegalArgumentException {
-		if (n < FenetreParametre.premierSegment - 1 || n >= p.textHandler.getPhrasesCount() - 1) {
+	 public void goTo(int n) throws IllegalArgumentException {	
+		if (n < p.param.premierSegment - 1 || n >= p.textHandler.getPhrasesCount() - 1) {
 			throw new IllegalArgumentException("Numéro de segment invalide : " + n);
 		}
 		//vire le surlignagerouge
@@ -120,7 +120,7 @@ public class ControlerGlobal {
 	 * Retourne le temps d'attente en millisecondes correspondant à l'enregistrement courant.
 	 */
 	public long getCurrentWaitTime() {
-		return (long) (getCurrentPhraseDuration() * FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture / 100.);
+		return (long) (getCurrentPhraseDuration() * p.param.tempsPauseEnPourcentageDuTempsDeLecture / 100.);
 	}
 
 	/**
@@ -281,7 +281,7 @@ public class ControlerGlobal {
 	 */
 	public ReadThread getReadThread(int n) {
 		ReadThread t;
-		switch (FenetreParametre.readMode) {
+		switch (p.param.readMode) {
 			case ANTICIPATED:
 				t = new AnticipatedThread(this, n);
 				break;

@@ -2,13 +2,9 @@ package main.controler;
 
 import java.awt.Color;
 import java.awt.Cursor;
-
 import main.Constants;
 import main.reading.*;
-import main.view.FenetreParametre;
 import main.view.Panneau;
-
-//import javax.swing.SwingWorker;
 
 public class ControlerGlobal {
 
@@ -24,24 +20,24 @@ public class ControlerGlobal {
 	public ControlerGlobal(Panneau p) {
 		this.p = p;
 	}
-	
+
 	/**
 	 * Se place sur le segment de numero n et démarre le lecteur.
 	 */
-	 public void goTo(int n) throws IllegalArgumentException {	
+	public void goTo(int n) throws IllegalArgumentException {
 		if (n < p.param.premierSegment - 1 || n >= p.textHandler.getPhrasesCount() - 1) {
 			throw new IllegalArgumentException("Numéro de segment invalide : " + n);
 		}
-		//vire le surlignagerouge
+		// vire le surlignagerouge
 		p.editorPane.enleverSurlignageRouge();
-		
+
 		/// empêche le redimensionnement de la fenêtre lors de la première lecture ///
 		p.fenetre.setResizable(false);
-		
-		//met a jour la barre de progression
+
+		// met a jour la barre de progression
 		p.progressBar.setValue(n);
-		p.progressBar.setString(n+"/"+(p.textHandler.getPhrasesCount()-1));
-		
+		p.progressBar.setString(n + "/" + (p.textHandler.getPhrasesCount() - 1));
+
 		if (activeThread != null) {
 			activeThread.doStop();
 		}
@@ -58,6 +54,7 @@ public class ControlerGlobal {
 				}
 			}
 		});
+		System.out.println(Thread.activeCount() + " //// " + System.currentTimeMillis());
 		activeThread.start();
 	}
 
@@ -74,10 +71,10 @@ public class ControlerGlobal {
 	public void showPage(int page) {
 		p.showPage(page);
 	}
-	
+
 	/**
-	 * Joue un fichier .wav correspondant à un segment de phrase.
-	 * On sortira de cette fonction lorsque le fichier .wav aura été totalement joué.
+	 * Joue un fichier .wav correspondant à un segment de phrase. On sortira de
+	 * cette fonction lorsque le fichier .wav aura été totalement joué.
 	 */
 	public void play(int phrase) {
 		p.setCursor(Constants.CURSOR_LISTEN);
@@ -87,7 +84,8 @@ public class ControlerGlobal {
 				p.setCursor(Cursor.getDefaultCursor());
 				break;
 			}
-			/// fixe toujours le curseur d'écoute pendant toute la durée de l'enregistrement ///
+			/// fixe toujours le curseur d'écoute pendant toute la durée de l'enregistrement
+			/// ///
 			else if (!p.getCursorName().equals(Constants.CURSOR_SPEAK)) {
 				p.setCursor(Constants.CURSOR_LISTEN);
 			}
@@ -102,7 +100,8 @@ public class ControlerGlobal {
 	}
 
 	/**
-	 * Retourne la durée en millisecondes de l'enregistrement qui correspond au segment de phrase indiqué.
+	 * Retourne la durée en millisecondes de l'enregistrement qui correspond au
+	 * segment de phrase indiqué.
 	 */
 	public long getPhraseDuration(int phrase) {
 		p.player.load(phrase);
@@ -117,7 +116,8 @@ public class ControlerGlobal {
 	}
 
 	/**
-	 * Retourne le temps d'attente en millisecondes correspondant à l'enregistrement courant.
+	 * Retourne le temps d'attente en millisecondes correspondant à l'enregistrement
+	 * courant.
 	 */
 	public long getCurrentWaitTime() {
 		return (long) (getCurrentPhraseDuration() * p.param.tempsPauseEnPourcentageDuTempsDeLecture / 100.);
@@ -146,10 +146,10 @@ public class ControlerGlobal {
 	 * <ul>
 	 * <li>Paramètre d’entrée 1: Numéro de segment</li>
 	 * <li>Paramètre de sortie : True ou False (réussite)</li>
-	 * <li>On sort de cette fonction lorsqu’un clic a été réalisé.
-	 * Si le clic a été réalisé sur le bon mot on sort avec true, et si le clic a été réalisé sur une partie erronée,
-	 * on surligne cette partie avec une couleur qui indique une erreur, Rouge ? En paramètre ?
-	 * Et on sort avec False.
+	 * <li>On sort de cette fonction lorsqu’un clic a été réalisé. Si le clic a été
+	 * réalisé sur le bon mot on sort avec true, et si le clic a été réalisé sur une
+	 * partie erronée, on surligne cette partie avec une couleur qui indique une
+	 * erreur, Rouge ? En paramètre ? Et on sort avec False.
 	 * </ul>
 	 */
 	public boolean waitForClick(int n) {
@@ -158,9 +158,11 @@ public class ControlerGlobal {
 			Thread.yield();
 			if (p.controlerMouse.clicking) {
 				/// cherche la position exacte dans le texte ///
-				int offset = p.textHandler.getAbsoluteOffset(p.getNumeroPremierSegmentAffiché(),p.editorPane.getCaretPosition());
+				int offset = p.textHandler.getAbsoluteOffset(p.getNumeroPremierSegmentAffiché(),
+						p.editorPane.getCaretPosition());
 				/// si le clic est juste ///
-				if (p.textHandler.wordPause(offset) && p.textHandler.getPhraseIndex(offset) == p.player.getCurrentPhraseIndex()) {
+				if (p.textHandler.wordPause(offset)
+						&& p.textHandler.getPhraseIndex(offset) == p.player.getCurrentPhraseIndex()) {
 					return true;
 				}
 				/// si le clic est faux ///
@@ -206,10 +208,11 @@ public class ControlerGlobal {
 		p.player.stop();
 		p.editorPane.désurlignerTout();
 	}
-	
+
 	/**
 	 * Charge un segment de phrase dans le lecteur sans le démarrer.<br>
-	 * Pas nécessaire si on démarre le lecteur directement avec la méthode {@link #play}.
+	 * Pas nécessaire si on démarre le lecteur directement avec la méthode
+	 * {@link #play}.
 	 */
 	public void loadSound(int phrase) {
 		p.player.load(phrase);
@@ -221,18 +224,19 @@ public class ControlerGlobal {
 	public void removeWrongHighlights() {
 		p.editorPane.enleverSurlignageRouge();
 	}
-	
+
 	/**
-	 * Essaye de passer au segment suivant, passe à la page suivante
-	 * si c'était le dernier segment de la page.
-	 * Déclenche une erreur si on était au dernier segment du texte.
+	 * Essaye de passer au segment suivant, passe à la page suivante si c'était le
+	 * dernier segment de la page. Déclenche une erreur si on était au dernier
+	 * segment du texte.
 	 */
 	public void doNext() {
 		goTo(p.player.getCurrentPhraseIndex() + 1);
 	}
 
 	/**
-	 * Essaye de passer au segment précédent. Déclenche une erreur si on était au premier segment du texte.
+	 * Essaye de passer au segment précédent. Déclenche une erreur si on était au
+	 * premier segment du texte.
 	 */
 	public void doPrevious() {
 		goTo(p.player.getCurrentPhraseIndex() - 1);
@@ -282,27 +286,27 @@ public class ControlerGlobal {
 	public ReadThread getReadThread(int n) {
 		ReadThread t;
 		switch (p.param.readMode) {
-			case ANTICIPATED:
-				t = new AnticipatedThread(this, n);
-				break;
-			case GUIDED_READING:
-				t = new GuidedThread(this, n);
-				break;
-			case NORMAL:
-				t = new SegmentedThread(this, n);
-				break;
-			case HIGHLIGHT:
-				t = new HighlightThread(this, n);
-				break;
-			default:
-				t = null;
-				break;
+		case ANTICIPATED:
+			t = new AnticipatedThread(this, n);
+			break;
+		case GUIDED_READING:
+			t = new GuidedThread(this, n);
+			break;
+		case NORMAL:
+			t = new SegmentedThread(this, n);
+			break;
+		case HIGHLIGHT:
+			t = new HighlightThread(this, n);
+			break;
+		default:
+			t = null;
+			break;
 		}
 		return t;
 	}
 
 	public void incrementerErreurSegment() {
-		p.nbErreursParSegment++;	
+		p.nbErreursParSegment++;
 	}
 
 }

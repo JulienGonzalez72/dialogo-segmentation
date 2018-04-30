@@ -1,11 +1,11 @@
 package main.reading;
 
 import main.Constants;
-import main.controler.ControlerGlobal;
+import main.controler.ControlerText;
 
 public class AnticipatedThread extends ReadThread {
 
-	public AnticipatedThread(ControlerGlobal controler, int N) {
+	public AnticipatedThread(ControlerText controler, int N) {
 		super(controler,N);
 	}
 	

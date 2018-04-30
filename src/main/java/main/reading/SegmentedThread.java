@@ -1,12 +1,12 @@
 package main.reading;
 
 import main.Constants;
-import main.controler.ControlerGlobal;
+import main.controler.ControlerText;
 import main.view.FenetreParametre;
 
 public class SegmentedThread extends ReadThread {
 
-	public SegmentedThread(ControlerGlobal controler, int N) {
+	public SegmentedThread(ControlerText controler, int N) {
 		super(controler, N);
 	}
 

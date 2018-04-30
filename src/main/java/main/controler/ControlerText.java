@@ -4,61 +4,18 @@ import java.awt.Color;
 import java.awt.Cursor;
 
 import main.Constants;
-import main.reading.*;
 import main.view.FenetreParametre;
 import main.view.Panneau;
 
-//import javax.swing.SwingWorker;
-
-public class ControlerGlobal {
+public class ControlerText {
 
 	public Panneau p;
-	/**
-	 * Thread de lecture actif
-	 */
-	private ReadThread activeThread;
 
 	/**
 	 * Construit un contrôleur à partir du panneau correspondant.
 	 */
-	public ControlerGlobal(Panneau p) {
+	public ControlerText(Panneau p) {
 		this.p = p;
-	}
-	
-	/**
-	 * Se place sur le segment de numero n et démarre le lecteur.
-	 */
-	public void goTo(int n) throws IllegalArgumentException {
-		if (n < FenetreParametre.premierSegment - 1 || n >= p.textHandler.getPhrasesCount() - 1) {
-			throw new IllegalArgumentException("Numéro de segment invalide : " + n);
-		}
-		//vire le surlignagerouge
-		p.editorPane.enleverSurlignageRouge();
-		
-		/// empêche le redimensionnement de la fenêtre lors de la première lecture ///
-		p.fenetre.setResizable(false);
-		
-		//met a jour la barre de progression
-		p.progressBar.setValue(n);
-		p.progressBar.setString(n+"/"+(p.textHandler.getPhrasesCount()-1));
-		
-		if (activeThread != null) {
-			activeThread.doStop();
-		}
-		activeThread = getReadThread(n);
-		activeThread.onPhraseEnd.add(new Runnable() {
-			public void run() {
-				/// fin du dernier segment du texte ///
-				if (n == p.textHandler.getPhrasesCount() - 2) {
-					p.afficherCompteRendu();
-				}
-				/// passe au segment suivant ///
-				else {
-					goTo(n + 1);
-				}
-			}
-		});
-		activeThread.start();
 	}
 
 	/**
@@ -78,6 +35,7 @@ public class ControlerGlobal {
 	/**
 	 * Joue un fichier .wav correspondant à un segment de phrase.
 	 * On sortira de cette fonction lorsque le fichier .wav aura été totalement joué.
+	 * METHODE DE TEST
 	 */
 	public void play(int phrase) {
 		p.setCursor(Constants.CURSOR_LISTEN);
@@ -138,6 +96,7 @@ public class ControlerGlobal {
 			Thread.sleep(time);
 			p.setCursor(Cursor.getDefaultCursor());
 		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
 		}
 	}
 
@@ -221,38 +180,6 @@ public class ControlerGlobal {
 	public void removeWrongHighlights() {
 		p.editorPane.enleverSurlignageRouge();
 	}
-	
-	/**
-	 * Essaye de passer au segment suivant, passe à la page suivante
-	 * si c'était le dernier segment de la page.
-	 * Déclenche une erreur si on était au dernier segment du texte.
-	 */
-	public void doNext() {
-		goTo(p.player.getCurrentPhraseIndex() + 1);
-	}
-
-	/**
-	 * Essaye de passer au segment précédent. Déclenche une erreur si on était au premier segment du texte.
-	 */
-	public void doPrevious() {
-		goTo(p.player.getCurrentPhraseIndex() - 1);
-	}
-
-	/**
-	 * Essaye d'arrêter l'enregistrement en cours.
-	 */
-	public void doStop() {
-		p.player.stop();
-		activeThread.doStop();
-	}
-
-	/**
-	 * Essaye de reprendre l'enregistrement. Si il est déjà démarré, reprend depuis
-	 * le début.
-	 */
-	public void doPlay() {
-		goTo(p.player.getCurrentPhraseIndex());
-	}
 
 	/**
 	 * Retourne la page qui contient le segment, ou -1 si le segment n'existe pas.
@@ -273,32 +200,6 @@ public class ControlerGlobal {
 	 */
 	public void highlightUntilPhrase(Color c, int n) {
 		p.surlignerJusquaSegment(c, n);
-	}
-
-	/**
-	 * Créé un processus associé à la lecture d'un seul segment dans le mode de
-	 * lecture actuel.
-	 */
-	public ReadThread getReadThread(int n) {
-		ReadThread t;
-		switch (FenetreParametre.readMode) {
-			case ANTICIPATED:
-				t = new AnticipatedThread(this, n);
-				break;
-			case GUIDED_READING:
-				t = new GuidedThread(this, n);
-				break;
-			case NORMAL:
-				t = new SegmentedThread(this, n);
-				break;
-			case HIGHLIGHT:
-				t = new HighlightThread(this, n);
-				break;
-			default:
-				t = null;
-				break;
-		}
-		return t;
 	}
 
 	public void incrementerErreurSegment() {

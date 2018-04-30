@@ -1,7 +1,7 @@
 package main.reading;
 
 import main.Constants;
-import main.controler.ControlerGlobal;
+import main.controler.ControlerText;
 import main.view.FenetreParametre;
 
 import java.awt.Color;
@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class HighlightThread extends ReadThread {
 
-	public HighlightThread(ControlerGlobal controler, int N) {
+	public HighlightThread(ControlerText controler, int N) {
 		super(controler, N);
 	}
 

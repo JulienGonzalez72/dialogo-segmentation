@@ -10,7 +10,8 @@ import javax.swing.*;
 import javax.swing.text.BadLocationException;
 
 import main.Constants;
-import main.controler.ControlerGlobal;
+import main.controler.ControlerText;
+import main.controler.Pilot;
 import main.controler.ControlerKey;
 import main.controler.ControlerMouse;
 import main.model.Player;
@@ -35,9 +36,10 @@ public class Panneau extends JPanel {
 	public int nbErreursParSegment;
 	public JFrame fenetre;
 	public ControlFrame controlFrame;
-	public ControlerGlobal controlerGlobal;
+	public ControlerText controlerGlobal;
 	public ControlerKey controlerKey;
 	public ControlerMouse controlerMouse;
+	public Pilot pilot;
 	public ReadThread task;
 
 	public Map<Integer, List<Integer>> segmentsEnFonctionDeLaPage = new HashMap<Integer, List<Integer>>();
@@ -51,7 +53,8 @@ public class Panneau extends JPanel {
 	public JProgressBar progressBar;
 
 	public Panneau(JFrame fenetre) throws IOException {
-		this.controlerGlobal = new ControlerGlobal(this);
+		this.controlerGlobal = new ControlerText(this);
+		this.pilot = new Pilot(this);
 		this.fenetre = fenetre;
 		String texteCesures = getTextFromFile("ressources/textes/" + Constants.TEXT_FILE_NAME);
 		/// enlève la consigne ///

@@ -87,7 +87,7 @@ public final class Constants {
 	/**
 	 * Intervalle de temps sans clic possible après un appuie sur la touche gauche
 	 */
-	public static final long LEFT_DELAY = 500;
+	public static final long LEFT_DELAY = 400;
 	
 	/**
 	 * Icone de la souris lors d'une phase d'écoute
@@ -97,5 +97,10 @@ public final class Constants {
 	 * Icone de la souris lors d'une phase de prononciation
 	 */
 	public static final String CURSOR_SPEAK = "parler.png";
+	
+	/**
+	 * Temps de chargement après chaque pression sur un bouton de contrôle suivant/précédent.
+	 */
+	public static final long DISABLE_TIME = 200;
 
 }

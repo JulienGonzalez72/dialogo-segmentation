@@ -10,13 +10,9 @@ import javax.swing.*;
 import javax.swing.text.BadLocationException;
 
 import main.Constants;
-<<<<<<< HEAD
 import main.controler.ControlerText;
 import main.controler.Pilot;
-=======
 import main.Parametres;
-import main.controler.ControlerGlobal;
->>>>>>> 3d10d562a026221f85d982a46ae1e21be2fcaf2a
 import main.controler.ControlerKey;
 import main.controler.ControlerMouse;
 import main.model.Player;
@@ -56,16 +52,13 @@ public class Panneau extends JPanel {
 	 */
 	public JProgressBar progressBar;
 
-<<<<<<< HEAD
-	public Panneau(JFrame fenetre) throws IOException {
+	public Panneau(JFrame fenetre,FenetreParametre fenetreParam,Parametres param) throws IOException {
 		this.controlerGlobal = new ControlerText(this);
 		this.pilot = new Pilot(this);
-=======
-	public Panneau(JFrame fenetre,FenetreParametre fenetreParam,Parametres param) throws IOException {
+
 		this.param = param;
 		this.fenetreParam = fenetreParam;
-		this.controlerGlobal = new ControlerGlobal(this);
->>>>>>> 3d10d562a026221f85d982a46ae1e21be2fcaf2a
+		this.controlerGlobal = new ControlerText(this);
 		this.fenetre = fenetre;
 		String texteCesures = getTextFromFile("ressources/textes/" + Constants.TEXT_FILE_NAME);
 		/// enlève la consigne ///
@@ -193,7 +186,6 @@ public class Panneau extends JPanel {
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			try {

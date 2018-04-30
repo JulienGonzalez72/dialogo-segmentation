@@ -5,27 +5,27 @@ import main.Constants;
 
 public class ControlerKey implements KeyListener {
 
-	ControlerGlobal controler;
+	ControlerText controler;
 
 	/**
 	 * Moment du dernier clic
 	 */
 	private long lastClick;
 
-	public ControlerKey(ControlerGlobal c) {
+	public ControlerKey(ControlerText c) {
 		this.controler = c;
 	}
-
+	
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 			/// recommence le segment ///
 			if (e.getWhen() - lastClick > Constants.LEFT_DELAY) {
-				controler.goTo(controler.p.player.getCurrentPhraseIndex());
+				controler.p.pilot.goTo(controler.p.player.getCurrentPhraseIndex());
 			}
 			/// retourne au segment précédent ///
 			else if (controler.p.player.hasPreviousPhrase()) {
-				controler.goTo(controler.p.player.getCurrentPhraseIndex() - 1);
+				controler.p.pilot.goTo(controler.p.player.getCurrentPhraseIndex() - 1);
 			}
 			lastClick = e.getWhen();
 		}

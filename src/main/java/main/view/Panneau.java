@@ -96,7 +96,7 @@ public class Panneau extends JPanel {
 		// controlerGlobal.goTo(FenetreParametre.premierSegment - 1);
 
 		controlFrame = new ControlFrame(this,fenetreParam,param);
-		controlerKey = new ControlerKey(controlerGlobal);
+		controlerKey = new ControlerKey(pilot);
 		editorPane.addKeyListener(controlerKey);
 		controlerMouse = new ControlerMouse(this, textHandler);
 		editorPane.addMouseListener(controlerMouse);

@@ -5,15 +5,15 @@ import main.Constants;
 
 public class ControlerKey implements KeyListener {
 
-	ControlerText controler;
+	private Pilot pilot;
 
 	/**
 	 * Moment du dernier clic
 	 */
 	private long lastClick;
 
-	public ControlerKey(ControlerText c) {
-		this.controler = c;
+	public ControlerKey(Pilot pilot) {
+		this.pilot = pilot;
 	}
 
 	@Override
@@ -21,23 +21,23 @@ public class ControlerKey implements KeyListener {
 		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 			/// recommence le segment ///
 			if (e.getWhen() - lastClick > Constants.LEFT_DELAY) {
-				controler.goTo(controler.p.player.getCurrentPhraseIndex());
+				pilot.goTo(pilot.getCurrentPhraseIndex());
 			}
 			/// retourne au segment précédent ///
-			else if (controler.p.player.hasPreviousPhrase()) {
-				controler.goTo(controler.p.player.getCurrentPhraseIndex() - 1);
+			else if (pilot.hasPreviousPhrase()) {
+				pilot.goTo(pilot.getCurrentPhraseIndex() - 1);
 			}
 			lastClick = e.getWhen();
 		}
 
 		else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 			/// pause ///
-			if (controler.p.player.isPlaying()) {
-				controler.p.player.stop();
+			if (pilot.isPlaying()) {
+				pilot.doStop();
 			}
 			/// reprend le segment ///
 			else {
-				controler.p.player.play();
+				pilot.doPlay();
 			}
 		}
 	}

@@ -6,7 +6,6 @@ import main.reading.GuidedThread;
 import main.reading.HighlightThread;
 import main.reading.ReadThread;
 import main.reading.SegmentedThread;
-import main.view.FenetreParametre;
 import main.view.Panneau;
 
 public class Pilot {
@@ -121,6 +120,14 @@ public class Pilot {
 	
 	public int getCurrentPhraseIndex() {
 		return p.player.getCurrentPhraseIndex();
+	}
+	
+	public boolean isPlaying() {
+		return p.player.isPlaying();
+	}
+	
+	public boolean hasPreviousPhrase() {
+		return p.player.hasPreviousPhrase();
 	}
 	
 }

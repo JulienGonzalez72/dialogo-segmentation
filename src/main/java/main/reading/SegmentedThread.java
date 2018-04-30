@@ -1,8 +1,11 @@
 package main.reading;
-
 import main.Constants;
+<<<<<<< HEAD
 import main.controler.ControlerText;
 import main.view.FenetreParametre;
+=======
+import main.controler.ControlerGlobal;
+>>>>>>> 3d10d562a026221f85d982a46ae1e21be2fcaf2a
 
 public class SegmentedThread extends ReadThread {
 
@@ -17,7 +20,7 @@ public class SegmentedThread extends ReadThread {
 		controler.play(N);
 		/// attente de la fin du temps de pause ///
 		controler.doWait(controler.getCurrentWaitTime(), Constants.CURSOR_SPEAK);
-		int nbTry = FenetreParametre.nbFautesTolerees;
+		int nbTry = controler.p.param.nbFautesTolerees;
 		boolean doOne = true;
 		// tant que on a pas fait le bon clic
 		while (!controler.waitForClick(N)) {
@@ -33,7 +36,7 @@ public class SegmentedThread extends ReadThread {
 				// rejouer son
 				controler.play(N);
 			} else {
-				if (FenetreParametre.rejouerSon) {
+				if (controler.p.param.rejouerSon) {
 					controler.play(N);
 				}
 			}

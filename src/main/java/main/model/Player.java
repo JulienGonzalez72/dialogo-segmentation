@@ -5,15 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-
 import main.Constants;
-import main.view.FenetreParametre;
+import main.Parametres;
+
 
 public class Player {
 
@@ -53,9 +52,12 @@ public class Player {
 	 * Ecouteurs qui se déclenchent lorsque l'utilisateur est mis en attente pour répéter.
 	 */
 	public List<Runnable> onWait = new ArrayList<>();
+	
+	private Parametres param;
 
-	public Player(TextHandler textHandler) {
+	public Player(TextHandler textHandler, Parametres param) {
 		text = textHandler;
+		this.param = param;
 	}
 
 	/**
@@ -145,7 +147,7 @@ public class Player {
 
 			/// fin du blocage ///
 			if (blocked && time > clip.getMicrosecondLength() / 1000
-					* FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture / 100.) {
+					* param.tempsPauseEnPourcentageDuTempsDeLecture / 100.) {
 				blocked = false;
 				cancel();
 				for (Runnable r : onBlockEnd) {
@@ -246,7 +248,7 @@ public class Player {
 	 * Retourne true si il y a au moins un segment avant le segment actuel.
 	 */
 	public boolean hasPreviousPhrase() {
-		return currentPhrase > FenetreParametre.premierSegment - 1;
+		return currentPhrase > param.premierSegment - 1;
 	}
 
 	/**

@@ -1,10 +1,10 @@
-w:800
-h:400
-x:506
-y:126
-taillePolice:36
+w:1150
+h:941
+x:460
+y:49
+taillePolice:42
 typePolice:Lexia
 couleur:255/255/150/0/255/0/255/0/0/0/255/255
 mode:HIGHLIGHT
-tempsAttente:101
-rejouerSon:false
+tempsAttente:0
+rejouerSon:true

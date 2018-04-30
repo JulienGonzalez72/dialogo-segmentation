@@ -1,6 +1,5 @@
 package main.view;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
@@ -9,29 +8,21 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
-
 import main.Constants;
-import main.controler.ControleurParam;
+import main.Parametres;
 import main.model.Player;
-import main.reading.ReadMode;
 
 public class ControlFrame extends JFrame {
 
 	private static int imageSize = Constants.tailleImageFrame;
 	private static Image previousIcon, playIcon, pauseIcon, nextIcon, repeatIcon;
 
+	private Parametres param;
+	private FenetreParametre fen;
 	private JPanel panel = new JPanel();
 	private JButton previousButton = new JButton();
 	private JButton playButton = new JButton();
@@ -47,7 +38,9 @@ public class ControlFrame extends JFrame {
 		loadImages();
 	}
 
-	public ControlFrame(Panneau pan) {
+	public ControlFrame(Panneau pan, FenetreParametre fen, Parametres param) {
+		this.param = param;
+		this.fen = fen;
 		this.pan = pan;
 		player = pan.player;
 		setIconImage(getToolkit().getImage("icone.jpg"));
@@ -73,10 +66,16 @@ public class ControlFrame extends JFrame {
 		playButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (player.isPlaying()) {
+<<<<<<< HEAD
 					pan.pilot.doStop();
 				}
 				else {
 					pan.pilot.doPlay();
+=======
+					pan.controlerGlobal.doStop();
+				} else {
+					pan.controlerGlobal.doPlay();
+>>>>>>> 3d10d562a026221f85d982a46ae1e21be2fcaf2a
 				}
 				updateButtons();
 			}
@@ -87,8 +86,13 @@ public class ControlFrame extends JFrame {
 		nextButton.setEnabled(player.hasNextPhrase());
 		nextButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+<<<<<<< HEAD
 				pan.pilot.doNext();
 				updateButtons();
+=======
+					pan.controlerGlobal.doNext();
+					updateButtons();
+>>>>>>> 3d10d562a026221f85d982a46ae1e21be2fcaf2a
 			}
 		});
 
@@ -147,6 +151,10 @@ public class ControlFrame extends JFrame {
 			repeatButton.setEnabled(false);
 			goToField.setEnabled(false);
 		}
+<<<<<<< HEAD
+=======
+		//goToField.setText(String.valueOf(player.getCurrentPhraseIndex() + 1));
+>>>>>>> 3d10d562a026221f85d982a46ae1e21be2fcaf2a
 	}
 
 	public void disableAll() {
@@ -194,169 +202,7 @@ public class ControlFrame extends JFrame {
 		}
 	}
 
-	private void stockerPreference() {
-		Object optionPaneBG = UIManager.get("OptionPane.background");
-		Object panelBG = UIManager.get("Panel.background");
-		int yes = -1;
-		try {
-			UIManager.put("OptionPane.background", Color.WHITE);
-			UIManager.put("Panel.background", Color.WHITE);
-			yes = JOptionPane.showConfirmDialog(this, "Sauvegarder les preferences actuelles ?", "Confirmation",
-					JOptionPane.YES_NO_OPTION);
-		} finally {
-			UIManager.put("OptionPane.background", optionPaneBG);
-			UIManager.put("Panel.background", panelBG);
-		}
-		if (yes == 0) {
-			PrintWriter writer = null;
-			try {
-				writer = new PrintWriter("./ressources/preferences/preference_" + Constants.NOM_ELEVE + ".txt",
-						"UTF-8");
-			} catch (FileNotFoundException | UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
-			writer.println("w:" + pan.fenetre.getWidth());
-			writer.println("h:" + pan.fenetre.getHeight());
-			writer.println("x:" + pan.fenetre.getX());
-			writer.println("y:" + pan.fenetre.getY());
-			writer.println("taillePolice:" + FenetreParametre.taillePolice);
-			writer.println("typePolice:" + FenetreParametre.police.getFontName());
-			writer.println("couleur:" + FenetreParametre.couleurFond.getRed() + "/"
-					+ FenetreParametre.couleurFond.getGreen() + "/" + FenetreParametre.couleurFond.getBlue() + "/"
-
-					+ Constants.RIGHT_COLOR.getRed() + "/" + Constants.RIGHT_COLOR.getGreen() + "/"
-					+ Constants.RIGHT_COLOR.getBlue() + "/"
-
-					+ Constants.WRONG_COLOR.getRed() + "/" + Constants.WRONG_COLOR.getGreen() + "/"
-					+ Constants.WRONG_COLOR.getBlue() + "/"
-
-					+ Constants.WRONG_PHRASE_COLOR.getRed() + "/" + Constants.WRONG_PHRASE_COLOR.getGreen() + "/"
-					+ Constants.WRONG_PHRASE_COLOR.getBlue());
-
-			writer.println("mode:" + FenetreParametre.readMode);
-			writer.println("tempsAttente:" + FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture);
-			writer.println("rejouerSon:" + FenetreParametre.rejouerSon);
-			writer.close();
-		}
-	}
-
-	private void appliquerPreference() {
-		Object optionPaneBG = UIManager.get("OptionPane.background");
-		Object panelBG = UIManager.get("Panel.background");
-		int yes = -1;
-		try {
-			UIManager.put("OptionPane.background", Color.WHITE);
-			UIManager.put("Panel.background", Color.WHITE);
-			yes = JOptionPane.showConfirmDialog(this, "Chargez les preferences ?", "Confirmation",
-					JOptionPane.YES_NO_OPTION);
-		} finally {
-			UIManager.put("OptionPane.background", optionPaneBG);
-			UIManager.put("Panel.background", panelBG);
-		}
-		String fichier = "./ressources/preferences/preference_" + Constants.NOM_ELEVE + ".txt";
-		if (yes == 0) {
-			// lecture du fichier texte
-			try {
-				InputStream ips = new FileInputStream(fichier);
-				InputStreamReader ipsr = new InputStreamReader(ips);
-				BufferedReader br = new BufferedReader(ipsr);
-				String ligne;
-				int w = -1, h = -1, x = -1, y = -1, t = -1, tempsPause = -1;
-				Color color = null, rightColor = null, wrongColor = null, correctionColor = null;
-				String p = null;
-				ReadMode mode = null;
-				int i = 0;
-				while ((ligne = br.readLine()) != null) {
-					switch (i) {
-					case 0:
-						w = Integer.valueOf(ligne.split(":")[1]);
-						break;
-					case 1:
-						h = Integer.valueOf(ligne.split(":")[1]);
-						break;
-					case 2:
-						x = Integer.valueOf(ligne.split(":")[1]);
-						break;
-					case 3:
-						y = Integer.valueOf(ligne.split(":")[1]);
-						break;
-					case 4:
-						t = Integer.valueOf(ligne.split(":")[1]);
-						break;
-					case 5:
-						p = ligne.split(":")[1];
-						break;
-					case 6:
-						String temp = ligne.split(":")[1];
-						color = new Color(Integer.valueOf(temp.split("/")[0]), Integer.valueOf(temp.split("/")[1]),
-								Integer.valueOf(temp.split("/")[2]));
-						rightColor = new Color(Integer.valueOf(temp.split("/")[3]), Integer.valueOf(temp.split("/")[4]),
-								Integer.valueOf(temp.split("/")[5]));
-						wrongColor = new Color(Integer.valueOf(temp.split("/")[6]), Integer.valueOf(temp.split("/")[7]),
-								Integer.valueOf(temp.split("/")[8]));
-						correctionColor = new Color(Integer.valueOf(temp.split("/")[9]),
-								Integer.valueOf(temp.split("/")[10]), Integer.valueOf(temp.split("/")[11]));
-
-						break;
-					case 7:
-						String s = String.valueOf(ligne.split(":")[1]);
-						switch (s) {
-						case "GUIDED_READING":
-							mode = ReadMode.GUIDED_READING;
-							break;
-						case "HIGHLIGHT":
-							mode = ReadMode.HIGHLIGHT;
-							break;
-						case "NORMAL":
-							mode = ReadMode.NORMAL;
-							break;
-						case "ANTICIPATED":
-							mode = ReadMode.ANTICIPATED;
-							break;
-						}
-						FenetreParametre.readMode = mode;
-						break;
-					case 8:
-						tempsPause = Integer.valueOf(ligne.split(":")[1]);
-						break;
-					case 9:
-						FenetreParametre.rejouerSon = Boolean.valueOf(ligne.split(":")[1]);
-						break;
-					default:
-						break;
-					}
-					i++;
-				}
-				pan.fenetre.setBounds(x, y, w, h);
-				FenetreParametre.taillePolice = t;
-				int index = 999;
-				if (p.equals("OpenDyslexic") || p.equals("OpenDyslexic Bold")) {
-					index = 0;
-				}
-				if (p.equals("Andika")) {
-					index = 1;
-				}
-				if (p.equals("Lexia")) {
-					index = 2;
-				}
-				FenetreParametre.police = ControleurParam.getFont(p, index, Font.BOLD, t);
-				((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).listeCouleurs
-						.setBackground(FenetreParametre.couleurFond = color);
-				pan.editorPane.setFont(FenetreParametre.police);
-				pan.editorPane.setBackground(color);
-				Constants.RIGHT_COLOR = rightColor;
-				Constants.WRONG_COLOR = wrongColor;
-				Constants.WRONG_PHRASE_COLOR = correctionColor;
-				FenetreParametre.tempsPauseEnPourcentageDuTempsDeLecture = tempsPause;
-				((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).sliderAttente
-						.setValue(tempsPause);
-				br.close();
-			} catch (Exception e) {
-				System.out.println(e.toString());
-			}
-			pan.rebuildPages();
-		}
-	}
+	
 
 	private void addMenu() {
 		JMenuBar menubar = new JMenuBar();
@@ -394,23 +240,23 @@ public class ControlFrame extends JFrame {
 		eMenuItem3.setToolTipText("Parametres de l'exercice");
 		eMenuItem3.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.ALT_MASK));
 		eMenuItem3.addActionListener((ActionEvent event) -> {
-			FenetreParametre.editorPane = pan.editorPane;
-			FenetreParametre.fen.setVisible(true);
+			fen.editorPane = pan.editorPane;
+			fen.setVisible(true);
 			int x = 4 * Toolkit.getDefaultToolkit().getScreenSize().width / 10;
 			int y = 2 * Toolkit.getDefaultToolkit().getScreenSize().height / 10;
-			FenetreParametre.fen.setLocation(x, y);
-			FenetreParametre.fen.fenetre.setEnabled(false);
-			FenetreParametre.fen.fenetre.pan.controlFrame.setEnabled(false);
-			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).segmentDeDepart.setEnabled(false);
-			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).modeKaraoke.setEnabled(false);
-			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).modeSurlignage.setEnabled(false);
-			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).modeNormal.setEnabled(false);
-			((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).modeAnticipe.setEnabled(false);
+			fen.setLocation(x, y);
+			fen.fenetre.setEnabled(false);
+			fen.fenetre.pan.controlFrame.setEnabled(false);
+			((FenetreParametre.PanneauParam) fen.getContentPane()).segmentDeDepart.setEnabled(false);
+			((FenetreParametre.PanneauParam) fen.getContentPane()).modeKaraoke.setEnabled(false);
+			((FenetreParametre.PanneauParam) fen.getContentPane()).modeSurlignage.setEnabled(false);
+			((FenetreParametre.PanneauParam) fen.getContentPane()).modeNormal.setEnabled(false);
+			((FenetreParametre.PanneauParam) fen.getContentPane()).modeAnticipe.setEnabled(false);
 			// grisage de la taille et du style de la police si on est plus au premier
 			// segment
-			if ((player.getCurrentPhraseIndex() + 1) - FenetreParametre.premierSegment != 0) {
-				((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).listePolices.setEnabled(false);
-				((FenetreParametre.PanneauParam) FenetreParametre.fen.getContentPane()).listeTailles.setEnabled(false);
+			if ((player.getCurrentPhraseIndex() + 1) - param.premierSegment != 0) {
+				((FenetreParametre.PanneauParam) fen.getContentPane()).listePolices.setEnabled(false);
+				((FenetreParametre.PanneauParam) fen.getContentPane()).listeTailles.setEnabled(false);
 			}
 		});
 		JMenuItem eMenuItem4 = new JMenuItem("Stocker Preferences");
@@ -418,14 +264,14 @@ public class ControlFrame extends JFrame {
 		eMenuItem4.setToolTipText("Enregistre les tailles et position de la fenêtre");
 		eMenuItem4.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.ALT_MASK));
 		eMenuItem4.addActionListener((ActionEvent event) -> {
-			stockerPreference();
+			param.stockerPreference();
 		});
 		JMenuItem eMenuItem5 = new JMenuItem("Appliquer Preferences");
 		eMenuItem5.setMnemonic(KeyEvent.VK_A);
 		eMenuItem5.setToolTipText("Applique les preferences de taille et position de la fenêtre");
 		eMenuItem5.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.ALT_MASK));
 		eMenuItem5.addActionListener((ActionEvent event) -> {
-			appliquerPreference();
+			param.appliquerPreference(fen,pan);
 		});
 		file.add(eMenuItem3);
 		file.add(eMenuItem2);

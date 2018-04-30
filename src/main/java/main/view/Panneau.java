@@ -10,8 +10,13 @@ import javax.swing.*;
 import javax.swing.text.BadLocationException;
 
 import main.Constants;
+<<<<<<< HEAD
 import main.controler.ControlerText;
 import main.controler.Pilot;
+=======
+import main.Parametres;
+import main.controler.ControlerGlobal;
+>>>>>>> 3d10d562a026221f85d982a46ae1e21be2fcaf2a
 import main.controler.ControlerKey;
 import main.controler.ControlerMouse;
 import main.model.Player;
@@ -41,20 +46,26 @@ public class Panneau extends JPanel {
 	public ControlerMouse controlerMouse;
 	public Pilot pilot;
 	public ReadThread task;
-
 	public Map<Integer, List<Integer>> segmentsEnFonctionDeLaPage = new HashMap<Integer, List<Integer>>();
-
-	/// lecteur des phrases ///
 	public Player player;
+	public FenetreParametre fenetreParam;
+	public Parametres param;
 	
 	/**
 	 *  Barre de progression
 	 */
 	public JProgressBar progressBar;
 
+<<<<<<< HEAD
 	public Panneau(JFrame fenetre) throws IOException {
 		this.controlerGlobal = new ControlerText(this);
 		this.pilot = new Pilot(this);
+=======
+	public Panneau(JFrame fenetre,FenetreParametre fenetreParam,Parametres param) throws IOException {
+		this.param = param;
+		this.fenetreParam = fenetreParam;
+		this.controlerGlobal = new ControlerGlobal(this);
+>>>>>>> 3d10d562a026221f85d982a46ae1e21be2fcaf2a
 		this.fenetre = fenetre;
 		String texteCesures = getTextFromFile("ressources/textes/" + Constants.TEXT_FILE_NAME);
 		/// enlève la consigne ///
@@ -65,7 +76,7 @@ public class Panneau extends JPanel {
 
 		this.setLayout(new BorderLayout());
 
-		editorPane = new TextPane();
+		editorPane = new TextPane(param);
 		editorPane.setEditable(false);
 		add(editorPane, BorderLayout.CENTER);
 		
@@ -79,22 +90,22 @@ public class Panneau extends JPanel {
 	 * S'exécute lorsque le panneau s'est bien intégré à la fenêtre.
 	 */
 	public void init() {
-		progressBar.setString(FenetreParametre.premierSegment+"/"+(textHandler.getPhrasesCount()-1));
-		progressBar.setValue(FenetreParametre.premierSegment);
-		editorPane.setBackground(FenetreParametre.couleurFond);
-		editorPane.setFont(FenetreParametre.police);
+		progressBar.setString(param.premierSegment+"/"+(textHandler.getPhrasesCount()-1));
+		progressBar.setValue(param.premierSegment);
+		editorPane.setBackground(param.couleurFond);
+		editorPane.setFont(param.police);
 		pageActuelle = 0;
-		nbEssaisRestantPourLeSegmentCourant = nbEssaisParSegment = FenetreParametre.nbFautesTolerees;
+		nbEssaisRestantPourLeSegmentCourant = nbEssaisParSegment = param.nbFautesTolerees;
 
 		/// construit la mise en page virtuelle ///
 		rebuildPages();
 		/// initialise le lecteur et le démarre ///
-		player = new Player(textHandler);
-		player.load(FenetreParametre.premierSegment - 1);
+		player = new Player(textHandler,param);
+		player.load(param.premierSegment - 1);
 		// controlerGlobal.goTo(FenetreParametre.premierSegment - 1);
 
-		controlFrame = new ControlFrame(this);
-		controlerKey = new ControlerKey(player);
+		controlFrame = new ControlFrame(this,fenetreParam,param);
+		controlerKey = new ControlerKey(controlerGlobal);
 		editorPane.addKeyListener(controlerKey);
 		controlerMouse = new ControlerMouse(this, textHandler);
 		editorPane.addMouseListener(controlerMouse);
@@ -138,7 +149,7 @@ public class Panneau extends JPanel {
 	public void afficherPageSuivante() {
 		showPage(pageActuelle + 1);
 		editorPane.désurlignerTout();
-		if ((FenetreParametre.readMode == ReadMode.GUIDED_READING || FenetreParametre.readMode == ReadMode.ANTICIPATED)
+		if ((param.readMode == ReadMode.GUIDED_READING || param.readMode == ReadMode.ANTICIPATED)
 				&& (controlerGlobal != null && player != null)) {
 			controlerGlobal.highlightPhrase(Constants.RIGHT_COLOR, player.getCurrentPhraseIndex());
 		}
@@ -148,7 +159,7 @@ public class Panneau extends JPanel {
 	 * Construit les pages et affiche la première.
 	 */
 	public void rebuildPages() {
-		buildPages(FenetreParametre.premierSegment - 1);
+		buildPages(param.premierSegment - 1);
 		pageActuelle = 0;
 		afficherPageSuivante();
 		/// calcule le nombre de pages total ///
@@ -229,7 +240,7 @@ public class Panneau extends JPanel {
 			return;
 		}
 		pageActuelle = page;
-		fenetre.setTitle("Lexidia - Page " + page);
+		fenetre.setTitle("Lexidia - "+param.readMode+" - Page " + page);
 		String texteAfficher = "";
 		// on recupere les segments a afficher dans la page
 		List<String> liste = new ArrayList<String>();
@@ -271,7 +282,7 @@ public class Panneau extends JPanel {
 			UIManager.put("OptionPane.background", Color.WHITE);
 			UIManager.put("Panel.background", Color.WHITE);
 			String message = null;
-			switch (FenetreParametre.readMode) {
+			switch (param.readMode) {
 			case NORMAL:
 			case HIGHLIGHT:
 				message = "L'exercice est terminé." + "\n" + "Le patient a fait " + nbErreurs + " erreur"

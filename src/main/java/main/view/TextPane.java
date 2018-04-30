@@ -9,7 +9,7 @@ import javax.swing.JTextPane;
 import javax.swing.text.*;
 import javax.swing.text.Highlighter.*;
 import main.Constants;
-
+import main.Parametres;
 
 public class TextPane extends JTextPane {
 
@@ -19,10 +19,9 @@ public class TextPane extends JTextPane {
 	private List<Object> blueHighlightTags = new ArrayList<>();
 	private List<Object> greenHighlightTags = new ArrayList<>();
 
-	public TextPane() {
+	public TextPane(Parametres param) {
 
-		setFont(FenetreParametre.police);
-		setBackground(FenetreParametre.couleurFond);
+		setFont(param.police);
 		setSelectionColor(new Color(0, 0, 0, 0));
 
 		/// mets les marges sur les côtés ///
@@ -57,10 +56,12 @@ public class TextPane extends JTextPane {
 	}
 
 	public void enleverSurlignageRouge() {
-		for (int i = 0; i < redHighlightTags.size(); i++) {
-			getHighlighter().removeHighlight(redHighlightTags.get(i));
+		if (redHighlightTags != null) {
+			for (int i = 0; i < redHighlightTags.size(); i++) {
+				getHighlighter().removeHighlight(redHighlightTags.get(i));
+			}
+			redHighlightTags.clear();
 		}
-		redHighlightTags.clear();
 	}
 
 	public void enleverSurlignageBleu() {
@@ -144,7 +145,7 @@ public class TextPane extends JTextPane {
 		redHighlightTags = newRed;
 		greenHighlightTags = newGreen;
 	}
-	
+
 	@Override
 	public void paintComponent(Graphics g) {
 		g.setColor(Color.YELLOW);

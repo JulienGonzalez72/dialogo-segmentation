@@ -8,6 +8,7 @@ import java.io.IOException;
 import javax.swing.*;
 
 import main.Constants;
+import main.Parametres;
 
 public class Fenetre extends JFrame {
 
@@ -16,10 +17,10 @@ public class Fenetre extends JFrame {
 	public Panneau pan;
 	public boolean preferencesExiste = true;
 
-	public Fenetre(String titre, int tailleX, int tailleY) {
+	public Fenetre(String titre, int tailleX, int tailleY,FenetreParametre fenetreParam, Parametres param) {
 		setIconImage(getToolkit().getImage("icone.jpg"));
 		try {
-			pan = new Panneau(this);
+			pan = new Panneau(this,fenetreParam,param);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

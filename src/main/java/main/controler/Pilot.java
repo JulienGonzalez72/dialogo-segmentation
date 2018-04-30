@@ -118,4 +118,16 @@ public class Pilot {
 		return t;
 	}
 	
+	public int getCurrentPhraseIndex() {
+		return p.player.getCurrentPhraseIndex();
+	}
+	
+	public boolean isPlaying() {
+		return p.player.isPlaying();
+	}
+	
+	public boolean hasPreviousPhrase() {
+		return p.player.hasPreviousPhrase();
+	}
+	
 }

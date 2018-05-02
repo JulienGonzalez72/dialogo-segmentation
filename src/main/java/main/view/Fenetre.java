@@ -48,9 +48,8 @@ public class Fenetre extends JFrame {
 				param.panWidth = Fenetre.this.getWidth();
 				param.panHeight = Fenetre.this.getHeight();
 
-
 			}
-			
+
 			@Override
 			public void componentMoved(ComponentEvent e) {
 				param.panX = Fenetre.this.getX();
@@ -60,19 +59,6 @@ public class Fenetre extends JFrame {
 	}
 
 	public void start() {
-		/*try {
-			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-				| UnsupportedLookAndFeelException ex) {
-			ex.printStackTrace();
-		}
-<<<<<<< HEAD
-		SwingUtilities.updateComponentTreeUI(Fenetre.this);*/
-		
-=======
-		SwingUtilities.updateComponentTreeUI(this);
-
->>>>>>> 9cc92b17262f347715903a614bba466bc76e0a6c
 		setVisible(true);
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {

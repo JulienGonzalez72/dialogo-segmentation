@@ -1,10 +1,7 @@
 package main.view;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.io.*;
 import java.util.Properties;
 
@@ -467,31 +464,12 @@ public class FenetreParametre extends JFrame {
 		eMenuItem2.setMnemonic(KeyEvent.VK_R);
 		eMenuItem2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.ALT_MASK));
 		eMenuItem2.addActionListener((ActionEvent event) -> {
-<<<<<<< HEAD
-			stopExercice();
-		});
-		JMenuItem eMenuItem4 = new JMenuItem("Stocker Preferences");
-		eMenuItem4.setMnemonic(KeyEvent.VK_S);
-		eMenuItem4.setToolTipText("Enregistre les tailles et position de la fenêtre");
-		eMenuItem4.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.ALT_MASK));
-		eMenuItem4.addActionListener((ActionEvent event) -> {
-			param.stockerPreference();
-		});
-		JMenuItem eMenuItem5 = new JMenuItem("Appliquer Preferences");
-		eMenuItem5.setMnemonic(KeyEvent.VK_A);
-		eMenuItem5.setToolTipText("Applique les preferences de taille et position de la fenêtre");
-		eMenuItem5.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.ALT_MASK));
-		eMenuItem5.addActionListener((ActionEvent event) -> {
-			param.appliquerPreference(this, fenetre.pan);
-=======
 			eMenuItem2.setEnabled(false);
 			fenetre.setVisible(false);
 			controlPanel.disableAll();
 			try {
 				fenetre.pan.pilot.doStop();
-			} catch (Exception e) {
-			}
->>>>>>> 88460d2e13f766abb1e373d521ad448bb6dc2575
+			} catch (Exception e) {}
 		});
 		file.add(eMenuItem2);
 		eMenuItem2.setEnabled(false);

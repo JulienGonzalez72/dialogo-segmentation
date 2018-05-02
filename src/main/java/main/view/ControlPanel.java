@@ -1,12 +1,6 @@
 package main.view;
 
-<<<<<<< HEAD
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Image;
-=======
 import java.awt.*;
->>>>>>> 88460d2e13f766abb1e373d521ad448bb6dc2575
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -20,10 +14,7 @@ public class ControlPanel extends JPanel {
 
 	private static int imageSize = Constants.tailleImageFrame;
 	private static Image previousIcon, playIcon, pauseIcon, nextIcon, repeatIcon;
-<<<<<<< HEAD
-	
-=======
->>>>>>> 88460d2e13f766abb1e373d521ad448bb6dc2575
+
 	private JButton previousButton = new JButton();
 	private JButton playButton = new JButton();
 	private JButton nextButton = new JButton();
@@ -38,11 +29,7 @@ public class ControlPanel extends JPanel {
 	}
 
 	public ControlPanel(Panneau pan, FenetreParametre fen, Parametres param) {
-<<<<<<< HEAD
-		//this.param = param;
-		//this.fen = fen;
-=======
->>>>>>> 88460d2e13f766abb1e373d521ad448bb6dc2575
+
 		this.pan = pan;
 		
 		add(previousButton);

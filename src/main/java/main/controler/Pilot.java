@@ -29,6 +29,7 @@ public class Pilot {
 		if (n < p.param.premierSegment - 1 || n >= p.textHandler.getPhrasesCount() - 1) {
 			throw new IllegalArgumentException("Numéro de segment invalide : " + n);
 		}
+		p.param.stockerPreference();
 		/// désactive les boutons de contrôle pour éviter le spam ///
 		p.controlFrame.disableAll(Constants.DISABLE_TIME);
 		//vire le surlignagerouge

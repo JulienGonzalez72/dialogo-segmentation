@@ -1,10 +1,10 @@
-w:1150
-h:941
-x:460
-y:49
+w:982
+h:803
+x:0
+y:0
 taillePolice:42
-typePolice:Lexia
-couleur:255/255/150/0/255/0/255/0/0/0/255/255
+typePolice:Andika Basic
+couleur:255/175/175/0/255/0/255/0/0/0/255/255
 mode:HIGHLIGHT
 tempsAttente:0
-rejouerSon:true
+rejouerSon:false

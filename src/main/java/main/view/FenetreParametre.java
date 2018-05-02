@@ -45,16 +45,17 @@ public class FenetreParametre extends JFrame {
 			e.printStackTrace();
 		}
 
-		fenetre = new Fenetre(param.titre, param.tailleX * 2, param.tailleY, this,param);
+		fenetre = new Fenetre(param.titre, param.tailleX * 2, param.tailleY, this, param);
 		controlPanel = new ControlPanel(fenetre.pan, this, param);
-		
+
 		JTabbedPane generalTab = new JTabbedPane();
 		generalTab.addTab("Paramètres", pan);
 		generalTab.addTab("Contrôle", controlPanel);
 		setContentPane(generalTab);
-		
+
 		addMenu();
 		setVisible(true);
+
 	}
 
 	public class PanneauParam extends JPanel {
@@ -446,7 +447,9 @@ public class FenetreParametre extends JFrame {
 		Panneau.defautNBEssaisParSegment = param.nbFautesTolerees;
 		fenetre.start();
 	}
-	
+
+	public JMenuItem eMenuItem2;
+
 	private void addMenu() {
 		JMenuBar menubar = new JMenuBar();
 
@@ -459,11 +462,12 @@ public class FenetreParametre extends JFrame {
 		eMenuItem.addActionListener((ActionEvent event) -> {
 			System.exit(0);
 		});
-		JMenuItem eMenuItem2 = new JMenuItem("Arrêter l'exercice");
+		eMenuItem2 = new JMenuItem("Arrêter l'exercice");
 		eMenuItem2.setToolTipText("Relancer l'exercice");
 		eMenuItem2.setMnemonic(KeyEvent.VK_R);
 		eMenuItem2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.ALT_MASK));
 		eMenuItem2.addActionListener((ActionEvent event) -> {
+<<<<<<< HEAD
 			stopExercice();
 		});
 		JMenuItem eMenuItem4 = new JMenuItem("Stocker Preferences");
@@ -479,10 +483,18 @@ public class FenetreParametre extends JFrame {
 		eMenuItem5.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.ALT_MASK));
 		eMenuItem5.addActionListener((ActionEvent event) -> {
 			param.appliquerPreference(this, fenetre.pan);
+=======
+			eMenuItem2.setEnabled(false);
+			fenetre.setVisible(false);
+			controlPanel.disableAll();
+			try {
+				fenetre.pan.pilot.doStop();
+			} catch (Exception e) {
+			}
+>>>>>>> 88460d2e13f766abb1e373d521ad448bb6dc2575
 		});
 		file.add(eMenuItem2);
-		file.add(eMenuItem4);
-		file.add(eMenuItem5);
+		eMenuItem2.setEnabled(false);
 		file.add(eMenuItem);
 		menubar.add(file);
 		setJMenuBar(menubar);

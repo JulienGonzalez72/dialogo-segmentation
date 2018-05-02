@@ -79,7 +79,7 @@ public class ControleurParam implements ActionListener, ChangeListener {
 		if (jcb == panneau.listeTailles) {
 			int taille = Integer.valueOf((String) jcb.getSelectedItem());
 			param.taillePolice = taille;
-			param.police = param.police.deriveFont((float) taille);
+			param.police = param.police.deriveFont((float) Math.min(20,taille));
 			panneau.listeTailles.setFont(param.police);
 			if (fen.editorPane != null) {
 				fen.editorPane.setFont(param.police);
@@ -88,7 +88,7 @@ public class ControleurParam implements ActionListener, ChangeListener {
 		}
 		if (jcb == panneau.listePolices) {
 			String police = (String) jcb.getSelectedItem();
-			param.police = getFont(police, jcb.getSelectedIndex(), Font.BOLD, param.taillePolice);
+			param.police = getFont(police, jcb.getSelectedIndex(), Font.BOLD,Math.min(20,param.taillePolice));
 			panneau.listePolices.setFont(param.police);
 			if (fen.editorPane != null) {
 				fen.editorPane.setFont(param.police);
@@ -118,6 +118,7 @@ public class ControleurParam implements ActionListener, ChangeListener {
 			param.rejouerSon = panneau.rejouerSon.isSelected();
 		}
 		if (arg0.getSource() == panneau.valider) {
+			fen.eMenuItem2.setEnabled(true);
 			//mise a jour de la couleur de la barre de progression
 			fen.fenetre.pan.progressBar.setForeground(Constants.RIGHT_COLOR);
 			if (verifierValiditeChamp()) {

@@ -48,9 +48,8 @@ public class Fenetre extends JFrame {
 				param.panWidth = Fenetre.this.getWidth();
 				param.panHeight = Fenetre.this.getHeight();
 
-
 			}
-			
+
 			@Override
 			public void componentMoved(ComponentEvent e) {
 				param.panX = Fenetre.this.getX();

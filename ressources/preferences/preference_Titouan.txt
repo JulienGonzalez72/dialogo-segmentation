@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+w:982
+h:803
+x:0
+y:0
+taillePolice:42
+typePolice:Andika Basic
+couleur:255/175/175/0/255/0/255/0/0/0/255/255
+mode:HIGHLIGHT
+=======
 w:0
 h:0
 x:0
@@ -6,5 +16,6 @@ taillePolice:42
 typePolice:Lexia
 couleur:255/255/150/0/255/0/255/0/0/0/255/255
 mode:GUIDED_READING
+>>>>>>> 98c1d27fc5b5713c3b309ca41418bb3e06779e0f
 tempsAttente:0
-rejouerSon:true
+rejouerSon:false

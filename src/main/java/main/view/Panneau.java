@@ -53,6 +53,7 @@ public class Panneau extends JPanel {
 	public JProgressBar progressBar;
 
 	public Panneau(JFrame fenetre,FenetreParametre fenetreParam,Parametres param) throws IOException {
+		this.fenetre = fenetre;
 		this.controlerGlobal = new ControlerText(this);
 		this.pilot = new Pilot(this);
 
@@ -83,7 +84,7 @@ public class Panneau extends JPanel {
 	 * S'exécute lorsque le panneau s'est bien intégré à la fenêtre.
 	 */
 	public void init() {
-		param.appliquerPreferenceTaillePosition(fenetreParam, this);
+		param.appliquerPreferenceTaillePosition(fenetreParam,(Fenetre) fenetre);
 		progressBar.setString(param.premierSegment+"/"+(textHandler.getPhrasesCount()-1));
 		progressBar.setValue(param.premierSegment);
 		editorPane.setBackground(param.couleurFond);

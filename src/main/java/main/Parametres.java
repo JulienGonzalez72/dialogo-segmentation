@@ -2,17 +2,16 @@ package main;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.Properties;
 
 import main.controler.ControleurParam;
 import main.reading.ReadMode;
+import main.view.Fenetre;
 import main.view.FenetreParametre;
 import main.view.Panneau;
 
@@ -72,10 +71,14 @@ public class Parametres {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println(prop.keySet());
 	}
 
-	
+	/**
+	 * 
+	 * Applique toutes les preferences sauf :
+	 *  La position et les dimentions de pan 
+	 * 
+	 */
 	public void appliquerPreference(FenetreParametre fen, Panneau pan) {
 		String fichier = "./ressources/preferences/preference_" + Constants.NOM_ELEVE + ".txt";
 		InputStream ips = null;
@@ -111,11 +114,15 @@ public class Parametres {
 		Constants.RIGHT_COLOR = fromStringToColor(pro.getProperty("couleurBonne"));
 		Constants.WRONG_COLOR = fromStringToColor(pro.getProperty("couleurFausse"));
 		Constants.WRONG_PHRASE_COLOR = fromStringToColor(pro.getProperty("couleurCorrection"));
-		tempsPauseEnPourcentageDuTempsDeLecture = Integer.valueOf(pro.getProperty("tempsPause"));
+		tempsPauseEnPourcentageDuTempsDeLecture = Integer.valueOf(pro.getProperty("tempsAttente"));
 		((FenetreParametre.PanneauParam) fen.getContentPane()).sliderAttente.setValue(tempsPauseEnPourcentageDuTempsDeLecture);
 	}
 
-	public void appliquerPreferenceTaillePosition(FenetreParametre fenetreParam, Panneau pan) {
+	/**
+	 *  Applique les preferences de taille et posiiton uniquement
+	 * 
+	 */
+	public void appliquerPreferenceTaillePosition(FenetreParametre fenetreParam, Fenetre fen) {
 		String fichier = "./ressources/preferences/preference_" + Constants.NOM_ELEVE + ".txt";
 		InputStream ips = null;
 		try {
@@ -130,7 +137,7 @@ public class Parametres {
 			e.printStackTrace();
 		}
 		
-		pan.setBounds(Integer.valueOf(pro.getProperty("x")), Integer.valueOf(pro.getProperty("y")), Integer.valueOf(pro.getProperty("w")), Integer.valueOf(pro.getProperty("h")));
+		fen.setBounds(Integer.valueOf(pro.getProperty("x")), Integer.valueOf(pro.getProperty("y")), Integer.valueOf(pro.getProperty("w")), Integer.valueOf(pro.getProperty("h")));
 	}
 
 }

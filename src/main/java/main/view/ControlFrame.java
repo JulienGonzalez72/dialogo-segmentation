@@ -260,8 +260,8 @@ public class ControlFrame extends JFrame {
 		});
 		file.add(eMenuItem3);
 		file.add(eMenuItem2);
-		file.add(eMenuItem4);
-		file.add(eMenuItem5);
+		//file.add(eMenuItem4);
+		//file.add(eMenuItem5);
 		file.add(eMenuItem);
 		menubar.add(file);
 		setJMenuBar(menubar);

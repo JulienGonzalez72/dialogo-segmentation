@@ -1,15 +1,3 @@
-<<<<<<< HEAD
-w:994
-h:821
-x:0
-y:0
-taillePolice:42
-typePolice:Andika Basic
-couleur:255/255/150/0/255/0/255/0/0/0/255/255
-mode:GUIDED_READING
-tempsAttente:0
-rejouerSon:false
-=======
 #Sauvegarde
 #Wed May 02 13:13:07 CEST 2018
 taillePolice=42
@@ -25,4 +13,3 @@ x=438
 w=909
 rejouerSon=false
 couleurFond=255/255/150
->>>>>>> 9cc92b17262f347715903a614bba466bc76e0a6c

@@ -33,13 +33,10 @@ public class Pilot {
 		if (n < p.param.premierSegment - 1 || n >= p.textHandler.getPhrasesCount() - 1) {
 			throw new IllegalArgumentException("Numéro de segment invalide : " + n);
 		}
-<<<<<<< HEAD
 		p.param.stockerPreference();
-=======
 		phrase = n;
->>>>>>> 98c1d27fc5b5713c3b309ca41418bb3e06779e0f
 		/// désactive les boutons de contrôle pour éviter le spam ///
-		p.controlFrame.disableAll(Constants.DISABLE_TIME);
+		p.controlPanel.disableAll(Constants.DISABLE_TIME);
 		//vire le surlignagerouge
 		p.editorPane.enleverSurlignageRouge();
 		
@@ -60,10 +57,8 @@ public class Pilot {
 				if (phrase == p.textHandler.getPhrasesCount() - 1) {
 					p.afficherCompteRendu();
 				}
-				/// passe au segment suivant ///
-				/// 
+				/// met à jour la barre de progression ///
 				else {
-					//goTo(n + 1);
 					updateBar();
 				}
 			}
@@ -97,7 +92,9 @@ public class Pilot {
 	 */
 	public void doStop() {
 		p.player.stop();
-		activeThread.doStop();
+		if (activeThread != null) {
+			activeThread.doStop();
+		}
 	}
 
 	/**

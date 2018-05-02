@@ -15,12 +15,12 @@ import main.view.FenetreParametre;
 public class Main {
 
 	public static void main(String[] args) {
-		try {
+		/*try {
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
 				| UnsupportedLookAndFeelException e1) {
 			e1.printStackTrace();
-		}
+		}*/
 		
 		File rep = new File("ressources/fonts");
 		for (String s : rep.list()) {
@@ -31,11 +31,6 @@ public class Main {
 			} catch (IOException | FontFormatException e) {
 				e.printStackTrace();
 			}
-		}
-		try {
-			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {

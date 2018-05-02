@@ -96,22 +96,22 @@ public class ControleurParam implements ActionListener, ChangeListener {
 		}
 		if (arg0.getSource() == panneau.modeSurlignage) {
 			if (((JRadioButton) arg0.getSource()).isSelected()) {
-				param.readMode = ReadMode.HIGHLIGHT;
+				param.readMode = ReadMode.SUIVI;
 			}
 		}
 		if (arg0.getSource() == panneau.modeKaraoke) {
 			if (panneau.modeKaraoke.isSelected()) {
-				param.readMode = ReadMode.GUIDED_READING;
+				param.readMode = ReadMode.GUIDEE;
 			}
 		}
 		if (arg0.getSource() == panneau.modeNormal) {
 			if (panneau.modeNormal.isSelected()) {
-				param.readMode = ReadMode.NORMAL;
+				param.readMode = ReadMode.SEGMENTE;
 			}
 		}
 		if (arg0.getSource() == panneau.modeAnticipe) {
 			if (panneau.modeAnticipe.isSelected()) {
-				param.readMode = ReadMode.ANTICIPATED;
+				param.readMode = ReadMode.ANTICIPE;
 			}
 		}
 		if (arg0.getSource() == panneau.rejouerSon) {
@@ -154,7 +154,7 @@ public class ControleurParam implements ActionListener, ChangeListener {
 							.valueOf(panneau.champNbFautesTolerees.getText());
 					Panneau.defautNBEssaisParSegment = Integer.valueOf(panneau.champNbFautesTolerees.getText());
 					param.tempsPauseEnPourcentageDuTempsDeLecture = panneau.sliderAttente.getValue();
-					if (param.readMode == ReadMode.HIGHLIGHT) {
+					if (param.readMode == ReadMode.SUIVI) {
 						try {
 							fen.editorPane.updateColors();
 						} catch (BadLocationException e) {

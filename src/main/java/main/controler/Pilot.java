@@ -112,16 +112,16 @@ public class Pilot {
 	public ReadThread getReadThread(int n) {
 		ReadThread t;
 		switch (p.param.readMode) {
-			case ANTICIPATED:
+			case ANTICIPE:
 				t = new AnticipatedThread(controler, n);
 				break;
-			case GUIDED_READING:
+			case GUIDEE:
 				t = new GuidedThread(controler, n);
 				break;
-			case NORMAL:
+			case SEGMENTE:
 				t = new SegmentedThread(controler, n);
 				break;
-			case HIGHLIGHT:
+			case SUIVI:
 				t = new HighlightThread(controler, n);
 				break;
 			default:

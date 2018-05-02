@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 w:994
 h:821
 x:0
@@ -8,3 +9,20 @@ couleur:255/255/150/0/255/0/255/0/0/0/255/255
 mode:GUIDED_READING
 tempsAttente:0
 rejouerSon:false
+=======
+#Sauvegarde
+#Wed May 02 13:13:07 CEST 2018
+taillePolice=42
+couleurCorrection=0/255/255
+couleurBonne=0/255/0
+typePolice=Lexia
+couleurFausse=255/0/0
+h=400
+mode=SUIVI
+tempsAttente=25
+y=75
+x=438
+w=909
+rejouerSon=false
+couleurFond=255/255/150
+>>>>>>> 9cc92b17262f347715903a614bba466bc76e0a6c

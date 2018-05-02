@@ -1,10 +1,15 @@
-w:1308
-h:610
-x:319
-y:262
-taillePolice:42
-typePolice:Lexia
-couleur:255/255/150/0/255/0/255/0/0/0/255/255
-mode:SUIVI
-tempsAttente:0
-rejouerSon:false
+#Sauvegarde
+#Wed May 02 11:57:52 CEST 2018
+taillePolice=42
+couleurCorrection=0/255/255
+couleurBonne=0/255/0
+typePolice=Lexia
+couleurFausse=255/0/0
+h=669
+mode=SUIVI
+tempsAttente=25
+y=32
+x=578
+w=1000
+rejouerSon=false
+couleurFond=255/255/150

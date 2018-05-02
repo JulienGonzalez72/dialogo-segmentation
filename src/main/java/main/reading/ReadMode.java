@@ -45,4 +45,23 @@ public enum ReadMode {
 		return mode;
 	}
 
+	public static String stringer(ReadMode r) {
+		String temp = "";
+		switch (r) {
+		case GUIDEE:
+			temp = "GUIDEE";
+			break;
+		case SUIVI:
+			temp = "SUIVI";
+			break;
+		case SEGMENTE:
+			temp = "SEGMENTE";
+			break;
+		case ANTICIPE:
+			temp = "ANTICIPE";
+			break;
+		}
+		return temp;
+	}
+
 }

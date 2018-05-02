@@ -83,7 +83,7 @@ public class Panneau extends JPanel {
 	 * S'exécute lorsque le panneau s'est bien intégré à la fenêtre.
 	 */
 	public void init() {
-		param.appliquerPreference(fenetreParam, this);
+		param.appliquerPreferenceTaillePosition(fenetreParam, this);
 		progressBar.setString(param.premierSegment+"/"+(textHandler.getPhrasesCount()-1));
 		progressBar.setValue(param.premierSegment);
 		editorPane.setBackground(param.couleurFond);

@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.*;
+import java.util.Properties;
 
 import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;
@@ -42,7 +43,7 @@ public class FenetreParametre extends JFrame {
 		}
 		setContentPane(pan);
 		setVisible(true);
-		fenetre = new Fenetre(titre, tailleX * 2, tailleY,this,param);
+		fenetre = new Fenetre(titre, tailleX * 2, tailleY, this, param);
 	}
 
 	public class PanneauParam extends JPanel {
@@ -89,7 +90,7 @@ public class FenetreParametre extends JFrame {
 			tailles = new Object[] { "12", "16", "18", "20", "22", "24", "30", "36", "42" };
 			couleurs = new Object[] { "Jaune", "Blanc", "Orange", "Rose", "Bleu", "Rouge", "Vert" };
 
-			ControleurParam controleur = new ControleurParam(fen,this);
+			ControleurParam controleur = new ControleurParam(fen, this);
 			valider.addActionListener(controleur);
 
 			listePolices = new JComboBox<Object>(polices);
@@ -156,7 +157,7 @@ public class FenetreParametre extends JFrame {
 			midPanel.add(couleurCorrection);
 			fastCentering(listeMauvaisesCouleurs, midPanel, "   ");
 			fastCentering(listeCorrectionCouleurs, midPanel, "   ");
-			
+
 			LookAndFeelInfo[] lfs = UIManager.getInstalledLookAndFeels();
 			JComboBox<Object> lfBox = fastComboBox(controleur, new Object[0]);
 			for (int i = 0; i < lfs.length; i++) {
@@ -237,119 +238,93 @@ public class FenetreParametre extends JFrame {
 
 		public void chargerPreferences() throws NumberFormatException, IOException {
 			String fichier = "./ressources/preferences/preference_" + Constants.NOM_ELEVE + ".txt";
-			InputStream ips;
+			InputStream ips = null;
 			try {
 				ips = new FileInputStream(fichier);
-				InputStreamReader ipsr = new InputStreamReader(ips);
-				BufferedReader br = new BufferedReader(ipsr);
-				String ligne;
-				int i = -1;
-				while ((ligne = br.readLine()) != null) {
-					i++;
-					switch (i) {
-					case 4:
-						int t = Integer.valueOf(ligne.split(":")[1]);
-						if (t == 12) {
-							listeTailles.setSelectedItem(tailles[0]);
-						}
-						if (t == 16) {
-							listeTailles.setSelectedItem(tailles[1]);
-						}
-						if (t == 18) {
-							listeTailles.setSelectedItem(tailles[2]);
-						}
-						if (t == 20) {
-							listeTailles.setSelectedItem(tailles[3]);
-						}
-						if (t == 22) {
-							listeTailles.setSelectedItem(tailles[4]);
-						}
-						if (t == 24) {
-							listeTailles.setSelectedItem(tailles[5]);
-						}
-						if (t == 30) {
-							listeTailles.setSelectedItem(tailles[6]);
-						}
-						if (t == 36) {
-							listeTailles.setSelectedItem(tailles[7]);
-						}
-						if (t == 42) {
-							listeTailles.setSelectedItem(tailles[8]);
-						}
-						break;
-					case 5:
-						int index = -1;
-						String p = ligne.split(":")[1];
-						if (p.equals("OpenDyslexic") || p.equals("OpenDyslexic Bold")) {
-							index = 0;
-						}
-						if (p.equals("Andika") || p.equals("Andika Basic")) {
-							index = 1;
-						}
-						if (p.equals("Lexia")) {
-							index = 2;
-						}
-						if (p.equals("Arial") || p.equals("Arial Gras")) {
-							index = 3;
-						}
-						if (p.equals("Times New Roman") || p.equals("Times New Roman Gras")) {
-							index = 4;
-						}
-						listePolices.setSelectedItem(polices[index]);
-						break;
-					case 6:
-						String temp = ligne.split(":")[1];
-						Color color = new Color(Integer.valueOf(temp.split("/")[0]),
-								Integer.valueOf(temp.split("/")[1]), Integer.valueOf(temp.split("/")[2]));
-
-						Color rightColor = new Color(Integer.valueOf(temp.split("/")[3]),
-								Integer.valueOf(temp.split("/")[4]), Integer.valueOf(temp.split("/")[5]));
-
-						Color wrongColor = new Color(Integer.valueOf(temp.split("/")[6]),
-								Integer.valueOf(temp.split("/")[7]), Integer.valueOf(temp.split("/")[8]));
-
-						Color correctionColor = new Color(Integer.valueOf(temp.split("/")[9]),
-								Integer.valueOf(temp.split("/")[10]), Integer.valueOf(temp.split("/")[11]));
-
-						appliquerCouleur(color, listeCouleurs);
-						appliquerCouleur(rightColor, listeBonnesCouleurs);
-						appliquerCouleur(wrongColor, listeMauvaisesCouleurs);
-						appliquerCouleur(correctionColor, listeCorrectionCouleurs);
-						break;
-					case 7:
-						param.readMode = ReadMode.parse(ligne.split(":")[1]);
-						switch (param.readMode) {
-						case SEGMENTE:
-							modeNormal.setSelected(true);
-							break;
-						case SUIVI:
-							modeSurlignage.setSelected(true);
-							break;
-						case GUIDEE:
-							modeKaraoke.setSelected(true);
-							break;
-						case ANTICIPE:
-							modeAnticipe.setSelected(true);
-							break;
-						default:
-							break;
-						}
-						break;
-					case 8:
-						param.tempsPauseEnPourcentageDuTempsDeLecture = Integer.valueOf(ligne.split(":")[1]);
-						sliderAttente.setValue(Integer.valueOf(ligne.split(":")[1]));
-						break;
-					case 9:
-						rejouerSon.setSelected(Boolean.valueOf(ligne.split(":")[1]));
-						break;
-					default:
-						break;
-					}
-				}
-				br.close();
-			} catch (FileNotFoundException e) {
-
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
+			Properties pro = new Properties();
+			try {
+				pro.load(ips);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			int t = Integer.valueOf(pro.getProperty("taillePolice"));
+			if (t == 12) {
+				listeTailles.setSelectedItem(tailles[0]);
+			}
+			if (t == 16) {
+				listeTailles.setSelectedItem(tailles[1]);
+			}
+			if (t == 18) {
+				listeTailles.setSelectedItem(tailles[2]);
+			}
+			if (t == 20) {
+				listeTailles.setSelectedItem(tailles[3]);
+			}
+			if (t == 22) {
+				listeTailles.setSelectedItem(tailles[4]);
+			}
+			if (t == 24) {
+				listeTailles.setSelectedItem(tailles[5]);
+			}
+			if (t == 30) {
+				listeTailles.setSelectedItem(tailles[6]);
+			}
+			if (t == 36) {
+				listeTailles.setSelectedItem(tailles[7]);
+			}
+			if (t == 42) {
+				listeTailles.setSelectedItem(tailles[8]);
+			}
+
+			int index = -1;
+			String p = pro.getProperty("typePolice");
+			if (p.equals("OpenDyslexic") || p.equals("OpenDyslexic Bold")) {
+				index = 0;
+			}
+			if (p.equals("Andika") || p.equals("Andika Basic")) {
+				index = 1;
+			}
+			if (p.equals("Lexia")) {
+				index = 2;
+			}
+			if (p.equals("Arial") || p.equals("Arial Gras")) {
+				index = 3;
+			}
+			if (p.equals("Times New Roman") || p.equals("Times New Roman Gras")) {
+				index = 4;
+			}
+			listePolices.setSelectedItem(polices[index]);
+
+			appliquerCouleur(param.fromStringToColor(pro.getProperty("couleurFond")), listeCouleurs);
+			appliquerCouleur(param.fromStringToColor(pro.getProperty("couleurBonne")), listeBonnesCouleurs);
+			appliquerCouleur(param.fromStringToColor(pro.getProperty("couleurFausse")), listeMauvaisesCouleurs);
+			appliquerCouleur(param.fromStringToColor(pro.getProperty("couleurCorrection")), listeCorrectionCouleurs);
+
+			param.readMode = ReadMode.parse((pro.getProperty("mode")));
+			switch (param.readMode) {
+			case SEGMENTE:
+				modeNormal.setSelected(true);
+				break;
+			case SUIVI:
+				modeSurlignage.setSelected(true);
+				break;
+			case GUIDEE:
+				modeKaraoke.setSelected(true);
+				break;
+			case ANTICIPE:
+				modeAnticipe.setSelected(true);
+				break;
+			}
+
+			int temp = Integer.valueOf(pro.getProperty("tempsAttente"));
+			param.tempsPauseEnPourcentageDuTempsDeLecture = temp;
+			sliderAttente.setValue(temp);
+
+			rejouerSon.setSelected(Boolean.valueOf(pro.getProperty("rejouerSon")));
 		}
 
 		private void appliquerCouleur(Color color, JComboBox<Object> listeCouleurs) {
@@ -442,7 +417,8 @@ public class FenetreParametre extends JFrame {
 		/**
 		 * Centre le composant c dans le panneau p
 		 * 
-		 * @param marge = taille de la marge
+		 * @param marge
+		 *            = taille de la marge
 		 */
 		private void fastCentering(Component c, JPanel p, String marge) {
 			JPanel temp = new JPanel(new BorderLayout());

@@ -5,6 +5,6 @@ y:26
 taillePolice:42
 typePolice:Lexia
 couleur:255/255/150/0/255/0/255/0/0/0/255/255
-mode:HIGHLIGHT
+mode:SUIVI
 tempsAttente:0
 rejouerSon:false

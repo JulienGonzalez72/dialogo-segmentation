@@ -83,10 +83,7 @@ public class Panneau extends JPanel {
 	 * S'exécute lorsque le panneau s'est bien intégré à la fenêtre.
 	 */
 	public void init() {
-		param.panX = getX();
-		param.panY = getY();
-		param.panWidth = getWidth();
-		param.panHeight = getHeight();
+		param.appliquerPreference(fenetreParam, this);
 		progressBar.setString(param.premierSegment+"/"+(textHandler.getPhrasesCount()-1));
 		progressBar.setValue(param.premierSegment);
 		editorPane.setBackground(param.couleurFond);
@@ -146,7 +143,7 @@ public class Panneau extends JPanel {
 	public void afficherPageSuivante() {
 		showPage(pageActuelle + 1);
 		editorPane.désurlignerTout();
-		if ((param.readMode == ReadMode.GUIDED_READING || param.readMode == ReadMode.ANTICIPATED)
+		if ((param.readMode == ReadMode.GUIDEE || param.readMode == ReadMode.ANTICIPE)
 				&& (controlerGlobal != null && player != null)) {
 			controlerGlobal.highlightPhrase(Constants.RIGHT_COLOR, player.getCurrentPhraseIndex());
 		}
@@ -236,7 +233,13 @@ public class Panneau extends JPanel {
 			return;
 		}
 		pageActuelle = page;
-		fenetre.setTitle("Lexidia - "+param.readMode+" - Page " + page);
+		//on met a jour le titre de la fenetre
+		String temp = param.readMode+"";
+		temp = temp.toLowerCase();
+		char[] c = temp.toCharArray();
+		c[0] = Character.toUpperCase(c[0]);
+		temp = String.copyValueOf(c);
+		fenetre.setTitle("Lexidia - "+temp+" - Page " + page);
 		String texteAfficher = "";
 		// on recupere les segments a afficher dans la page
 		List<String> liste = new ArrayList<String>();
@@ -279,14 +282,14 @@ public class Panneau extends JPanel {
 			UIManager.put("Panel.background", Color.WHITE);
 			String message = null;
 			switch (param.readMode) {
-			case NORMAL:
-			case HIGHLIGHT:
+			case SEGMENTE:
+			case SUIVI:
 				message = "L'exercice est terminé." + "\n" + "Le patient a fait " + nbErreurs + " erreur"
 						+ (nbErreurs > 1 ? "s" : "") + " de clic.\n" + "Le patient a fait " + nbErreursParSegment
 						+ " erreur" + (nbErreursParSegment > 1 ? "s" : "") + " de segment.";
 				break;
-			case ANTICIPATED:
-			case GUIDED_READING:
+			case ANTICIPE:
+			case GUIDEE:
 				message = "L'exercice est terminé.";
 			default:
 				break;

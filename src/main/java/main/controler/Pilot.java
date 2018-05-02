@@ -33,11 +33,8 @@ public class Pilot {
 		if (n < p.param.premierSegment - 1 || n >= p.textHandler.getPhrasesCount() - 1) {
 			throw new IllegalArgumentException("Numéro de segment invalide : " + n);
 		}
-<<<<<<< HEAD
 		p.param.stockerPreference();
-=======
 		phrase = n;
->>>>>>> 98c1d27fc5b5713c3b309ca41418bb3e06779e0f
 		/// désactive les boutons de contrôle pour éviter le spam ///
 		p.controlFrame.disableAll(Constants.DISABLE_TIME);
 		//vire le surlignagerouge
@@ -115,16 +112,16 @@ public class Pilot {
 	public ReadThread getReadThread(int n) {
 		ReadThread t;
 		switch (p.param.readMode) {
-			case ANTICIPATED:
+			case ANTICIPE:
 				t = new AnticipatedThread(controler, n);
 				break;
-			case GUIDED_READING:
+			case GUIDEE:
 				t = new GuidedThread(controler, n);
 				break;
-			case NORMAL:
+			case SEGMENTE:
 				t = new SegmentedThread(controler, n);
 				break;
-			case HIGHLIGHT:
+			case SUIVI:
 				t = new HighlightThread(controler, n);
 				break;
 			default:

@@ -24,7 +24,7 @@ public class Parametres {
 	public int premierSegment;
 	public int nbFautesTolerees;
 	public int tempsPauseEnPourcentageDuTempsDeLecture;
-	public ReadMode readMode = ReadMode.NORMAL;
+	public ReadMode readMode = ReadMode.SEGMENTE;
 	public boolean rejouerSon = true;
 	public int panWidth, panHeight, panX, panY;
 
@@ -113,16 +113,16 @@ public class Parametres {
 					String s = String.valueOf(ligne.split(":")[1]);
 					switch (s) {
 					case "GUIDED_READING":
-						mode = ReadMode.GUIDED_READING;
+						mode = ReadMode.GUIDEE;
 						break;
 					case "HIGHLIGHT":
-						mode = ReadMode.HIGHLIGHT;
+						mode = ReadMode.SUIVI;
 						break;
 					case "NORMAL":
-						mode = ReadMode.NORMAL;
+						mode = ReadMode.SEGMENTE;
 						break;
 					case "ANTICIPATED":
-						mode = ReadMode.ANTICIPATED;
+						mode = ReadMode.ANTICIPE;
 						break;
 					}
 					readMode = mode;

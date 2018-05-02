@@ -319,16 +319,16 @@ public class FenetreParametre extends JFrame {
 					case 7:
 						param.readMode = ReadMode.parse(ligne.split(":")[1]);
 						switch (param.readMode) {
-						case NORMAL:
+						case SEGMENTE:
 							modeNormal.setSelected(true);
 							break;
-						case HIGHLIGHT:
+						case SUIVI:
 							modeSurlignage.setSelected(true);
 							break;
-						case GUIDED_READING:
+						case GUIDEE:
 							modeKaraoke.setSelected(true);
 							break;
-						case ANTICIPATED:
+						case ANTICIPE:
 							modeAnticipe.setSelected(true);
 							break;
 						default:

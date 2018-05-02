@@ -31,14 +31,9 @@ public class ControlerText {
 	}
 
 	/**
-<<<<<<< HEAD:src/main/java/main/controler/ControlerGlobal.java
-	 * Joue un fichier .wav correspondant à un segment de phrase. On sortira de
-	 * cette fonction lorsque le fichier .wav aura été totalement joué.
-=======
 	 * Joue un fichier .wav correspondant à un segment de phrase.
 	 * On sortira de cette fonction lorsque le fichier .wav aura été totalement joué.
 	 * METHODE DE TEST
->>>>>>> 6053799deedfbe63b37fb2b44be7353a2dbd57a5:src/main/java/main/controler/ControlerText.java
 	 */
 	public void play(int phrase) {
 		p.setCursor(Constants.CURSOR_LISTEN);

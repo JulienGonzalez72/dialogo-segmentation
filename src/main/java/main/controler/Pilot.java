@@ -16,6 +16,10 @@ public class Pilot {
 	private ReadThread activeThread;
 	private Panneau p;
 	private ControlerText controler;
+	/**
+	 * Segment actuel
+	 */
+	private int phrase;
 	
 	public Pilot(Panneau p) {
 		this.p = p;
@@ -29,6 +33,7 @@ public class Pilot {
 		if (n < p.param.premierSegment - 1 || n >= p.textHandler.getPhrasesCount() - 1) {
 			throw new IllegalArgumentException("Numéro de segment invalide : " + n);
 		}
+		phrase = n;
 		/// désactive les boutons de contrôle pour éviter le spam ///
 		p.controlFrame.disableAll(Constants.DISABLE_TIME);
 		//vire le surlignagerouge
@@ -38,8 +43,7 @@ public class Pilot {
 		p.fenetre.setResizable(false);
 		
 		//met a jour la barre de progression
-		p.progressBar.setValue(n);
-		p.progressBar.setString(n+"/"+(p.textHandler.getPhrasesCount()-1));
+		updateBar();
 		
 		if (activeThread != null) {
 			activeThread.doStop();
@@ -47,17 +51,25 @@ public class Pilot {
 		activeThread = getReadThread(n);
 		activeThread.onPhraseEnd.add(new Runnable() {
 			public void run() {
+				phrase = activeThread.N;
 				/// fin du dernier segment du texte ///
-				if (n == p.textHandler.getPhrasesCount() - 2) {
+				if (phrase == p.textHandler.getPhrasesCount() - 1) {
 					p.afficherCompteRendu();
 				}
 				/// passe au segment suivant ///
+				/// 
 				else {
-					goTo(n + 1);
+					//goTo(n + 1);
+					updateBar();
 				}
 			}
 		});
 		activeThread.start();
+	}
+	
+	private void updateBar() {
+		p.progressBar.setValue(getCurrentPhraseIndex());
+		p.progressBar.setString((getCurrentPhraseIndex() + 1) + "/" + (p.textHandler.getPhrasesCount() - 1));
 	}
 	
 	/**
@@ -119,7 +131,7 @@ public class Pilot {
 	}
 	
 	public int getCurrentPhraseIndex() {
-		return p.player.getCurrentPhraseIndex();
+		return phrase;
 	}
 	
 	public boolean isPlaying() {

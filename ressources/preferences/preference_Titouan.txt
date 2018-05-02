@@ -1,10 +1,10 @@
-w:1150
-h:941
-x:460
-y:49
+w:0
+h:0
+x:0
+y:0
 taillePolice:42
 typePolice:Lexia
 couleur:255/255/150/0/255/0/255/0/0/0/255/255
-mode:HIGHLIGHT
+mode:GUIDED_READING
 tempsAttente:0
 rejouerSon:true

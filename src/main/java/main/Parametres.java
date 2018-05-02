@@ -1,19 +1,12 @@
 package main;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.awt.*;
+import java.io.*;
 import java.util.Properties;
-
 import main.controler.ControleurParam;
 import main.reading.ReadMode;
-import main.view.Fenetre;
-import main.view.FenetreParametre;
-import main.view.Panneau;
+import main.view.*;
+
 
 public class Parametres {
 
@@ -74,10 +67,7 @@ public class Parametres {
 	}
 
 	/**
-	 * 
-	 * Applique toutes les preferences sauf :
-	 *  La position et les dimentions de pan 
-	 * 
+	 * Applique toutes les preferences sauf la position et les dimentions de pan 
 	 */
 	public void appliquerPreference(FenetreParametre fen, Panneau pan) {
 		String fichier = "./ressources/preferences/preference_" + Constants.NOM_ELEVE + ".txt";
@@ -119,8 +109,7 @@ public class Parametres {
 	}
 
 	/**
-	 *  Applique les preferences de taille et posiiton uniquement
-	 * 
+	 *  Applique les preferences de taille et position uniquement
 	 */
 	public void appliquerPreferenceTaillePosition(FenetreParametre fenetreParam, Fenetre fen) {
 		String fichier = "./ressources/preferences/preference_" + Constants.NOM_ELEVE + ".txt";
@@ -139,5 +128,12 @@ public class Parametres {
 		
 		fen.setBounds(Integer.valueOf(pro.getProperty("x")), Integer.valueOf(pro.getProperty("y")), Integer.valueOf(pro.getProperty("w")), Integer.valueOf(pro.getProperty("h")));
 	}
+	
+	/**
+	 *  Retourne le Rectangle définissant la fentre de l'exercice
+	 */
+	 public Rectangle getTaillePositionExercice() {
+		 return new Rectangle(panX,panY,panWidth,panHeight);
+	 }
 
 }

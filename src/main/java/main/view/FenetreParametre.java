@@ -464,12 +464,7 @@ public class FenetreParametre extends JFrame {
 		eMenuItem2.setMnemonic(KeyEvent.VK_R);
 		eMenuItem2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.ALT_MASK));
 		eMenuItem2.addActionListener((ActionEvent event) -> {
-			eMenuItem2.setEnabled(false);
-			fenetre.setVisible(false);
-			controlPanel.disableAll();
-			try {
-				fenetre.pan.pilot.doStop();
-			} catch (Exception e) {}
+			stopExercice();
 		});
 		file.add(eMenuItem2);
 		eMenuItem2.setEnabled(false);
@@ -479,6 +474,8 @@ public class FenetreParametre extends JFrame {
 	}
 	
 	public void stopExercice() {
+		param.appliquerPreference(this, fenetre.pan);
+		eMenuItem2.setEnabled(false);
 		fenetre.setVisible(false);
 		controlPanel.disableAll();
 		fenetre.pan.pilot.doStop();

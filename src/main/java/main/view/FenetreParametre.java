@@ -1,10 +1,7 @@
 package main.view;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.io.*;
 import java.util.Properties;
 
@@ -467,7 +464,16 @@ public class FenetreParametre extends JFrame {
 		eMenuItem2.setMnemonic(KeyEvent.VK_R);
 		eMenuItem2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.ALT_MASK));
 		eMenuItem2.addActionListener((ActionEvent event) -> {
+<<<<<<< HEAD
 			stopExercice();
+=======
+			eMenuItem2.setEnabled(false);
+			fenetre.setVisible(false);
+			controlPanel.disableAll();
+			try {
+				fenetre.pan.pilot.doStop();
+			} catch (Exception e) {}
+>>>>>>> f8dd1f67379fcd2d2fd7808522a48f1ecdf88a23
 		});
 		file.add(eMenuItem2);
 		eMenuItem2.setEnabled(false);

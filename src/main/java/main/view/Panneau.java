@@ -277,8 +277,7 @@ public class Panneau extends JPanel {
 		//met a jour la barre de progression
 		progressBar.setValue(textHandler.getPhrasesCount()-1);
 		progressBar.setString((textHandler.getPhrasesCount()-1)+"/"+(textHandler.getPhrasesCount()-1));
-		// desactivation du controleur
-		controlPanel.setVisible(false);
+		
 		Object optionPaneBG = UIManager.get("OptionPane.background");
 		Object panelBG = UIManager.get("Panel.background");
 		try {
@@ -303,17 +302,8 @@ public class Panneau extends JPanel {
 			UIManager.put("OptionPane.background", optionPaneBG);
 			UIManager.put("Panel.background", panelBG);
 		}
-		fenetre.setVisible(false);
-		Point p = new Point(50, 50);
-		try {
-			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		FenetreParametre temp = new FenetreParametre(Constants.titreFenetreParam, Constants.largeurFenetreParam,
-				Constants.hauteurFenetreParam);
-		temp.setLocation(p);
-		SwingUtilities.updateComponentTreeUI(temp);
+		
+		fenetreParam.stopExercice();
 	}
 
 	/**

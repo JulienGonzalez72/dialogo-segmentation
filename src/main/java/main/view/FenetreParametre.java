@@ -36,7 +36,7 @@ public class FenetreParametre extends JFrame {
 		setTitle(titre);
 		setSize(tailleX, tailleY);
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(true);
 		PanneauParam pan = null;
 		try {
@@ -467,6 +467,23 @@ public class FenetreParametre extends JFrame {
 		eMenuItem2.setMnemonic(KeyEvent.VK_R);
 		eMenuItem2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.ALT_MASK));
 		eMenuItem2.addActionListener((ActionEvent event) -> {
+<<<<<<< HEAD
+			stopExercice();
+		});
+		JMenuItem eMenuItem4 = new JMenuItem("Stocker Preferences");
+		eMenuItem4.setMnemonic(KeyEvent.VK_S);
+		eMenuItem4.setToolTipText("Enregistre les tailles et position de la fenêtre");
+		eMenuItem4.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.ALT_MASK));
+		eMenuItem4.addActionListener((ActionEvent event) -> {
+			param.stockerPreference();
+		});
+		JMenuItem eMenuItem5 = new JMenuItem("Appliquer Preferences");
+		eMenuItem5.setMnemonic(KeyEvent.VK_A);
+		eMenuItem5.setToolTipText("Applique les preferences de taille et position de la fenêtre");
+		eMenuItem5.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.ALT_MASK));
+		eMenuItem5.addActionListener((ActionEvent event) -> {
+			param.appliquerPreference(this, fenetre.pan);
+=======
 			eMenuItem2.setEnabled(false);
 			fenetre.setVisible(false);
 			controlPanel.disableAll();
@@ -474,12 +491,19 @@ public class FenetreParametre extends JFrame {
 				fenetre.pan.pilot.doStop();
 			} catch (Exception e) {
 			}
+>>>>>>> 88460d2e13f766abb1e373d521ad448bb6dc2575
 		});
 		file.add(eMenuItem2);
 		eMenuItem2.setEnabled(false);
 		file.add(eMenuItem);
 		menubar.add(file);
 		setJMenuBar(menubar);
+	}
+	
+	public void stopExercice() {
+		fenetre.setVisible(false);
+		controlPanel.disableAll();
+		fenetre.pan.pilot.doStop();
 	}
 
 }

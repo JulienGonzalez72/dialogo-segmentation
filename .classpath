@@ -33,6 +33,9 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+<<<<<<< HEAD
+=======
 	<classpathentry kind="lib" path="jarExternes/kunststoff.jar"/>
+>>>>>>> 88460d2e13f766abb1e373d521ad448bb6dc2575
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -36,7 +36,7 @@ public class FenetreParametre extends JFrame {
 		setTitle(titre);
 		setSize(tailleX, tailleY);
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(true);
 		PanneauParam pan = null;
 		try {
@@ -464,9 +464,7 @@ public class FenetreParametre extends JFrame {
 		eMenuItem2.setMnemonic(KeyEvent.VK_R);
 		eMenuItem2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.ALT_MASK));
 		eMenuItem2.addActionListener((ActionEvent event) -> {
-			fenetre.setVisible(false);
-			controlPanel.disableAll();
-			fenetre.pan.pilot.doStop();
+			stopExercice();
 		});
 		JMenuItem eMenuItem4 = new JMenuItem("Stocker Preferences");
 		eMenuItem4.setMnemonic(KeyEvent.VK_S);
@@ -488,6 +486,12 @@ public class FenetreParametre extends JFrame {
 		file.add(eMenuItem);
 		menubar.add(file);
 		setJMenuBar(menubar);
+	}
+	
+	public void stopExercice() {
+		fenetre.setVisible(false);
+		controlPanel.disableAll();
+		fenetre.pan.pilot.doStop();
 	}
 
 }

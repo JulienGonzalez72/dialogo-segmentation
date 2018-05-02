@@ -19,6 +19,7 @@ public class FenetreParametre extends JFrame {
 	public Parametres param;
 	public TextPane editorPane;
 	public ControlPanel controlPanel;
+	public PanneauParam pan;
 
 	public FenetreParametre(String titre, int tailleX, int tailleY) {
 		param = new Parametres();
@@ -35,7 +36,7 @@ public class FenetreParametre extends JFrame {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(true);
-		PanneauParam pan = null;
+		pan = null;
 		try {
 			pan = new PanneauParam(this);
 		} catch (NumberFormatException | IOException e) {
@@ -49,7 +50,6 @@ public class FenetreParametre extends JFrame {
 		generalTab.addTab("Paramètres", pan);
 		generalTab.addTab("Contrôle", controlPanel);
 		setContentPane(generalTab);
-
 		addMenu();
 		setVisible(true);
 
@@ -460,10 +460,14 @@ public class FenetreParametre extends JFrame {
 			System.exit(0);
 		});
 		eMenuItem2 = new JMenuItem("Arrêter l'exercice");
-		eMenuItem2.setToolTipText("Relancer l'exercice");
 		eMenuItem2.setMnemonic(KeyEvent.VK_R);
 		eMenuItem2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.ALT_MASK));
 		eMenuItem2.addActionListener((ActionEvent event) -> {
+			/// réactive la taille et la police et le segment de départ
+			pan.listePolices.setEnabled(true);
+			pan.listeTailles.setEnabled(true);
+			pan.segmentDeDepart.setEnabled(true);
+			pan.fen.fenetre.setResizable(true);
 			stopExercice();
 		});
 		file.add(eMenuItem2);
@@ -472,7 +476,7 @@ public class FenetreParametre extends JFrame {
 		menubar.add(file);
 		setJMenuBar(menubar);
 	}
-	
+
 	public void stopExercice() {
 		param.appliquerPreference(this, fenetre.pan);
 		eMenuItem2.setEnabled(false);

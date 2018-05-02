@@ -1,15 +1,15 @@
 #Sauvegarde
-#Wed May 02 15:08:28 CEST 2018
-taillePolice=22
+#Wed May 02 15:41:27 CEST 2018
+taillePolice=24
 couleurCorrection=0/255/255
 couleurBonne=0/255/0
-typePolice=Lexia
+typePolice=OpenDyslexic Bold
 couleurFausse=255/0/0
-h=400
+h=676
 mode=SUIVI
 tempsAttente=25
-y=113
-x=549
-w=909
+y=109
+x=609
+w=1156
 rejouerSon=true
 couleurFond=255/255/150

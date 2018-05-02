@@ -302,7 +302,11 @@ public class Panneau extends JPanel {
 			UIManager.put("OptionPane.background", optionPaneBG);
 			UIManager.put("Panel.background", panelBG);
 		}
-		
+		///réactive la taille et la police et le segment de départ
+		fenetreParam.pan.listePolices.setEnabled(true);
+		fenetreParam.pan.listeTailles.setEnabled(true);
+		fenetreParam.pan.segmentDeDepart.setEnabled(true);
+		fenetre.setResizable(true);
 		fenetreParam.stopExercice();
 	}
 

@@ -7,6 +7,7 @@ public class ControlerKey implements KeyListener {
 
 	private Pilot pilot;
 
+
 	/**
 	 * Moment du dernier clic
 	 */
@@ -15,7 +16,7 @@ public class ControlerKey implements KeyListener {
 	public ControlerKey(Pilot pilot) {
 		this.pilot = pilot;
 	}
-
+	
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_LEFT) {

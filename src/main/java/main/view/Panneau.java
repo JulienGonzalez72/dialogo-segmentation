@@ -51,12 +51,14 @@ public class Panneau extends JPanel {
 	 *  Barre de progression
 	 */
 	public JProgressBar progressBar;
-	
+
 	public Panneau(JFrame fenetre,FenetreParametre fenetreParam,Parametres param) throws IOException {
+		this.controlerGlobal = new ControlerText(this);
+		this.pilot = new Pilot(this);
+
 		this.param = param;
 		this.fenetreParam = fenetreParam;
 		this.controlerGlobal = new ControlerText(this);
-		this.pilot = new Pilot(this);
 		this.fenetre = fenetre;
 		String texteCesures = getTextFromFile("ressources/textes/" + Constants.TEXT_FILE_NAME);
 		/// enlève la consigne ///
@@ -184,7 +186,6 @@ public class Panneau extends JPanel {
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			try {

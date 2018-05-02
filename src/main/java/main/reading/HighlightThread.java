@@ -2,7 +2,6 @@ package main.reading;
 
 import main.Constants;
 import main.controler.ControlerText;
-
 import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;

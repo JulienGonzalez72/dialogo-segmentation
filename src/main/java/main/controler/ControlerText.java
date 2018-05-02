@@ -205,7 +205,7 @@ public class ControlerText {
 	public void highlightUntilPhrase(Color c, int n) {
 		p.surlignerJusquaSegment(c, n);
 	}
-	
+
 	public void incrementerErreurSegment() {
 		p.nbErreursParSegment++;
 	}

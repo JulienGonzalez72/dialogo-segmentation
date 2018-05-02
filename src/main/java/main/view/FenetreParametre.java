@@ -45,17 +45,17 @@ public class FenetreParametre extends JFrame {
 			e.printStackTrace();
 		}
 
-		fenetre = new Fenetre(param.titre, param.tailleX * 2, param.tailleY, this,param);
+		fenetre = new Fenetre(param.titre, param.tailleX * 2, param.tailleY, this, param);
 		controlPanel = new ControlPanel(fenetre.pan, this, param);
-		
+
 		JTabbedPane generalTab = new JTabbedPane();
 		generalTab.addTab("Paramètres", pan);
 		generalTab.addTab("Contrôle", controlPanel);
 		setContentPane(generalTab);
-		
+
 		addMenu();
 		setVisible(true);
-		fenetre = new Fenetre(titre, tailleX * 2, tailleY, this, param);
+
 	}
 
 	public class PanneauParam extends JPanel {
@@ -447,7 +447,9 @@ public class FenetreParametre extends JFrame {
 		Panneau.defautNBEssaisParSegment = param.nbFautesTolerees;
 		fenetre.start();
 	}
-	
+
+	public JMenuItem eMenuItem2;
+
 	private void addMenu() {
 		JMenuBar menubar = new JMenuBar();
 
@@ -460,32 +462,21 @@ public class FenetreParametre extends JFrame {
 		eMenuItem.addActionListener((ActionEvent event) -> {
 			System.exit(0);
 		});
-		JMenuItem eMenuItem2 = new JMenuItem("Arrêter l'exercice");
+		eMenuItem2 = new JMenuItem("Arrêter l'exercice");
 		eMenuItem2.setToolTipText("Relancer l'exercice");
 		eMenuItem2.setMnemonic(KeyEvent.VK_R);
 		eMenuItem2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.ALT_MASK));
 		eMenuItem2.addActionListener((ActionEvent event) -> {
+			eMenuItem2.setEnabled(false);
 			fenetre.setVisible(false);
 			controlPanel.disableAll();
-			fenetre.pan.pilot.doStop();
-		});
-		JMenuItem eMenuItem4 = new JMenuItem("Stocker Preferences");
-		eMenuItem4.setMnemonic(KeyEvent.VK_S);
-		eMenuItem4.setToolTipText("Enregistre les tailles et position de la fenêtre");
-		eMenuItem4.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.ALT_MASK));
-		eMenuItem4.addActionListener((ActionEvent event) -> {
-			param.stockerPreference();
-		});
-		JMenuItem eMenuItem5 = new JMenuItem("Appliquer Preferences");
-		eMenuItem5.setMnemonic(KeyEvent.VK_A);
-		eMenuItem5.setToolTipText("Applique les preferences de taille et position de la fenêtre");
-		eMenuItem5.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.ALT_MASK));
-		eMenuItem5.addActionListener((ActionEvent event) -> {
-			param.appliquerPreference(this, fenetre.pan);
+			try {
+				fenetre.pan.pilot.doStop();
+			} catch (Exception e) {
+			}
 		});
 		file.add(eMenuItem2);
-		file.add(eMenuItem4);
-		file.add(eMenuItem5);
+		eMenuItem2.setEnabled(false);
 		file.add(eMenuItem);
 		menubar.add(file);
 		setJMenuBar(menubar);

@@ -3,14 +3,14 @@ package main;
 import java.awt.*;
 import java.io.*;
 import javax.swing.*;
-
 import com.incors.plaf.kunststoff.KunststoffLookAndFeel;
 import main.view.FenetreParametre;
+
 
 public class Main {
 
 	public static void main(String[] args) {
-
+		
 		try {
 			UIManager.setLookAndFeel(new KunststoffLookAndFeel());
 		} catch (Exception e1) {
@@ -30,7 +30,7 @@ public class Main {
 			public void run() {
 				Point p = new Point(50, 0);
 				new FenetreParametre(Constants.titreFenetreParam, Constants.largeurFenetreParam,
-						Constants.hauteurFenetreParam).setLocation(p);
+						Constants.hauteurFenetreParam).setLocation(p);				
 			}
 		});
 

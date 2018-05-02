@@ -57,7 +57,6 @@ public class Parametres {
 
 						+ Constants.WRONG_PHRASE_COLOR.getRed() + "/" + Constants.WRONG_PHRASE_COLOR.getGreen() + "/"
 						+ Constants.WRONG_PHRASE_COLOR.getBlue());
-
 		writer.println("mode:" + readMode);
 		writer.println("tempsAttente:" + tempsPauseEnPourcentageDuTempsDeLecture);
 		writer.println("rejouerSon:" + rejouerSon);
@@ -112,16 +111,16 @@ public class Parametres {
 				case 7:
 					String s = String.valueOf(ligne.split(":")[1]);
 					switch (s) {
-					case "GUIDED_READING":
+					case "GUIDEE":
 						mode = ReadMode.GUIDEE;
 						break;
-					case "HIGHLIGHT":
+					case "SUIVI":
 						mode = ReadMode.SUIVI;
 						break;
-					case "NORMAL":
+					case "SEGMENTE":
 						mode = ReadMode.SEGMENTE;
 						break;
-					case "ANTICIPATED":
+					case "ANTICIPE":
 						mode = ReadMode.ANTICIPE;
 						break;
 					}

@@ -1,7 +1,7 @@
 w:1308
 h:610
-x:583
-y:26
+x:319
+y:262
 taillePolice:42
 typePolice:Lexia
 couleur:255/255/150/0/255/0/255/0/0/0/255/255

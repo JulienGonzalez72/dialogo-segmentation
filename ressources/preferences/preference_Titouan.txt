@@ -1,6 +1,6 @@
 #Sauvegarde
-#Wed May 02 14:18:14 CEST 2018
-taillePolice=42
+#Wed May 02 14:22:57 CEST 2018
+taillePolice=22
 couleurCorrection=0/255/255
 couleurBonne=0/255/0
 typePolice=Lexia

@@ -36,7 +36,7 @@ public class Panneau extends JPanel {
 	public int nbErreurs;
 	public int nbErreursParSegment;
 	public JFrame fenetre;
-	public ControlFrame controlFrame;
+	public ControlPanel controlPanel;
 	public ControlerText controlerGlobal;
 	public ControlerKey controlerKey;
 	public ControlerMouse controlerMouse;
@@ -55,7 +55,6 @@ public class Panneau extends JPanel {
 	public Panneau(JFrame fenetre,FenetreParametre fenetreParam,Parametres param) throws IOException {
 		this.fenetre = fenetre;
 		this.controlerGlobal = new ControlerText(this);
-		this.pilot = new Pilot(this);
 
 		this.param = param;
 		this.fenetreParam = fenetreParam;
@@ -67,9 +66,9 @@ public class Panneau extends JPanel {
 			texteCesures = texteCesures.substring(texteCesures.indexOf("/") + 1, texteCesures.length());
 		}
 		textHandler = new TextHandler(texteCesures);
-
+		
 		this.setLayout(new BorderLayout());
-
+		
 		editorPane = new TextPane(param);
 		editorPane.setEditable(false);
 		add(editorPane, BorderLayout.CENTER);
@@ -98,8 +97,11 @@ public class Panneau extends JPanel {
 		player = new Player(textHandler,param);
 		player.load(param.premierSegment - 1);
 		// controlerGlobal.goTo(FenetreParametre.premierSegment - 1);
-
-		controlFrame = new ControlFrame(this,fenetreParam,param);
+		
+		controlPanel = fenetreParam.controlPanel;
+		fenetreParam.controlPanel.init();
+		this.pilot = new Pilot(this);
+		
 		controlerKey = new ControlerKey(pilot);
 		editorPane.addKeyListener(controlerKey);
 		controlerMouse = new ControlerMouse(this, textHandler);
@@ -177,6 +179,7 @@ public class Panneau extends JPanel {
 	 */
 	public void buildPages(int startPhrase) {
 		segmentsEnFonctionDeLaPage.clear();
+		editorPane.désurlignerTout();
 		String text = textHandler.getShowText();
 		int lastOffset = 0;
 		int page = 1;
@@ -275,7 +278,7 @@ public class Panneau extends JPanel {
 		progressBar.setValue(textHandler.getPhrasesCount()-1);
 		progressBar.setString((textHandler.getPhrasesCount()-1)+"/"+(textHandler.getPhrasesCount()-1));
 		// desactivation du controleur
-		controlFrame.setVisible(false);
+		controlPanel.setVisible(false);
 		Object optionPaneBG = UIManager.get("OptionPane.background");
 		Object panelBG = UIManager.get("Panel.background");
 		try {

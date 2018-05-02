@@ -36,7 +36,7 @@ public class Pilot {
 		p.param.stockerPreference();
 		phrase = n;
 		/// désactive les boutons de contrôle pour éviter le spam ///
-		p.controlFrame.disableAll(Constants.DISABLE_TIME);
+		p.controlPanel.disableAll(Constants.DISABLE_TIME);
 		//vire le surlignagerouge
 		p.editorPane.enleverSurlignageRouge();
 		
@@ -57,10 +57,8 @@ public class Pilot {
 				if (phrase == p.textHandler.getPhrasesCount() - 1) {
 					p.afficherCompteRendu();
 				}
-				/// passe au segment suivant ///
-				/// 
+				/// met à jour la barre de progression ///
 				else {
-					//goTo(n + 1);
 					updateBar();
 				}
 			}
@@ -94,7 +92,9 @@ public class Pilot {
 	 */
 	public void doStop() {
 		p.player.stop();
-		activeThread.doStop();
+		if (activeThread != null) {
+			activeThread.doStop();
+		}
 	}
 
 	/**

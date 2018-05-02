@@ -142,13 +142,13 @@ public class ControleurParam implements ActionListener, ChangeListener {
 					}
 					fen.lancerExercice();
 					param.rejouerSon = panneau.rejouerSon.isSelected();
-					panneau.fermer();
+					//panneau.fermer();
 					// si on a deja lancé l'exercice
 				} else {
 					// on reactive l'exercice
 					fen.fenetre.setEnabled(true);
-					fen.fenetre.pan.controlFrame.setEnabled(true);
-					panneau.fermer();
+					fen.fenetre.pan.controlPanel.setEnabled(true);
+					//panneau.fermer();
 					param.nbFautesTolerees = Integer.valueOf(panneau.champNbFautesTolerees.getText());
 					fen.fenetre.pan.nbEssaisParSegment = Integer
 							.valueOf(panneau.champNbFautesTolerees.getText());

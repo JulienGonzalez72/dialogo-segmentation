@@ -55,10 +55,6 @@ public class FenetreParametre extends JFrame {
 		
 		addMenu();
 		setVisible(true);
-<<<<<<< HEAD
-=======
-		fenetre = new Fenetre(titre, tailleX * 2, tailleY, this, param);
->>>>>>> 9cc92b17262f347715903a614bba466bc76e0a6c
 	}
 
 	public class PanneauParam extends JPanel {

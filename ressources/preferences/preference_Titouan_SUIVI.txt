@@ -1,15 +1,14 @@
 #Sauvegarde
-#Wed May 02 15:55:48 CEST 2018
+#Thu May 03 09:30:53 CEST 2018
 taillePolice=24
 couleurCorrection=0/255/255
 couleurBonne=0/255/0
 typePolice=OpenDyslexic Bold
 couleurFausse=255/0/0
-h=543
-mode=SUIVI
+h=850
 tempsAttente=25
-y=109
-x=609
-w=1156
+y=90
+x=460
+w=1000
 rejouerSon=true
-couleurFond=255/255/150
+couleurFond=255/175/175

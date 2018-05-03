@@ -7,7 +7,6 @@ import main.controler.ControleurParam;
 import main.reading.ReadMode;
 import main.view.*;
 
-
 public class Parametres {
 
 	public Font police = ControleurParam.getFont(null, 0, Font.BOLD, Constants.DEFAULT_FONT_SIZE);
@@ -26,16 +25,16 @@ public class Parametres {
 	public Parametres() {
 
 	}
-	
+
 	public String fromColorToString(Color c) {
-		return ( c.getRed()+"/"+c.getGreen()+"/"+c.getBlue());
+		return (c.getRed() + "/" + c.getGreen() + "/" + c.getBlue());
 	}
-	
-	public Color fromStringToColor(String s){
+
+	public Color fromStringToColor(String s) {
 		String[] temp = s.split("/");
-		return new Color(Integer.valueOf(temp[0]),Integer.valueOf(temp[1]),Integer.valueOf(temp[2]));
+		return new Color(Integer.valueOf(temp[0]), Integer.valueOf(temp[1]), Integer.valueOf(temp[2]));
 	}
-	
+
 	public void stockerPreference() {
 		Properties prop = new Properties();
 		prop.put("w", String.valueOf(panWidth));
@@ -48,18 +47,17 @@ public class Parametres {
 		prop.put("couleurBonne", fromColorToString(Constants.RIGHT_COLOR));
 		prop.put("couleurFausse", fromColorToString(Constants.WRONG_COLOR));
 		prop.put("couleurCorrection", fromColorToString(Constants.WRONG_PHRASE_COLOR));
-		prop.put("mode", ReadMode.stringer(readMode));
-		prop.put("tempsAttente",String.valueOf(tempsPauseEnPourcentageDuTempsDeLecture));
+		prop.put("tempsAttente", String.valueOf(tempsPauseEnPourcentageDuTempsDeLecture));
 		prop.put("rejouerSon", String.valueOf(rejouerSon));
-		String fichier = "./ressources/preferences/preference_" + Constants.NOM_ELEVE + ".txt";
+		String fichier = "./ressources/preferences/preference_" + Constants.NOM_ELEVE + "_" + readMode + ".txt";
 		OutputStream ops = null;
 		try {
 			ops = new FileOutputStream(fichier);
-		} catch ( Exception e) {
-			
+		} catch (Exception e) {
+
 		}
 		try {
-			prop.store(ops,"Sauvegarde");
+			prop.store(ops, "Sauvegarde");
 			ops.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -67,13 +65,13 @@ public class Parametres {
 	}
 
 	/**
-	 * Applique toutes les preferences sauf la position et les dimentions de pan 
+	 * Applique toutes les preferences sauf la position et les dimentions de pan
 	 */
 	public void appliquerPreference(FenetreParametre fen, Panneau pan) {
-		String fichier = "./ressources/preferences/preference_" + Constants.NOM_ELEVE + ".txt";
+		String fichier = "./ressources/preferences/preference_" + Constants.NOM_ELEVE + "_" + readMode + ".txt";
 		InputStream ips = null;
 		try {
-			 ips = new FileInputStream(fichier);
+			ips = new FileInputStream(fichier);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -83,7 +81,7 @@ public class Parametres {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		taillePolice = Integer.valueOf(pro.getProperty("taillePolice"));
 		String p = pro.getProperty("typePolice");
 		int index = 999;
@@ -108,31 +106,29 @@ public class Parametres {
 	}
 
 	/**
-	 *  Applique les preferences de taille et position uniquement
+	 * Applique les preferences de taille et position uniquement
 	 */
 	public void appliquerPreferenceTaillePosition(FenetreParametre fenetreParam, Fenetre fen) {
-		String fichier = "./ressources/preferences/preference_" + Constants.NOM_ELEVE + ".txt";
+		String fichier = "./ressources/preferences/preference_" + Constants.NOM_ELEVE + "_" + readMode + ".txt";
 		InputStream ips = null;
 		try {
-			 ips = new FileInputStream(fichier);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		Properties pro = new Properties();
-		try {
-			pro.load(ips);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		fen.setBounds(Integer.valueOf(pro.getProperty("x")), Integer.valueOf(pro.getProperty("y")), Integer.valueOf(pro.getProperty("w")), Integer.valueOf(pro.getProperty("h")));
+			ips = new FileInputStream(fichier);
+			Properties pro = new Properties();
+			try {
+				pro.load(ips);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			fen.setBounds(Integer.valueOf(pro.getProperty("x")), Integer.valueOf(pro.getProperty("y")),
+					Integer.valueOf(pro.getProperty("w")), Integer.valueOf(pro.getProperty("h")));
+		} catch (Exception e) {}
 	}
-	
+
 	/**
-	 *  Retourne le Rectangle définissant la fentre de l'exercice
+	 * Retourne le Rectangle définissant la fentre de l'exercice
 	 */
-	 public Rectangle getTaillePositionExercice() {
-		 return new Rectangle(panX,panY,panWidth,panHeight);
-	 }
+	public Rectangle getTaillePositionExercice() {
+		return new Rectangle(panX, panY, panWidth, panHeight);
+	}
 
 }

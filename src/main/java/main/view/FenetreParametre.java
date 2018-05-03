@@ -240,13 +240,13 @@ public class FenetreParametre extends JFrame {
 
 			add(midPanel, BorderLayout.CENTER);
 			add(panelSud, BorderLayout.SOUTH);
-
+			
 			chargerPreferences();
 
 		}
 
 		public void chargerPreferences() throws NumberFormatException, IOException {
-			String fichier = "./ressources/preferences/preference_" + Constants.NOM_ELEVE + ".txt";
+			String fichier = "./ressources/preferences/preference_" + Constants.NOM_ELEVE +"_"+param.readMode+ ".txt";
 			InputStream ips = null;
 			try {
 				ips = new FileInputStream(fichier);

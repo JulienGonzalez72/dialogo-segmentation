@@ -71,7 +71,6 @@ public class Panneau extends JPanel {
 		
 		editorPane = new TextPane(param);
 		editorPane.setEditable(false);
-		fenetreParam.editorPane = editorPane;
 		add(editorPane, BorderLayout.CENTER);
 		
 		progressBar = new JProgressBar(0, (textHandler.getPhrasesCount()-1));
@@ -85,6 +84,7 @@ public class Panneau extends JPanel {
 	 */
 	public void init() {
 		param.appliquerPreferenceTaillePosition(fenetreParam,(Fenetre) fenetre);
+		fenetreParam.editorPane = editorPane;
 		progressBar.setString(param.premierSegment+"/"+(textHandler.getPhrasesCount()-1));
 		progressBar.setValue(param.premierSegment);
 		editorPane.setBackground(param.couleurFond);

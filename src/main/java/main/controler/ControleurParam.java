@@ -82,7 +82,7 @@ public class ControleurParam implements ActionListener, ChangeListener {
 					Math.min(20, param.police.getSize())));
 			if (fen.editorPane != null) {
 				fen.editorPane.setFont(param.police);
-				((Panneau) fen.editorPane.getParent()).rebuildPages();
+				fen.fenetre.pan.rebuildPages();
 			}
 		}
 		if (jcb == panneau.listePolices) {
@@ -97,21 +97,33 @@ public class ControleurParam implements ActionListener, ChangeListener {
 		if (arg0.getSource() == panneau.modeSurlignage) {
 			if (((JRadioButton) arg0.getSource()).isSelected()) {
 				param.readMode = ReadMode.SUIVI;
+				try {
+					fen.pan.chargerPreferences();
+				} catch (NumberFormatException | IOException e) {}
 			}
 		}
 		if (arg0.getSource() == panneau.modeKaraoke) {
 			if (panneau.modeKaraoke.isSelected()) {
 				param.readMode = ReadMode.GUIDEE;
+				try {
+					fen.pan.chargerPreferences();
+				} catch (NumberFormatException | IOException e) {}
 			}
 		}
 		if (arg0.getSource() == panneau.modeNormal) {
 			if (panneau.modeNormal.isSelected()) {
 				param.readMode = ReadMode.SEGMENTE;
+				try {
+					fen.pan.chargerPreferences();
+				} catch (NumberFormatException | IOException e) {}
 			}
 		}
 		if (arg0.getSource() == panneau.modeAnticipe) {
 			if (panneau.modeAnticipe.isSelected()) {
 				param.readMode = ReadMode.ANTICIPE;
+				try {
+					fen.pan.chargerPreferences();
+				} catch (NumberFormatException | IOException e) {}
 			}
 		}
 		if (arg0.getSource() == panneau.rejouerSon) {

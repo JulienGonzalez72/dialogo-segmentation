@@ -12,7 +12,7 @@ import main.Parametres;
 
 public class ControlPanel extends JPanel {
 
-	private static int imageSize = Constants.tailleImageFrame;
+	private static int imageSize = Constants.CONTROL_IMAGE_SIZE;
 	private static Image previousIcon, playIcon, pauseIcon, nextIcon, repeatIcon;
 
 	private JButton previousButton = new JButton();

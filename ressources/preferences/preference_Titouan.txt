@@ -1,15 +1,15 @@
 #Sauvegarde
-#Wed May 02 15:08:28 CEST 2018
+#Fri May 04 15:11:28 CEST 2018
 taillePolice=22
 couleurCorrection=0/255/255
 couleurBonne=0/255/0
 typePolice=Lexia
 couleurFausse=255/0/0
 h=400
-mode=SUIVI
+mode=GUIDEE
 tempsAttente=25
-y=113
-x=549
+y=93
+x=704
 w=909
 rejouerSon=true
 couleurFond=255/255/150

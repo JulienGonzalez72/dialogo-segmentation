@@ -19,7 +19,9 @@ public class FenetreParametre extends JFrame {
 	public Parametres param;
 	public TextPane editorPane;
 	public ControlPanel controlPanel;
-
+	
+	public JMenuItem stopItem;
+	
 	public FenetreParametre(String titre, int tailleX, int tailleY) {
 		param = new Parametres();
 		setIconImage(getToolkit().getImage("icone.jpg"));
@@ -56,9 +58,9 @@ public class FenetreParametre extends JFrame {
 	}
 
 	public class PanneauParam extends JPanel {
-
+		
 		private static final long serialVersionUID = 1L;
-
+		
 		public JPanel panelModes;
 		public JComboBox<Object> listePolices;
 		public JComboBox<Object> listeTailles;
@@ -77,7 +79,7 @@ public class FenetreParametre extends JFrame {
 		public final Object[] tailles;
 		public final Object[] couleurs;
 		public FenetreParametre fen;
-
+		
 		public PanneauParam(FenetreParametre fen) throws NumberFormatException, IOException {
 			this.fen = fen;
 			setLayout(new BorderLayout());
@@ -445,37 +447,35 @@ public class FenetreParametre extends JFrame {
 		fenetre.start();
 	}
 
-	public JMenuItem eMenuItem2;
-
 	private void addMenu() {
 		JMenuBar menubar = new JMenuBar();
 
 		JMenu file = new JMenu("Options");
 
-		JMenuItem eMenuItem = new JMenuItem("Quitter");
-		eMenuItem.setToolTipText("Quitter l'application");
-		eMenuItem.setMnemonic(KeyEvent.VK_Q);
-		eMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.ALT_MASK));
-		eMenuItem.addActionListener((ActionEvent event) -> {
+		JMenuItem quitItem = new JMenuItem("Quitter");
+		quitItem.setToolTipText("Quitter l'application");
+		quitItem.setMnemonic(KeyEvent.VK_Q);
+		quitItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.ALT_MASK));
+		quitItem.addActionListener((ActionEvent event) -> {
 			System.exit(0);
 		});
-		eMenuItem2 = new JMenuItem("Arrêter l'exercice");
-		eMenuItem2.setToolTipText("Relancer l'exercice");
-		eMenuItem2.setMnemonic(KeyEvent.VK_R);
-		eMenuItem2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.ALT_MASK));
-		eMenuItem2.addActionListener((ActionEvent event) -> {
+		stopItem = new JMenuItem("Arrêter l'exercice");
+		stopItem.setToolTipText("Relancer l'exercice");
+		stopItem.setMnemonic(KeyEvent.VK_R);
+		stopItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.ALT_MASK));
+		stopItem.addActionListener((ActionEvent event) -> {
 			stopExercice();
 		});
-		file.add(eMenuItem2);
-		eMenuItem2.setEnabled(false);
-		file.add(eMenuItem);
+		file.add(stopItem);
+		stopItem.setEnabled(false);
+		file.add(quitItem);
 		menubar.add(file);
 		setJMenuBar(menubar);
 	}
 	
 	public void stopExercice() {
 		param.appliquerPreference(this, fenetre.pan);
-		eMenuItem2.setEnabled(false);
+		stopItem.setEnabled(false);
 		fenetre.setVisible(false);
 		controlPanel.disableAll();
 		fenetre.pan.pilot.doStop();

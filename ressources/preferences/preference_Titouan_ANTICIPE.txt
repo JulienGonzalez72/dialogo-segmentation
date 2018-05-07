@@ -1,0 +1,28 @@
+#Sauvegarde
+<<<<<<< HEAD:ressources/preferences/preference_Titouan.txt
+#Fri May 04 15:11:28 CEST 2018
+taillePolice=22
+=======
+#Thu May 03 09:40:28 CEST 2018
+taillePolice=24
+>>>>>>> cc4c6d3440627edfa82d7458b46008b5118a1e6f:ressources/preferences/preference_Titouan_ANTICIPE.txt
+couleurCorrection=0/255/255
+couleurBonne=0/255/0
+typePolice=OpenDyslexic Bold
+couleurFausse=255/0/0
+<<<<<<< HEAD:ressources/preferences/preference_Titouan.txt
+h=400
+mode=GUIDEE
+tempsAttente=25
+y=93
+x=704
+w=909
+=======
+h=850
+tempsAttente=25
+y=90
+x=460
+w=1000
+>>>>>>> cc4c6d3440627edfa82d7458b46008b5118a1e6f:ressources/preferences/preference_Titouan_ANTICIPE.txt
+rejouerSon=true
+couleurFond=255/255/150

@@ -8,8 +8,6 @@ import java.io.*;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.text.BadLocationException;
-
 import main.Constants;
 import main.Parametres;
 import main.reading.ReadMode;
@@ -79,17 +77,19 @@ public class ControleurParam implements ActionListener, ChangeListener {
 		if (jcb == panneau.listeTailles) {
 			int taille = Integer.valueOf((String) jcb.getSelectedItem());
 			param.taillePolice = taille;
-			param.police = param.police.deriveFont((float) Math.min(20,taille));
-			panneau.listeTailles.setFont(param.police);
+			param.police = param.police.deriveFont((float) taille);
+			panneau.listeTailles.setFont(new Font(param.police.getFontName(), param.police.getStyle(),
+					Math.min(20, param.police.getSize())));
 			if (fen.editorPane != null) {
 				fen.editorPane.setFont(param.police);
-				((Panneau) fen.editorPane.getParent()).rebuildPages();
+				fen.fenetre.pan.rebuildPages();
 			}
 		}
 		if (jcb == panneau.listePolices) {
 			String police = (String) jcb.getSelectedItem();
-			param.police = getFont(police, jcb.getSelectedIndex(), Font.BOLD,Math.min(20,param.taillePolice));
-			panneau.listePolices.setFont(param.police);
+			param.police = getFont(police, jcb.getSelectedIndex(), Font.BOLD, param.taillePolice);
+			panneau.listePolices.setFont(new Font(param.police.getFontName(), param.police.getStyle(),
+					Math.min(20, param.police.getSize())));
 			if (fen.editorPane != null) {
 				fen.editorPane.setFont(param.police);
 			}
@@ -97,82 +97,75 @@ public class ControleurParam implements ActionListener, ChangeListener {
 		if (arg0.getSource() == panneau.modeSurlignage) {
 			if (((JRadioButton) arg0.getSource()).isSelected()) {
 				param.readMode = ReadMode.SUIVI;
+				try {
+					fen.pan.chargerPreferences();
+				} catch (NumberFormatException | IOException e) {}
 			}
 		}
 		if (arg0.getSource() == panneau.modeKaraoke) {
 			if (panneau.modeKaraoke.isSelected()) {
 				param.readMode = ReadMode.GUIDEE;
+				try {
+					fen.pan.chargerPreferences();
+				} catch (NumberFormatException | IOException e) {}
 			}
 		}
 		if (arg0.getSource() == panneau.modeNormal) {
 			if (panneau.modeNormal.isSelected()) {
 				param.readMode = ReadMode.SEGMENTE;
+				try {
+					fen.pan.chargerPreferences();
+				} catch (NumberFormatException | IOException e) {}
 			}
 		}
 		if (arg0.getSource() == panneau.modeAnticipe) {
 			if (panneau.modeAnticipe.isSelected()) {
 				param.readMode = ReadMode.ANTICIPE;
+				try {
+					fen.pan.chargerPreferences();
+				} catch (NumberFormatException | IOException e) {}
 			}
 		}
 		if (arg0.getSource() == panneau.rejouerSon) {
 			param.rejouerSon = panneau.rejouerSon.isSelected();
 		}
 		if (arg0.getSource() == panneau.valider) {
+<<<<<<< HEAD
 			fen.stopItem.setEnabled(true);
 			//mise a jour de la couleur de la barre de progression
+=======
+			fen.eMenuItem2.setEnabled(true);
+			// mise a jour de la couleur de la barre de progression
+>>>>>>> cc4c6d3440627edfa82d7458b46008b5118a1e6f
 			fen.fenetre.pan.progressBar.setForeground(Constants.RIGHT_COLOR);
 			if (verifierValiditeChamp()) {
+
 				try {
+					param.nbFautesTolerees = Math.max(0, Integer.valueOf(panneau.champNbFautesTolerees.getText()));
 				} catch (Exception e) {
+					param.nbFautesTolerees = 0;
+					panneau.champNbFautesTolerees.setText("0");
 				}
-				// si on a pas encore lancé l'exercice
-				if (fen.editorPane == null) {
-					try {
-						param.nbFautesTolerees = Math.max(0,
-								Integer.valueOf(panneau.champNbFautesTolerees.getText()));
-					} catch (Exception e) {
-						param.nbFautesTolerees = 0;
-						panneau.champNbFautesTolerees.setText("0");
-					}
-					try {
-						param.premierSegment = Math.max(0,
-								Integer.valueOf(panneau.segmentDeDepart.getText()));
-					} catch (Exception e) {
-						param.premierSegment = 0;
-						panneau.segmentDeDepart.setText("0");
-					}
-					fen.lancerExercice();
-					param.rejouerSon = panneau.rejouerSon.isSelected();
-					//panneau.fermer();
-					// si on a deja lancé l'exercice
-				} else {
-					// on reactive l'exercice
-					fen.fenetre.setEnabled(true);
-					fen.fenetre.pan.controlPanel.setEnabled(true);
-					//panneau.fermer();
-					param.nbFautesTolerees = Integer.valueOf(panneau.champNbFautesTolerees.getText());
-					fen.fenetre.pan.nbEssaisParSegment = Integer
-							.valueOf(panneau.champNbFautesTolerees.getText());
-					Panneau.defautNBEssaisParSegment = Integer.valueOf(panneau.champNbFautesTolerees.getText());
-					param.tempsPauseEnPourcentageDuTempsDeLecture = panneau.sliderAttente.getValue();
-					if (param.readMode == ReadMode.SUIVI) {
-						try {
-							fen.editorPane.updateColors();
-						} catch (BadLocationException e) {
-							e.printStackTrace();
-						}
-					}
+				try {
+					param.premierSegment = Math.max(0, Integer.valueOf(panneau.segmentDeDepart.getText()));
+				} catch (Exception e) {
+					param.premierSegment = 0;
+					panneau.segmentDeDepart.setText("0");
 				}
+				fen.lancerExercice();
+				param.rejouerSon = panneau.rejouerSon.isSelected();
+
 			}
 		}
 	}
 
 	/**
 	 * Retourne le font correspondant à :
-	 *  @param1 : la police 
-	 *  @param2 : l'index du font dans la liste des polices de la FenetreParametre
-	 *  @param3 : le style 
-	 *  @param4 : la taille 
+	 * 
+	 * @param1 : la police
+	 * @param2 : l'index du font dans la liste des polices de la FenetreParametre
+	 * @param3 : le style
+	 * @param4 : la taille
 	 */
 	public static Font getFont(String police, int selectedIndex, int style, int size) {
 		try {
@@ -201,11 +194,9 @@ public class ControleurParam implements ActionListener, ChangeListener {
 		}
 	}
 
-	
 	/**
-	 * Retourne vrai si :
-	 * - Aucune couleur n'est sélectionnée en double
-	 * - Les champs saisies sont cohérents
+	 * Retourne vrai si : - Aucune couleur n'est sélectionnée en double - Les champs
+	 * saisies sont cohérents
 	 */
 	public boolean verifierValiditeChamp() {
 		boolean valide = true;
@@ -220,10 +211,12 @@ public class ControleurParam implements ActionListener, ChangeListener {
 		int premierSegment = -1;
 		try {
 			premierSegment = Integer.valueOf((String) panneau.segmentDeDepart.getText());
-			if (premierSegment+2 > ((Panneau) fen.fenetre.getContentPane()).textHandler.getPhrasesCount()
+			if (premierSegment + 2 > ((Panneau) fen.fenetre.getContentPane()).textHandler.getPhrasesCount()
 					|| premierSegment < 1) {
-				JOptionPane.showMessageDialog(panneau, "Entrez un segment inférieur à "+(((Panneau) fen.fenetre.getContentPane()).textHandler.getPhrasesCount()-1), "Erreur",
-						JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(panneau,
+						"Entrez un segment inférieur à "
+								+ (((Panneau) fen.fenetre.getContentPane()).textHandler.getPhrasesCount() - 1),
+						"Erreur", JOptionPane.ERROR_MESSAGE);
 				premierSegment = 1;
 				panneau.segmentDeDepart.setText("1");
 				valide = false;

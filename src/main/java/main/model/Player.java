@@ -140,7 +140,7 @@ public class Player extends AbstractDelegatingBasicController<BasicController>{
 		}
 		load(currentPhrase);
 		try {
-			//clip.start();
+			clip.start();
 			super.play(10000);
 		} catch (BasicPlayerException ex) {
 			ex.printStackTrace();

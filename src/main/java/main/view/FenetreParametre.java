@@ -19,14 +19,9 @@ public class FenetreParametre extends JFrame {
 	public Parametres param;
 	public TextPane editorPane;
 	public ControlPanel controlPanel;
-<<<<<<< HEAD
-	
 	public JMenuItem stopItem;
-	
-=======
 	public PanneauParam pan;
-
->>>>>>> cc4c6d3440627edfa82d7458b46008b5118a1e6f
+	
 	public FenetreParametre(String titre, int tailleX, int tailleY) {
 		param = new Parametres();
 		setIconImage(getToolkit().getImage("icone.jpg"));

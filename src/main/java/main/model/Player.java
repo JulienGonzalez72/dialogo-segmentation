@@ -18,6 +18,11 @@ import fr.lexiphone.player.impl.AbstractDelegatingBasicController;
 import fr.lexiphone.player.impl.AutoPauseMarkerFilePlayer;
 import fr.lexiphone.player.impl.BasicController;
 import fr.lexiphone.player.impl.jasiohost.provider.jlPlayer.JlayerPlayer;
+<<<<<<< HEAD
+=======
+import java.util.logging.Level;
+import java.util.logging.Logger;
+>>>>>>> 76f25113fe9e3bf5d965fb505126673ed92d8018
 import javazoom.jlgui.basicplayer.BasicPlayerException;
 import main.Constants;
 import main.Parametres;

@@ -1,0 +1,29 @@
+#Sauvegarde
+<<<<<<< HEAD:ressources/preferences/preference_Titouan.txt
+#Mon May 14 09:39:27 CEST 2018
+taillePolice=22
+couleurCorrection=255/255/255
+couleurBonne=255/175/175
+typePolice=Lexia
+couleurFausse=255/200/0
+h=400
+mode=SUIVI
+tempsAttente=48
+y=113
+x=586
+w=909
+=======
+#Thu May 03 09:31:51 CEST 2018
+taillePolice=24
+couleurCorrection=0/255/255
+couleurBonne=0/255/0
+typePolice=OpenDyslexic Bold
+couleurFausse=255/0/0
+h=850
+tempsAttente=25
+y=57
+x=197
+w=1000
+>>>>>>> 76f25113fe9e3bf5d965fb505126673ed92d8018:ressources/preferences/preference_Titouan_GUIDEE.txt
+rejouerSon=true
+couleurFond=0/255/255

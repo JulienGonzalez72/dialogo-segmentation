@@ -20,8 +20,13 @@ public class FenetreParametre extends JFrame {
 	public Parametres param;
 	public TextPane editorPane;
 	public ControlPanel controlPanel;
+<<<<<<< HEAD
 	
 	public JMenuItem stopItem;
+=======
+	public JMenuItem stopItem;
+	public PanneauParam pan;
+>>>>>>> 76f25113fe9e3bf5d965fb505126673ed92d8018
 	
 	public FenetreParametre(String titre, int tailleX, int tailleY) {
 		param = new Parametres();
@@ -38,7 +43,7 @@ public class FenetreParametre extends JFrame {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(true);
-		PanneauParam pan = null;
+		pan = null;
 		try {
 			pan = new PanneauParam(this);
 		} catch (NumberFormatException | IOException e) {
@@ -52,7 +57,6 @@ public class FenetreParametre extends JFrame {
 		generalTab.addTab("Paramètres", pan);
 		generalTab.addTab("Contrôle", controlPanel);
 		setContentPane(generalTab);
-
 		addMenu();
 		setVisible(true);
 
@@ -221,13 +225,13 @@ public class FenetreParametre extends JFrame {
 
 			add(midPanel, BorderLayout.CENTER);
 			add(panelSud, BorderLayout.SOUTH);
-
+			
 			chargerPreferences();
 
 		}
 
 		public void chargerPreferences() throws NumberFormatException, IOException {
-			String fichier = "./ressources/preferences/preference_" + Constants.NOM_ELEVE + ".txt";
+			String fichier = "./ressources/preferences/preference_" + Constants.NOM_ELEVE +"_"+param.readMode+ ".txt";
 			InputStream ips = null;
 			try {
 				ips = new FileInputStream(fichier);
@@ -430,21 +434,44 @@ public class FenetreParametre extends JFrame {
 		quitItem.setToolTipText("Quitter l'application");
 		quitItem.setMnemonic(KeyEvent.VK_Q);
 		quitItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.ALT_MASK));
+<<<<<<< HEAD
 		quitItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				System.exit(0);
 			}
 		});
+=======
+		quitItem.addActionListener((ActionEvent event) -> {
+			System.exit(0);
+		});
+<<<<<<< HEAD
+>>>>>>> 76f25113fe9e3bf5d965fb505126673ed92d8018
 		stopItem = new JMenuItem("Arrêter l'exercice");
 		stopItem.setToolTipText("Relancer l'exercice");
 		stopItem.setMnemonic(KeyEvent.VK_R);
 		stopItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.ALT_MASK));
+<<<<<<< HEAD
 		stopItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				stopExercice();
 			}
+=======
+		stopItem.addActionListener((ActionEvent event) -> {
+=======
+		eMenuItem2 = new JMenuItem("Arrêter l'exercice");
+		eMenuItem2.setMnemonic(KeyEvent.VK_R);
+		eMenuItem2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.ALT_MASK));
+		eMenuItem2.addActionListener((ActionEvent event) -> {
+			/// réactive la taille et la police et le segment de départ
+			pan.listePolices.setEnabled(true);
+			pan.listeTailles.setEnabled(true);
+			pan.segmentDeDepart.setEnabled(true);
+			pan.fen.fenetre.setResizable(true);
+>>>>>>> cc4c6d3440627edfa82d7458b46008b5118a1e6f
+			stopExercice();
+>>>>>>> 76f25113fe9e3bf5d965fb505126673ed92d8018
 		});
 		file.add(stopItem);
 		stopItem.setEnabled(false);
@@ -452,7 +479,7 @@ public class FenetreParametre extends JFrame {
 		menubar.add(file);
 		setJMenuBar(menubar);
 	}
-	
+
 	public void stopExercice() {
 		param.appliquerPreference(this, fenetre.pan);
 		stopItem.setEnabled(false);

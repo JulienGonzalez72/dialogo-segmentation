@@ -93,7 +93,7 @@ public class Panneau extends JPanel {
 
 		/// construit la mise en page virtuelle ///
 		rebuildPages();
-		/// initialise le lecteur et le démarre ///
+		/// initialise le lecteur ///
 		player = new Player(textHandler,param);
 		player.load(param.premierSegment - 1);
 		// controlerGlobal.goTo(FenetreParametre.premierSegment - 1);
@@ -108,7 +108,7 @@ public class Panneau extends JPanel {
 		editorPane.addMouseListener(controlerMouse);
 		editorPane.requestFocus();
 	}
-
+	
 	public void setCursor(String fileName) {
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Image img = tk.getImage(fileName);

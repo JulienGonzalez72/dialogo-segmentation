@@ -5,4 +5,50 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>Dialogo Segmentation</name>
   <description>Module de lecture par segmentation pour le logiciel Dialogo</description>
+  
+  <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
+  
+  <!-- Inheritance -->
+  <parent>
+  	<groupId>org.lexidia.dialogo</groupId>
+	<artifactId>dialogo-parent</artifactId>
+	<version>1.0</version>
+	<relativePath>../dialogo-parent/pom.xml</relativePath>
+  </parent>
+  
+  <!-- Dependencies -->
+  <dependencies>
+  	<!-- Dépendances de Dialogo -->
+  	 <dependency>
+  		<groupId>org.lexidia.dialogo</groupId>
+		<artifactId>dialogo-common</artifactId>
+		<version>2.7</version>
+	</dependency> 
+	<dependency>
+		<groupId>org.lexidia.dialogo</groupId>
+		<artifactId>dialogo-rmi-interfaces</artifactId>
+		<version>2.7</version>
+	</dependency>
+	<dependency>
+		<groupId>org.lexidia.dialogo</groupId>
+		<artifactId>dialogo-samplecenter</artifactId>
+		<version>2.7</version>
+	</dependency>
+	
+	<!-- Look And Feel de Dialogo -->
+	<dependency>
+		<groupId>de.sciss</groupId>
+		<artifactId>weblaf-core</artifactId>
+    </dependency>
+    <dependency>
+	    <groupId>de.sciss</groupId>
+	    <artifactId>weblaf-ui</artifactId>
+    </dependency>
+  </dependencies>
+  
+  <packaging>jar</packaging>
+  
 </project>

@@ -3,14 +3,15 @@ package main.view;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.util.Iterator;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.swing.*;
-import javax.swing.UIManager.LookAndFeelInfo;
 
 import main.Constants;
 import main.Parametres;
-import main.controler.ControleurParam;
+import main.controler.ControlerParam;
 import main.reading.ReadMode;
 
 public class FenetreParametre extends JFrame {
@@ -19,11 +20,13 @@ public class FenetreParametre extends JFrame {
 	public Parametres param;
 	public TextPane editorPane;
 	public ControlPanel controlPanel;
-
+	
+	public JMenuItem stopItem;
+	
 	public FenetreParametre(String titre, int tailleX, int tailleY) {
 		param = new Parametres();
 		setIconImage(getToolkit().getImage("icone.jpg"));
-		param.police = ControleurParam.getFont(null, 0, Font.BOLD, Constants.DEFAULT_FONT_SIZE);
+		param.police = ControlerParam.getFont(null, 0, Font.BOLD, Constants.DEFAULT_FONT_SIZE);
 		param.taillePolice = Constants.DEFAULT_FONT_SIZE;
 		param.couleurFond = Constants.BG_COLOR;
 		editorPane = null;
@@ -56,9 +59,9 @@ public class FenetreParametre extends JFrame {
 	}
 
 	public class PanneauParam extends JPanel {
-
+		
 		private static final long serialVersionUID = 1L;
-
+		
 		public JPanel panelModes;
 		public JComboBox<Object> listePolices;
 		public JComboBox<Object> listeTailles;
@@ -75,9 +78,8 @@ public class FenetreParametre extends JFrame {
 		public JSlider sliderAttente;
 		public final Object[] polices;
 		public final Object[] tailles;
-		public final Object[] couleurs;
 		public FenetreParametre fen;
-
+		
 		public PanneauParam(FenetreParametre fen) throws NumberFormatException, IOException {
 			this.fen = fen;
 			setLayout(new BorderLayout());
@@ -97,9 +99,8 @@ public class FenetreParametre extends JFrame {
 
 			polices = new Object[] { "OpenDyslexic", "Andika", "Lexia", "Arial", "Times New Roman" };
 			tailles = new Object[] { "12", "16", "18", "20", "22", "24", "30", "36", "42" };
-			couleurs = new Object[] { "Jaune", "Blanc", "Orange", "Rose", "Bleu", "Rouge", "Vert" };
 
-			ControleurParam controleur = new ControleurParam(fen, this);
+			ControlerParam controleur = new ControlerParam(fen, this);
 			valider.addActionListener(controleur);
 
 			listePolices = new JComboBox<Object>(polices);
@@ -109,12 +110,12 @@ public class FenetreParametre extends JFrame {
 				public Component getListCellRendererComponent(JList<? extends Object> list, Object value, int index,
 						boolean isSelected, boolean cellHasFocus) {
 					list.setFont(
-							ControleurParam.getFont((String) value, index, Font.BOLD, Constants.DEFAULT_FONT_SIZE));
+							ControlerParam.getFont((String) value, index, Font.BOLD, Constants.DEFAULT_FONT_SIZE));
 					renderer.setHorizontalAlignment(SwingConstants.CENTER);
 					return renderer.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 				}
 			});
-			listePolices.setFont(ControleurParam.getFont((String) listePolices.getSelectedItem(), 0, Font.BOLD,
+			listePolices.setFont(ControlerParam.getFont((String) listePolices.getSelectedItem(), 0, Font.BOLD,
 					Constants.DEFAULT_FONT_SIZE));
 			listePolices.addActionListener(controleur);
 
@@ -132,10 +133,14 @@ public class FenetreParametre extends JFrame {
 			listeTailles.addActionListener(controleur);
 			listeTailles.setFont(new Font("OpenDyslexic", Font.PLAIN, 15));
 
-			listeCouleurs = fastComboBox(controleur, couleurs);
-			listeBonnesCouleurs = fastComboBox(controleur, couleurs);
-			listeMauvaisesCouleurs = fastComboBox(controleur, couleurs);
-			listeCorrectionCouleurs = fastComboBox(controleur, couleurs);
+			listeCouleurs = fastComboBox(controleur, getColorNames());
+			listeCouleurs.setRenderer(new ColorCellRenderer());
+			listeBonnesCouleurs = fastComboBox(controleur, getColorNames());
+			listeBonnesCouleurs.setRenderer(new ColorCellRenderer());
+			listeMauvaisesCouleurs = fastComboBox(controleur, getColorNames());
+			listeMauvaisesCouleurs.setRenderer(new ColorCellRenderer());
+			listeCorrectionCouleurs = fastComboBox(controleur, getColorNames());
+			listeCorrectionCouleurs.setRenderer(new ColorCellRenderer());
 
 			segmentDeDepart = fastTextField(String.valueOf(param.premierSegment),
 					new Font("OpenDyslexic", Font.PLAIN, 15), "1");
@@ -166,30 +171,6 @@ public class FenetreParametre extends JFrame {
 			midPanel.add(couleurCorrection);
 			fastCentering(listeMauvaisesCouleurs, midPanel, "   ");
 			fastCentering(listeCorrectionCouleurs, midPanel, "   ");
-
-			LookAndFeelInfo[] lfs = UIManager.getInstalledLookAndFeels();
-			JComboBox<Object> lfBox = fastComboBox(controleur, new Object[0]);
-			for (int i = 0; i < lfs.length; i++) {
-				lfBox.addItem(lfs[i].getName());
-				if (UIManager.getLookAndFeel().getName().equals(lfs[i].getName())) {
-					lfBox.setSelectedIndex(i);
-				}
-			}
-			lfBox.addItemListener(new ItemListener() {
-				@Override
-				public void itemStateChanged(ItemEvent e) {
-					try {
-						UIManager.setLookAndFeel(lfs[lfBox.getSelectedIndex()].getClassName());
-						SwingUtilities.updateComponentTreeUI(FenetreParametre.this);
-					} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-							| UnsupportedLookAndFeelException ex) {
-						ex.printStackTrace();
-					}
-				}
-			});
-			midPanel.add(fastLabel("Look And Feel"));
-			midPanel.add(new JLabel());
-			fastCentering(lfBox, midPanel, "   ");
 
 			modeAnticipe = fastRadio("Anticipé", controleur);
 			modeAnticipe.setToolTipText("Mode Anticipé");
@@ -337,26 +318,21 @@ public class FenetreParametre extends JFrame {
 		}
 
 		private void appliquerCouleur(Color color, JComboBox<Object> listeCouleurs) {
-			if (color.equals(Constants.BG_COLOR)) {
-				listeCouleurs.setSelectedItem(couleurs[0]);
-			}
-			if (color.equals(Color.WHITE)) {
-				listeCouleurs.setSelectedItem(couleurs[1]);
-			}
-			if (color.equals(Color.ORANGE)) {
-				listeCouleurs.setSelectedItem(couleurs[2]);
-			}
-			if (color.equals(Color.PINK)) {
-				listeCouleurs.setSelectedItem(couleurs[3]);
-			}
-			if (color.equals(Color.CYAN)) {
-				listeCouleurs.setSelectedItem(couleurs[4]);
-			}
-			if (color.equals(Color.RED)) {
-				listeCouleurs.setSelectedItem(couleurs[5]);
-			}
-			if (color.equals(Color.GREEN)) {
-				listeCouleurs.setSelectedItem(couleurs[6]);
+			listeCouleurs.setSelectedItem(colorToString(color));
+		}
+		
+		private class ColorCellRenderer implements ListCellRenderer<Object> {
+			private DefaultListCellRenderer renderer = new DefaultListCellRenderer();
+			private static final float NORMAL_FONT_SIZE = 15;
+			private static final float SELECTED_FONT_SIZE = 25;
+			public Component getListCellRendererComponent(JList<? extends Object> list, Object value, int index,
+					boolean isSelected, boolean cellHasFocus) {
+				list.setBackground(stringToColor((String) value));
+				list.setSelectionBackground(stringToColor((String) value));
+				list.setFont(list.getFont().deriveFont(isSelected ? SELECTED_FONT_SIZE : NORMAL_FONT_SIZE));
+				renderer.setHorizontalAlignment(SwingConstants.CENTER);
+				renderer.setPreferredSize(new Dimension(0, Constants.COMBOBOX_CELL_HEIGHT));
+				return renderer.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 			}
 		}
 
@@ -380,7 +356,7 @@ public class FenetreParametre extends JFrame {
 			return r;
 		}
 
-		public JComboBox<Object> fastComboBox(ControleurParam controleur, Object[] elements) {
+		public JComboBox<Object> fastComboBox(ControlerParam controleur, Object[] elements) {
 			JComboBox<Object> r = new JComboBox<Object>(elements);
 			((JLabel) r.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 			r.addActionListener(controleur);
@@ -389,7 +365,7 @@ public class FenetreParametre extends JFrame {
 			return r;
 		}
 
-		public JRadioButton fastRadio(String nom, ControleurParam controleur) {
+		public JRadioButton fastRadio(String nom, ControlerParam controleur) {
 			JRadioButton r = new JRadioButton(nom);
 			r.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
 			r.addActionListener(controleur);
@@ -398,7 +374,7 @@ public class FenetreParametre extends JFrame {
 			return r;
 		}
 
-		private JCheckBox fastCheckBox(String nom, ControleurParam controleur) {
+		private JCheckBox fastCheckBox(String nom, ControlerParam controleur) {
 			JCheckBox r = new JCheckBox(nom);
 			r.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
 			r.addActionListener(controleur);
@@ -445,40 +421,64 @@ public class FenetreParametre extends JFrame {
 		fenetre.start();
 	}
 
-	public JMenuItem eMenuItem2;
-
 	private void addMenu() {
 		JMenuBar menubar = new JMenuBar();
 
 		JMenu file = new JMenu("Options");
 
-		JMenuItem eMenuItem = new JMenuItem("Quitter");
-		eMenuItem.setToolTipText("Quitter l'application");
-		eMenuItem.setMnemonic(KeyEvent.VK_Q);
-		eMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.ALT_MASK));
-		eMenuItem.addActionListener((ActionEvent event) -> {
-			System.exit(0);
+		JMenuItem quitItem = new JMenuItem("Quitter");
+		quitItem.setToolTipText("Quitter l'application");
+		quitItem.setMnemonic(KeyEvent.VK_Q);
+		quitItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.ALT_MASK));
+		quitItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				System.exit(0);
+			}
 		});
-		eMenuItem2 = new JMenuItem("Arrêter l'exercice");
-		eMenuItem2.setToolTipText("Relancer l'exercice");
-		eMenuItem2.setMnemonic(KeyEvent.VK_R);
-		eMenuItem2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.ALT_MASK));
-		eMenuItem2.addActionListener((ActionEvent event) -> {
-			stopExercice();
+		stopItem = new JMenuItem("Arrêter l'exercice");
+		stopItem.setToolTipText("Relancer l'exercice");
+		stopItem.setMnemonic(KeyEvent.VK_R);
+		stopItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.ALT_MASK));
+		stopItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				stopExercice();
+			}
 		});
-		file.add(eMenuItem2);
-		eMenuItem2.setEnabled(false);
-		file.add(eMenuItem);
+		file.add(stopItem);
+		stopItem.setEnabled(false);
+		file.add(quitItem);
 		menubar.add(file);
 		setJMenuBar(menubar);
 	}
 	
 	public void stopExercice() {
 		param.appliquerPreference(this, fenetre.pan);
-		eMenuItem2.setEnabled(false);
+		stopItem.setEnabled(false);
 		fenetre.setVisible(false);
 		controlPanel.disableAll();
 		fenetre.pan.pilot.doStop();
+	}
+	
+	public static Color stringToColor(String name) {
+		return Constants.COLORS.get(name);
+	}
+	
+	public static String colorToString(Color color) {
+		Set<String> keys = Constants.COLORS.keySet();
+		Iterator<String> it = keys.iterator();
+		while (it.hasNext()) {
+			String key = it.next();
+			if (stringToColor(key).equals(color)) {
+				return key;
+			}
+		}
+		return null;
+	}
+	
+	public static String[] getColorNames() {
+		return Constants.COLORS.keySet().toArray(new String[0]);
 	}
 
 }

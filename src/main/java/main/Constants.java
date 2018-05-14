@@ -1,6 +1,8 @@
 package main;
 
 import java.awt.Color;
+import java.util.HashMap;
+import java.util.Map;
 
 public final class Constants {
 
@@ -40,7 +42,7 @@ public final class Constants {
 	/**
 	 * Taille des images dans le controleur du player
 	 */
-	public static final int tailleImageFrame = 40;
+	public static final int CONTROL_IMAGE_SIZE = 40;
 
 	/*
 	 * Valeurs par défaut des paramètres
@@ -49,9 +51,9 @@ public final class Constants {
 	public static final int MIN_WAIT_TIME_PERCENT = 0;
 	public static final int MAX_WAIT_TIME_PERCENT = 300;
 	public static final int DEFAULT_WAIT_TIME_PERCENT = 0;
-	public static final int hauteurFenetreParam = 850;
-	public static final int largeurFenetreParam = 500;
-	public static final String titreFenetreParam = "Dialogo by roman and julien";
+	public static final int PARAMS_FRAME_HEIGHT = 850;
+	public static final int PARAMS_FRAME_WIDTH = 500;
+	public static final String PARAMS_FRAME_TITLE = "Dialogo by roman and julien";
 	public static final boolean LOAD_FIRST_PHRASE = false;
 
 	/**
@@ -102,5 +104,22 @@ public final class Constants {
 	 * Temps de chargement après chaque pression sur un bouton de contrôle suivant/précédent.
 	 */
 	public static final long DISABLE_TIME = 200;
+	
+	/**
+	 * Hauteur des cellules des listes déroulantes de la fenêtre des paramètres.
+	 */
+	public static final int COMBOBOX_CELL_HEIGHT = 30;
+	
+	public static final Map<String, Color> COLORS = new HashMap<>();
+	static {
+		COLORS.put("Blanc", Color.WHITE);
+		COLORS.put("Bleu", Color.BLUE);
+		COLORS.put("Cyan", Color.CYAN);
+		COLORS.put("Jaune", new Color(255, 255, 150));
+		COLORS.put("Orange", Color.ORANGE);
+		COLORS.put("Rose", Color.PINK);
+		COLORS.put("Rouge", Color.RED);
+		COLORS.put("Vert", Color.GREEN);
+	}
 
 }

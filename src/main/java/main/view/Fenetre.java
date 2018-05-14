@@ -17,7 +17,7 @@ public class Fenetre extends JFrame {
 	public Panneau pan;
 	public boolean preferencesExiste = true;
 
-	public Fenetre(String titre, int tailleX, int tailleY, FenetreParametre fenetreParam, Parametres param) {
+	public Fenetre(String titre, int tailleX, int tailleY, FenetreParametre fenetreParam, final Parametres param) {
 		setIconImage(getToolkit().getImage("icone.jpg"));
 		try {
 			pan = new Panneau(this, fenetreParam, param);

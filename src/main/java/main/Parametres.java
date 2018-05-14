@@ -3,14 +3,14 @@ package main;
 import java.awt.*;
 import java.io.*;
 import java.util.Properties;
-import main.controler.ControleurParam;
+import main.controler.ControlerParam;
 import main.reading.ReadMode;
 import main.view.*;
 
 
 public class Parametres {
 
-	public Font police = ControleurParam.getFont(null, 0, Font.BOLD, Constants.DEFAULT_FONT_SIZE);
+	public Font police = ControlerParam.getFont(null, 0, Font.BOLD, Constants.DEFAULT_FONT_SIZE);
 	public int taillePolice = Constants.DEFAULT_FONT_SIZE;
 	public Color couleurFond = Constants.BG_COLOR;
 	public String titre;
@@ -96,7 +96,7 @@ public class Parametres {
 		if (p.equals("Lexia")) {
 			index = 2;
 		}
-		police = ControleurParam.getFont(p, index, Font.BOLD, taillePolice);
+		police = ControlerParam.getFont(p, index, Font.BOLD, taillePolice);
 		((FenetreParametre.PanneauParam) fen.getContentPane()).listeCouleurs
 				.setBackground(couleurFond = fromStringToColor(pro.getProperty("couleurFond")));
 		pan.editorPane.setFont(police);

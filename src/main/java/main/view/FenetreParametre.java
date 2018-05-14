@@ -12,7 +12,6 @@ import javax.swing.*;
 import main.Constants;
 import main.Parametres;
 import main.controler.ControlerParam;
-import main.reading.ReadMode;
 
 public class FenetreParametre extends JFrame {
 
@@ -20,13 +19,8 @@ public class FenetreParametre extends JFrame {
 	public Parametres param;
 	public TextPane editorPane;
 	public ControlPanel controlPanel;
-<<<<<<< HEAD
-	
-	public JMenuItem stopItem;
-=======
 	public JMenuItem stopItem;
 	public PanneauParam pan;
->>>>>>> 76f25113fe9e3bf5d965fb505126673ed92d8018
 	
 	public FenetreParametre(String titre, int tailleX, int tailleY) {
 		param = new Parametres();
@@ -298,22 +292,6 @@ public class FenetreParametre extends JFrame {
 			appliquerCouleur(param.fromStringToColor(pro.getProperty("couleurFausse")), listeMauvaisesCouleurs);
 			appliquerCouleur(param.fromStringToColor(pro.getProperty("couleurCorrection")), listeCorrectionCouleurs);
 
-			param.readMode = ReadMode.parse((pro.getProperty("mode")));
-			switch (param.readMode) {
-			case SEGMENTE:
-				modeNormal.setSelected(true);
-				break;
-			case SUIVI:
-				modeSurlignage.setSelected(true);
-				break;
-			case GUIDEE:
-				modeKaraoke.setSelected(true);
-				break;
-			case ANTICIPE:
-				modeAnticipe.setSelected(true);
-				break;
-			}
-
 			int temp = Integer.valueOf(pro.getProperty("tempsAttente"));
 			param.tempsPauseEnPourcentageDuTempsDeLecture = temp;
 			sliderAttente.setValue(temp);
@@ -434,44 +412,21 @@ public class FenetreParametre extends JFrame {
 		quitItem.setToolTipText("Quitter l'application");
 		quitItem.setMnemonic(KeyEvent.VK_Q);
 		quitItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.ALT_MASK));
-<<<<<<< HEAD
 		quitItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				System.exit(0);
 			}
 		});
-=======
-		quitItem.addActionListener((ActionEvent event) -> {
-			System.exit(0);
-		});
-<<<<<<< HEAD
->>>>>>> 76f25113fe9e3bf5d965fb505126673ed92d8018
 		stopItem = new JMenuItem("Arrêter l'exercice");
 		stopItem.setToolTipText("Relancer l'exercice");
 		stopItem.setMnemonic(KeyEvent.VK_R);
 		stopItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.ALT_MASK));
-<<<<<<< HEAD
 		stopItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				stopExercice();
 			}
-=======
-		stopItem.addActionListener((ActionEvent event) -> {
-=======
-		eMenuItem2 = new JMenuItem("Arrêter l'exercice");
-		eMenuItem2.setMnemonic(KeyEvent.VK_R);
-		eMenuItem2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.ALT_MASK));
-		eMenuItem2.addActionListener((ActionEvent event) -> {
-			/// réactive la taille et la police et le segment de départ
-			pan.listePolices.setEnabled(true);
-			pan.listeTailles.setEnabled(true);
-			pan.segmentDeDepart.setEnabled(true);
-			pan.fen.fenetre.setResizable(true);
->>>>>>> cc4c6d3440627edfa82d7458b46008b5118a1e6f
-			stopExercice();
->>>>>>> 76f25113fe9e3bf5d965fb505126673ed92d8018
 		});
 		file.add(stopItem);
 		stopItem.setEnabled(false);

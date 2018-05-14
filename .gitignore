@@ -1,6 +1,10 @@
 /bin/
 /target/
-dialogo-common/
+
+/dialogo-common/
+/
 dialogo-parent/
+/
 dialogo-rmi-interfaces/
+/
 dialogo-samplecenter/

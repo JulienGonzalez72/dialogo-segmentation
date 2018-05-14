@@ -34,28 +34,7 @@ public class ControlerParam implements ActionListener, ChangeListener {
 		if (jcb == panneau.listeCouleurs || jcb == panneau.listeMauvaisesCouleurs || jcb == panneau.listeBonnesCouleurs
 				|| panneau.listeCorrectionCouleurs == jcb) {
 			String s = (String) jcb.getSelectedItem();
-			Color color = null;
-			if (s == "Jaune") {
-				color = new Color(255, 255, 150);
-			}
-			if (s == "Orange") {
-				color = Color.ORANGE;
-			}
-			if (s == "Blanc") {
-				color = Color.WHITE;
-			}
-			if (s == "Rose") {
-				color = Color.PINK;
-			}
-			if (s == "Bleu") {
-				color = Color.CYAN;
-			}
-			if (s == "Rouge") {
-				color = Color.RED;
-			}
-			if (s == "Vert") {
-				color = Color.GREEN;
-			}
+			Color color = FenetreParametre.stringToColor(s);
 			((JComboBox<?>) jcb).setBackground(color);
 			if (jcb == panneau.listeMauvaisesCouleurs) {
 				Constants.WRONG_COLOR = color;
@@ -130,16 +109,7 @@ public class ControlerParam implements ActionListener, ChangeListener {
 			param.rejouerSon = panneau.rejouerSon.isSelected();
 		}
 		if (arg0.getSource() == panneau.valider) {
-<<<<<<< HEAD:src/main/java/main/controler/ControlerParam.java
-=======
-<<<<<<< HEAD
->>>>>>> 76f25113fe9e3bf5d965fb505126673ed92d8018:src/main/java/main/controler/ControleurParam.java
 			fen.stopItem.setEnabled(true);
-			//mise a jour de la couleur de la barre de progression
-=======
-			fen.eMenuItem2.setEnabled(true);
-			// mise a jour de la couleur de la barre de progression
->>>>>>> cc4c6d3440627edfa82d7458b46008b5118a1e6f
 			fen.fenetre.pan.progressBar.setForeground(Constants.RIGHT_COLOR);
 			if (verifierValiditeChamp()) {
 

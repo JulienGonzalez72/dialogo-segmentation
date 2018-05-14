@@ -16,11 +16,7 @@ public class Main {
 		} catch (Exception e1) {
                 
 		}
-<<<<<<< HEAD
 		
-=======
-                
->>>>>>> 76f25113fe9e3bf5d965fb505126673ed92d8018
 		File rep = new File("ressources/fonts");
 		for (String s : rep.list()) {
 			try {

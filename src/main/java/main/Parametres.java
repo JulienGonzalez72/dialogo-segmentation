@@ -94,14 +94,11 @@ public class Parametres {
 		if (p.equals("Lexia")) {
 			index = 2;
 		}
-<<<<<<< HEAD
 		police = ControlerParam.getFont(p, index, Font.BOLD, taillePolice);
 		((FenetreParametre.PanneauParam) fen.getContentPane()).listeCouleurs
 				.setBackground(couleurFond = fromStringToColor(pro.getProperty("couleurFond")));
-=======
-		police = ControleurParam.getFont(p, index, Font.BOLD, taillePolice);
+		police = ControlerParam.getFont(p, index, Font.BOLD, taillePolice);
 		fen.pan.listeCouleurs.setBackground(couleurFond = fromStringToColor(pro.getProperty("couleurFond")));
->>>>>>> 76f25113fe9e3bf5d965fb505126673ed92d8018
 		pan.editorPane.setFont(police);
 		pan.editorPane.setBackground(couleurFond);
 		Constants.RIGHT_COLOR = fromStringToColor(pro.getProperty("couleurBonne"));

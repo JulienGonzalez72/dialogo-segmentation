@@ -27,7 +27,7 @@ public class Main {
 		
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				Point p = new Point(50, 0);
+				Point p = new Point(Constants.PARAMS_FRAME_X, Constants.PARAMS_FRAME_Y);
 				new FenetreParametre(Constants.PARAMS_FRAME_TITLE, Constants.PARAMS_FRAME_WIDTH,
 						Constants.PARAMS_FRAME_HEIGHT).setLocation(p);
 			}

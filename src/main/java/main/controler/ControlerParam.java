@@ -10,7 +10,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import main.Constants;
 import main.Parametres;
-import main.reading.ReadMode;
 import main.view.FenetreParametre;
 import main.view.Panneau;
 
@@ -18,12 +17,12 @@ public class ControlerParam implements ActionListener, ChangeListener {
 
 	FenetreParametre.PanneauParam panneau;
 	FenetreParametre fen;
-	Parametres param;
+	private Parametres param;
 
 	public ControlerParam(FenetreParametre fen, FenetreParametre.PanneauParam p) {
 		this.panneau = p;
 		this.fen = fen;
-		param = fen.param;
+		//param = fen.param;
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
@@ -31,139 +30,122 @@ public class ControlerParam implements ActionListener, ChangeListener {
 		if (arg0.getSource() instanceof JComboBox) {
 			jcb = (JComboBox<?>) arg0.getSource();
 		}
-		if (jcb == panneau.listeCouleurs || jcb == panneau.listeMauvaisesCouleurs || jcb == panneau.listeBonnesCouleurs
-				|| panneau.listeCorrectionCouleurs == jcb) {
+		//Parametres param = fen.getCurrentParameters();
+		if (jcb == panneau.bgColorComboBox || jcb == panneau.wrongColorComboBox || jcb == panneau.rightColorComboBox
+				|| panneau.correctColorComboBox == jcb) {
 			String s = (String) jcb.getSelectedItem();
 			Color color = FenetreParametre.stringToColor(s);
 			((JComboBox<?>) jcb).setBackground(color);
-			if (jcb == panneau.listeMauvaisesCouleurs) {
+			/*if (jcb == panneau.wrongColorComboBox) {
 				Constants.WRONG_COLOR = color;
 			}
-			if (jcb == panneau.listeCorrectionCouleurs) {
+			if (jcb == panneau.correctColorComboBox) {
 				Constants.WRONG_PHRASE_COLOR = color;
 			}
-			if (jcb == panneau.listeBonnesCouleurs) {
+			if (jcb == panneau.rightColorComboBox) {
 				Constants.RIGHT_COLOR = color;
-			}
-			if (jcb == panneau.listeCouleurs) {
+			}*/
+			if (jcb == panneau.bgColorComboBox) {
 				if (fen.editorPane != null) {
 					fen.editorPane.setBackground(color);
 				}
-				param.couleurFond = color;
+				//param.couleurFond = color;
 			}
 			panneau.grabFocus();
 		}
-		if (jcb == panneau.listeTailles) {
-			int taille = Integer.valueOf((String) jcb.getSelectedItem());
+		/*if (jcb == panneau.fontSizeComboBox) {
+			int taille = (Integer) jcb.getSelectedItem();
 			param.taillePolice = taille;
 			param.police = param.police.deriveFont((float) taille);
-			panneau.listeTailles.setFont(new Font(param.police.getFontName(), param.police.getStyle(),
+			panneau.fontSizeComboBox.setFont(new Font(param.police.getFontName(), param.police.getStyle(),
 					Math.min(20, param.police.getSize())));
 			if (fen.editorPane != null) {
 				fen.editorPane.setFont(param.police);
 				fen.fenetre.pan.rebuildPages();
 			}
 		}
-		if (jcb == panneau.listePolices) {
+		if (jcb == panneau.fontFamilyComboBox) {
 			String police = (String) jcb.getSelectedItem();
 			param.police = getFont(police, jcb.getSelectedIndex(), Font.BOLD, param.taillePolice);
-			panneau.listePolices.setFont(new Font(param.police.getFontName(), param.police.getStyle(),
+			panneau.fontFamilyComboBox.setFont(new Font(param.police.getFontName(), param.police.getStyle(),
 					Math.min(20, param.police.getSize())));
 			if (fen.editorPane != null) {
 				fen.editorPane.setFont(param.police);
 			}
-		}
-		if (arg0.getSource() == panneau.modeSurlignage) {
+		}*/
+		/*if (arg0.getSource() == panneau.highlightModeRadio) {
 			if (((JRadioButton) arg0.getSource()).isSelected()) {
 				param.readMode = ReadMode.SUIVI;
 				try {
-					fen.pan.chargerPreferences();
+					fen.pan.applyPreferences();
 				} catch (NumberFormatException | IOException e) {}
 			}
 		}
-		if (arg0.getSource() == panneau.modeKaraoke) {
-			if (panneau.modeKaraoke.isSelected()) {
+		if (arg0.getSource() == panneau.guidedModeRadio) {
+			if (panneau.guidedModeRadio.isSelected()) {
 				param.readMode = ReadMode.GUIDEE;
 				try {
-					fen.pan.chargerPreferences();
+					fen.pan.applyPreferences();
 				} catch (NumberFormatException | IOException e) {}
 			}
 		}
-		if (arg0.getSource() == panneau.modeNormal) {
-			if (panneau.modeNormal.isSelected()) {
+		if (arg0.getSource() == panneau.segmentedModeRadio) {
+			if (panneau.segmentedModeRadio.isSelected()) {
 				param.readMode = ReadMode.SEGMENTE;
 				try {
-					fen.pan.chargerPreferences();
+					fen.pan.applyPreferences();
 				} catch (NumberFormatException | IOException e) {}
 			}
 		}
-		if (arg0.getSource() == panneau.modeAnticipe) {
-			if (panneau.modeAnticipe.isSelected()) {
+		if (arg0.getSource() == panneau.anticipatedModeRadio) {
+			if (panneau.anticipatedModeRadio.isSelected()) {
 				param.readMode = ReadMode.ANTICIPE;
 				try {
-					fen.pan.chargerPreferences();
+					fen.pan.applyPreferences();
 				} catch (NumberFormatException | IOException e) {}
 			}
 		}
-		if (arg0.getSource() == panneau.rejouerSon) {
-			param.rejouerSon = panneau.rejouerSon.isSelected();
+		if (arg0.getSource() == panneau.replayCheckBox) {
+			param.rejouerSon = panneau.replayCheckBox.isSelected();
+		}*/
+		if (arg0.getSource() == panneau.guidedModeRadio
+				|| arg0.getSource() == panneau.highlightModeRadio
+				|| arg0.getSource() == panneau.segmentedModeRadio
+				|| arg0.getSource() == panneau.anticipatedModeRadio) {
+			panneau.savePreferences(panneau.oldMode);
+			panneau.oldMode = panneau.getReadMode();
+			panneau.applyPreferences(panneau.getReadMode());
 		}
-		if (arg0.getSource() == panneau.valider) {
+		if (arg0.getSource() == panneau.validButton) {
+			panneau.savePreferences(panneau.oldMode);
+			param = fen.getCurrentParameters();
 			fen.stopItem.setEnabled(true);
-			fen.fenetre.pan.progressBar.setForeground(Constants.RIGHT_COLOR);
+			//fen.fenetre.pan.progressBar.setForeground(Constants.RIGHT_COLOR);
 			if (verifierValiditeChamp()) {
 
-				try {
-					param.nbFautesTolerees = Math.max(0, Integer.valueOf(panneau.champNbFautesTolerees.getText()));
+				/*try {
+					param.nbFautesTolerees = Math.max(0, Integer.valueOf(panneau.toleratedErrorsField.getText()));
 				} catch (Exception e) {
 					param.nbFautesTolerees = 0;
-					panneau.champNbFautesTolerees.setText("0");
+					panneau.toleratedErrorsField.setText("0");
 				}
 				try {
-					param.premierSegment = Math.max(0, Integer.valueOf(panneau.segmentDeDepart.getText()));
+					param.premierSegment = Math.max(0, Integer.valueOf(panneau.startingPhraseField.getText()));
 				} catch (Exception e) {
 					param.premierSegment = 0;
-					panneau.segmentDeDepart.setText("0");
-				}
+					panneau.startingPhraseField.setText("0");
+				}*/
 				fen.lancerExercice();
-				param.rejouerSon = panneau.rejouerSon.isSelected();
+				//param.rejouerSon = panneau.replayCheckBox.isSelected();
 
 			}
 		}
 	}
-
-	/**
-	 * Retourne le font correspondant à :
-	 * 
-	 * @param1 : la police
-	 * @param2 : l'index du font dans la liste des polices de la FenetreParametre
-	 * @param3 : le style
-	 * @param4 : la taille
-	 */
-	public static Font getFont(String police, int selectedIndex, int style, int size) {
-		try {
-			Font font;
-			if (selectedIndex < Constants.FONTS_NAMES.length && selectedIndex >= 0) {
-				font = Font
-						.createFont(Font.TRUETYPE_FONT,
-								new File("ressources/fonts/" + Constants.FONTS_NAMES[selectedIndex]))
-						.deriveFont(style).deriveFont((float) size);
-			} else {
-				font = new Font(police, style, size);
-			}
-			return font;
-		} catch (FontFormatException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
+	
 	@Override
 	public void stateChanged(ChangeEvent arg0) {
-		if (arg0.getSource() == panneau.sliderAttente) {
-			param.tempsPauseEnPourcentageDuTempsDeLecture = panneau.sliderAttente.getValue();
+		if (arg0.getSource() == panneau.waitSlider) {
+			//param.tempsPauseEnPourcentageDuTempsDeLecture = panneau.waitSlider.getValue();
 		}
 	}
 
@@ -183,7 +165,7 @@ public class ControlerParam implements ActionListener, ChangeListener {
 		// premier segment
 		int premierSegment = -1;
 		try {
-			premierSegment = Integer.valueOf((String) panneau.segmentDeDepart.getText());
+			premierSegment = Integer.valueOf((String) panneau.startingPhraseField.getText());
 			if (premierSegment + 2 > ((Panneau) fen.fenetre.getContentPane()).textHandler.getPhrasesCount()
 					|| premierSegment < 1) {
 				JOptionPane.showMessageDialog(panneau,
@@ -191,31 +173,31 @@ public class ControlerParam implements ActionListener, ChangeListener {
 								+ (((Panneau) fen.fenetre.getContentPane()).textHandler.getPhrasesCount() - 1),
 						"Erreur", JOptionPane.ERROR_MESSAGE);
 				premierSegment = 1;
-				panneau.segmentDeDepart.setText("1");
+				panneau.startingPhraseField.setText("1");
 				valide = false;
 			}
-		} catch (Exception e) {
-			panneau.segmentDeDepart.setText("1");
+		} catch (Exception e) {e.printStackTrace();
+			panneau.startingPhraseField.setText("1");
 			valide = false;
 		}
-		param.premierSegment = premierSegment;
+		//param.premierSegment = premierSegment;
 
 		// nb fautes tolérées
 		int n = -1;
 		try {
-			n = Integer.valueOf((String) panneau.champNbFautesTolerees.getText());
+			n = Integer.valueOf((String) panneau.toleratedErrorsField.getText());
 			if (n < 0) {
 				JOptionPane.showMessageDialog(panneau, "Le nombre de fautes tolérées doit être positif ou nul",
 						"Erreur", JOptionPane.ERROR_MESSAGE);
 				n = 1;
-				panneau.champNbFautesTolerees.setText("0");
+				panneau.toleratedErrorsField.setText("0");
 				valide = false;
 			}
-		} catch (Exception e) {
-			panneau.champNbFautesTolerees.setText("0");
+		} catch (Exception e) {e.printStackTrace();
+			panneau.toleratedErrorsField.setText("0");
 			valide = false;
 		}
-		param.nbFautesTolerees = n;
+		//param.nbFautesTolerees = n;
 		return valide;
 	}
 
@@ -225,20 +207,20 @@ public class ControlerParam implements ActionListener, ChangeListener {
 	private boolean couleursUniques() {
 		boolean r = true;
 		List<Color> couleursUtilisées = new ArrayList<Color>();
-		couleursUtilisées.add(Constants.RIGHT_COLOR);
-		couleursUtilisées.add(Constants.WRONG_COLOR);
-		couleursUtilisées.add(Constants.WRONG_PHRASE_COLOR);
-		couleursUtilisées.add(param.couleurFond);
-		if (occurence(Constants.RIGHT_COLOR, couleursUtilisées) != 1) {
+		couleursUtilisées.add(param.rightColor);
+		couleursUtilisées.add(param.wrongColor);
+		couleursUtilisées.add(param.correctionColor);
+		couleursUtilisées.add(param.bgColor);
+		if (occurence(param.rightColor, couleursUtilisées) != 1) {
 			r = false;
 		}
-		if (occurence(Constants.WRONG_COLOR, couleursUtilisées) != 1) {
+		if (occurence(param.wrongColor, couleursUtilisées) != 1) {
 			r = false;
 		}
-		if (occurence(Constants.WRONG_PHRASE_COLOR, couleursUtilisées) != 1) {
+		if (occurence(param.correctionColor, couleursUtilisées) != 1) {
 			r = false;
 		}
-		if (occurence(param.couleurFond, couleursUtilisées) != 1) {
+		if (occurence(param.bgColor, couleursUtilisées) != 1) {
 			r = false;
 		}
 		return r;

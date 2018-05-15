@@ -14,19 +14,19 @@ public final class Constants {
 	/**
 	 * Couleur pour indiquer l'erreur
 	 */
-	public static Color WRONG_COLOR = new Color(255, 40, 40);
+	public static final Color WRONG_COLOR = new Color(255, 40, 40);
 	/**
 	 * Couleur pour indiquer la réussite
 	 */
-	public static Color RIGHT_COLOR = Color.GREEN;
+	public static final Color RIGHT_COLOR = Color.GREEN;
 	/**
 	 * Couleur pour corriger
 	 */
-	public static Color WRONG_PHRASE_COLOR = Color.CYAN;
+	public static final Color WRONG_PHRASE_COLOR = Color.CYAN;
 	/**
 	 * Couleur de fond du TextPane
 	 */
-	public static Color BG_COLOR = new Color(255, 255, 150);
+	public static final Color BG_COLOR = new Color(255, 255, 150);
 	/**
 	 * Nom de l'eleve courant
 	 */
@@ -34,11 +34,11 @@ public final class Constants {
 	/**
 	 * Largeur minimale de la fenetre principale
 	 */
-	public static int MIN_FENETRE_WIDTH = 800;
+	public static final int MIN_FENETRE_WIDTH = 600;
 	/**
 	 * Hauteur minimale de la fenetre principale
 	 */
-	public static int MIN_FENETRE_HEIGHT = 400;
+	public static final int MIN_FENETRE_HEIGHT = 400;
 	/**
 	 * Taille des images dans le controleur du player
 	 */
@@ -53,8 +53,15 @@ public final class Constants {
 	public static final int DEFAULT_WAIT_TIME_PERCENT = 0;
 	public static final int PARAMS_FRAME_HEIGHT = 850;
 	public static final int PARAMS_FRAME_WIDTH = 500;
+	public static final int PARAMS_FRAME_X = 50;
+	public static final int PARAMS_FRAME_Y = 0;
 	public static final String PARAMS_FRAME_TITLE = "Dialogo by roman and julien";
 	public static final boolean LOAD_FIRST_PHRASE = false;
+	
+	public static final int DEFAULT_PAN_X = PARAMS_FRAME_X + PARAMS_FRAME_WIDTH;
+	public static final int DEFAULT_PAN_Y = PARAMS_FRAME_Y;
+	public static final int DEFAULT_PAN_WIDTH = 800;
+	public static final int DEFAULT_PAN_HEIGHT = 600;
 
 	/**
 	 * Temps d'attente entre chaque page
@@ -110,6 +117,9 @@ public final class Constants {
 	 */
 	public static final int COMBOBOX_CELL_HEIGHT = 30;
 	
+	/**
+	 * Couleurs disponibles pour l'utilisateur.
+	 */
 	public static final Map<String, Color> COLORS = new HashMap<>();
 	static {
 		COLORS.put("Blanc", Color.WHITE);
@@ -118,8 +128,12 @@ public final class Constants {
 		COLORS.put("Jaune", new Color(255, 255, 150));
 		COLORS.put("Orange", Color.ORANGE);
 		COLORS.put("Rose", Color.PINK);
-		COLORS.put("Rouge", Color.RED);
+		COLORS.put("Rouge", new Color(255, 40, 40));
 		COLORS.put("Vert", Color.GREEN);
 	}
+	
+	public static final String[] FONT_FAMILIES = {"OpenDyslexic", "Andika", "Lexia", "Arial", "Times New Roman"};
+	
+	public static final Integer[] FONT_SIZES = {12, 16, 18, 20, 22, 24, 30, 36, 42};
 
 }

@@ -20,7 +20,7 @@ public class SegmentedThread extends ReadThread {
 			int nbTry = controler.p.param.nbFautesTolerees;
 			boolean doOne = true;
 			// tant que on a pas fait le bon clic
-			while (!controler.waitForClick(N)) {
+			while (!controler.waitForClick(N) && running) {
 				nbTry--;
 				if (nbTry == 0) {
 					if (doOne) {
@@ -29,7 +29,7 @@ public class SegmentedThread extends ReadThread {
 						doOne = false;
 					}
 					// surligner phrase avec correction
-					controler.highlightPhrase(Constants.WRONG_PHRASE_COLOR, N);
+					controler.highlightPhrase(param.correctionColor, N);
 					// rejouer son
 					controler.play(N);
 				} else {

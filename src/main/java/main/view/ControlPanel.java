@@ -28,7 +28,7 @@ public class ControlPanel extends JPanel {
 		loadImages();
 	}
 
-	public ControlPanel(Panneau p, FenetreParametre fen, Parametres param) {
+	public ControlPanel(Panneau p, FenetreParametre fen) {
 		this.pan = p;
 		
 		add(previousButton);

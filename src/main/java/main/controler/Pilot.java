@@ -30,15 +30,14 @@ public class Pilot {
 	 * Se place sur le segment de numero n et démarre le lecteur.
 	 */
 	public void goTo(int n) throws IllegalArgumentException {
-		if (n < p.param.premierSegment - 1 || n >= p.textHandler.getPhrasesCount() - 1) {
+		if (n < p.param.startingPhrase - 1 || n >= p.textHandler.getPhrasesCount() - 1) {
 			throw new IllegalArgumentException("Numéro de segment invalide : " + n);
 		}
-		p.param.stockerPreference();
 		phrase = n;
 		///désacive la taille et la police et le segment de départ
-		p.fenetreParam.pan.listePolices.setEnabled(false);
-		p.fenetreParam.pan.listeTailles.setEnabled(false);
-		p.fenetreParam.pan.segmentDeDepart.setEnabled(false);
+		p.fenetreParam.pan.fontFamilyComboBox.setEnabled(false);
+		p.fenetreParam.pan.fontSizeComboBox.setEnabled(false);
+		p.fenetreParam.pan.startingPhraseField.setEnabled(false);
 		/// désactive les boutons de contrôle pour éviter le spam ///
 		p.controlPanel.disableAll(Constants.DISABLE_TIME);
 		//vire le surlignagerouge
@@ -132,6 +131,7 @@ public class Pilot {
 				t = null;
 				break;
 		}
+		t.param = p.param;
 		return t;
 	}
 	

@@ -138,12 +138,12 @@ public class Player extends AbstractDelegatingBasicController<BasicController>{
 			return;
 		}
 		load(currentPhrase);
-		try {
+		//try {
 			clip.start();
-			super.play(10000);
-		} catch (BasicPlayerException ex) {
-			ex.printStackTrace();
-		}
+			//super.play(10000);
+		//} catch (BasicPlayerException ex) {
+			//ex.printStackTrace();
+		//}
 		//timer = new Timer();
 		//playTask = new PlayTask();
 		//timer.scheduleAtFixedRate(playTask, 0, 20);
@@ -299,7 +299,7 @@ public class Player extends AbstractDelegatingBasicController<BasicController>{
 	 * Retourne true si il y a au moins un segment avant le segment actuel.
 	 */
 	public boolean hasPreviousPhrase() {
-		return currentPhrase > param.premierSegment - 1;
+		return currentPhrase > param.startingPhrase - 1;
 	}
 
 	/**

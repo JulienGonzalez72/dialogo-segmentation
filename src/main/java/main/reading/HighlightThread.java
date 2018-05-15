@@ -34,10 +34,10 @@ public class HighlightThread extends ReadThread {
 					if (!coloriage.containsKey(i)) {
 						// on le colorie
 						if (pageActuelleContient(i)) {
-							controler.highlightPhrase(Constants.RIGHT_COLOR, i);
+							controler.highlightPhrase(param.rightColor, i);
 						}
 						// et on stocke sa couleur
-						coloriage.put(i, Constants.RIGHT_COLOR);
+						coloriage.put(i, param.rightColor);
 					} else {
 						// on le colorie avc la couleur stockée
 						if (pageActuelleContient(i)) {
@@ -86,9 +86,9 @@ public class HighlightThread extends ReadThread {
 						doOne = false;
 					}
 					// surligner phrase avec correction
-					controler.highlightPhrase(Constants.WRONG_PHRASE_COLOR, N);
+					controler.highlightPhrase(param.correctionColor, N);
 					// stockage coloriage
-					coloriage.put(N, Constants.WRONG_PHRASE_COLOR);
+					coloriage.put(N, param.correctionColor);
 					// rejouer son
 					controler.play(N);
 				} else {
@@ -104,9 +104,9 @@ public class HighlightThread extends ReadThread {
 					return;
 				}
 				// surligange du segment
-				controler.highlightPhrase(Constants.RIGHT_COLOR, N);
+				controler.highlightPhrase(param.rightColor, N);
 				// stockage du coloriage du segment
-				coloriage.put(N, Constants.RIGHT_COLOR);
+				coloriage.put(N, param.rightColor);
 			}
 			// enlever surlignage
 			controler.removeWrongHighlights();

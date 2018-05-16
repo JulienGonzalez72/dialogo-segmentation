@@ -1,5 +1,5 @@
 #Sauvegarde
-#Wed May 16 12:00:58 CEST 2018
+#Wed May 16 16:27:58 CEST 2018
 nbEssais=2
 taillePolice=24
 couleurCorrection=0/255/255
@@ -8,7 +8,7 @@ typePolice=OpenDyslexic Bold
 couleurFausse=255/40/40
 h=600
 tempsAttente=0
-premierSegment=58
+premierSegment=30
 y=38
 x=714
 w=800

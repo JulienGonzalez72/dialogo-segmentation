@@ -13,13 +13,13 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 import org.dialogo.sound.file.Mp3Wrapper;
 
-import fr.lexiphone.player.IPlayerConfiguration;
+//import fr.lexiphone.player.IPlayerConfiguration;
 import fr.lexiphone.player.impl.AbstractDelegatingBasicController;
-import fr.lexiphone.player.impl.AutoPauseMarkerFilePlayer;
+//import fr.lexiphone.player.impl.AutoPauseMarkerFilePlayer;
 import fr.lexiphone.player.impl.BasicController;
-import fr.lexiphone.player.impl.jasiohost.provider.jlPlayer.JlayerPlayer;
+//import fr.lexiphone.player.impl.jasiohost.provider.jlPlayer.JlayerPlayer;
 
-import javazoom.jlgui.basicplayer.BasicPlayerException;
+//import javazoom.jlgui.basicplayer.BasicPlayerException;
 import main.Constants;
 import main.Parametres;
 
@@ -65,11 +65,11 @@ public class Player extends AbstractDelegatingBasicController<BasicController>{
 	
 	private Parametres param;
 	
-	private Mp3Wrapper wrapper;
+	//private Mp3Wrapper wrapper;
 
 	public Player(TextHandler textHandler, Parametres param) {
 		super(null);
-		IPlayerConfiguration config = new IPlayerConfiguration() {
+		/*IPlayerConfiguration config = new IPlayerConfiguration() {
 			@Override
 			public String getSamplesRootPath() {
 				return "ressources/sounds";
@@ -101,7 +101,7 @@ public class Player extends AbstractDelegatingBasicController<BasicController>{
 			super.open(wrapper);
 		} catch (BasicPlayerException ex) {
 			ex.printStackTrace();
-		}
+		}*/
 		text = textHandler;
 		this.param = param;
 	}

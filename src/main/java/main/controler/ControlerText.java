@@ -43,9 +43,8 @@ public class ControlerText {
 				p.setCursor(Cursor.getDefaultCursor());
 				break;
 			}
-			/// fixe toujours le curseur d'écoute pendant toute la durée de l'enregistrement
-			/// ///
-			else if (!p.getCursorName().equals(Constants.CURSOR_SPEAK)) {
+			/// fixe toujours le curseur d'écoute pendant toute la durée de l'enregistrement ///
+			if (!p.getCursorName().equals(Constants.CURSOR_LISTEN)) {
 				p.setCursor(Constants.CURSOR_LISTEN);
 			}
 		}

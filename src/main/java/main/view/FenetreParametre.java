@@ -50,6 +50,14 @@ public class FenetreParametre extends JFrame {
 		addMenu();
 		setVisible(true);
 
+		addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent arg0) {
+				if (pan.waitSlider != null) {
+					pan.waitSlider.updateUI();
+				}
+			}
+		});
 	}
 
 	public class PanneauParam extends JPanel {
@@ -77,7 +85,8 @@ public class FenetreParametre extends JFrame {
 			this.fen = fen;
 			setLayout(new BorderLayout());
 			JLabel titre = fastLabel("Choisissez vos parametres");
-			titre.setBorder(BorderFactory.createLineBorder(Color.blue, 2));
+			titre.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
+			titre.setPreferredSize(new Dimension(0, 30));
 			add(titre, BorderLayout.NORTH);
 			
 			validButton = fastButton("Démarrer l'exercice", new Font("OpenDyslexic", Font.BOLD, 18), Color.green);
@@ -137,7 +146,7 @@ public class FenetreParametre extends JFrame {
 			wrongColorComboBox = new ColorComboBox(Constants.COLORS, true);
 			correctColorComboBox = new ColorComboBox(Constants.COLORS, true);
 
-			startingPhraseField = fastTextField(/*String.valueOf(param.premierSegment)*/"",
+			startingPhraseField = fastTextField("",
 					new Font("OpenDyslexic", Font.PLAIN, 15), "1");
 			startingPhraseField.addActionListener(controleur);
 
@@ -145,7 +154,7 @@ public class FenetreParametre extends JFrame {
 			toleratedErrorsField = fastTextField("", new Font("OpenDyslexic", Font.PLAIN, 15), "2");
 			toleratedErrorsField.addActionListener(controleur);
 
-			JPanel midPanel = new JPanel(new GridLayout(10, 2));
+			JPanel midPanel = new JPanel(new GridLayout(9, 2));
 
 			midPanel.add(police);
 			midPanel.add(taillePolice);
@@ -192,8 +201,7 @@ public class FenetreParametre extends JFrame {
 			waitSlider.setMinorTickSpacing(10);
 			waitSlider.setMajorTickSpacing(50);
 			
-			JPanel panelSud = new JPanel(new GridLayout(9, 1));
-			panelSud.add(new JLabel());
+			JPanel panelSud = new JPanel(new GridLayout(8, 1));
 			replayCheckBox = fastCheckBox("Rejouer les phrases si erreur", controleur);
 			replayCheckBox.setSelected(true);
 			JPanel temp = new JPanel();
@@ -208,11 +216,11 @@ public class FenetreParametre extends JFrame {
 			panelSud.add(new JLabel());
 			panelSud.add(panelModes);
 			panelSud.add(new JLabel());
-			panelSud.add(add(attente));
+			panelSud.add(attente);
 			panelSud.add(waitSlider);
 			panelSud.add(new JLabel());
 			panelSud.add(validButton);
-
+			
 			add(midPanel, BorderLayout.CENTER);
 			add(panelSud, BorderLayout.SOUTH);
 			

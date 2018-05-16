@@ -34,10 +34,7 @@ public class Pilot {
 			throw new IllegalArgumentException("Numéro de segment invalide : " + n);
 		}
 		phrase = n;
-		///désacive la taille et la police et le segment de départ
-		p.fenetreParam.pan.fontFamilyComboBox.setEnabled(false);
-		p.fenetreParam.pan.fontSizeComboBox.setEnabled(false);
-		p.fenetreParam.pan.startingPhraseField.setEnabled(false);
+		p.fenetreParam.setStartParametersEnabled(false);
 		/// désactive les boutons de contrôle pour éviter le spam ///
 		p.controlPanel.disableAll(Constants.DISABLE_TIME);
 		//vire le surlignagerouge

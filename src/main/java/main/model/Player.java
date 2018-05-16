@@ -353,6 +353,10 @@ public class Player extends AbstractDelegatingBasicController<BasicController>{
 	public void setCurrentPhrase(int currentPhrase) {
 		this.currentPhrase = currentPhrase;
 	}
+	
+	public void setParameters(Parametres param) {
+		this.param = param;
+	}
 
 	@Override
 	public void disactivateControls() {

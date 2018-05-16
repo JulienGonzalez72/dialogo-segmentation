@@ -4,16 +4,13 @@ import java.util.*;
 import java.util.List;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.*;
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import main.Constants;
 import main.Parametres;
 import main.view.FenetreParametre;
 import main.view.Panneau;
 
-public class ControlerParam implements ActionListener, ChangeListener {
+public class ControlerParam implements ActionListener {
 
 	FenetreParametre.PanneauParam panneau;
 	FenetreParametre fen;
@@ -22,7 +19,6 @@ public class ControlerParam implements ActionListener, ChangeListener {
 	public ControlerParam(FenetreParametre fen, FenetreParametre.PanneauParam p) {
 		this.panneau = p;
 		this.fen = fen;
-		//param = fen.param;
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
@@ -30,84 +26,23 @@ public class ControlerParam implements ActionListener, ChangeListener {
 		if (arg0.getSource() instanceof JComboBox) {
 			jcb = (JComboBox<?>) arg0.getSource();
 		}
-		//Parametres param = fen.getCurrentParameters();
-		if (jcb == panneau.bgColorComboBox || jcb == panneau.wrongColorComboBox || jcb == panneau.rightColorComboBox
-				|| panneau.correctColorComboBox == jcb) {
-			String s = (String) jcb.getSelectedItem();
-			Color color = FenetreParametre.stringToColor(s);
-			((JComboBox<?>) jcb).setBackground(color);
-			/*if (jcb == panneau.wrongColorComboBox) {
-				Constants.WRONG_COLOR = color;
-			}
-			if (jcb == panneau.correctColorComboBox) {
-				Constants.WRONG_PHRASE_COLOR = color;
-			}
-			if (jcb == panneau.rightColorComboBox) {
-				Constants.RIGHT_COLOR = color;
-			}*/
-			if (jcb == panneau.bgColorComboBox) {
-				if (fen.editorPane != null) {
-					fen.editorPane.setBackground(color);
-				}
-				//param.couleurFond = color;
-			}
-			panneau.grabFocus();
-		}
-		/*if (jcb == panneau.fontSizeComboBox) {
+		if (jcb == panneau.fontSizeComboBox) {
 			int taille = (Integer) jcb.getSelectedItem();
-			param.taillePolice = taille;
-			param.police = param.police.deriveFont((float) taille);
-			panneau.fontSizeComboBox.setFont(new Font(param.police.getFontName(), param.police.getStyle(),
-					Math.min(20, param.police.getSize())));
+			Font font = new Font(panneau.fontFamilyComboBox.getFont().getFontName(), Constants.DEFAULT_FONT_STYLE, taille);
 			if (fen.editorPane != null) {
-				fen.editorPane.setFont(param.police);
+				fen.editorPane.setFont(font);
 				fen.fenetre.pan.rebuildPages();
 			}
 		}
 		if (jcb == panneau.fontFamilyComboBox) {
 			String police = (String) jcb.getSelectedItem();
-			param.police = getFont(police, jcb.getSelectedIndex(), Font.BOLD, param.taillePolice);
-			panneau.fontFamilyComboBox.setFont(new Font(param.police.getFontName(), param.police.getStyle(),
-					Math.min(20, param.police.getSize())));
+			Font font = new Font(police, Constants.DEFAULT_FONT_STYLE, (Integer) panneau.fontSizeComboBox.getSelectedItem());
+			jcb.setFont(font.deriveFont((float) jcb.getFont().getSize()));
 			if (fen.editorPane != null) {
-				fen.editorPane.setFont(param.police);
-			}
-		}*/
-		/*if (arg0.getSource() == panneau.highlightModeRadio) {
-			if (((JRadioButton) arg0.getSource()).isSelected()) {
-				param.readMode = ReadMode.SUIVI;
-				try {
-					fen.pan.applyPreferences();
-				} catch (NumberFormatException | IOException e) {}
+				fen.editorPane.setFont(font);
+				fen.fenetre.pan.rebuildPages();
 			}
 		}
-		if (arg0.getSource() == panneau.guidedModeRadio) {
-			if (panneau.guidedModeRadio.isSelected()) {
-				param.readMode = ReadMode.GUIDEE;
-				try {
-					fen.pan.applyPreferences();
-				} catch (NumberFormatException | IOException e) {}
-			}
-		}
-		if (arg0.getSource() == panneau.segmentedModeRadio) {
-			if (panneau.segmentedModeRadio.isSelected()) {
-				param.readMode = ReadMode.SEGMENTE;
-				try {
-					fen.pan.applyPreferences();
-				} catch (NumberFormatException | IOException e) {}
-			}
-		}
-		if (arg0.getSource() == panneau.anticipatedModeRadio) {
-			if (panneau.anticipatedModeRadio.isSelected()) {
-				param.readMode = ReadMode.ANTICIPE;
-				try {
-					fen.pan.applyPreferences();
-				} catch (NumberFormatException | IOException e) {}
-			}
-		}
-		if (arg0.getSource() == panneau.replayCheckBox) {
-			param.rejouerSon = panneau.replayCheckBox.isSelected();
-		}*/
 		if (arg0.getSource() == panneau.guidedModeRadio
 				|| arg0.getSource() == panneau.highlightModeRadio
 				|| arg0.getSource() == panneau.segmentedModeRadio
@@ -120,32 +55,16 @@ public class ControlerParam implements ActionListener, ChangeListener {
 			panneau.savePreferences(panneau.oldMode);
 			param = fen.getCurrentParameters();
 			fen.stopItem.setEnabled(true);
-			//fen.fenetre.pan.progressBar.setForeground(Constants.RIGHT_COLOR);
 			if (verifierValiditeChamp()) {
-
-				/*try {
-					param.nbFautesTolerees = Math.max(0, Integer.valueOf(panneau.toleratedErrorsField.getText()));
-				} catch (Exception e) {
-					param.nbFautesTolerees = 0;
-					panneau.toleratedErrorsField.setText("0");
+				/// lance l'exercice ///
+				if (!fen.fenetre.isVisible()) {
+					fen.lancerExercice();
 				}
-				try {
-					param.premierSegment = Math.max(0, Integer.valueOf(panneau.startingPhraseField.getText()));
-				} catch (Exception e) {
-					param.premierSegment = 0;
-					panneau.startingPhraseField.setText("0");
-				}*/
-				fen.lancerExercice();
-				//param.rejouerSon = panneau.replayCheckBox.isSelected();
-
+				/// modifie les paramètres de l'exercice en cours ///
+				else {
+					fen.fenetre.setParameters(param);
+				}
 			}
-		}
-	}
-	
-	@Override
-	public void stateChanged(ChangeEvent arg0) {
-		if (arg0.getSource() == panneau.waitSlider) {
-			//param.tempsPauseEnPourcentageDuTempsDeLecture = panneau.waitSlider.getValue();
 		}
 	}
 
@@ -157,9 +76,9 @@ public class ControlerParam implements ActionListener, ChangeListener {
 		boolean valide = true;
 
 		if (!couleursUniques()) {
-			JOptionPane.showMessageDialog(panneau, "Les couleurs doivent être différentes", "Erreur",
-					JOptionPane.ERROR_MESSAGE);
-			valide = false;
+			JOptionPane.showMessageDialog(panneau, "Certaines couleurs sont identiques et risquent de se confondre !", "Attention",
+					JOptionPane.WARNING_MESSAGE);
+			valide = true;
 		}
 
 		// premier segment
@@ -176,11 +95,10 @@ public class ControlerParam implements ActionListener, ChangeListener {
 				panneau.startingPhraseField.setText("1");
 				valide = false;
 			}
-		} catch (Exception e) {e.printStackTrace();
+		} catch (NumberFormatException e) {
 			panneau.startingPhraseField.setText("1");
 			valide = false;
 		}
-		//param.premierSegment = premierSegment;
 
 		// nb fautes tolérées
 		int n = -1;
@@ -197,7 +115,6 @@ public class ControlerParam implements ActionListener, ChangeListener {
 			panneau.toleratedErrorsField.setText("0");
 			valide = false;
 		}
-		//param.nbFautesTolerees = n;
 		return valide;
 	}
 

@@ -5,7 +5,6 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import main.controler.ControlerParam;
 import main.reading.ReadMode;
 import main.view.*;
 
@@ -19,27 +18,27 @@ public class Parametres {
 	public Color correctionColor = Constants.WRONG_PHRASE_COLOR;
 	public int startingPhrase = 1;
 	public int nbFautesTolerees = 2;
-	public int tempsPauseEnPourcentageDuTempsDeLecture;
+	public int tempsPauseEnPourcentageDuTempsDeLecture = 100;
 	public ReadMode readMode = ReadMode.SEGMENTE;
 	public boolean rejouerSon = true;
 	public int panWidth = Constants.DEFAULT_PAN_WIDTH;
 	public int panHeight = Constants.DEFAULT_PAN_HEIGHT;
 	public int panX = Constants.DEFAULT_PAN_X;
 	public int panY = Constants.DEFAULT_PAN_Y;
-
+	
 	public Parametres(ReadMode readMode) {
 		this.readMode = readMode;
 	}
-
+	
 	public static String fromColorToString(Color c) {
 		return (c.getRed() + "/" + c.getGreen() + "/" + c.getBlue());
 	}
-
+	
 	public static Color fromStringToColor(String s) {
 		String[] temp = s.split("/");
 		return new Color(Integer.valueOf(temp[0]), Integer.valueOf(temp[1]), Integer.valueOf(temp[2]));
 	}
-
+	
 	public void stockerPreference() {
 		Properties prop = new Properties();
 		prop.put("w", String.valueOf(panWidth));

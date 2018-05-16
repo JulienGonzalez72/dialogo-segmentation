@@ -34,12 +34,11 @@ public class Fenetre extends JFrame {
 	}
 	
 	public void init(final Parametres param) {
-		this.param = param;
-		param.appliquerPreferenceTaillePosition(this);
+		setParameters(param);
 		
 		addComponentListener(new ComponentAdapter() {
 			private int lastWidth = getWidth(), lastHeight = getHeight();
-
+			
 			@Override
 			public void componentResized(ComponentEvent e) {
 				/// lors d'un redimensionnement, refait la mise en page ///
@@ -49,12 +48,12 @@ public class Fenetre extends JFrame {
 					lastWidth = getWidth();
 					lastHeight = getHeight();
 				}
-
+				
 				Fenetre.this.param.panWidth = Fenetre.this.getWidth();
 				Fenetre.this.param.panHeight = Fenetre.this.getHeight();
-
+				
 			}
-
+			
 			@Override
 			public void componentMoved(ComponentEvent e) {
 				Fenetre.this.param.panX = Fenetre.this.getX();
@@ -65,11 +64,18 @@ public class Fenetre extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
+				param.startingPhrase = pan.pilot.getCurrentPhraseIndex() + 1;
 				param.stockerPreference();
 			}
 		});
 	}
-
+	
+	public void setParameters(Parametres param) {
+		this.param = param;
+		param.appliquerPreferenceTaillePosition(this);
+		pan.setParameters(param);
+	}
+	
 	public void start() {
 		setVisible(true);
 		SwingUtilities.invokeLater(new Runnable() {

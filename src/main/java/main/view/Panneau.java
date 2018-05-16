@@ -24,15 +24,14 @@ public class Panneau extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	public static int premierSegment;
-	public static int defautNBEssaisParSegment;
 
 	// panneau du texte
 	public TextPane editorPane;
 	public TextHandler textHandler;
 	public int pageActuelle;
 	public int nbPages;
-	public int nbEssaisParSegment = defautNBEssaisParSegment;
-	public int nbEssaisRestantPourLeSegmentCourant = defautNBEssaisParSegment;
+	public int nbEssaisParSegment;
+	public int nbEssaisRestantPourLeSegmentCourant;
 	public int nbErreurs;
 	public int nbErreursParSegment;
 	public Fenetre fenetre;
@@ -69,13 +68,15 @@ public class Panneau extends JPanel {
 		
 		this.setLayout(new BorderLayout());
 		
+		player = new Player(textHandler, null);
+		
 		editorPane = new TextPane();
 		editorPane.setEditable(false);
 		add(editorPane, BorderLayout.CENTER);
 		
 		progressBar = new JProgressBar(0, (textHandler.getPhrasesCount()-1));
 		progressBar.setStringPainted(true);
-		progressBar.setForeground(Constants.RIGHT_COLOR);
+		//progressBar.setForeground(Constants.RIGHT_COLOR);
 		add(progressBar, BorderLayout.SOUTH);
 	}
 
@@ -83,23 +84,18 @@ public class Panneau extends JPanel {
 	 * S'exécute lorsque le panneau s'est bien intégré à la fenêtre.
 	 */
 	public void init(Parametres param) {
-		this.param = editorPane.param = param;
+		setParameters(param);
 		
-		//param.appliquerPreferenceTaillePosition(fenetre);
-		fenetreParam.editorPane = editorPane;
-		progressBar.setString(param.startingPhrase+"/"+(textHandler.getPhrasesCount()-1));
 		progressBar.setValue(param.startingPhrase);
-		editorPane.setBackground(param.bgColor);
-		editorPane.setFont(param.police);
+		progressBar.setString(param.startingPhrase+"/"+(textHandler.getPhrasesCount()-1));
+		
+		fenetreParam.editorPane = editorPane;
 		pageActuelle = 0;
-		nbEssaisRestantPourLeSegmentCourant = nbEssaisParSegment = param.nbFautesTolerees;
-
+		
 		/// construit la mise en page virtuelle ///
 		rebuildPages();
 		/// initialise le lecteur ///
-		player = new Player(textHandler,param);
 		player.load(param.startingPhrase - 1);
-		// controlerGlobal.goTo(FenetreParametre.premierSegment - 1);
 		
 		controlPanel = fenetreParam.controlPanel;
 		fenetreParam.controlPanel.init();
@@ -110,6 +106,16 @@ public class Panneau extends JPanel {
 		controlerMouse = new ControlerMouse(this, textHandler);
 		editorPane.addMouseListener(controlerMouse);
 		editorPane.requestFocus();
+	}
+	
+	public void setParameters(Parametres param) {
+		this.param = editorPane.param = param;
+		premierSegment = param.startingPhrase;
+		
+		editorPane.setBackground(param.bgColor);
+		editorPane.setFont(param.police);
+		nbEssaisRestantPourLeSegmentCourant = nbEssaisParSegment = param.nbFautesTolerees;
+		player.setParameters(param);
 	}
 	
 	public void setCursor(String fileName) {

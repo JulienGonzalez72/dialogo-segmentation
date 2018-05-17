@@ -50,6 +50,7 @@ public class ControlerParam implements ActionListener {
 			panneau.savePreferences(panneau.oldMode);
 			panneau.oldMode = panneau.getReadMode();
 			panneau.applyPreferences(panneau.getReadMode());
+			panneau.updateMode();
 		}
 		if (arg0.getSource() == panneau.validButton) {
 			panneau.savePreferences(panneau.oldMode);
@@ -85,8 +86,7 @@ public class ControlerParam implements ActionListener {
 		int premierSegment = -1;
 		try {
 			premierSegment = Integer.valueOf((String) panneau.startingPhraseField.getText());
-			if (premierSegment + 2 > ((Panneau) fen.fenetre.getContentPane()).textHandler.getPhrasesCount()
-					|| premierSegment < 1) {
+			if (!isValidPhrase(premierSegment)) {
 				JOptionPane.showMessageDialog(panneau,
 						"Entrez un segment inférieur à "
 								+ (((Panneau) fen.fenetre.getContentPane()).textHandler.getPhrasesCount() - 1),
@@ -116,6 +116,11 @@ public class ControlerParam implements ActionListener {
 			valide = false;
 		}
 		return valide;
+	}
+	
+	public boolean isValidPhrase(int phrase) {
+		return phrase + 2 <= ((Panneau) fen.fenetre.getContentPane()).textHandler.getPhrasesCount()
+				&& phrase >= 1;
 	}
 
 	/**

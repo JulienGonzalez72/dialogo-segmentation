@@ -73,6 +73,9 @@ public class FenetreParametre extends JFrame {
 		public ColorComboBox correctColorComboBox;
 		public JTextField startingPhraseField;
 		public JTextField toleratedErrorsField;
+		private JLabel couleurJuste;
+		private JLabel couleurFausse;
+		private JLabel couleurCorrection;
 		public JButton validButton;
 		public JCheckBox replayCheckBox;
 		public JRadioButton highlightModeRadio, guidedModeRadio, segmentedModeRadio, anticipatedModeRadio;
@@ -80,6 +83,7 @@ public class FenetreParametre extends JFrame {
 		public JSlider waitSlider;
 		public FenetreParametre fen;
 		public ReadMode oldMode = ReadMode.SEGMENTE;
+		private ControlerParam controleur;
 		
 		public PanneauParam(FenetreParametre fen) throws NumberFormatException, IOException {
 			this.fen = fen;
@@ -93,13 +97,13 @@ public class FenetreParametre extends JFrame {
 			JLabel police = fastLabel("Police : ");
 			JLabel taillePolice = fastLabel("Taille de la police : ");
 			JLabel couleurDeFond = fastLabel("Couleur de fond : ");
-			JLabel couleurJuste = fastLabel("Couleur pour \"juste\" : ");
-			JLabel couleurFausse = fastLabel("Couleur pour \"faux\" : ");
-			JLabel couleurCorrection = fastLabel("Couleur de correction : ");
+			couleurJuste = fastLabel("Couleur pour \"juste\" : ");
+			couleurFausse = fastLabel("Couleur pour \"faux\" : ");
+			couleurCorrection = fastLabel("Couleur de correction : ");
 			JLabel segments = fastLabel("Segment de départ ");
 			JLabel attente = fastLabel("Temps d'attente en % du temps de lecture");
 
-			ControlerParam controleur = new ControlerParam(fen, this);
+			controleur = new ControlerParam(fen, this);
 			validButton.addActionListener(controleur);
 			
 			fontFamilyComboBox = new JComboBox<String>(Constants.FONT_FAMILIES);
@@ -146,13 +150,37 @@ public class FenetreParametre extends JFrame {
 			wrongColorComboBox = new ColorComboBox(Constants.COLORS, true);
 			correctColorComboBox = new ColorComboBox(Constants.COLORS, true);
 
+			/// flèches haut et bas pour incrémenter/décrémenter un nombre ///
+			KeyListener numberKey = new KeyAdapter() {
+				@Override
+				public void keyPressed(KeyEvent e) {
+					if (e.getKeyCode() != KeyEvent.VK_UP && e.getKeyCode() != KeyEvent.VK_DOWN)
+						return;
+					
+					JTextField jtf = (JTextField) e.getSource();
+					try {
+						int n = Integer.parseInt(jtf.getText());
+						
+						if (e.getKeyCode() == KeyEvent.VK_UP) n++;
+						else if (e.getKeyCode() == KeyEvent.VK_DOWN) n--;
+						else return;
+						
+						if (controleur.isValidPhrase(n))
+							jtf.setText(String.valueOf(n));
+					} catch (NumberFormatException ex) {
+					}
+				}
+			};
+			
 			startingPhraseField = fastTextField("",
 					new Font("OpenDyslexic", Font.PLAIN, 15), "1");
 			startingPhraseField.addActionListener(controleur);
+			startingPhraseField.addKeyListener(numberKey);
 
 			JLabel nbFautesTolerees = fastLabel("Nombre de fautes maximum");
 			toleratedErrorsField = fastTextField("", new Font("OpenDyslexic", Font.PLAIN, 15), "2");
 			toleratedErrorsField.addActionListener(controleur);
+			toleratedErrorsField.addKeyListener(numberKey);
 
 			JPanel midPanel = new JPanel(new GridLayout(9, 2));
 
@@ -225,6 +253,7 @@ public class FenetreParametre extends JFrame {
 			add(panelSud, BorderLayout.SOUTH);
 			
 			applyPreferences(getReadMode());
+			updateMode();
 		}
 
 		/**
@@ -278,7 +307,46 @@ public class FenetreParametre extends JFrame {
 		public void fermer() {
 			fen.setVisible(false);
 		}
-
+		
+		/**
+		 * Mets à jour les composants de la fenêtre en fonction du mode sélectionné.
+		 */
+		public void updateMode() {
+			switch (getReadMode()) {
+				case GUIDEE :
+				case ANTICIPE :
+					setRightColorParameterVisible(true);
+					setWrongColorParameterVisible(false);
+					setCorrectColorParameterVisible(false);
+					break;
+				case SEGMENTE :
+					setRightColorParameterVisible(false);
+					setWrongColorParameterVisible(true);
+					setCorrectColorParameterVisible(true);
+					break;
+				case SUIVI :
+					setRightColorParameterVisible(true);
+					setWrongColorParameterVisible(true);
+					setCorrectColorParameterVisible(true);
+					break;
+			}
+		}
+		
+		private void setRightColorParameterVisible(boolean visible) {
+			couleurJuste.setVisible(visible);
+			rightColorComboBox.setVisible(visible);
+		}
+		
+		private void setWrongColorParameterVisible(boolean visible) {
+			couleurFausse.setVisible(visible);
+			wrongColorComboBox.setVisible(visible);
+		}
+		
+		private void setCorrectColorParameterVisible(boolean visible) {
+			couleurCorrection.setVisible(visible);
+			correctColorComboBox.setVisible(visible);
+		}
+		
 		final Font defaultFont = new Font("OpenDyslexic", Font.ITALIC, 16);
 
 		public JLabel fastLabel(String nom, Font font) {

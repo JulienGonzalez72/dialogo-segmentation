@@ -24,18 +24,17 @@ public class Panneau extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	public static int premierSegment;
-	public static int defautNBEssaisParSegment;
 
 	// panneau du texte
 	public TextPane editorPane;
 	public TextHandler textHandler;
 	public int pageActuelle;
 	public int nbPages;
-	public int nbEssaisParSegment = defautNBEssaisParSegment;
-	public int nbEssaisRestantPourLeSegmentCourant = defautNBEssaisParSegment;
+	public int nbEssaisParSegment;
+	public int nbEssaisRestantPourLeSegmentCourant;
 	public int nbErreurs;
 	public int nbErreursParSegment;
-	public JFrame fenetre;
+	public Fenetre fenetre;
 	public ControlPanel controlPanel;
 	public ControlerText controlerGlobal;
 	public ControlerKey controlerKey;
@@ -52,7 +51,7 @@ public class Panneau extends JPanel {
 	 */
 	public JProgressBar progressBar;
 
-	public Panneau(JFrame fenetre,FenetreParametre fenetreParam,Parametres param) throws IOException {
+	public Panneau(Fenetre fenetre,FenetreParametre fenetreParam,Parametres param) throws IOException {
 		this.fenetre = fenetre;
 		this.controlerGlobal = new ControlerText(this);
 
@@ -69,35 +68,34 @@ public class Panneau extends JPanel {
 		
 		this.setLayout(new BorderLayout());
 		
-		editorPane = new TextPane(param);
+		player = new Player(textHandler, null);
+		
+		editorPane = new TextPane();
 		editorPane.setEditable(false);
 		add(editorPane, BorderLayout.CENTER);
 		
 		progressBar = new JProgressBar(0, (textHandler.getPhrasesCount()-1));
 		progressBar.setStringPainted(true);
-		progressBar.setForeground(Constants.RIGHT_COLOR);
+		//progressBar.setForeground(Constants.RIGHT_COLOR);
 		add(progressBar, BorderLayout.SOUTH);
 	}
 
 	/**
 	 * S'exécute lorsque le panneau s'est bien intégré à la fenêtre.
 	 */
-	public void init() {
-		param.appliquerPreferenceTaillePosition(fenetreParam,(Fenetre) fenetre);
+	public void init(Parametres param) {
+		setParameters(param);
+		
+		progressBar.setValue(param.startingPhrase);
+		progressBar.setString(param.startingPhrase+"/"+(textHandler.getPhrasesCount()-1));
+		
 		fenetreParam.editorPane = editorPane;
-		progressBar.setString(param.premierSegment+"/"+(textHandler.getPhrasesCount()-1));
-		progressBar.setValue(param.premierSegment);
-		editorPane.setBackground(param.couleurFond);
-		editorPane.setFont(param.police);
 		pageActuelle = 0;
-		nbEssaisRestantPourLeSegmentCourant = nbEssaisParSegment = param.nbFautesTolerees;
-
+		
 		/// construit la mise en page virtuelle ///
 		rebuildPages();
-		/// initialise le lecteur et le démarre ///
-		player = new Player(textHandler,param);
-		player.load(param.premierSegment - 1);
-		// controlerGlobal.goTo(FenetreParametre.premierSegment - 1);
+		/// initialise le lecteur ///
+		player.load(param.startingPhrase - 1);
 		
 		controlPanel = fenetreParam.controlPanel;
 		fenetreParam.controlPanel.init();
@@ -109,7 +107,17 @@ public class Panneau extends JPanel {
 		editorPane.addMouseListener(controlerMouse);
 		editorPane.requestFocus();
 	}
-
+	
+	public void setParameters(Parametres param) {
+		this.param = editorPane.param = param;
+		premierSegment = param.startingPhrase;
+		
+		editorPane.setBackground(param.bgColor);
+		editorPane.setFont(param.police);
+		nbEssaisRestantPourLeSegmentCourant = nbEssaisParSegment = param.nbFautesTolerees;
+		player.setParameters(param);
+	}
+	
 	public void setCursor(String fileName) {
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Image img = tk.getImage(fileName);
@@ -149,7 +157,7 @@ public class Panneau extends JPanel {
 		editorPane.désurlignerTout();
 		if ((param.readMode == ReadMode.GUIDEE || param.readMode == ReadMode.ANTICIPE)
 				&& (controlerGlobal != null && player != null)) {
-			controlerGlobal.highlightPhrase(Constants.RIGHT_COLOR, player.getCurrentPhraseIndex());
+			controlerGlobal.highlightPhrase(param.rightColor, player.getCurrentPhraseIndex());
 		}
 	}
 
@@ -157,7 +165,7 @@ public class Panneau extends JPanel {
 	 * Construit les pages et affiche la première.
 	 */
 	public void rebuildPages() {
-		buildPages(param.premierSegment - 1);
+		buildPages(param.startingPhrase - 1);
 		pageActuelle = 0;
 		afficherPageSuivante();
 		/// calcule le nombre de pages total ///
@@ -267,7 +275,7 @@ public class Panneau extends JPanel {
 	public void indiquerErreur(int debut, int fin) {
 		nbErreurs++;
 		editorPane.enleverSurlignageRouge();
-		editorPane.surlignerPhrase(debut, fin, Constants.WRONG_COLOR);
+		editorPane.surlignerPhrase(debut, fin, param.wrongColor);
 	}
 
 	public int getNumeroPremierSegmentAffiché() {
@@ -304,9 +312,9 @@ public class Panneau extends JPanel {
 			UIManager.put("Panel.background", panelBG);
 		}
 		///réactive la taille et la police et le segment de départ
-		fenetreParam.pan.listePolices.setEnabled(true);
-		fenetreParam.pan.listeTailles.setEnabled(true);
-		fenetreParam.pan.segmentDeDepart.setEnabled(true);
+		fenetreParam.pan.fontFamilyComboBox.setEnabled(true);
+		fenetreParam.pan.fontSizeComboBox.setEnabled(true);
+		fenetreParam.pan.startingPhraseField.setEnabled(true);
 		fenetre.setResizable(true);
 		fenetreParam.stopExercice();
 	}
@@ -318,7 +326,7 @@ public class Panneau extends JPanel {
 		if (textHandler.getPhrase(n) != null) {
 			int debutRelatifSegment = textHandler.getRelativeStartPhrasePosition(getNumeroPremierSegmentAffiché(), n);
 			int finRelativeSegment = debutRelatifSegment + textHandler.getPhrase(n).length();
-			editorPane.surlignerPhrase(0, finRelativeSegment, Constants.RIGHT_COLOR);
+			editorPane.surlignerPhrase(0, finRelativeSegment, param.rightColor);
 		}
 	}
 

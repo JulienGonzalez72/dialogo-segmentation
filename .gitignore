@@ -1,2 +1,13 @@
 /bin/
 /target/
+<<<<<<< HEAD
+=======
+
+/dialogo-common/
+/
+dialogo-parent/
+/
+dialogo-rmi-interfaces/
+/
+dialogo-samplecenter/
+>>>>>>> e3ade8438f5b3f0c5dcfa42e0ff32688d3a9f078

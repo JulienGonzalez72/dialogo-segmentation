@@ -16,7 +16,7 @@ public class GuidedThread extends ReadThread {
 			/// affichage de la page correspondant au segment N ///
 			controler.showPage(controler.getPageOfPhrase(N));
 			/// surlignage du segment N ///
-			controler.highlightPhrase(Constants.RIGHT_COLOR, N);
+			controler.highlightPhrase(param.rightColor, N);
 			/// play du son correspondant au segment N ///
 			controler.play(N);
 			/// attente de la fin du temps de pause ///

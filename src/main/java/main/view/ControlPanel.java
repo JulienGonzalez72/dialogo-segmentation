@@ -12,7 +12,7 @@ import main.Parametres;
 
 public class ControlPanel extends JPanel {
 
-	private static int imageSize = Constants.tailleImageFrame;
+	private static int imageSize = Constants.CONTROL_IMAGE_SIZE;
 	private static Image previousIcon, playIcon, pauseIcon, nextIcon, repeatIcon;
 
 	private JButton previousButton = new JButton();
@@ -28,9 +28,8 @@ public class ControlPanel extends JPanel {
 		loadImages();
 	}
 
-	public ControlPanel(Panneau pan, FenetreParametre fen, Parametres param) {
-
-		this.pan = pan;
+	public ControlPanel(Panneau p, FenetreParametre fen) {
+		this.pan = p;
 		
 		add(previousButton);
 		previousButton.setIcon(new ImageIcon(previousIcon));
@@ -83,15 +82,17 @@ public class ControlPanel extends JPanel {
 		add(goToField);
 		goToField.setPreferredSize(new Dimension(40, 20));
 		goToField.setEnabled(false);
-		goToField.addActionListener((ActionEvent e) -> {
-			int n;
-			try {
-				n = Integer.parseInt(goToField.getText()) - 1;
-				pan.pilot.goTo(n);
-			} catch (IllegalArgumentException ex) {
-				JOptionPane.showMessageDialog(null, "Numéro de segment incorrect : " + goToField.getText());
+		goToField.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int n;
+				try {
+					n = Integer.parseInt(goToField.getText()) - 1;
+					pan.pilot.goTo(n);
+				} catch (IllegalArgumentException ex) {
+					JOptionPane.showMessageDialog(null, "Numéro de segment incorrect : " + goToField.getText());
+				}
+				updateButtons();
 			}
-			updateButtons();
 		});
 
 		//addMenu();
@@ -101,8 +102,10 @@ public class ControlPanel extends JPanel {
 	 * Méthode qui s'exécute lorsque les contrôles sont prêts à être effectifs.
 	 */
 	public void init() {
-		Runnable update = () -> {
-			updateButtons();
+		Runnable update = new Runnable() {
+			public void run() {
+				updateButtons();
+			}
 		};
 		pan.player.onPhraseEnd.add(update);
 		pan.player.onBlockEnd.add(update);
@@ -139,7 +142,7 @@ public class ControlPanel extends JPanel {
 	/**
 	 * Désactive tous les boutons de la fenêtre de contrôle puis les ré-active après le temps duration.
 	 */
-	public void disableAll(long duration) {
+	public void disableAll(final long duration) {
 		disableAll();
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {

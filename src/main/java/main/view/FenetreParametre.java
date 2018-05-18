@@ -3,33 +3,35 @@ package main.view;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
-import java.util.Properties;
+import java.util.*;
 
 import javax.swing.*;
-import javax.swing.UIManager.LookAndFeelInfo;
 
 import main.Constants;
 import main.Parametres;
+<<<<<<< HEAD
 import main.controler.ControleurParam;
+=======
+import main.controler.ControlerParam;
+import main.reading.ReadMode;
+>>>>>>> e3ade8438f5b3f0c5dcfa42e0ff32688d3a9f078
 
 public class FenetreParametre extends JFrame {
 
 	public Fenetre fenetre;
-	public Parametres param;
+	/**
+	 * Liste des paramètres par mode de lecture.
+	 */
+	private Map<ReadMode, Parametres> params = new HashMap<>();
 	public TextPane editorPane;
 	public ControlPanel controlPanel;
+	public JMenuItem stopItem;
 	public PanneauParam pan;
-
+	
 	public FenetreParametre(String titre, int tailleX, int tailleY) {
-		param = new Parametres();
+		params = Parametres.loadAll();
 		setIconImage(getToolkit().getImage("icone.jpg"));
-		param.police = ControleurParam.getFont(null, 0, Font.BOLD, Constants.DEFAULT_FONT_SIZE);
-		param.taillePolice = Constants.DEFAULT_FONT_SIZE;
-		param.couleurFond = Constants.BG_COLOR;
 		editorPane = null;
-		param.titre = titre;
-		param.tailleX = tailleX;
-		param.tailleY = tailleY;
 		setTitle(titre);
 		setSize(tailleX, tailleY);
 		setLocationRelativeTo(null);
@@ -41,9 +43,9 @@ public class FenetreParametre extends JFrame {
 		} catch (NumberFormatException | IOException e) {
 			e.printStackTrace();
 		}
-
-		fenetre = new Fenetre(param.titre, param.tailleX * 2, param.tailleY, this, param);
-		controlPanel = new ControlPanel(fenetre.pan, this, param);
+		
+		fenetre = new Fenetre(titre, tailleX * 2, tailleY, this);
+		controlPanel = new ControlPanel(fenetre.pan, this);
 
 		JTabbedPane generalTab = new JTabbedPane();
 		generalTab.addTab("Paramètres", pan);
@@ -52,208 +54,251 @@ public class FenetreParametre extends JFrame {
 		addMenu();
 		setVisible(true);
 
+		addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent arg0) {
+				if (pan.waitSlider != null) {
+					pan.waitSlider.updateUI();
+				}
+			}
+		});
 	}
 
 	public class PanneauParam extends JPanel {
-
+		
 		private static final long serialVersionUID = 1L;
-
+		
 		public JPanel panelModes;
-		public JComboBox<Object> listePolices;
-		public JComboBox<Object> listeTailles;
-		public JComboBox<Object> listeCouleurs;
-		public JComboBox<Object> listeBonnesCouleurs;
-		public JComboBox<Object> listeMauvaisesCouleurs;
-		public JComboBox<Object> listeCorrectionCouleurs;
-		public JTextField segmentDeDepart;
-		public JTextField champNbFautesTolerees;
-		public JButton valider;
-		public JCheckBox rejouerSon;
-		public JRadioButton modeSurlignage, modeKaraoke, modeNormal, modeAnticipe;
+		public JComboBox<String> fontFamilyComboBox;
+		public JComboBox<Integer> fontSizeComboBox;
+		public ColorComboBox bgColorComboBox;
+		public ColorComboBox rightColorComboBox;
+		public ColorComboBox wrongColorComboBox;
+		public ColorComboBox correctColorComboBox;
+		public JTextField startingPhraseField;
+		public JTextField toleratedErrorsField;
+		private JLabel couleurJuste;
+		private JLabel couleurFausse;
+		private JLabel couleurCorrection;
+		public JButton validButton;
+		public JCheckBox replayCheckBox;
+		public JRadioButton highlightModeRadio, guidedModeRadio, segmentedModeRadio, anticipatedModeRadio;
 		public ButtonGroup modes;
-		public JSlider sliderAttente;
-		public final Object[] polices;
-		public final Object[] tailles;
-		public final Object[] couleurs;
+		public JSlider waitSlider;
 		public FenetreParametre fen;
-
+		public ReadMode oldMode = ReadMode.SEGMENTE;
+		private ControlerParam controleur;
+		
 		public PanneauParam(FenetreParametre fen) throws NumberFormatException, IOException {
 			this.fen = fen;
 			setLayout(new BorderLayout());
 			JLabel titre = fastLabel("Choisissez vos parametres");
-			titre.setBorder(BorderFactory.createLineBorder(Color.blue, 2));
+			titre.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
+			titre.setPreferredSize(new Dimension(0, 30));
 			add(titre, BorderLayout.NORTH);
-
-			valider = fastButton("Valider les parametres", new Font("OpenDyslexic", Font.BOLD, 18), Color.green);
+			
+			validButton = fastButton("Démarrer l'exercice", new Font("OpenDyslexic", Font.BOLD, 18), Color.green);
 			JLabel police = fastLabel("Police : ");
 			JLabel taillePolice = fastLabel("Taille de la police : ");
 			JLabel couleurDeFond = fastLabel("Couleur de fond : ");
-			JLabel couleurJuste = fastLabel("Couleur pour \"juste\" : ");
-			JLabel couleurFausse = fastLabel("Couleur pour \"faux\" : ");
-			JLabel couleurCorrection = fastLabel("Couleur de correction : ");
+			couleurJuste = fastLabel("Couleur pour \"juste\" : ");
+			couleurFausse = fastLabel("Couleur pour \"faux\" : ");
+			couleurCorrection = fastLabel("Couleur de correction : ");
 			JLabel segments = fastLabel("Segment de départ ");
 			JLabel attente = fastLabel("Temps d'attente en % du temps de lecture");
 
-			polices = new Object[] { "OpenDyslexic", "Andika", "Lexia", "Arial", "Times New Roman" };
-			tailles = new Object[] { "12", "16", "18", "20", "22", "24", "30", "36", "42" };
-			couleurs = new Object[] { "Jaune", "Blanc", "Orange", "Rose", "Bleu", "Rouge", "Vert" };
-
-			ControleurParam controleur = new ControleurParam(fen, this);
-			valider.addActionListener(controleur);
-
-			listePolices = new JComboBox<Object>(polices);
-			listePolices.setRenderer(new ListCellRenderer<Object>() {
+			controleur = new ControlerParam(fen, this);
+			validButton.addActionListener(controleur);
+			
+			fontFamilyComboBox = new JComboBox<String>(Constants.FONT_FAMILIES);
+			fontFamilyComboBox.setRenderer(new ListCellRenderer<Object>() {
 				private DefaultListCellRenderer renderer = new DefaultListCellRenderer();
-
+				
 				public Component getListCellRendererComponent(JList<? extends Object> list, Object value, int index,
 						boolean isSelected, boolean cellHasFocus) {
 					list.setFont(
-							ControleurParam.getFont((String) value, index, Font.BOLD, Constants.DEFAULT_FONT_SIZE));
+							FenetreParametre.getFont((String) value, index, Font.BOLD, Constants.DEFAULT_FONT_SIZE));
 					renderer.setHorizontalAlignment(SwingConstants.CENTER);
 					return renderer.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 				}
 			});
-			listePolices.setFont(ControleurParam.getFont((String) listePolices.getSelectedItem(), 0, Font.BOLD,
+			fontFamilyComboBox.setFont(FenetreParametre.getFont((String) fontFamilyComboBox.getSelectedItem(), 0, Font.BOLD,
 					Constants.DEFAULT_FONT_SIZE));
-			listePolices.addActionListener(controleur);
-
-			listeTailles = new JComboBox<Object>(tailles);
-			listeTailles.setRenderer(new ListCellRenderer<Object>() {
+			fontFamilyComboBox.addActionListener(controleur);
+			
+			fontSizeComboBox = new JComboBox<Integer>(Constants.FONT_SIZES);
+			fontSizeComboBox.setRenderer(new ListCellRenderer<Object>() {
 				private DefaultListCellRenderer renderer = new DefaultListCellRenderer();
 
 				public Component getListCellRendererComponent(JList<? extends Object> list, Object value, int index,
 						boolean isSelected, boolean cellHasFocus) {
-					list.setFont(new Font(Font.DIALOG, Font.BOLD, Integer.parseInt((String) value)));
+					list.setFont(new Font(Font.DIALOG, Font.BOLD, (Integer) value));
 					renderer.setHorizontalAlignment(SwingConstants.CENTER);
 					return renderer.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 				}
 			});
-			listeTailles.addActionListener(controleur);
-			listeTailles.setFont(new Font("OpenDyslexic", Font.PLAIN, 15));
+			fontSizeComboBox.addActionListener(controleur);
+			fontSizeComboBox.setFont(new Font("OpenDyslexic", Font.PLAIN, 15));
 
-			listeCouleurs = fastComboBox(controleur, couleurs);
-			listeBonnesCouleurs = fastComboBox(controleur, couleurs);
-			listeMauvaisesCouleurs = fastComboBox(controleur, couleurs);
-			listeCorrectionCouleurs = fastComboBox(controleur, couleurs);
+			bgColorComboBox = new ColorComboBox(Constants.COLORS, true);
+			bgColorComboBox.colorListener = new ColorComboBox.ColorChangeListener() {
+				@Override
+				public void colorChanged(Color newColor) {
+					if (fenetre != null && fenetre.pan.editorPane != null) {
+						fenetre.pan.editorPane.setBackground(newColor);
+					}
+					grabFocus();
+				}
+			};
+			rightColorComboBox = new ColorComboBox(Constants.COLORS, true);
+			wrongColorComboBox = new ColorComboBox(Constants.COLORS, true);
+			correctColorComboBox = new ColorComboBox(Constants.COLORS, true);
 
-			segmentDeDepart = fastTextField(String.valueOf(param.premierSegment),
+			/// flèches haut et bas pour incrémenter/décrémenter un nombre ///
+			KeyListener numberKey = new KeyAdapter() {
+				@Override
+				public void keyPressed(KeyEvent e) {
+					if (e.getKeyCode() != KeyEvent.VK_UP && e.getKeyCode() != KeyEvent.VK_DOWN)
+						return;
+					
+					JTextField jtf = (JTextField) e.getSource();
+					try {
+						int n = Integer.parseInt(jtf.getText());
+						
+						if (e.getKeyCode() == KeyEvent.VK_UP) n++;
+						else if (e.getKeyCode() == KeyEvent.VK_DOWN) n--;
+						else return;
+						
+						if (controleur.isValidPhrase(n))
+							jtf.setText(String.valueOf(n));
+					} catch (NumberFormatException ex) {
+					}
+				}
+			};
+			
+			startingPhraseField = fastTextField("",
 					new Font("OpenDyslexic", Font.PLAIN, 15), "1");
-			segmentDeDepart.addActionListener(controleur);
+			startingPhraseField.addActionListener(controleur);
+			startingPhraseField.addKeyListener(numberKey);
 
 			JLabel nbFautesTolerees = fastLabel("Nombre de fautes maximum");
-			champNbFautesTolerees = fastTextField("", new Font("OpenDyslexic", Font.PLAIN, 15), "2");
-			champNbFautesTolerees.addActionListener(controleur);
+			toleratedErrorsField = fastTextField("", new Font("OpenDyslexic", Font.PLAIN, 15), "2");
+			toleratedErrorsField.addActionListener(controleur);
+			toleratedErrorsField.addKeyListener(numberKey);
 
-			JPanel midPanel = new JPanel(new GridLayout(10, 2));
+			JPanel midPanel = new JPanel(new GridLayout(9, 2));
 
 			midPanel.add(police);
 			midPanel.add(taillePolice);
-			fastCentering(listePolices, midPanel, "   ");
-			fastCentering(listeTailles, midPanel, "   ");
+			fastCentering(fontFamilyComboBox, midPanel, "   ");
+			fastCentering(fontSizeComboBox, midPanel, "   ");
 
 			midPanel.add(segments);
 			midPanel.add(nbFautesTolerees);
-			fastCentering(segmentDeDepart, midPanel, "   ");
-			fastCentering(champNbFautesTolerees, midPanel, "   ");
+			fastCentering(startingPhraseField, midPanel, "   ");
+			fastCentering(toleratedErrorsField, midPanel, "   ");
 
 			midPanel.add(couleurDeFond);
 			midPanel.add(couleurJuste);
-			fastCentering(listeCouleurs, midPanel, "   ");
-			fastCentering(listeBonnesCouleurs, midPanel, "   ");
+			fastCentering(bgColorComboBox, midPanel, "   ");
+			fastCentering(rightColorComboBox, midPanel, "   ");
 
 			midPanel.add(couleurFausse);
 			midPanel.add(couleurCorrection);
-			fastCentering(listeMauvaisesCouleurs, midPanel, "   ");
-			fastCentering(listeCorrectionCouleurs, midPanel, "   ");
+			fastCentering(wrongColorComboBox, midPanel, "   ");
+			fastCentering(correctColorComboBox, midPanel, "   ");
 
-			LookAndFeelInfo[] lfs = UIManager.getInstalledLookAndFeels();
-			JComboBox<Object> lfBox = fastComboBox(controleur, new Object[0]);
-			for (int i = 0; i < lfs.length; i++) {
-				lfBox.addItem(lfs[i].getName());
-				if (UIManager.getLookAndFeel().getName().equals(lfs[i].getName())) {
-					lfBox.setSelectedIndex(i);
-				}
-			}
-			lfBox.addItemListener(new ItemListener() {
-				@Override
-				public void itemStateChanged(ItemEvent e) {
-					try {
-						UIManager.setLookAndFeel(lfs[lfBox.getSelectedIndex()].getClassName());
-						SwingUtilities.updateComponentTreeUI(FenetreParametre.this);
-					} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-							| UnsupportedLookAndFeelException ex) {
-						ex.printStackTrace();
-					}
-				}
-			});
-			midPanel.add(fastLabel("Look And Feel"));
-			midPanel.add(new JLabel());
-			fastCentering(lfBox, midPanel, "   ");
-
-			modeAnticipe = fastRadio("Anticipé", controleur);
-			modeAnticipe.setToolTipText("Mode Anticipé");
-			modeSurlignage = fastRadio("Suivi", controleur);
-			modeSurlignage.setToolTipText("Mode de lecture segmentée : version surlignage");
-			modeKaraoke = fastRadio("Guidé", controleur);
-			modeKaraoke.setToolTipText("Mode guidé");
-			modeNormal = fastRadio("Segmenté", controleur);
-			modeNormal.setToolTipText("Mode de lecture segmentée");
-			modeNormal.setSelected(true);
-
+			anticipatedModeRadio = fastRadio("Anticipé", controleur);
+			anticipatedModeRadio.setToolTipText("Mode Anticipé");
+			highlightModeRadio = fastRadio("Suivi", controleur);
+			highlightModeRadio.setToolTipText("Mode de lecture segmentée : version surlignage");
+			guidedModeRadio = fastRadio("Guidé", controleur);
+			guidedModeRadio.setToolTipText("Mode guidé");
+			segmentedModeRadio = fastRadio("Segmenté", controleur);
+			segmentedModeRadio.setToolTipText("Mode de lecture segmentée");
+			segmentedModeRadio.setSelected(true);
+			
 			modes = new ButtonGroup();
-			modes.add(modeSurlignage);
-			modes.add(modeKaraoke);
-			modes.add(modeNormal);
-			modes.add(modeAnticipe);
-
-			sliderAttente = new JSlider();
-			sliderAttente.setMaximum(Constants.MAX_WAIT_TIME_PERCENT);
-			sliderAttente.setMinimum(Constants.MIN_WAIT_TIME_PERCENT);
-			sliderAttente.setValue(Constants.DEFAULT_WAIT_TIME_PERCENT);
-			sliderAttente.setPaintTicks(true);
-			sliderAttente.setPaintLabels(true);
-			sliderAttente.setMinorTickSpacing(10);
-			sliderAttente.setMajorTickSpacing(50);
-			sliderAttente.addChangeListener(controleur);
-
-			JPanel panelSud = new JPanel(new GridLayout(9, 1));
-			panelSud.add(new JLabel());
-			rejouerSon = fastCheckBox("Rejouer les phrases si erreur", controleur);
-			rejouerSon.setSelected(true);
+			modes.add(highlightModeRadio);
+			modes.add(guidedModeRadio);
+			modes.add(segmentedModeRadio);
+			modes.add(anticipatedModeRadio);
+			
+			waitSlider = new JSlider();
+			waitSlider.setMaximum(Constants.MAX_WAIT_TIME_PERCENT);
+			waitSlider.setMinimum(Constants.MIN_WAIT_TIME_PERCENT);
+			waitSlider.setValue(Constants.DEFAULT_WAIT_TIME_PERCENT);
+			waitSlider.setPaintTicks(true);
+			waitSlider.setPaintLabels(true);
+			waitSlider.setMinorTickSpacing(10);
+			waitSlider.setMajorTickSpacing(50);
+			
+			JPanel panelSud = new JPanel(new GridLayout(8, 1));
+			replayCheckBox = fastCheckBox("Rejouer les phrases si erreur", controleur);
+			replayCheckBox.setSelected(true);
 			JPanel temp = new JPanel();
-			temp.add(rejouerSon);
+			temp.add(replayCheckBox);
 			panelSud.add(temp);
 
 			panelModes = new JPanel(new GridLayout(1, 4));
-			panelModes.add(modeKaraoke);
-			panelModes.add(modeSurlignage);
-			panelModes.add(modeNormal);
-			panelModes.add(modeAnticipe);
+			panelModes.add(guidedModeRadio);
+			panelModes.add(highlightModeRadio);
+			panelModes.add(segmentedModeRadio);
+			panelModes.add(anticipatedModeRadio);
 			panelSud.add(new JLabel());
 			panelSud.add(panelModes);
 			panelSud.add(new JLabel());
-			panelSud.add(add(attente));
-			panelSud.add(sliderAttente);
+			panelSud.add(attente);
+			panelSud.add(waitSlider);
 			panelSud.add(new JLabel());
-			panelSud.add(valider);
-
+			panelSud.add(validButton);
+			
 			add(midPanel, BorderLayout.CENTER);
 			add(panelSud, BorderLayout.SOUTH);
 			
-			chargerPreferences();
-
+			applyPreferences(getReadMode());
+			updateMode();
 		}
 
-		public void chargerPreferences() throws NumberFormatException, IOException {
-			String fichier = "./ressources/preferences/preference_" + Constants.NOM_ELEVE +"_"+param.readMode+ ".txt";
-			InputStream ips = null;
+		/**
+		 * Applique les préférences chargées aux pré-sélections de la fenêtre de paramètres
+		 * et à la fenêtre principale si elle existe.
+		 */
+		public void applyPreferences(ReadMode readMode) {
+			Parametres param = params.get(readMode);
+			
+			fontSizeComboBox.setSelectedItem(param.taillePolice);
+			fontFamilyComboBox.setSelectedItem(getCorrectFontName(param.police.getFontName()));
+			
+			startingPhraseField.setText(String.valueOf(param.startingPhrase));
+			toleratedErrorsField.setText(String.valueOf(param.nbFautesTolerees));
+			
+			appliquerCouleur(param.bgColor, bgColorComboBox);
+			appliquerCouleur(param.rightColor, rightColorComboBox);
+			appliquerCouleur(param.wrongColor, wrongColorComboBox);
+			appliquerCouleur(param.correctionColor, correctColorComboBox);
+			
+			waitSlider.setValue(param.tempsPauseEnPourcentageDuTempsDeLecture);
+
+			replayCheckBox.setSelected(param.rejouerSon);
+		}
+		
+		/**
+		 * Enregistre les préférences en fonction de la sélection de l'utilisateur.
+		 */
+		public void savePreferences(ReadMode readMode) {
+			Parametres param = params.get(readMode);
+			param.bgColor = bgColorComboBox.getBackground();//stringToColor((String) bgColorComboBox.getSelectedItem());
+			param.rightColor = rightColorComboBox.getBackground();//stringToColor((String) rightColorComboBox.getSelectedItem());
+			param.wrongColor = wrongColorComboBox.getBackground();//stringToColor((String) wrongColorComboBox.getSelectedItem());
+			param.correctionColor = correctColorComboBox.getBackground();//stringToColor((String) correctColorComboBox.getSelectedItem());
+			param.taillePolice = (Integer) fontSizeComboBox.getSelectedItem();
+			param.police = FenetreParametre.getFont((String) fontFamilyComboBox.getSelectedItem(), fontFamilyComboBox.getSelectedIndex(), Font.BOLD, param.taillePolice);
 			try {
-				ips = new FileInputStream(fichier);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			Properties pro = new Properties();
+				param.startingPhrase = Integer.parseInt(startingPhraseField.getText());
+			} catch (NumberFormatException e) {}
 			try {
+<<<<<<< HEAD
 				pro.load(ips);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -331,36 +376,61 @@ public class FenetreParametre extends JFrame {
 			sliderAttente.setValue(temp);
 
 			rejouerSon.setSelected(Boolean.valueOf(pro.getProperty("rejouerSon")));
+=======
+				param.nbFautesTolerees = Integer.parseInt(toleratedErrorsField.getText());
+			} catch (NumberFormatException e) {}
+			param.rejouerSon = replayCheckBox.isSelected();
+			param.tempsPauseEnPourcentageDuTempsDeLecture = waitSlider.getValue();
+>>>>>>> e3ade8438f5b3f0c5dcfa42e0ff32688d3a9f078
 		}
-
-		private void appliquerCouleur(Color color, JComboBox<Object> listeCouleurs) {
-			if (color.equals(Constants.BG_COLOR)) {
-				listeCouleurs.setSelectedItem(couleurs[0]);
-			}
-			if (color.equals(Color.WHITE)) {
-				listeCouleurs.setSelectedItem(couleurs[1]);
-			}
-			if (color.equals(Color.ORANGE)) {
-				listeCouleurs.setSelectedItem(couleurs[2]);
-			}
-			if (color.equals(Color.PINK)) {
-				listeCouleurs.setSelectedItem(couleurs[3]);
-			}
-			if (color.equals(Color.CYAN)) {
-				listeCouleurs.setSelectedItem(couleurs[4]);
-			}
-			if (color.equals(Color.RED)) {
-				listeCouleurs.setSelectedItem(couleurs[5]);
-			}
-			if (color.equals(Color.GREEN)) {
-				listeCouleurs.setSelectedItem(couleurs[6]);
-			}
+		
+		private void appliquerCouleur(Color color, ColorComboBox listeCouleurs) {
+			listeCouleurs.selectColor(color);
 		}
 
 		public void fermer() {
 			fen.setVisible(false);
 		}
-
+		
+		/**
+		 * Mets à jour les composants de la fenêtre en fonction du mode sélectionné.
+		 */
+		public void updateMode() {
+			switch (getReadMode()) {
+				case GUIDEE :
+				case ANTICIPE :
+					setRightColorParameterVisible(true);
+					setWrongColorParameterVisible(false);
+					setCorrectColorParameterVisible(false);
+					break;
+				case SEGMENTE :
+					setRightColorParameterVisible(false);
+					setWrongColorParameterVisible(true);
+					setCorrectColorParameterVisible(true);
+					break;
+				case SUIVI :
+					setRightColorParameterVisible(true);
+					setWrongColorParameterVisible(true);
+					setCorrectColorParameterVisible(true);
+					break;
+			}
+		}
+		
+		private void setRightColorParameterVisible(boolean visible) {
+			couleurJuste.setVisible(visible);
+			rightColorComboBox.setVisible(visible);
+		}
+		
+		private void setWrongColorParameterVisible(boolean visible) {
+			couleurFausse.setVisible(visible);
+			wrongColorComboBox.setVisible(visible);
+		}
+		
+		private void setCorrectColorParameterVisible(boolean visible) {
+			couleurCorrection.setVisible(visible);
+			correctColorComboBox.setVisible(visible);
+		}
+		
 		final Font defaultFont = new Font("OpenDyslexic", Font.ITALIC, 16);
 
 		public JLabel fastLabel(String nom, Font font) {
@@ -377,7 +447,7 @@ public class FenetreParametre extends JFrame {
 			return r;
 		}
 
-		public JComboBox<Object> fastComboBox(ControleurParam controleur, Object[] elements) {
+		public JComboBox<Object> fastComboBox(ControlerParam controleur, Object[] elements) {
 			JComboBox<Object> r = new JComboBox<Object>(elements);
 			((JLabel) r.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 			r.addActionListener(controleur);
@@ -386,7 +456,7 @@ public class FenetreParametre extends JFrame {
 			return r;
 		}
 
-		public JRadioButton fastRadio(String nom, ControleurParam controleur) {
+		public JRadioButton fastRadio(String nom, ControlerParam controleur) {
 			JRadioButton r = new JRadioButton(nom);
 			r.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
 			r.addActionListener(controleur);
@@ -395,7 +465,7 @@ public class FenetreParametre extends JFrame {
 			return r;
 		}
 
-		private JCheckBox fastCheckBox(String nom, ControleurParam controleur) {
+		private JCheckBox fastCheckBox(String nom, ControlerParam controleur) {
 			JCheckBox r = new JCheckBox(nom);
 			r.setFont(new Font("OpenDyslexic", Font.ITALIC, 15));
 			r.addActionListener(controleur);
@@ -433,53 +503,142 @@ public class FenetreParametre extends JFrame {
 			temp.add(new JLabel(marge), BorderLayout.EAST);
 			p.add(temp);
 		}
+		
+		/**
+		 * Retourne le mode de lecture sélectionné par l'utilisateur.
+		 */
+		public ReadMode getReadMode() {
+			if (guidedModeRadio.isSelected())
+				return ReadMode.GUIDEE;
+			if (highlightModeRadio.isSelected())
+				return ReadMode.SUIVI;
+			if (segmentedModeRadio.isSelected())
+				return ReadMode.SEGMENTE;
+			if (anticipatedModeRadio.isSelected())
+				return ReadMode.ANTICIPE;
+			return null;
+		}
 
 	}
 
 	public void lancerExercice() {
-		Panneau.premierSegment = param.premierSegment;
-		Panneau.defautNBEssaisParSegment = param.nbFautesTolerees;
+		pan.validButton.setText("Appliquer les paramètres");
+		setLaunchParametersEnabled(false);
+		fenetre.init(getCurrentParameters());
 		fenetre.start();
 	}
 
-	public JMenuItem eMenuItem2;
+	public void stopExercice() {
+		pan.validButton.setText("Démarrer l'exercice");
+		setLaunchParametersEnabled(true);
+		stopItem.setEnabled(false);
+		fenetre.setVisible(false);
+		controlPanel.disableAll();
+		fenetre.pan.pilot.doStop();
+		setStartParametersEnabled(true);
+	}
+	
+	/**
+	 * Active ou désactive les paramètres non modifiables à partir de la première écoute.
+	 */
+	public void setStartParametersEnabled(boolean enabled) {
+		///désacive la taille et la police et le segment de départ ///
+		pan.fontFamilyComboBox.setEnabled(enabled);
+		pan.fontSizeComboBox.setEnabled(enabled);
+		pan.startingPhraseField.setEnabled(enabled);
+		
+		pan.rightColorComboBox.setEnabled(enabled);
+		pan.wrongColorComboBox.setEnabled(enabled);
+		pan.correctColorComboBox.setEnabled(enabled);
+	}
+	
+	/**
+	 * Active ou désactive les paramètres non modifiable lors du lancement de l'exercice.
+	 */
+	public void setLaunchParametersEnabled(boolean enabled) {
+		pan.anticipatedModeRadio.setEnabled(enabled);
+		pan.guidedModeRadio.setEnabled(enabled);
+		pan.highlightModeRadio.setEnabled(enabled);
+		pan.segmentedModeRadio.setEnabled(enabled);
+		
+		pan.startingPhraseField.setEnabled(enabled);
+	}
+	
+	/**
+	 * Retourne les paramètres du mode sélectionné.
+	 */
+	public Parametres getCurrentParameters() {
+		if (pan.getReadMode() == null)
+			return null;
+		return params.get(pan.getReadMode());
+	}
 
 	private void addMenu() {
 		JMenuBar menubar = new JMenuBar();
 
 		JMenu file = new JMenu("Options");
 
-		JMenuItem eMenuItem = new JMenuItem("Quitter");
-		eMenuItem.setToolTipText("Quitter l'application");
-		eMenuItem.setMnemonic(KeyEvent.VK_Q);
-		eMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.ALT_MASK));
-		eMenuItem.addActionListener((ActionEvent event) -> {
-			System.exit(0);
+		JMenuItem quitItem = new JMenuItem("Quitter");
+		quitItem.setToolTipText("Quitter l'application");
+		quitItem.setMnemonic(KeyEvent.VK_Q);
+		quitItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.ALT_MASK));
+		quitItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				System.exit(0);
+			}
 		});
-		eMenuItem2 = new JMenuItem("Arrêter l'exercice");
-		eMenuItem2.setMnemonic(KeyEvent.VK_R);
-		eMenuItem2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.ALT_MASK));
-		eMenuItem2.addActionListener((ActionEvent event) -> {
-			/// réactive la taille et la police et le segment de départ
-			pan.listePolices.setEnabled(true);
-			pan.listeTailles.setEnabled(true);
-			pan.segmentDeDepart.setEnabled(true);
-			pan.fen.fenetre.setResizable(true);
-			stopExercice();
+		stopItem = new JMenuItem("Arrêter l'exercice");
+		stopItem.setToolTipText("Relancer l'exercice");
+		stopItem.setMnemonic(KeyEvent.VK_R);
+		stopItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.ALT_MASK));
+		stopItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				stopExercice();
+			}
 		});
-		file.add(eMenuItem2);
-		eMenuItem2.setEnabled(false);
-		file.add(eMenuItem);
+		file.add(stopItem);
+		stopItem.setEnabled(false);
+		file.add(quitItem);
 		menubar.add(file);
 		setJMenuBar(menubar);
 	}
-
-	public void stopExercice() {
-		param.appliquerPreference(this, fenetre.pan);
-		eMenuItem2.setEnabled(false);
-		fenetre.setVisible(false);
-		controlPanel.disableAll();
-		fenetre.pan.pilot.doStop();
+	
+	public static String getCorrectFontName(String font) {
+		String[] deletions = {" Bold", " Basic", " Gras", " Italic"};
+		for (int i = 0; i < deletions.length; i++) {
+			font = font.replaceAll(deletions[i], "");
+		}
+		return font;
 	}
-
-}
+	
+	/**
+	 * Retourne le font correspondant à :
+	 * 
+	 * @param1 : la police
+	 * @param2 : l'index du font dans la liste des polices de la FenetreParametre
+	 * @param3 : le style
+	 * @param4 : la taille
+	 */
+	public static Font getFont(String police, int selectedIndex, int style, int size) {
+		try {
+			Font font;
+			if (selectedIndex < Constants.FONTS_NAMES.length && selectedIndex >= 0) {
+				font = Font
+						.createFont(Font.TRUETYPE_FONT,
+								new File("ressources/fonts/" + Constants.FONTS_NAMES[selectedIndex]))
+						.deriveFont(style).deriveFont((float) size);
+			} else {
+				font = new Font(police, style, size);
+			}
+			return font;
+		} catch (FontFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              

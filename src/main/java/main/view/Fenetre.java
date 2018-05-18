@@ -1,8 +1,7 @@
 package main.view;
 
 import java.awt.Dimension;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.event.*;
 import java.io.IOException;
 
 import javax.swing.*;
@@ -16,11 +15,12 @@ public class Fenetre extends JFrame {
 
 	public Panneau pan;
 	public boolean preferencesExiste = true;
+	private Parametres param;
 
-	public Fenetre(String titre, int tailleX, int tailleY, FenetreParametre fenetreParam, Parametres param) {
+	public Fenetre(String titre, int tailleX, int tailleY, FenetreParametre fenetreParam) {
 		setIconImage(getToolkit().getImage("icone.jpg"));
 		try {
-			pan = new Panneau(this, fenetreParam, param);
+			pan = new Panneau(this, fenetreParam, null);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -31,10 +31,14 @@ public class Fenetre extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(true);
 		setMinimumSize(new Dimension(Constants.MIN_FENETRE_WIDTH, Constants.MIN_FENETRE_HEIGHT));
-
+	}
+	
+	public void init(final Parametres param) {
+		setParameters(param);
+		
 		addComponentListener(new ComponentAdapter() {
 			private int lastWidth = getWidth(), lastHeight = getHeight();
-
+			
 			@Override
 			public void componentResized(ComponentEvent e) {
 				/// lors d'un redimensionnement, refait la mise en page ///
@@ -44,25 +48,39 @@ public class Fenetre extends JFrame {
 					lastWidth = getWidth();
 					lastHeight = getHeight();
 				}
-
-				param.panWidth = Fenetre.this.getWidth();
-				param.panHeight = Fenetre.this.getHeight();
-
+				
+				Fenetre.this.param.panWidth = Fenetre.this.getWidth();
+				Fenetre.this.param.panHeight = Fenetre.this.getHeight();
+				
 			}
-
+			
 			@Override
 			public void componentMoved(ComponentEvent e) {
-				param.panX = Fenetre.this.getX();
-				param.panY = Fenetre.this.getY();
+				Fenetre.this.param.panX = Fenetre.this.getX();
+				Fenetre.this.param.panY = Fenetre.this.getY();
+			}
+		});
+		
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				param.startingPhrase = pan.pilot.getCurrentPhraseIndex() + 1;
+				param.stockerPreference();
 			}
 		});
 	}
-
+	
+	public void setParameters(Parametres param) {
+		this.param = param;
+		param.appliquerPreferenceTaillePosition(this);
+		pan.setParameters(param);
+	}
+	
 	public void start() {
 		setVisible(true);
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				pan.init();
+				pan.init(param);
 			}
 		});
 	}

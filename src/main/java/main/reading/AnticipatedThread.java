@@ -18,7 +18,7 @@ public class AnticipatedThread extends ReadThread {
 			/// affichage de la page correspondant au segment N ///
 			controler.showPage(controler.getPageOfPhrase(N));
 			/// surlignage du segment N ///
-			controler.highlightPhrase(Constants.RIGHT_COLOR, N);
+			controler.highlightPhrase(param.rightColor, N);
 			/// attente de la fin du temps de pause ///
 			controler.doWait(controler.getCurrentWaitTime(), Constants.CURSOR_SPEAK);
 			/// on arrête l'exécution si le thread est terminé ///

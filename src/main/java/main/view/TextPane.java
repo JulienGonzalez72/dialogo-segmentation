@@ -18,12 +18,18 @@ public class TextPane extends JTextPane {
 	private List<Object> redHighlightTags = new ArrayList<>();
 	private List<Object> blueHighlightTags = new ArrayList<>();
 	private List<Object> greenHighlightTags = new ArrayList<>();
+	
+	public Parametres param;
 
+<<<<<<< HEAD
 	public String textReel;
 
 	public TextPane(Parametres param) {
 
 		setFont(param.police);
+=======
+	public TextPane() {
+>>>>>>> e3ade8438f5b3f0c5dcfa42e0ff32688d3a9f078
 		setSelectionColor(new Color(0, 0, 0, 0));
 
 		/// mets les marges sur les côtés ///
@@ -45,11 +51,11 @@ public class TextPane extends JTextPane {
 		try {
 			Object tag = getHighlighter().addHighlight(debut, fin,
 					new DefaultHighlighter.DefaultHighlightPainter(couleur));
-			if (couleur.equals(Constants.WRONG_COLOR)) {
+			if (couleur.equals(param.wrongColor)) {
 				redHighlightTags.add(tag);
-			} else if (couleur.equals(Constants.WRONG_PHRASE_COLOR)) {
+			} else if (couleur.equals(param.correctionColor)) {
 				blueHighlightTags.add(tag);
-			} else if (couleur.equals(Constants.RIGHT_COLOR)) {
+			} else if (couleur.equals(param.rightColor)) {
 				greenHighlightTags.add(tag);
 			}
 		} catch (BadLocationException e) {
@@ -125,19 +131,19 @@ public class TextPane extends JTextPane {
 		for (Object object : blueHighlightTags) {
 			Highlight g = (Highlight) object;
 			object = getHighlighter().addHighlight(g.getStartOffset(), g.getEndOffset(),
-					new DefaultHighlighter.DefaultHighlightPainter(Constants.WRONG_PHRASE_COLOR));
+					new DefaultHighlighter.DefaultHighlightPainter(param.correctionColor));
 			newBlue.add(object);
 		}
 		for (Object object : redHighlightTags) {
 			Highlight g = (Highlight) object;
 			object = getHighlighter().addHighlight(g.getStartOffset(), g.getEndOffset(),
-					new DefaultHighlighter.DefaultHighlightPainter(Constants.WRONG_COLOR));
+					new DefaultHighlighter.DefaultHighlightPainter(param.wrongColor));
 			newRed.add(object);
 		}
 		for (Object object : greenHighlightTags) {
 			Highlight g = (Highlight) object;
 			object = getHighlighter().addHighlight(g.getStartOffset(), g.getEndOffset(),
-					new DefaultHighlighter.DefaultHighlightPainter(Constants.RIGHT_COLOR));
+					new DefaultHighlighter.DefaultHighlightPainter(param.rightColor));
 			newGreen.add(object);
 		}
 		enleverSurlignageBleu();

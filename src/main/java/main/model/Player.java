@@ -10,11 +10,21 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+
+import org.dialogo.sound.file.Mp3Wrapper;
+
+//import fr.lexiphone.player.IPlayerConfiguration;
+import fr.lexiphone.player.impl.AbstractDelegatingBasicController;
+//import fr.lexiphone.player.impl.AutoPauseMarkerFilePlayer;
+import fr.lexiphone.player.impl.BasicController;
+//import fr.lexiphone.player.impl.jasiohost.provider.jlPlayer.JlayerPlayer;
+
+//import javazoom.jlgui.basicplayer.BasicPlayerException;
 import main.Constants;
 import main.Parametres;
 
 
-public class Player {
+public class Player extends AbstractDelegatingBasicController<BasicController>{
 
 	private TextHandler text;
 	private int currentPhrase;
@@ -54,8 +64,44 @@ public class Player {
 	public List<Runnable> onWait = new ArrayList<>();
 	
 	private Parametres param;
+	
+	//private Mp3Wrapper wrapper;
 
 	public Player(TextHandler textHandler, Parametres param) {
+		super(null);
+		/*IPlayerConfiguration config = new IPlayerConfiguration() {
+			@Override
+			public String getSamplesRootPath() {
+				return "ressources/sounds";
+			}
+			@Override
+			public float getPlayerSpeedModifier() {
+				return 1;
+			}
+			@Override
+			public float getPlayerAutoPauseFactor() {
+				return 1;
+			}
+			@Override
+			public int getPlayerAutoPauseConstant() {
+				return 1;
+			}
+			@Override
+			public float getBasicPlayerSetPositionFactor() {
+				return 1;
+			}
+			@Override
+			public int getBasicPlayerSetPositionConstant() {
+				return 1;
+			}
+		};
+		setDelegate(new AutoPauseMarkerFilePlayer(new JlayerPlayer(), config));
+		wrapper = getWrapper(Constants.AUDIO_FILE_NAME);
+		try {
+			super.open(wrapper);
+		} catch (BasicPlayerException ex) {
+			ex.printStackTrace();
+		}*/
 		text = textHandler;
 		this.param = param;
 	}
@@ -92,10 +138,15 @@ public class Player {
 			return;
 		}
 		load(currentPhrase);
-		clip.start();
-		timer = new Timer();
-		playTask = new PlayTask();
-		timer.scheduleAtFixedRate(playTask, 0, 20);
+		//try {
+			clip.start();
+			//super.play(10000);
+		//} catch (BasicPlayerException ex) {
+			//ex.printStackTrace();
+		//}
+		//timer = new Timer();
+		//playTask = new PlayTask();
+		//timer.scheduleAtFixedRate(playTask, 0, 20);
 		playing = true;
 		for (Runnable r : onPlay) {
 			r.run();
@@ -248,7 +299,7 @@ public class Player {
 	 * Retourne true si il y a au moins un segment avant le segment actuel.
 	 */
 	public boolean hasPreviousPhrase() {
-		return currentPhrase > param.premierSegment - 1;
+		return currentPhrase > param.startingPhrase - 1;
 	}
 
 	/**
@@ -286,6 +337,10 @@ public class Player {
 			return null;
 		}
 	}
+	
+	private static Mp3Wrapper getWrapper(String fileName) {
+		return new Mp3Wrapper(new File("ressources/sounds/" + fileName + "/" + fileName + ".mp3"));
+	}
 
 	private static String format(int n) {
 		String str = String.valueOf(n);
@@ -297,6 +352,18 @@ public class Player {
 
 	public void setCurrentPhrase(int currentPhrase) {
 		this.currentPhrase = currentPhrase;
+	}
+	
+	public void setParameters(Parametres param) {
+		this.param = param;
+	}
+
+	@Override
+	public void disactivateControls() {
+	}
+
+	@Override
+	public void reactivateControls() {
 	}
 
 }

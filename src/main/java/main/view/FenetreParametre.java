@@ -11,7 +11,6 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import main.Constants;
 import main.Parametres;
 import main.controler.ControleurParam;
-import main.reading.ReadMode;
 
 public class FenetreParametre extends JFrame {
 
@@ -312,8 +311,6 @@ public class FenetreParametre extends JFrame {
 			appliquerCouleur(param.fromStringToColor(pro.getProperty("couleurBonne")), listeBonnesCouleurs);
 			appliquerCouleur(param.fromStringToColor(pro.getProperty("couleurFausse")), listeMauvaisesCouleurs);
 			appliquerCouleur(param.fromStringToColor(pro.getProperty("couleurCorrection")), listeCorrectionCouleurs);
-
-			param.readMode = ReadMode.parse((pro.getProperty("mode")));
 			switch (param.readMode) {
 			case SEGMENTE:
 				modeNormal.setSelected(true);

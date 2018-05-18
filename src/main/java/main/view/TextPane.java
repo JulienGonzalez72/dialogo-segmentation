@@ -19,6 +19,8 @@ public class TextPane extends JTextPane {
 	private List<Object> blueHighlightTags = new ArrayList<>();
 	private List<Object> greenHighlightTags = new ArrayList<>();
 
+	public String textReel;
+
 	public TextPane(Parametres param) {
 
 		setFont(param.police);

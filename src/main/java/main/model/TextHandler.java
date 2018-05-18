@@ -30,6 +30,7 @@ public class TextHandler {
 	/**
 	 * Retourne le texte sans slash
 	 */
+
 	public String getShowText() {
 		return txt.replace(Constants.PAUSE, "");
 	}
@@ -49,7 +50,7 @@ public class TextHandler {
 	public String[] getPhrases() {
 		return getPhrases(0, getPhrasesCount());
 	}
-	
+
 	public String getPhrase(int index) {
 		return phrases.get(index);
 	}
@@ -90,14 +91,14 @@ public class TextHandler {
 	public int getPauseOffset(int phrase) {
 		return getPhrasesLength(0, phrase);
 	}
-	
+
 	/**
 	 * Retourne la position absolue du début du segment passé en paramètre.
 	 */
 	public int getPhraseOffset(int phrase) {
 		return getPhrasesLength(0, phrase - 1);
 	}
-	
+
 	/**
 	 * Retourne l'indice du segment à la position indiquée.
 	 */
@@ -148,14 +149,15 @@ public class TextHandler {
 		}
 		return -1;
 	}
-	
+
 	/**
-	 * Retourne la position du début du segment d'indice <i>phrase</i>, relative au premier segment <i>startPhrase</i>.
+	 * Retourne la position du début du segment d'indice <i>phrase</i>, relative au
+	 * premier segment <i>startPhrase</i>.
 	 */
 	public int getRelativeStartPhrasePosition(int startPhrase, int phrase) {
 		return getRelativeOffset(startPhrase, getPhraseOffset(phrase));
 	}
-	
+
 	private static boolean isPunctuation(char c) {
 		return c == ',' || c == '.' || c == ';' || c == ':' || c == '!' || c == '?';
 	}
@@ -187,7 +189,7 @@ public class TextHandler {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Retourne la position du caractère dans le texte en entier en indiquant la
 	 * position d'un caractère cliqué à partir d'un segment indiqué.
@@ -195,7 +197,7 @@ public class TextHandler {
 	public int getAbsoluteOffset(int startPhrase, int offset) {
 		return getPhrasesLength(0, startPhrase - 1) + offset;
 	}
-	
+
 	/**
 	 * Ceci est l'opération inverse, elle permet d'obtenir la position par rapport
 	 * au premier segment affiché avec la position du caractère dans tout le texte.
@@ -211,6 +213,5 @@ public class TextHandler {
 		}
 		return length;
 	}
-	
 
 }

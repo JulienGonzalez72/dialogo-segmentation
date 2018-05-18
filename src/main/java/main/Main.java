@@ -3,18 +3,16 @@ package main;
 import java.awt.*;
 import java.io.*;
 import javax.swing.*;
-
 import com.incors.plaf.kunststoff.KunststoffLookAndFeel;
 import main.view.FenetreParametre;
 
 public class Main {
 
 	public static void main(String[] args) {
+
 		try {
 			UIManager.setLookAndFeel(new KunststoffLookAndFeel());
-		} catch (Exception e1) {
-
-		}
+		} catch (Exception e1) {}
 
 		File rep = new File("ressources/fonts");
 		for (String s : rep.list()) {

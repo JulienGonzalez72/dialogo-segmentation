@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
 
@@ -59,12 +60,33 @@ public class Panneau extends JPanel {
 		this.fenetreParam = fenetreParam;
 		this.controlerGlobal = new ControlerText(this);
 		this.fenetre = fenetre;
-		String texteCesures = getTextFromFile("ressources/textes/" + Constants.TEXT_FILE_NAME);
+		
+		String textPath = "ressources/textes/" + Constants.TEXT_FILE_NAME;
+		String texteCesures = null;
+		try {
+			texteCesures = getTextFromFile(textPath);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null,
+					"<html><h3 align='center'>Erreur lors du chargement du texte !</h3></html>",
+					"Erreur", JOptionPane.ERROR_MESSAGE);
+			System.exit(0);
+		}
 		/// enlève la consigne ///
 		if (Constants.HAS_INSTRUCTIONS) {
 			texteCesures = texteCesures.substring(texteCesures.indexOf("/") + 1, texteCesures.length());
 		}
 		textHandler = new TextHandler(texteCesures);
+		System.out.println(textHandler.toString());
+		try {
+			Player.loadAll("ressources/sounds/" + Constants.AUDIO_FILE_NAME, Constants.AUDIO_FILE_NAME, 1, textHandler.getPhrasesCount());
+		} catch (IOException e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null,
+					"<html><h3 align='center'>Erreur lors du chargement de l'audio !</h3></html>",
+					"Erreur", JOptionPane.ERROR_MESSAGE);
+			System.exit(0);
+		}
 		
 		this.setLayout(new BorderLayout());
 		
@@ -120,7 +142,7 @@ public class Panneau extends JPanel {
 	
 	public void setCursor(String fileName) {
 		Toolkit tk = Toolkit.getDefaultToolkit();
-		Image img = tk.getImage(fileName);
+		Image img = tk.getImage("ressources/images/" + fileName);
 		Cursor monCurseur = tk.createCustomCursor(img, new Point(16, 16), fileName);
 		setCursor(monCurseur);
 	}

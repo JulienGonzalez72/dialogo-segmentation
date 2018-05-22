@@ -165,7 +165,8 @@ public class FenetreParametre extends JFrame {
 						else if (e.getKeyCode() == KeyEvent.VK_DOWN) n--;
 						else return;
 						
-						if (controleur.isValidPhrase(n))
+						if ((controleur.isValidPhrase(n) && jtf == startingPhraseField)
+								|| (n >= 0 && jtf == toleratedErrorsField))
 							jtf.setText(String.valueOf(n));
 					} catch (NumberFormatException ex) {
 					}

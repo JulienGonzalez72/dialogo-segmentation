@@ -19,12 +19,18 @@ public class TextHandler {
 		txt = format(texteOriginal);
 		this.phrases = new HashMap<Integer, String>();
 		for (String phrase : txt.split(Constants.PAUSE)) {
-			phrases.put(phrases.size(), phrase);
+			if (!isEmpty(phrase)) {
+				phrases.put(phrases.size(), phrase);
+			}
 		}
 	}
 
-	private String format(String str) {
+	private static String format(String str) {
 		return str.replace(" /", "/");
+	}
+	
+	private static boolean isEmpty(String str) {
+		return str == null || (str.length() == 1 && Character.isWhitespace(str.charAt(0)));
 	}
 
 	/**
@@ -210,6 +216,11 @@ public class TextHandler {
 			length += phrase.length();
 		}
 		return length;
+	}
+	
+	@Override
+	public String toString() {
+		return phrases.toString();
 	}
 	
 

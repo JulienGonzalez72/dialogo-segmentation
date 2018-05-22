@@ -58,7 +58,7 @@ public final class Constants {
 	public static final int PARAMS_FRAME_WIDTH = 500;
 	public static final int PARAMS_FRAME_X = 50;
 	public static final int PARAMS_FRAME_Y = 0;
-	public static final String PARAMS_FRAME_TITLE = "Dialogo by roman and julien";
+	public static final String PARAMS_FRAME_TITLE = "Dialogo Segmentation";
 	public static final boolean LOAD_FIRST_PHRASE = false;
 	
 	public static final int DEFAULT_PAN_X = PARAMS_FRAME_X + PARAMS_FRAME_WIDTH;

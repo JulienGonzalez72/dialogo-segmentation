@@ -1,6 +1,5 @@
 package main.controler;
 
-import main.Constants;
 import main.reading.AnticipatedThread;
 import main.reading.GuidedThread;
 import main.reading.HighlightThread;
@@ -34,9 +33,6 @@ public class Pilot {
 			throw new IllegalArgumentException("Numéro de segment invalide : " + n);
 		}
 		phrase = n;
-		p.fenetreParam.setStartParametersEnabled(false);
-		/// désactive les boutons de contrôle pour éviter le spam ///
-		p.controlPanel.disableAll(Constants.DISABLE_TIME);
 		//vire le surlignagerouge
 		p.editorPane.enleverSurlignageRouge();
 		

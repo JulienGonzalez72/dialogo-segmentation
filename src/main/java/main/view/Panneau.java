@@ -44,7 +44,6 @@ public class Panneau extends JPanel {
 	public ReadThread task;
 	public Map<Integer, List<Integer>> segmentsEnFonctionDeLaPage = new HashMap<Integer, List<Integer>>();
 	public Player player;
-	public FenetreParametre fenetreParam;
 	public Parametres param;
 	
 	/**
@@ -52,12 +51,11 @@ public class Panneau extends JPanel {
 	 */
 	public JProgressBar progressBar;
 
-	public Panneau(Fenetre fenetre,FenetreParametre fenetreParam,Parametres param) throws IOException {
+	public Panneau(Fenetre fenetre, Parametres param) throws IOException {
 		this.fenetre = fenetre;
 		this.controlerGlobal = new ControlerText(this);
 
 		this.param = param;
-		this.fenetreParam = fenetreParam;
 		this.controlerGlobal = new ControlerText(this);
 		this.fenetre = fenetre;
 		
@@ -111,7 +109,6 @@ public class Panneau extends JPanel {
 		progressBar.setValue(param.startingPhrase);
 		progressBar.setString(param.startingPhrase+"/"+(textHandler.getPhrasesCount()-1));
 		
-		fenetreParam.editorPane = editorPane;
 		pageActuelle = 0;
 		
 		/// construit la mise en page virtuelle ///
@@ -119,8 +116,6 @@ public class Panneau extends JPanel {
 		/// initialise le lecteur ///
 		player.load(param.startingPhrase - 1);
 		
-		controlPanel = fenetreParam.controlPanel;
-		fenetreParam.controlPanel.init();
 		this.pilot = new Pilot(this);
 		
 		controlerKey = new ControlerKey(pilot);
@@ -333,12 +328,7 @@ public class Panneau extends JPanel {
 			UIManager.put("OptionPane.background", optionPaneBG);
 			UIManager.put("Panel.background", panelBG);
 		}
-		///réactive la taille et la police et le segment de départ
-		fenetreParam.pan.fontFamilyComboBox.setEnabled(true);
-		fenetreParam.pan.fontSizeComboBox.setEnabled(true);
-		fenetreParam.pan.startingPhraseField.setEnabled(true);
 		fenetre.setResizable(true);
-		fenetreParam.stopExercice();
 	}
 
 	/**

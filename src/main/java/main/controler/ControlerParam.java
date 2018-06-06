@@ -29,8 +29,8 @@ public class ControlerParam implements ActionListener {
 		if (jcb == panneau.fontSizeComboBox) {
 			int taille = (Integer) jcb.getSelectedItem();
 			Font font = new Font(panneau.fontFamilyComboBox.getFont().getFontName(), Constants.DEFAULT_FONT_STYLE, taille);
-			if (fen.editorPane != null) {
-				fen.editorPane.setFont(font);
+			if (fen.fenetre.isVisible() && fen.fenetre.pan.editorPane != null) {
+				fen.fenetre.pan.editorPane.setFont(font);
 				fen.fenetre.pan.rebuildPages();
 			}
 		}
@@ -38,8 +38,8 @@ public class ControlerParam implements ActionListener {
 			String police = (String) jcb.getSelectedItem();
 			Font font = new Font(police, Constants.DEFAULT_FONT_STYLE, (Integer) panneau.fontSizeComboBox.getSelectedItem());
 			jcb.setFont(font.deriveFont((float) jcb.getFont().getSize()));
-			if (fen.editorPane != null) {
-				fen.editorPane.setFont(font);
+			if (fen.fenetre.isVisible() && fen.fenetre.pan.editorPane != null) {
+				fen.fenetre.pan.editorPane.setFont(font);
 				fen.fenetre.pan.rebuildPages();
 			}
 		}

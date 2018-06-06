@@ -19,7 +19,6 @@ public class FenetreParametre extends JFrame {
 	 * Liste des paramètres par mode de lecture.
 	 */
 	private Map<ReadMode, Parametres> params = new HashMap<>();
-	public TextPane editorPane;
 	public ControlPanel controlPanel;
 	public JMenuItem stopItem;
 	public PanneauParam pan;
@@ -27,12 +26,14 @@ public class FenetreParametre extends JFrame {
 	public FenetreParametre(String titre, int tailleX, int tailleY) {
 		params = Parametres.loadAll();
 		setIconImage(getToolkit().getImage("icone.jpg"));
-		editorPane = null;
 		setTitle(titre);
 		setSize(tailleX, tailleY);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(true);
+		
+		fenetre = new Fenetre(titre, tailleX * 2, tailleY, this);
+		
 		pan = null;
 		try {
 			pan = new PanneauParam(this);
@@ -40,7 +41,6 @@ public class FenetreParametre extends JFrame {
 			e.printStackTrace();
 		}
 		
-		fenetre = new Fenetre(titre, tailleX * 2, tailleY, this);
 		controlPanel = new ControlPanel(fenetre.pan, this);
 
 		JTabbedPane generalTab = new JTabbedPane();
@@ -443,6 +443,7 @@ public class FenetreParametre extends JFrame {
 		setLaunchParametersEnabled(false);
 		fenetre.init(getCurrentParameters());
 		fenetre.start();
+		controlPanel.init();
 	}
 
 	public void stopExercice() {

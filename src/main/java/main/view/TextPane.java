@@ -16,6 +16,8 @@ import javax.swing.text.StyleConstants;
 
 import main.Constants;
 import main.Parametres;
+import main.model.ReadingParameters;
+import main.model.ToolParameters;
 
 public class TextPane extends JTextPane {
 
@@ -24,14 +26,17 @@ public class TextPane extends JTextPane {
 	private List<Object> redHighlightTags = new ArrayList<>();
 	private List<Object> blueHighlightTags = new ArrayList<>();
 	private List<Object> greenHighlightTags = new ArrayList<>();
-
-	public Parametres param;
-
+	
+	public ToolParameters param;
+	public ReadingParameters rParam
+		= new ReadingParameters(); // TODO enleve
+	
 	public String textReel;
 
 	public TextPane() {
 		setSelectionColor(new Color(0, 0, 0, 0));
-		/// mets les marges sur les c�t�s ///
+
+		/// mets les marges sur les cétés ///
 		SimpleAttributeSet attrs = new SimpleAttributeSet();
 		StyleConstants.setLineSpacing(attrs, 1);
 		StyleConstants.setSpaceAbove(attrs, Constants.TEXTPANE_MARGING);
@@ -41,7 +46,7 @@ public class TextPane extends JTextPane {
 	}
 
 	/**
-	 * surligne tout de d�but � fin avec la couleur sp�cifi�e
+	 * surligne tout de début à fin avec la couleur spécifiée
 	 *
 	 */
 	public void surlignerPhrase(int debut, int fin, Color couleur) {
@@ -50,11 +55,11 @@ public class TextPane extends JTextPane {
 		try {
 			Object tag = getHighlighter().addHighlight(debut, fin,
 					new DefaultHighlighter.DefaultHighlightPainter(couleur));
-			if (couleur.equals(param.wrongColor)) {
+			if (couleur.equals(rParam.wrongColor)) {
 				redHighlightTags.add(tag);
-			} else if (couleur.equals(param.correctionColor)) {
+			} else if (couleur.equals(rParam.correctionColor)) {
 				blueHighlightTags.add(tag);
-			} else if (couleur.equals(param.rightColor)) {
+			} else if (couleur.equals(rParam.rightColor)) {
 				greenHighlightTags.add(tag);
 			}
 		} catch (BadLocationException e) {
@@ -101,7 +106,7 @@ public class TextPane extends JTextPane {
 	}
 
 	/**
-	 * Enl�ve tout le surlignage pr�sent entre les bornes start et end.
+	 * Enléve tout le surlignage présent entre les bornes start et end.
 	 */
 	public void removeHighlight(int start, int end) {
 		Highlight[] hl = getHighlighter().getHighlights();
@@ -123,6 +128,36 @@ public class TextPane extends JTextPane {
 		return (float) (1f + fm.getHeight() / getTextBounds("|").getHeight());
 	}
 
+	public void updateColors() throws BadLocationException {
+		List<Object> newBlue = new ArrayList<>();
+		List<Object> newGreen = new ArrayList<>();
+		List<Object> newRed = new ArrayList<>();
+		for (Object object : blueHighlightTags) {
+			Highlight g = (Highlight) object;
+			object = getHighlighter().addHighlight(g.getStartOffset(), g.getEndOffset(),
+					new DefaultHighlighter.DefaultHighlightPainter(rParam.correctionColor));
+			newBlue.add(object);
+		}
+		for (Object object : redHighlightTags) {
+			Highlight g = (Highlight) object;
+			object = getHighlighter().addHighlight(g.getStartOffset(), g.getEndOffset(),
+					new DefaultHighlighter.DefaultHighlightPainter(rParam.wrongColor));
+			newRed.add(object);
+		}
+		for (Object object : greenHighlightTags) {
+			Highlight g = (Highlight) object;
+			object = getHighlighter().addHighlight(g.getStartOffset(), g.getEndOffset(),
+					new DefaultHighlighter.DefaultHighlightPainter(rParam.rightColor));
+			newGreen.add(object);
+		}
+		enleverSurlignageBleu();
+		enleverSurlignageRouge();
+		enleverSurlignageVert();
+		blueHighlightTags = newBlue;
+		redHighlightTags = newRed;
+		greenHighlightTags = newGreen;
+	}
+	
 	@Override
 	public void paintComponent(Graphics g) {
 		g.setColor(Color.YELLOW);

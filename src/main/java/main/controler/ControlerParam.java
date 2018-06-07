@@ -66,9 +66,9 @@ public class ControlerParam implements ActionListener {
 				if (!fen.fenetre.isVisible()) {
 					fen.lancerExercice();
 				}
-				/// modifie les param�tres de l'exercice en cours ///
+				/// modifie les paramètres de l'exercice en cours ///
 				else {
-					fen.fenetre.setParameters(param);
+					//fen.fenetre.setParameters(param);
 				}
 			}
 		}

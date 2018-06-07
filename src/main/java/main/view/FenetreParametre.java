@@ -45,11 +45,12 @@ import main.Parametres;
 import main.controler.ControlerParam;
 import main.reading.ReadMode;
 
+// TODO classe non fonctionnelle
 public class FenetreParametre extends JFrame {
 
 	public TextFrame fenetre;
 	/**
-	 * Liste des param�tres par mode de lecture.
+	 * Liste des paramètres par mode de lecture.
 	 */
 	private Map<ReadMode, Parametres> params = new HashMap<>();
 	public ControlPanel controlPanel;
@@ -64,7 +65,7 @@ public class FenetreParametre extends JFrame {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(true);
-		fenetre = new TextFrame(titre, tailleX * 2, tailleY);
+		fenetre = new TextFrame(titre);
 
 		pan = null;
 		try {
@@ -75,7 +76,7 @@ public class FenetreParametre extends JFrame {
 		controlPanel = new ControlPanel(fenetre.pan, this);
 
 		JTabbedPane generalTab = new JTabbedPane();
-		generalTab.addTab("Paramétres", pan);
+		generalTab.addTab("Paramètres", pan);
 		generalTab.addTab("Contrôle", controlPanel);
 		setContentPane(generalTab);
 		addMenu();
@@ -181,7 +182,7 @@ public class FenetreParametre extends JFrame {
 			wrongColorComboBox = new ColorComboBox(Constants.COLORS, true);
 			correctColorComboBox = new ColorComboBox(Constants.COLORS, true);
 
-			/// fl�ches haut et bas pour incr�menter/d�cr�menter un nombre ///
+			/// fléches haut et bas pour incrémenter/décrémenter un nombre ///
 			KeyListener numberKey = new KeyAdapter() {
 				@Override
 				public void keyPressed(KeyEvent e) {
@@ -291,8 +292,11 @@ public class FenetreParametre extends JFrame {
 		}
 
 		/**
+		 * <<<<<<< HEAD Applique les préférences chargées aux pré-sélections de la
+		 * fenétre de paramétres et é la fenétre principale si elle existe. =======
 		 * Applique les pr�f�rences charg�es aux pr�-s�lections de la fen�tre de
-		 * param�tres et � la fen�tre principale si elle existe.
+		 * param�tres et � la fen�tre principale si elle existe. >>>>>>>
+		 * 80a9c7c8cb1ee3c12c78c000bb50e157e0aed560
 		 */
 		public void applyPreferences(ReadMode readMode) {
 			Parametres param = params.get(readMode);
@@ -314,7 +318,9 @@ public class FenetreParametre extends JFrame {
 		}
 
 		/**
-		 * Enregistre les pr�f�rences en fonction de la s�lection de l'utilisateur.
+		 * <<<<<<< HEAD Enregistre les préférences en fonction de la sélection de
+		 * l'utilisateur. ======= Enregistre les pr�f�rences en fonction de la s�lection
+		 * de l'utilisateur. >>>>>>> 80a9c7c8cb1ee3c12c78c000bb50e157e0aed560
 		 */
 		public void savePreferences(ReadMode readMode) {
 			Parametres param = params.get(readMode);
@@ -346,7 +352,9 @@ public class FenetreParametre extends JFrame {
 		}
 
 		/**
-		 * Mets � jour les composants de la fen�tre en fonction du mode s�lectionn�.
+		 * <<<<<<< HEAD Mets é jour les composants de la fenétre en fonction du mode
+		 * sélectionné. ======= Mets � jour les composants de la fen�tre en fonction du
+		 * mode s�lectionn�. >>>>>>> 80a9c7c8cb1ee3c12c78c000bb50e157e0aed560
 		 */
 		public void updateMode() {
 			switch (getReadMode()) {
@@ -458,7 +466,9 @@ public class FenetreParametre extends JFrame {
 		}
 
 		/**
-		 * Retourne le mode de lecture s�lectionn� par l'utilisateur.
+		 * <<<<<<< HEAD Retourne le mode de lecture sélectionné par l'utilisateur.
+		 * ======= Retourne le mode de lecture s�lectionn� par l'utilisateur. >>>>>>>
+		 * 80a9c7c8cb1ee3c12c78c000bb50e157e0aed560
 		 */
 		public ReadMode getReadMode() {
 			if (guidedModeRadio.isSelected())
@@ -475,9 +485,9 @@ public class FenetreParametre extends JFrame {
 	}
 
 	public void lancerExercice() {
-		pan.validButton.setText("Appliquer les paramétres");
+		pan.validButton.setText("Appliquer les paramètres");
 		setLaunchParametersEnabled(false);
-		fenetre.init(getCurrentParameters());
+		// fenetre.init(getCurrentParameters());
 		fenetre.start();
 		controlPanel.init();
 	}
@@ -488,16 +498,16 @@ public class FenetreParametre extends JFrame {
 		stopItem.setEnabled(false);
 		fenetre.setVisible(false);
 		controlPanel.disableAll();
-		fenetre.pan.pilot.doStop();
+		fenetre.pan.controlerGlobal.doStop();
 		setStartParametersEnabled(true);
 	}
 
 	/**
-	 * Active ou d�sactive les param�tres non modifiables à partir de la premi�re
-	 * �coute.
+	 * Active ou désactive les paramétres non modifiables à partir de la première
+	 * écoute.
 	 */
 	public void setStartParametersEnabled(boolean enabled) {
-		/// d�sacive la taille et la police et le segment de d�part ///
+		/// désacive la taille et la police et le segment de départ ///
 		pan.fontFamilyComboBox.setEnabled(enabled);
 		pan.fontSizeComboBox.setEnabled(enabled);
 		pan.startingPhraseField.setEnabled(enabled);
@@ -508,7 +518,7 @@ public class FenetreParametre extends JFrame {
 	}
 
 	/**
-	 * Active ou d�sactive les param�tres non modifiable lors du lancement de
+	 * Active ou désactive les paramétres non modifiables lors du lancement de
 	 * l'exercice.
 	 */
 	public void setLaunchParametersEnabled(boolean enabled) {
@@ -521,7 +531,7 @@ public class FenetreParametre extends JFrame {
 	}
 
 	/**
-	 * Retourne les param�tres du mode s�lectionn�.
+	 * Retourne les paramétres du mode sélectionné.
 	 */
 	public Parametres getCurrentParameters() {
 		if (pan.getReadMode() == null)
@@ -570,7 +580,8 @@ public class FenetreParametre extends JFrame {
 	}
 
 	/**
-	 * Retourne le font correspondant � :
+	 * <<<<<<< HEAD Retourne le font correspondant à : ======= Retourne le font
+	 * correspondant � : >>>>>>> 80a9c7c8cb1ee3c12c78c000bb50e157e0aed560
 	 * 
 	 * @param1 : la police
 	 * @param2 : l'index du font dans la liste des polices de la FenetreParametre

@@ -7,6 +7,7 @@ import main.reading.ReadThread;
 import main.reading.SegmentedThread;
 import main.view.TextPanel;
 
+// TODO classe non fonctionnelle
 public class Pilot {
 
 	/**
@@ -29,13 +30,13 @@ public class Pilot {
 	 * Se place sur le segment de numero n et démarre le lecteur.
 	 */
 	public void goTo(int n) throws IllegalArgumentException {
-		if (n < -1 || n >= p.textHandler.getPhrasesCount() - 1) {
-			throw new IllegalArgumentException("Num�ro de segment invalide : " + n);
+		if (n < p.param.startingPhrase - 1 || n >= p.textHandler.getPhrasesCount() - 1) {
+			throw new IllegalArgumentException("Numéro de segment invalide : " + n);
 		}
 		phrase = n;
 		p.editorPane.enleverSurlignageRouge();
-
-		/// emp�che le redimensionnement de la fen�tre lors de la premi�re lecture ///
+		
+		/// empêche le redimensionnement de la fenêtre lors de la première lecture ///
 		p.fenetre.setResizable(false);
 
 		// met a jour la barre de progression
@@ -52,7 +53,7 @@ public class Pilot {
 				if (phrase == p.textHandler.getPhrasesCount() - 1) {
 					p.afficherCompteRendu();
 				}
-				/// met � jour la barre de progression ///
+				/// met à jour la barre de progression ///
 				else {
 					updateBar();
 				}
@@ -106,25 +107,25 @@ public class Pilot {
 	 * lecture actuel.
 	 */
 	public ReadThread getReadThread(int n) {
-		ReadThread t;
-		switch (p.param.readMode) {
-		case ANTICIPE:
-			t = new AnticipatedThread(controler, n);
-			break;
-		case GUIDEE:
-			t = new GuidedThread(controler, n);
-			break;
-		case SEGMENTE:
-			t = new SegmentedThread(controler, n);
-			break;
-		case SUIVI:
-			t = new HighlightThread(controler, n);
-			break;
-		default:
-			t = null;
-			break;
+		ReadThread t = null;
+		/*switch (p.param.readMode) {
+			case ANTICIPE:
+				t = new AnticipatedThread(controler, n);
+				break;
+			case GUIDEE:
+				t = new GuidedThread(controler, n);
+				break;
+			case SEGMENTE:
+				t = new SegmentedThread(controler, n);
+				break;
+			case SUIVI:
+				t = new HighlightThread(controler, n);
+				break;
+			default:
+				t = null;
+				break;
 		}
-		t.param = p.param;
+		t.param = p.param;*/
 		return t;
 	}
 

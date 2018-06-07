@@ -9,7 +9,7 @@ import main.view.TextPanel;
 
 public class ControlerText {
 
-	public TextPanel p;
+	private TextPanel p;
 	private Pilot pilot;
 
 	/**
@@ -85,7 +85,8 @@ public class ControlerText {
 	 * courant.
 	 */
 	public long getCurrentWaitTime() {
-		return (long) (getCurrentPhraseDuration() * p.param.tempsPauseEnPourcentageDuTempsDeLecture / 100.);
+		// TODO remettre le bon temps de pause (avec ReadingParameters)
+		return (long) (getCurrentPhraseDuration() * /* p.param.tempsPauseEnPourcentageDuTempsDeLecture / 100. */1);
 	}
 
 	/**
@@ -146,9 +147,10 @@ public class ControlerText {
 	}
 
 	/**
-	 * Colorie le segment numero n en couleur c
+	 * Colorie le segment numero n en couleur c.
 	 */
 	public void highlightPhrase(Color c, int n) {
+		n--;
 		if (p.textHandler.getPhrase(n) != null) {
 			int debutRelatifSegment = p.textHandler.getRelativeStartPhrasePosition(p.getNumeroPremierSegmentAffiché(),
 					n);
@@ -261,6 +263,10 @@ public class ControlerText {
 	 */
 	public void setFont(Font f) {
 		p.editorPane.setFont(f);
+	}
+
+	public int getCurrentPhraseIndex() {
+		return pilot.getCurrentPhraseIndex();
 	}
 
 }

@@ -54,9 +54,6 @@ public class Panneau extends JPanel {
 	public Panneau(Fenetre fenetre, Parametres param) throws IOException {
 		this.fenetre = fenetre;
 		this.controlerGlobal = new ControlerText(this);
-
-		this.param = param;
-		this.controlerGlobal = new ControlerText(this);
 		this.fenetre = fenetre;
 		
 		String textPath = "ressources/textes/" + Constants.TEXT_FILE_NAME;

@@ -11,6 +11,7 @@ import main.view.FenetreParametre;
 public class Main {
     
 	public static void main(String[] args) {
+
 		try {
 			WebLookAndFeel.install();
 		} catch (Exception e1) {

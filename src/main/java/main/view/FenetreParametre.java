@@ -285,16 +285,14 @@ public class FenetreParametre extends JFrame {
 		 */
 		public void savePreferences(ReadMode readMode) {
 			Parametres param = params.get(readMode);
-			param.bgColor = bgColorComboBox.getBackground();//stringToColor((String) bgColorComboBox.getSelectedItem());
-			param.rightColor = rightColorComboBox.getBackground();//stringToColor((String) rightColorComboBox.getSelectedItem());
-			param.wrongColor = wrongColorComboBox.getBackground();//stringToColor((String) wrongColorComboBox.getSelectedItem());
-			param.correctionColor = correctColorComboBox.getBackground();//stringToColor((String) correctColorComboBox.getSelectedItem());
+			param.bgColor = bgColorComboBox.getBackground();
+			param.rightColor = rightColorComboBox.getBackground();
+			param.wrongColor = wrongColorComboBox.getBackground();
+			param.correctionColor = correctColorComboBox.getBackground();
 			param.taillePolice = (Integer) fontSizeComboBox.getSelectedItem();
 			param.police = FenetreParametre.getFont((String) fontFamilyComboBox.getSelectedItem(), fontFamilyComboBox.getSelectedIndex(), Font.BOLD, param.taillePolice);
 			try {
 				param.startingPhrase = Integer.parseInt(startingPhraseField.getText());
-			} catch (NumberFormatException e) {}
-			try {
 				param.nbFautesTolerees = Integer.parseInt(toleratedErrorsField.getText());
 			} catch (NumberFormatException e) {}
 			param.rejouerSon = replayCheckBox.isSelected();

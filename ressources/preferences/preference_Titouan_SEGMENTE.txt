@@ -1,16 +1,16 @@
 #Sauvegarde
-#Tue May 22 15:26:06 CEST 2018
+#Thu Jun 07 09:42:54 CEST 2018
 nbEssais=2
-taillePolice=42
+taillePolice=36
 couleurCorrection=0/255/255
 couleurBonne=0/255/0
 typePolice=OpenDyslexic Bold
 couleurFausse=255/40/40
 h=600
-tempsAttente=49
+tempsAttente=100
 premierSegment=1
-y=75
-x=608
+y=0
+x=550
 w=800
 rejouerSon=true
 couleurFond=255/255/150

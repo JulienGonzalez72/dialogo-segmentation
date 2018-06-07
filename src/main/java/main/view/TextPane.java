@@ -20,6 +20,8 @@ public class TextPane extends JTextPane {
 	private List<Object> greenHighlightTags = new ArrayList<>();
 	
 	public Parametres param;
+	
+	public String textReel;
 
 	public TextPane() {
 		setSelectionColor(new Color(0, 0, 0, 0));

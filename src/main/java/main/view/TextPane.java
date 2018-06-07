@@ -4,10 +4,16 @@ import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JTextPane;
-import javax.swing.text.*;
-import javax.swing.text.Highlighter.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter.Highlight;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+
 import main.Constants;
 import main.Parametres;
 import main.model.ReadingParameters;
@@ -151,7 +157,7 @@ public class TextPane extends JTextPane {
 		redHighlightTags = newRed;
 		greenHighlightTags = newGreen;
 	}
-
+	
 	@Override
 	public void paintComponent(Graphics g) {
 		g.setColor(Color.YELLOW);

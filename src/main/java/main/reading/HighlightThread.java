@@ -1,10 +1,11 @@
 package main.reading;
 
-import main.Constants;
-import main.controler.ControlerText;
 import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
+
+import main.Constants;
+import main.controler.ControlerText;
 
 public class HighlightThread extends ReadThread {
 
@@ -103,7 +104,7 @@ public class HighlightThread extends ReadThread {
 				if (!running) {
 					return;
 				}
-				// surligange du segment
+				// surlignage du segment
 				controler.highlightPhrase(param.rightColor, N);
 				// stockage du coloriage du segment
 				coloriage.put(N, param.rightColor);

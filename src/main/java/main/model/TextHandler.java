@@ -1,17 +1,21 @@
 package main.model;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import main.Constants;
 
 public class TextHandler {
 
 	/**
-	 * Texte avec césures
+	 * Texte avec cï¿½sures
 	 */
 	private String txt;
 	/**
-	 * Liste des segments associés à leurs numéros
+	 * Liste des segments associï¿½s ï¿½ leurs numï¿½ros
 	 */
 	private Map<Integer, String> phrases;
 
@@ -28,7 +32,7 @@ public class TextHandler {
 	private static String format(String str) {
 		return str.replace(" /", "/");
 	}
-	
+
 	private static boolean isEmpty(String str) {
 		return str == null || (str.length() == 1 && Character.isWhitespace(str.charAt(0)));
 	}
@@ -69,7 +73,7 @@ public class TextHandler {
 	}
 
 	/**
-	 * Indique si la césure est placée au bon endroit.
+	 * Indique si la cï¿½sure est placï¿½e au bon endroit.
 	 */
 	public boolean correctPause(int offset) {
 		String b = getTextWithCutPauses(offset);
@@ -77,7 +81,7 @@ public class TextHandler {
 	}
 
 	/**
-	 * Retourne l'indice de la pause à la position indiquée.
+	 * Retourne l'indice de la pause ï¿½ la position indiquï¿½e.
 	 */
 	public int getPauseIndex(int offset) {
 		if (!correctPause(offset))
@@ -92,21 +96,21 @@ public class TextHandler {
 	}
 
 	/**
-	 * Retourne la position absolue du segment indiqué en paramètre.
+	 * Retourne la position absolue du segment indiquï¿½ en paramï¿½tre.
 	 */
 	public int getPauseOffset(int phrase) {
 		return getPhrasesLength(0, phrase);
 	}
 
 	/**
-	 * Retourne la position absolue du début du segment passé en paramètre.
+	 * Retourne la position absolue du dï¿½but du segment passï¿½ en paramï¿½tre.
 	 */
 	public int getPhraseOffset(int phrase) {
 		return getPhrasesLength(0, phrase - 1);
 	}
 
 	/**
-	 * Retourne l'indice du segment à la position indiquée.
+	 * Retourne l'indice du segment ï¿½ la position indiquï¿½e.
 	 */
 	public int getPhraseIndex(int offset) {
 		if (offset >= getShowText().length())
@@ -122,7 +126,7 @@ public class TextHandler {
 	}
 
 	/**
-	 * Enlève les césures du texte avec césures jusqu'à la position indiquée.
+	 * Enlï¿½ve les cï¿½sures du texte avec cï¿½sures jusqu'ï¿½ la position indiquï¿½e.
 	 */
 	private String getTextWithCutPauses(int endOffset) {
 		StringBuilder b = new StringBuilder(txt);
@@ -157,7 +161,7 @@ public class TextHandler {
 	}
 
 	/**
-	 * Retourne la position du début du segment d'indice <i>phrase</i>, relative au
+	 * Retourne la position du dï¿½but du segment d'indice <i>phrase</i>, relative au
 	 * premier segment <i>startPhrase</i>.
 	 */
 	public int getRelativeStartPhrasePosition(int startPhrase, int phrase) {
@@ -169,8 +173,8 @@ public class TextHandler {
 	}
 
 	/**
-	 * Indique si le mot sur lequel a cliqué l'utilisateur correspond bien à une
-	 * césure.
+	 * Indique si le mot sur lequel a cliquï¿½ l'utilisateur correspond bien ï¿½ une
+	 * cï¿½sure.
 	 */
 	public boolean wordPause(int offset) {
 		int err = 0;
@@ -179,7 +183,7 @@ public class TextHandler {
 			if (correctPause(i)) {
 				return true;
 			}
-			/// évite le problème de la ponctuation avec des espaces avant ///
+			/// ï¿½vite le problï¿½me de la ponctuation avec des espaces avant ///
 			if (i < txt.length() - 2 && isPunctuation(txt.charAt(i + 1))) {
 				err--;
 			}
@@ -197,16 +201,16 @@ public class TextHandler {
 	}
 
 	/**
-	 * Retourne la position du caractère dans le texte en entier en indiquant la
-	 * position d'un caractère cliqué à partir d'un segment indiqué.
+	 * Retourne la position du caractï¿½re dans le texte en entier en indiquant la
+	 * position d'un caractï¿½re cliquï¿½ ï¿½ partir d'un segment indiquï¿½.
 	 */
 	public int getAbsoluteOffset(int startPhrase, int offset) {
 		return getPhrasesLength(0, startPhrase - 1) + offset;
 	}
 
 	/**
-	 * Ceci est l'opération inverse, elle permet d'obtenir la position par rapport
-	 * au premier segment affiché avec la position du caractère dans tout le texte.
+	 * Ceci est l'opï¿½ration inverse, elle permet d'obtenir la position par rapport
+	 * au premier segment affichï¿½ avec la position du caractï¿½re dans tout le texte.
 	 */
 	public int getRelativeOffset(int startPhrase, int offset) {
 		return offset - getPhrasesLength(0, startPhrase - 1);
@@ -219,7 +223,11 @@ public class TextHandler {
 		}
 		return length;
 	}
-	
+
+	public String removeHook(String s) {
+		return s.replace("[", "").replace("]", "");
+	}
+
 	@Override
 	public String toString() {
 		return phrases.toString();

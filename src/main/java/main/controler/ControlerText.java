@@ -2,6 +2,8 @@ package main.controler;
 
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Font;
+
 import main.Constants;
 import main.view.TextPanel;
 
@@ -31,9 +33,9 @@ public class ControlerText {
 	}
 
 	/**
-	 * Joue un fichier .wav correspondant é un segment de phrase.
-	 * On sortira de cette fonction lorsque le fichier .wav aura été totalement joué.
-	 * METHODE DE TEST
+	 * Joue un fichier .wav correspondant é un segment de phrase. On sortira de
+	 * cette fonction lorsque le fichier .wav aura été totalement joué. METHODE DE
+	 * TEST
 	 */
 	public void play(int phrase) {
 		p.setCursor(Constants.CURSOR_LISTEN);
@@ -43,7 +45,8 @@ public class ControlerText {
 				p.setCursor(Cursor.getDefaultCursor());
 				break;
 			}
-			/// fixe toujours le curseur d'écoute pendant toute la durée de l'enregistrement ///
+			/// fixe toujours le curseur d'écoute pendant toute la durée de l'enregistrement
+			/// ///
 			if (!p.getCursorName().equals(Constants.CURSOR_LISTEN)) {
 				p.setCursor(Constants.CURSOR_LISTEN);
 			}
@@ -88,7 +91,7 @@ public class ControlerText {
 	 * @param time
 	 *            le temps de pause, en millisecondes
 	 * @param cursorName
-	 *            le type de curseur é définir pendant l'attente (peut étre
+	 *            le type de curseur à définir pendant l'attente (peut étre
 	 *            Constants.CURSOR_SPEAK ou Constants.CURSOR_LISTEN)
 	 */
 	public void doWait(long time, String cursorName) {
@@ -102,14 +105,14 @@ public class ControlerText {
 	}
 
 	/**
-	 * Attente déun clic de la souris sur le dernier mot du segment.
+	 * Attente d'un clic de la souris sur le dernier mot du segment.
 	 * <ul>
 	 * <li>Paramétre déentréeé1: Numéro de segment</li>
 	 * <li>Paramétre de sortieé: True ou False (réussite)</li>
 	 * <li>On sort de cette fonction lorsquéun clic a été réalisé. Si le clic a été
 	 * réalisé sur le bon mot on sort avec true, et si le clic a été réalisé sur une
-	 * partie erronée, on surligne cette partie avec une couleur qui indique une
-	 * erreur, Rouge ? En paramétre ? Et on sort avec False.
+	 * partie erronée, on surligne cette partie avec une couleur paramétrée. Et on
+	 * sort avec False.
 	 * </ul>
 	 */
 	public boolean waitForClick(int n) {
@@ -155,6 +158,7 @@ public class ControlerText {
 	/**
 	 * Supprime le surlignage qui se trouve sur le segment n. Ne fait rien si ce
 	 * segment n'est pas surligné.
+	 * 
 	 */
 	public void removeHighlightPhrase(int n) {
 		int debutRelatifSegment = p.textHandler.getRelativeStartPhrasePosition(p.getNumeroPremierSegmentAffiché(), n);
@@ -163,7 +167,8 @@ public class ControlerText {
 	}
 
 	/**
-	 * Arréte l'enregistrement courant et enléve tout le surlignage.
+	 * 
+	 * Arréte l'enregistrement courant et enlève tout le surlignage.
 	 */
 	public void stopAll() {
 		p.player.stop();
@@ -173,14 +178,13 @@ public class ControlerText {
 	/**
 	 * Charge un segment de phrase dans le lecteur sans le démarrer.<br>
 	 * Pas nécessaire si on démarre le lecteur directement avec la méthode
-	 * {@link #play}.
 	 */
 	public void loadSound(int phrase) {
 		p.player.load(phrase);
 	}
 
 	/**
-	 * Enléve tout le surlignage d'erreur.
+	 * Enlève tout le surlignage d'erreur.
 	 */
 	public void removeWrongHighlights() {
 		p.editorPane.enleverSurlignageRouge();
@@ -209,6 +213,52 @@ public class ControlerText {
 
 	public void incrementerErreurSegment() {
 		p.nbErreursParSegment++;
+	}
+
+	/**
+	 * Se place sur le segment de numero n et d�marre le lecteur.
+	 */
+	public void goTo(int n) throws IllegalArgumentException {
+		p.pilot.goTo(n);
+	}
+
+	/**
+	 * Essaye de passer au segment suivant, passe à la page suivante si c'était le
+	 * dernier segment de la page. Déclenche une erreur si on était au dernier
+	 * segment du texte.
+	 */
+	public void doNext() {
+		p.pilot.doNext();
+	}
+
+	/**
+	 * Essaye de passer au segment précédent. Déclenche une erreur si on était au
+	 * premier segment du texte.
+	 */
+	public void doPrevious() {
+		p.pilot.doPrevious();
+	}
+
+	/**
+	 * Essaye d'arréter l'enregistrement en cours.
+	 */
+	public void doStop() {
+		p.pilot.doStop();
+	}
+
+	/**
+	 * Essaye de reprendre l'enregistrement. Si il est déjà démarré, reprend depuis
+	 * le début.
+	 */
+	public void doPlay() {
+		p.pilot.doPlay();
+	}
+
+	/**
+	 * Applique un Font à l'exercice
+	 */
+	public void setFont(Font f) {
+		p.editorPane.setFont(f);
 	}
 
 }

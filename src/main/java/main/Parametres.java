@@ -1,12 +1,19 @@
 package main;
 
-import java.awt.*;
-import java.io.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+
 import main.reading.ReadMode;
-import main.view.*;
+import main.view.FenetreParametre;
+import main.view.TextFrame;
 
 public class Parametres {
 
@@ -25,20 +32,20 @@ public class Parametres {
 	public int panHeight = Constants.DEFAULT_PAN_HEIGHT;
 	public int panX = Constants.DEFAULT_PAN_X;
 	public int panY = Constants.DEFAULT_PAN_Y;
-	
+
 	public Parametres(ReadMode readMode) {
 		this.readMode = readMode;
 	}
-	
+
 	public static String fromColorToString(Color c) {
 		return (c.getRed() + "/" + c.getGreen() + "/" + c.getBlue());
 	}
-	
+
 	public static Color fromStringToColor(String s) {
 		String[] temp = s.split("/");
 		return new Color(Integer.valueOf(temp[0]), Integer.valueOf(temp[1]), Integer.valueOf(temp[2]));
 	}
-	
+
 	public void stockerPreference() {
 		Properties prop = new Properties();
 		prop.put("w", String.valueOf(panWidth));
@@ -69,21 +76,21 @@ public class Parametres {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Applique les preferences de taille et position uniquement
 	 */
 	public void appliquerPreferenceTaillePosition(TextFrame fen) {
 		fen.setBounds(panX, panY, panWidth, panHeight);
 	}
-	
+
 	/**
-	 * Essaye de charger les paramètres associés à un mode de lecture,
-	 * retourne les paramètres par défaut sinon.
+	 * Essaye de charger les paramï¿½tres associï¿½s ï¿½ un mode de lecture, retourne les
+	 * paramï¿½tres par dï¿½faut sinon.
 	 */
 	public static Parametres load(ReadMode readMode) {
 		Parametres p = new Parametres(readMode);
-		
+
 		String fichier = "./ressources/preferences/preference_" + Constants.NOM_ELEVE + "_" + readMode + ".txt";
 		InputStream ips = null;
 		try {
@@ -123,12 +130,13 @@ public class Parametres {
 		p.panHeight = Integer.valueOf(pro.getProperty("h"));
 		p.startingPhrase = Integer.valueOf(pro.getProperty("premierSegment"));
 		p.nbFautesTolerees = Integer.valueOf(pro.getProperty("nbEssais"));
-		
+
 		return p;
 	}
-	
+
 	/**
-	 * Essaye de charger les paramètres associés à tous les modes de lecture existants.
+	 * Essaye de charger les paramï¿½tres associï¿½s ï¿½ tous les modes de lecture
+	 * existants.
 	 */
 	public static Map<ReadMode, Parametres> loadAll() {
 		Map<ReadMode, Parametres> params = new HashMap<>();

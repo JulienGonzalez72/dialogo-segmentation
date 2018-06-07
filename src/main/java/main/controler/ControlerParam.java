@@ -1,10 +1,15 @@
 package main.controler;
 
-import java.util.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+
 import main.Constants;
 import main.Parametres;
 import main.view.FenetreParametre;
@@ -28,7 +33,8 @@ public class ControlerParam implements ActionListener {
 		}
 		if (jcb == panneau.fontSizeComboBox) {
 			int taille = (Integer) jcb.getSelectedItem();
-			Font font = new Font(panneau.fontFamilyComboBox.getFont().getFontName(), Constants.DEFAULT_FONT_STYLE, taille);
+			Font font = new Font(panneau.fontFamilyComboBox.getFont().getFontName(), Constants.DEFAULT_FONT_STYLE,
+					taille);
 			if (fen.fenetre.isVisible() && fen.fenetre.pan.editorPane != null) {
 				fen.fenetre.pan.editorPane.setFont(font);
 				fen.fenetre.pan.rebuildPages();
@@ -36,17 +42,16 @@ public class ControlerParam implements ActionListener {
 		}
 		if (jcb == panneau.fontFamilyComboBox) {
 			String police = (String) jcb.getSelectedItem();
-			Font font = new Font(police, Constants.DEFAULT_FONT_STYLE, (Integer) panneau.fontSizeComboBox.getSelectedItem());
+			Font font = new Font(police, Constants.DEFAULT_FONT_STYLE,
+					(Integer) panneau.fontSizeComboBox.getSelectedItem());
 			jcb.setFont(font.deriveFont((float) jcb.getFont().getSize()));
 			if (fen.fenetre.isVisible() && fen.fenetre.pan.editorPane != null) {
 				fen.fenetre.pan.editorPane.setFont(font);
 				fen.fenetre.pan.rebuildPages();
 			}
 		}
-		if (arg0.getSource() == panneau.guidedModeRadio
-				|| arg0.getSource() == panneau.highlightModeRadio
-				|| arg0.getSource() == panneau.segmentedModeRadio
-				|| arg0.getSource() == panneau.anticipatedModeRadio) {
+		if (arg0.getSource() == panneau.guidedModeRadio || arg0.getSource() == panneau.highlightModeRadio
+				|| arg0.getSource() == panneau.segmentedModeRadio || arg0.getSource() == panneau.anticipatedModeRadio) {
 			panneau.savePreferences(panneau.oldMode);
 			panneau.oldMode = panneau.getReadMode();
 			panneau.applyPreferences(panneau.getReadMode());
@@ -77,8 +82,8 @@ public class ControlerParam implements ActionListener {
 		boolean valide = true;
 
 		if (!couleursUniques()) {
-			JOptionPane.showMessageDialog(panneau, "Certaines couleurs sont identiques et risquent de se confondre !", "Attention",
-					JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(panneau, "Certaines couleurs sont identiques et risquent de se confondre !",
+					"Attention", JOptionPane.WARNING_MESSAGE);
 			valide = true;
 		}
 
@@ -87,10 +92,10 @@ public class ControlerParam implements ActionListener {
 		try {
 			premierSegment = Integer.valueOf((String) panneau.startingPhraseField.getText());
 			if (!isValidPhrase(premierSegment)) {
-				JOptionPane.showMessageDialog(panneau,
-						"Entrez un segment inf�rieur � "
-								+ (((TextPanel) fen.fenetre.getContentPane()).textHandler.getPhrasesCount() - 1),
-						"Erreur", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(panneau, "Entrez un segment inférieur à "
+
+						+ (((TextPanel) fen.fenetre.getContentPane()).textHandler.getPhrasesCount() - 1), "Erreur",
+						JOptionPane.ERROR_MESSAGE);
 				premierSegment = 1;
 				panneau.startingPhraseField.setText("1");
 				valide = false;
@@ -111,16 +116,17 @@ public class ControlerParam implements ActionListener {
 				panneau.toleratedErrorsField.setText("0");
 				valide = false;
 			}
-		} catch (Exception e) {e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
 			panneau.toleratedErrorsField.setText("0");
 			valide = false;
 		}
 		return valide;
 	}
-	
+
 	public boolean isValidPhrase(int phrase) {
-		return phrase + 2 <= ((TextPanel) fen.fenetre.getContentPane()).textHandler.getPhrasesCount()
-				&& phrase >= 1;
+
+		return phrase + 2 <= ((TextPanel) fen.fenetre.getContentPane()).textHandler.getPhrasesCount() && phrase >= 1;
 	}
 
 	/**
@@ -128,6 +134,7 @@ public class ControlerParam implements ActionListener {
 	 */
 	private boolean couleursUniques() {
 		boolean r = true;
+
 		List<Color> usedColors = new ArrayList<Color>();
 		usedColors.add(param.rightColor);
 		usedColors.add(param.wrongColor);

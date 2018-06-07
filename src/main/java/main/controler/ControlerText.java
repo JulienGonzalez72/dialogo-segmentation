@@ -5,6 +5,7 @@ import java.awt.Cursor;
 import java.awt.Font;
 
 import main.Constants;
+import main.reading.ReadThread;
 import main.view.TextPanel;
 
 public class ControlerText {
@@ -265,8 +266,19 @@ public class ControlerText {
 		p.editorPane.setFont(f);
 	}
 
+	/**
+	 * 
+	 * Retourne le segment courant
+	 */
 	public int getCurrentPhraseIndex() {
 		return pilot.getCurrentPhraseIndex();
+	}
+
+	/**
+	 * Charge un thread de la même classe que r
+	 */
+	public void loadReadThread(ReadThread r) {
+		pilot.loadReadThread(r);
 	}
 
 }

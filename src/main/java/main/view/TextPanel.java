@@ -26,10 +26,8 @@ import javax.swing.text.BadLocationException;
 
 import main.Constants;
 import main.Parametres;
-import main.controler.ControlerKey;
 import main.controler.ControlerMouse;
 import main.controler.ControlerText;
-import main.controler.Pilot;
 import main.model.Player;
 import main.model.TextHandler;
 import main.reading.ReadMode;
@@ -52,9 +50,7 @@ public class TextPanel extends JPanel {
 	public TextFrame fenetre;
 	public ControlPanel controlPanel;
 	public ControlerText controlerGlobal;
-	public ControlerKey controlerKey;
 	public ControlerMouse controlerMouse;
-	public Pilot pilot;
 	public ReadThread task;
 	public Map<Integer, List<Integer>> segmentsEnFonctionDeLaPage = new HashMap<Integer, List<Integer>>();
 	public Player player;
@@ -112,10 +108,7 @@ public class TextPanel extends JPanel {
 	}
 
 	/**
-	 * <<<<<<< HEAD:src/main/java/main/view/Panneau.java S'exécute lorsque le
-	 * panneau s'est bien intégré à la fenêtre. ======= S'ex�cute lorsque le panneau
-	 * s'est bien int�gr� � la fen�tre. >>>>>>>
-	 * 4d0c5fc4d1a7669040ff27890026e54fc89e22ed:src/main/java/main/view/TextPanel.java
+	 * S'exécute lorsque le panneau s'est bien intégré à la fenêtre.
 	 */
 	public void init(Parametres param) {
 		setParameters(param);
@@ -128,10 +121,6 @@ public class TextPanel extends JPanel {
 		rebuildPages();
 		/// initialise le lecteur ///
 		player.load(param.startingPhrase - 1);
-		this.pilot = new Pilot(this);
-
-		controlerKey = new ControlerKey(pilot);
-		editorPane.addKeyListener(controlerKey);
 		controlerMouse = new ControlerMouse(this, textHandler);
 		editorPane.addMouseListener(controlerMouse);
 		editorPane.requestFocus();

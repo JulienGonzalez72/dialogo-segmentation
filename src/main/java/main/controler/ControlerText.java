@@ -10,12 +10,16 @@ import main.view.TextPanel;
 public class ControlerText {
 
 	public TextPanel p;
+	private Pilot pilot;
 
 	/**
 	 * Construit un contrôleur à partir du panneau correspondant.
 	 */
 	public ControlerText(TextPanel p) {
 		this.p = p;
+		this.pilot = new Pilot(p);
+		ControlerKey controlerKey = new ControlerKey(pilot);
+		p.editorPane.addKeyListener(controlerKey);
 	}
 
 	/**
@@ -217,7 +221,7 @@ public class ControlerText {
 	 * Se place sur le segment de numero n et d�marre le lecteur.
 	 */
 	public void goTo(int n) throws IllegalArgumentException {
-		p.pilot.goTo(n);
+		pilot.goTo(n);
 	}
 
 	/**
@@ -226,7 +230,7 @@ public class ControlerText {
 	 * segment du texte.
 	 */
 	public void doNext() {
-		p.pilot.doNext();
+		pilot.doNext();
 	}
 
 	/**
@@ -234,14 +238,14 @@ public class ControlerText {
 	 * premier segment du texte.
 	 */
 	public void doPrevious() {
-		p.pilot.doPrevious();
+		pilot.doPrevious();
 	}
 
 	/**
 	 * Essaye d'arréter l'enregistrement en cours.
 	 */
 	public void doStop() {
-		p.pilot.doStop();
+		pilot.doStop();
 	}
 
 	/**
@@ -249,7 +253,7 @@ public class ControlerText {
 	 * le début.
 	 */
 	public void doPlay() {
-		p.pilot.doPlay();
+		pilot.doPlay();
 	}
 
 	/**

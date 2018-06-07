@@ -5,7 +5,7 @@ import main.reading.GuidedThread;
 import main.reading.HighlightThread;
 import main.reading.ReadThread;
 import main.reading.SegmentedThread;
-import main.view.Panneau;
+import main.view.TextPanel;
 
 public class Pilot {
 
@@ -13,14 +13,14 @@ public class Pilot {
 	 * Thread de lecture actif
 	 */
 	private ReadThread activeThread;
-	private Panneau p;
+	private TextPanel p;
 	private ControlerText controler;
 	/**
 	 * Segment actuel
 	 */
 	private int phrase;
 	
-	public Pilot(Panneau p) {
+	public Pilot(TextPanel p) {
 		this.p = p;
 		controler = p.controlerGlobal;
 	}

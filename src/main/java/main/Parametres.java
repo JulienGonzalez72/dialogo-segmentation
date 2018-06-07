@@ -73,7 +73,7 @@ public class Parametres {
 	/**
 	 * Applique les preferences de taille et position uniquement
 	 */
-	public void appliquerPreferenceTaillePosition(Fenetre fen) {
+	public void appliquerPreferenceTaillePosition(TextFrame fen) {
 		fen.setBounds(panX, panY, panWidth, panHeight);
 	}
 	

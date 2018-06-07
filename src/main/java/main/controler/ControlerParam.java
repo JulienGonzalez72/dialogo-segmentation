@@ -8,7 +8,7 @@ import javax.swing.*;
 import main.Constants;
 import main.Parametres;
 import main.view.FenetreParametre;
-import main.view.Panneau;
+import main.view.TextPanel;
 
 public class ControlerParam implements ActionListener {
 
@@ -89,7 +89,7 @@ public class ControlerParam implements ActionListener {
 			if (!isValidPhrase(premierSegment)) {
 				JOptionPane.showMessageDialog(panneau,
 						"Entrez un segment inférieur à "
-								+ (((Panneau) fen.fenetre.getContentPane()).textHandler.getPhrasesCount() - 1),
+								+ (((TextPanel) fen.fenetre.getContentPane()).textHandler.getPhrasesCount() - 1),
 						"Erreur", JOptionPane.ERROR_MESSAGE);
 				premierSegment = 1;
 				panneau.startingPhraseField.setText("1");
@@ -119,7 +119,7 @@ public class ControlerParam implements ActionListener {
 	}
 	
 	public boolean isValidPhrase(int phrase) {
-		return phrase + 2 <= ((Panneau) fen.fenetre.getContentPane()).textHandler.getPhrasesCount()
+		return phrase + 2 <= ((TextPanel) fen.fenetre.getContentPane()).textHandler.getPhrasesCount()
 				&& phrase >= 1;
 	}
 

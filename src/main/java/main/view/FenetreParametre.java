@@ -14,7 +14,7 @@ import main.reading.ReadMode;
 
 public class FenetreParametre extends JFrame {
 
-	public Fenetre fenetre;
+	public TextFrame fenetre;
 	/**
 	 * Liste des paramètres par mode de lecture.
 	 */
@@ -32,7 +32,7 @@ public class FenetreParametre extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(true);
 		
-		fenetre = new Fenetre(titre, tailleX * 2, tailleY, this);
+		fenetre = new TextFrame(titre, tailleX * 2, tailleY, this);
 		
 		pan = null;
 		try {

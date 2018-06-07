@@ -3,16 +3,16 @@ package main.controler;
 import java.awt.Color;
 import java.awt.Cursor;
 import main.Constants;
-import main.view.Panneau;
+import main.view.TextPanel;
 
 public class ControlerText {
 
-	public Panneau p;
+	public TextPanel p;
 
 	/**
 	 * Construit un contrôleur à partir du panneau correspondant.
 	 */
-	public ControlerText(Panneau p) {
+	public ControlerText(TextPanel p) {
 		this.p = p;
 	}
 

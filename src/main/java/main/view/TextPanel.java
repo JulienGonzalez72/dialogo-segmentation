@@ -21,7 +21,7 @@ import main.model.TextHandler;
 import main.reading.ReadMode;
 import main.reading.ReadThread;
 
-public class Panneau extends JPanel {
+public class TextPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	public static int premierSegment;
@@ -35,7 +35,7 @@ public class Panneau extends JPanel {
 	public int nbEssaisRestantPourLeSegmentCourant;
 	public int nbErreurs;
 	public int nbErreursParSegment;
-	public Fenetre fenetre;
+	public TextFrame fenetre;
 	public ControlPanel controlPanel;
 	public ControlerText controlerGlobal;
 	public ControlerKey controlerKey;
@@ -51,7 +51,7 @@ public class Panneau extends JPanel {
 	 */
 	public JProgressBar progressBar;
 
-	public Panneau(Fenetre fenetre, Parametres param) throws IOException {
+	public TextPanel(TextFrame fenetre, Parametres param) throws IOException {
 		this.fenetre = fenetre;
 		this.controlerGlobal = new ControlerText(this);
 		this.fenetre = fenetre;

@@ -3,12 +3,12 @@ package main.controler;
 import java.awt.event.*;
 
 import main.model.TextHandler;
-import main.view.Panneau;
+import main.view.TextPanel;
 
 public class ControlerMouse implements MouseListener {
 
 	public static int nbErreurs;
-	Panneau view;
+	TextPanel view;
 	TextHandler handler;
 	
 	/**
@@ -16,7 +16,7 @@ public class ControlerMouse implements MouseListener {
 	 */
 	public boolean clicking;
 
-	public ControlerMouse(Panneau p, TextHandler handler) {
+	public ControlerMouse(TextPanel p, TextHandler handler) {
 		view = p;
 		this.handler = handler;
 		nbErreurs = 0;

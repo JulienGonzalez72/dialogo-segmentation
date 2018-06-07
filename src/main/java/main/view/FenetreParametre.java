@@ -49,10 +49,9 @@ public class FenetreParametre extends JFrame {
 
 	public Fenetre fenetre;
 	/**
-	 * Liste des paramètres par mode de lecture.
+	 * Liste des paramï¿½tres par mode de lecture.
 	 */
 	private Map<ReadMode, Parametres> params = new HashMap<>();
-	public TextPane editorPane;
 	public ControlPanel controlPanel;
 	public JMenuItem stopItem;
 	public PanneauParam pan;
@@ -60,25 +59,25 @@ public class FenetreParametre extends JFrame {
 	public FenetreParametre(String titre, int tailleX, int tailleY) {
 		params = Parametres.loadAll();
 		setIconImage(getToolkit().getImage("icone.jpg"));
-		editorPane = null;
 		setTitle(titre);
 		setSize(tailleX, tailleY);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(true);
+
+		fenetre = new Fenetre(titre, tailleX * 2, tailleY, this);
+
 		pan = null;
 		try {
 			pan = new PanneauParam(this);
 		} catch (NumberFormatException | IOException e) {
 			e.printStackTrace();
 		}
-
-		fenetre = new Fenetre(titre, tailleX * 2, tailleY, this);
 		controlPanel = new ControlPanel(fenetre.pan, this);
 
 		JTabbedPane generalTab = new JTabbedPane();
-		generalTab.addTab("Paramètres", pan);
-		generalTab.addTab("Contrôle", controlPanel);
+		generalTab.addTab("ParamÃ©tres", pan);
+		generalTab.addTab("ContrÃ´le", controlPanel);
 		setContentPane(generalTab);
 		addMenu();
 		setVisible(true);
@@ -126,14 +125,14 @@ public class FenetreParametre extends JFrame {
 			titre.setPreferredSize(new Dimension(0, 30));
 			add(titre, BorderLayout.NORTH);
 
-			validButton = fastButton("Démarrer l'exercice", new Font("OpenDyslexic", Font.BOLD, 18), Color.green);
+			validButton = fastButton("DÃ©marrer l'exercice", new Font("OpenDyslexic", Font.BOLD, 18), Color.green);
 			JLabel police = fastLabel("Police : ");
 			JLabel taillePolice = fastLabel("Taille de la police : ");
 			JLabel couleurDeFond = fastLabel("Couleur de fond : ");
 			couleurJuste = fastLabel("Couleur pour \"juste\" : ");
 			couleurFausse = fastLabel("Couleur pour \"faux\" : ");
 			couleurCorrection = fastLabel("Couleur de correction : ");
-			JLabel segments = fastLabel("Segment de départ ");
+			JLabel segments = fastLabel("Segment de dÃ©part ");
 			JLabel attente = fastLabel("Temps d'attente en % du temps de lecture");
 
 			controleur = new ControlerParam(fen, this);
@@ -183,7 +182,7 @@ public class FenetreParametre extends JFrame {
 			wrongColorComboBox = new ColorComboBox(Constants.COLORS, true);
 			correctColorComboBox = new ColorComboBox(Constants.COLORS, true);
 
-			/// flèches haut et bas pour incrémenter/décrémenter un nombre ///
+			/// flï¿½ches haut et bas pour incrï¿½menter/dï¿½crï¿½menter un nombre ///
 			KeyListener numberKey = new KeyAdapter() {
 				@Override
 				public void keyPressed(KeyEvent e) {
@@ -201,7 +200,8 @@ public class FenetreParametre extends JFrame {
 						else
 							return;
 
-						if (controleur.isValidPhrase(n))
+						if ((controleur.isValidPhrase(n) && jtf == startingPhraseField)
+								|| (n >= 0 && jtf == toleratedErrorsField))
 							jtf.setText(String.valueOf(n));
 					} catch (NumberFormatException ex) {
 					}
@@ -239,14 +239,14 @@ public class FenetreParametre extends JFrame {
 			fastCentering(wrongColorComboBox, midPanel, "   ");
 			fastCentering(correctColorComboBox, midPanel, "   ");
 
-			anticipatedModeRadio = fastRadio("Anticipé", controleur);
-			anticipatedModeRadio.setToolTipText("Mode Anticipé");
+			anticipatedModeRadio = fastRadio("AnticipÃ©", controleur);
+			anticipatedModeRadio.setToolTipText("Mode AnticipÃ©");
 			highlightModeRadio = fastRadio("Suivi", controleur);
-			highlightModeRadio.setToolTipText("Mode de lecture segmentée : version surlignage");
-			guidedModeRadio = fastRadio("Guidé", controleur);
-			guidedModeRadio.setToolTipText("Mode guidé");
-			segmentedModeRadio = fastRadio("Segmenté", controleur);
-			segmentedModeRadio.setToolTipText("Mode de lecture segmentée");
+			highlightModeRadio.setToolTipText("Mode de lecture segmentï¿½e : version surlignage");
+			guidedModeRadio = fastRadio("GuidÃ©", controleur);
+			guidedModeRadio.setToolTipText("Mode guidÃ©");
+			segmentedModeRadio = fastRadio("SegmentÃ©", controleur);
+			segmentedModeRadio.setToolTipText("Mode de lecture segmentï¿½e");
 			segmentedModeRadio.setSelected(true);
 
 			modes = new ButtonGroup();
@@ -292,8 +292,8 @@ public class FenetreParametre extends JFrame {
 		}
 
 		/**
-		 * Applique les préférences chargées aux pré-sélections de la fenêtre de
-		 * paramètres et à la fenêtre principale si elle existe.
+		 * Applique les prï¿½fï¿½rences chargï¿½es aux prï¿½-sï¿½lections de la fenï¿½tre de
+		 * paramï¿½tres et ï¿½ la fenï¿½tre principale si elle existe.
 		 */
 		public void applyPreferences(ReadMode readMode) {
 			Parametres param = params.get(readMode);
@@ -315,29 +315,24 @@ public class FenetreParametre extends JFrame {
 		}
 
 		/**
-		 * Enregistre les préférences en fonction de la sélection de l'utilisateur.
+		 * Enregistre les prï¿½fï¿½rences en fonction de la sï¿½lection de l'utilisateur.
 		 */
 		public void savePreferences(ReadMode readMode) {
 			Parametres param = params.get(readMode);
-			param.bgColor = bgColorComboBox.getBackground();// stringToColor((String)
-															// bgColorComboBox.getSelectedItem());
-			param.rightColor = rightColorComboBox.getBackground();// stringToColor((String)
-																	// rightColorComboBox.getSelectedItem());
-			param.wrongColor = wrongColorComboBox.getBackground();// stringToColor((String)
-																	// wrongColorComboBox.getSelectedItem());
-			param.correctionColor = correctColorComboBox.getBackground();// stringToColor((String)
-																			// correctColorComboBox.getSelectedItem());
+			param.bgColor = bgColorComboBox.getBackground();
+			param.rightColor = rightColorComboBox.getBackground();
+			param.wrongColor = wrongColorComboBox.getBackground();
+			param.correctionColor = correctColorComboBox.getBackground();
 			param.taillePolice = (Integer) fontSizeComboBox.getSelectedItem();
 			param.police = FenetreParametre.getFont((String) fontFamilyComboBox.getSelectedItem(),
 					fontFamilyComboBox.getSelectedIndex(), Font.BOLD, param.taillePolice);
 			try {
 				param.startingPhrase = Integer.parseInt(startingPhraseField.getText());
-			} catch (NumberFormatException e) {
-			}
-			try {
+
 				param.nbFautesTolerees = Integer.parseInt(toleratedErrorsField.getText());
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
+			} catch (
+
+			NumberFormatException e) {
 			}
 			param.rejouerSon = replayCheckBox.isSelected();
 			param.tempsPauseEnPourcentageDuTempsDeLecture = waitSlider.getValue();
@@ -352,7 +347,7 @@ public class FenetreParametre extends JFrame {
 		}
 
 		/**
-		 * Mets à jour les composants de la fenêtre en fonction du mode sélectionné.
+		 * Mets ï¿½ jour les composants de la fenï¿½tre en fonction du mode sï¿½lectionnï¿½.
 		 */
 		public void updateMode() {
 			switch (getReadMode()) {
@@ -464,7 +459,7 @@ public class FenetreParametre extends JFrame {
 		}
 
 		/**
-		 * Retourne le mode de lecture sélectionné par l'utilisateur.
+		 * Retourne le mode de lecture sï¿½lectionnï¿½ par l'utilisateur.
 		 */
 		public ReadMode getReadMode() {
 			if (guidedModeRadio.isSelected())
@@ -481,14 +476,15 @@ public class FenetreParametre extends JFrame {
 	}
 
 	public void lancerExercice() {
-		pan.validButton.setText("Appliquer les paramètres");
+		pan.validButton.setText("Appliquer les paramÃ©tres");
 		setLaunchParametersEnabled(false);
 		fenetre.init(getCurrentParameters());
 		fenetre.start();
+		controlPanel.init();
 	}
 
 	public void stopExercice() {
-		pan.validButton.setText("Démarrer l'exercice");
+		pan.validButton.setText("DÃ©marrer l'exercice");
 		setLaunchParametersEnabled(true);
 		stopItem.setEnabled(false);
 		fenetre.setVisible(false);
@@ -498,11 +494,11 @@ public class FenetreParametre extends JFrame {
 	}
 
 	/**
-	 * Active ou désactive les paramètres non modifiables à partir de la première
-	 * écoute.
+	 * Active ou dï¿½sactive les paramï¿½tres non modifiables ï¿½ partir de la premiï¿½re
+	 * ï¿½coute.
 	 */
 	public void setStartParametersEnabled(boolean enabled) {
-		/// désacive la taille et la police et le segment de départ ///
+		/// dï¿½sacive la taille et la police et le segment de dï¿½part ///
 		pan.fontFamilyComboBox.setEnabled(enabled);
 		pan.fontSizeComboBox.setEnabled(enabled);
 		pan.startingPhraseField.setEnabled(enabled);
@@ -513,7 +509,7 @@ public class FenetreParametre extends JFrame {
 	}
 
 	/**
-	 * Active ou désactive les paramètres non modifiable lors du lancement de
+	 * Active ou dï¿½sactive les paramï¿½tres non modifiable lors du lancement de
 	 * l'exercice.
 	 */
 	public void setLaunchParametersEnabled(boolean enabled) {
@@ -526,7 +522,7 @@ public class FenetreParametre extends JFrame {
 	}
 
 	/**
-	 * Retourne les paramètres du mode sélectionné.
+	 * Retourne les paramï¿½tres du mode sï¿½lectionnï¿½.
 	 */
 	public Parametres getCurrentParameters() {
 		if (pan.getReadMode() == null)
@@ -549,7 +545,7 @@ public class FenetreParametre extends JFrame {
 				System.exit(0);
 			}
 		});
-		stopItem = new JMenuItem("Arrêter l'exercice");
+		stopItem = new JMenuItem("Arrï¿½ter l'exercice");
 		stopItem.setToolTipText("Relancer l'exercice");
 		stopItem.setMnemonic(KeyEvent.VK_R);
 		stopItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.ALT_MASK));
@@ -575,7 +571,7 @@ public class FenetreParametre extends JFrame {
 	}
 
 	/**
-	 * Retourne le font correspondant à :
+	 * Retourne le font correspondant ï¿½ :
 	 * 
 	 * @param1 : la police
 	 * @param2 : l'index du font dans la liste des polices de la FenetreParametre

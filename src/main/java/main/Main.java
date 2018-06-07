@@ -20,7 +20,7 @@ public class Main {
 		try {
 			WebLookAndFeel.install();
 		} catch (Exception e1) {
-
+			e1.printStackTrace();
 		}
 
 		File rep = new File("ressources/fonts");

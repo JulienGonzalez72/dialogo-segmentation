@@ -2,21 +2,22 @@ package main.model;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
-import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-import org.dialogo.sound.file.Mp3Wrapper;
+//import org.dialogo.sound.file.Mp3Wrapper;
 
 //import fr.lexiphone.player.IPlayerConfiguration;
-import fr.lexiphone.player.impl.AbstractDelegatingBasicController;
+//import fr.lexiphone.player.impl.AbstractDelegatingBasicController;
 //import fr.lexiphone.player.impl.AutoPauseMarkerFilePlayer;
-import fr.lexiphone.player.impl.BasicController;
+//import fr.lexiphone.player.impl.BasicController;
 //import fr.lexiphone.player.impl.jasiohost.provider.jlPlayer.JlayerPlayer;
 
 //import javazoom.jlgui.basicplayer.BasicPlayerException;
@@ -24,8 +25,13 @@ import main.Constants;
 import main.Parametres;
 
 
-public class Player extends AbstractDelegatingBasicController<BasicController>{
+public class Player /*extends AbstractDelegatingBasicController<BasicController>*/ {
 
+	/**
+	 * Liste des fichiers audio nécessaires à l'enregistrement en cours chargés au début, associés à leurs numéros de segment. 
+	 */
+	private static Map<Integer, File> tracks;
+	
 	private TextHandler text;
 	private int currentPhrase;
 	private boolean playing, blocked;
@@ -68,8 +74,8 @@ public class Player extends AbstractDelegatingBasicController<BasicController>{
 	//private Mp3Wrapper wrapper;
 
 	public Player(TextHandler textHandler, Parametres param) {
-		super(null);
-		/*IPlayerConfiguration config = new IPlayerConfiguration() {
+		/*super(null);
+		IPlayerConfiguration config = new IPlayerConfiguration() {
 			@Override
 			public String getSamplesRootPath() {
 				return "ressources/sounds";
@@ -113,9 +119,9 @@ public class Player extends AbstractDelegatingBasicController<BasicController>{
 		currentPhrase = phrase;
 		try {
 			clip = AudioSystem.getClip();
-			clip.open(getAudioStream(Constants.AUDIO_FILE_NAME, phrase));
+			clip.open(AudioSystem.getAudioInputStream(tracks.get(Constants.HAS_INSTRUCTIONS ? phrase + 2 : phrase + 1)));
 			clip.setMicrosecondPosition(lastPosition);
-		} catch (LineUnavailableException | IOException e) {
+		} catch (LineUnavailableException | IOException | UnsupportedAudioFileException e) {
 			e.printStackTrace();
 		}
 	}
@@ -326,21 +332,10 @@ public class Player extends AbstractDelegatingBasicController<BasicController>{
 	public long getDuration() {
 		return clip != null ? clip.getMicrosecondLength() / 1000 : 0;
 	}
-
-	private static AudioInputStream getAudioStream(String fileName, int n) {
-		try {
-			String num = format(Constants.HAS_INSTRUCTIONS ? n + 2 : n + 1);
-			return AudioSystem.getAudioInputStream(
-					new File("ressources/sounds/" + fileName + "/" + fileName + "(" + num + ").wav"));
-		} catch (UnsupportedAudioFileException | IOException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
 	
-	private static Mp3Wrapper getWrapper(String fileName) {
+	/*private static Mp3Wrapper getWrapper(String fileName) {
 		return new Mp3Wrapper(new File("ressources/sounds/" + fileName + "/" + fileName + ".mp3"));
-	}
+	}*/
 
 	private static String format(int n) {
 		String str = String.valueOf(n);
@@ -357,13 +352,31 @@ public class Player extends AbstractDelegatingBasicController<BasicController>{
 	public void setParameters(Parametres param) {
 		this.param = param;
 	}
+	
+	/**
+	 * Charge tous les fichiers audio pour les rendre prêts à l'utilisation.
+	 */
+	public static void loadAll(String filePath, String fileName, int startPhrase, int endPhrase) throws IOException {
+		tracks = new HashMap<>();
+		for (int i = startPhrase; i <= endPhrase; i++) {
+			String num = format(i);
+			String path = filePath + "/" + fileName + "(" + num + ").wav";
+			File file = new File(path);
+			if (file.exists()) {
+				tracks.put(i, file);
+			}
+			else {
+				throw new IOException(path + " (Le fichier spécifié est introuvable)");
+			}
+		}
+	}
 
-	@Override
+	/*@Override
 	public void disactivateControls() {
 	}
 
 	@Override
 	public void reactivateControls() {
-	}
+	}*/
 
 }

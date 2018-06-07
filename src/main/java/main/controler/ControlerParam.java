@@ -1,10 +1,15 @@
 package main.controler;
 
-import java.util.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+
 import main.Constants;
 import main.Parametres;
 import main.view.FenetreParametre;
@@ -28,25 +33,25 @@ public class ControlerParam implements ActionListener {
 		}
 		if (jcb == panneau.fontSizeComboBox) {
 			int taille = (Integer) jcb.getSelectedItem();
-			Font font = new Font(panneau.fontFamilyComboBox.getFont().getFontName(), Constants.DEFAULT_FONT_STYLE, taille);
-			if (fen.editorPane != null) {
-				fen.editorPane.setFont(font);
+			Font font = new Font(panneau.fontFamilyComboBox.getFont().getFontName(), Constants.DEFAULT_FONT_STYLE,
+					taille);
+			if (fen.fenetre.isVisible() && fen.fenetre.pan.editorPane != null) {
+				fen.fenetre.pan.editorPane.setFont(font);
 				fen.fenetre.pan.rebuildPages();
 			}
 		}
 		if (jcb == panneau.fontFamilyComboBox) {
 			String police = (String) jcb.getSelectedItem();
-			Font font = new Font(police, Constants.DEFAULT_FONT_STYLE, (Integer) panneau.fontSizeComboBox.getSelectedItem());
+			Font font = new Font(police, Constants.DEFAULT_FONT_STYLE,
+					(Integer) panneau.fontSizeComboBox.getSelectedItem());
 			jcb.setFont(font.deriveFont((float) jcb.getFont().getSize()));
-			if (fen.editorPane != null) {
-				fen.editorPane.setFont(font);
+			if (fen.fenetre.isVisible() && fen.fenetre.pan.editorPane != null) {
+				fen.fenetre.pan.editorPane.setFont(font);
 				fen.fenetre.pan.rebuildPages();
 			}
 		}
-		if (arg0.getSource() == panneau.guidedModeRadio
-				|| arg0.getSource() == panneau.highlightModeRadio
-				|| arg0.getSource() == panneau.segmentedModeRadio
-				|| arg0.getSource() == panneau.anticipatedModeRadio) {
+		if (arg0.getSource() == panneau.guidedModeRadio || arg0.getSource() == panneau.highlightModeRadio
+				|| arg0.getSource() == panneau.segmentedModeRadio || arg0.getSource() == panneau.anticipatedModeRadio) {
 			panneau.savePreferences(panneau.oldMode);
 			panneau.oldMode = panneau.getReadMode();
 			panneau.applyPreferences(panneau.getReadMode());
@@ -61,7 +66,7 @@ public class ControlerParam implements ActionListener {
 				if (!fen.fenetre.isVisible()) {
 					fen.lancerExercice();
 				}
-				/// modifie les paramètres de l'exercice en cours ///
+				/// modifie les paramï¿½tres de l'exercice en cours ///
 				else {
 					fen.fenetre.setParameters(param);
 				}
@@ -70,15 +75,15 @@ public class ControlerParam implements ActionListener {
 	}
 
 	/**
-	 * Retourne vrai si : - Aucune couleur n'est sélectionnée en double - Les champs
-	 * saisies sont cohérents
+	 * Retourne vrai si : - Aucune couleur n'est sï¿½lectionnï¿½e en double - Les champs
+	 * saisies sont cohï¿½rents
 	 */
 	public boolean verifierValiditeChamp() {
 		boolean valide = true;
 
 		if (!couleursUniques()) {
-			JOptionPane.showMessageDialog(panneau, "Certaines couleurs sont identiques et risquent de se confondre !", "Attention",
-					JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(panneau, "Certaines couleurs sont identiques et risquent de se confondre !",
+					"Attention", JOptionPane.WARNING_MESSAGE);
 			valide = true;
 		}
 
@@ -88,7 +93,7 @@ public class ControlerParam implements ActionListener {
 			premierSegment = Integer.valueOf((String) panneau.startingPhraseField.getText());
 			if (!isValidPhrase(premierSegment)) {
 				JOptionPane.showMessageDialog(panneau,
-						"Entrez un segment inférieur à "
+						"Entrez un segment infï¿½rieur ï¿½ "
 								+ (((Panneau) fen.fenetre.getContentPane()).textHandler.getPhrasesCount() - 1),
 						"Erreur", JOptionPane.ERROR_MESSAGE);
 				premierSegment = 1;
@@ -100,49 +105,49 @@ public class ControlerParam implements ActionListener {
 			valide = false;
 		}
 
-		// nb fautes tolérées
+		// nb fautes tolï¿½rï¿½es
 		int n = -1;
 		try {
 			n = Integer.valueOf((String) panneau.toleratedErrorsField.getText());
 			if (n < 0) {
-				JOptionPane.showMessageDialog(panneau, "Le nombre de fautes tolérées doit être positif ou nul",
+				JOptionPane.showMessageDialog(panneau, "Le nombre de fautes tolï¿½rï¿½es doit ï¿½tre positif ou nul",
 						"Erreur", JOptionPane.ERROR_MESSAGE);
 				n = 1;
 				panneau.toleratedErrorsField.setText("0");
 				valide = false;
 			}
-		} catch (Exception e) {e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
 			panneau.toleratedErrorsField.setText("0");
 			valide = false;
 		}
 		return valide;
 	}
-	
+
 	public boolean isValidPhrase(int phrase) {
-		return phrase + 2 <= ((Panneau) fen.fenetre.getContentPane()).textHandler.getPhrasesCount()
-				&& phrase >= 1;
+		return phrase + 2 <= ((Panneau) fen.fenetre.getContentPane()).textHandler.getPhrasesCount() && phrase >= 1;
 	}
 
 	/**
-	 * Retourne vrai si toutes les couleurs des paramètres sont uniques
+	 * Retourne vrai si toutes les couleurs des paramï¿½tres sont uniques
 	 */
 	private boolean couleursUniques() {
 		boolean r = true;
-		List<Color> couleursUtilisées = new ArrayList<Color>();
-		couleursUtilisées.add(param.rightColor);
-		couleursUtilisées.add(param.wrongColor);
-		couleursUtilisées.add(param.correctionColor);
-		couleursUtilisées.add(param.bgColor);
-		if (occurence(param.rightColor, couleursUtilisées) != 1) {
+		List<Color> couleursUtilisÃ©es = new ArrayList<Color>();
+		couleursUtilisÃ©es.add(param.rightColor);
+		couleursUtilisÃ©es.add(param.wrongColor);
+		couleursUtilisÃ©es.add(param.correctionColor);
+		couleursUtilisÃ©es.add(param.bgColor);
+		if (occurence(param.rightColor, couleursUtilisÃ©es) != 1) {
 			r = false;
 		}
-		if (occurence(param.wrongColor, couleursUtilisées) != 1) {
+		if (occurence(param.wrongColor, couleursUtilisÃ©es) != 1) {
 			r = false;
 		}
-		if (occurence(param.correctionColor, couleursUtilisées) != 1) {
+		if (occurence(param.correctionColor, couleursUtilisÃ©es) != 1) {
 			r = false;
 		}
-		if (occurence(param.bgColor, couleursUtilisées) != 1) {
+		if (occurence(param.bgColor, couleursUtilisÃ©es) != 1) {
 			r = false;
 		}
 		return r;

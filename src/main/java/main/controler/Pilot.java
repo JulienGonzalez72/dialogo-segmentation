@@ -1,6 +1,5 @@
 package main.controler;
 
-import main.Constants;
 import main.reading.AnticipatedThread;
 import main.reading.GuidedThread;
 import main.reading.HighlightThread;
@@ -27,20 +26,16 @@ public class Pilot {
 	}
 
 	/**
-	 * Se place sur le segment de numero n et démarre le lecteur.
+	 * Se place sur le segment de numero n et dÃ©marre le lecteur.
 	 */
 	public void goTo(int n) throws IllegalArgumentException {
 		if (n < -1 || n >= p.textHandler.getPhrasesCount() - 1) {
-			throw new IllegalArgumentException("Numéro de segment invalide : " + n);
+			throw new IllegalArgumentException("Numï¿½ro de segment invalide : " + n);
 		}
 		phrase = n;
-		p.fenetreParam.setStartParametersEnabled(false);
-		/// désactive les boutons de contrôle pour éviter le spam ///
-		p.controlPanel.disableAll(Constants.DISABLE_TIME);
-		// vire le surlignagerouge
 		p.editorPane.enleverSurlignageRouge();
 
-		/// empêche le redimensionnement de la fenêtre lors de la première lecture ///
+		/// empï¿½che le redimensionnement de la fenï¿½tre lors de la premiï¿½re lecture ///
 		p.fenetre.setResizable(false);
 
 		// met a jour la barre de progression
@@ -57,7 +52,7 @@ public class Pilot {
 				if (phrase == p.textHandler.getPhrasesCount() - 1) {
 					p.afficherCompteRendu();
 				}
-				/// met à jour la barre de progression ///
+				/// met ï¿½ jour la barre de progression ///
 				else {
 					updateBar();
 				}
@@ -72,8 +67,8 @@ public class Pilot {
 	}
 
 	/**
-	 * Essaye de passer au segment suivant, passe à la page suivante si c'était le
-	 * dernier segment de la page. Déclenche une erreur si on était au dernier
+	 * Essaye de passer au segment suivant, passe Ã  la page suivante si c'Ã©tait le
+	 * dernier segment de la page. DÃ©clenche une erreur si on Ã©tait au dernier
 	 * segment du texte.
 	 */
 	public void doNext() {
@@ -81,7 +76,7 @@ public class Pilot {
 	}
 
 	/**
-	 * Essaye de passer au segment précédent. Déclenche une erreur si on était au
+	 * Essaye de passer au segment prÃ©cÃ©dent. DÃ©clenche une erreur si on Ã©tait au
 	 * premier segment du texte.
 	 */
 	public void doPrevious() {
@@ -89,7 +84,7 @@ public class Pilot {
 	}
 
 	/**
-	 * Essaye d'arrêter l'enregistrement en cours.
+	 * Essaye d'arrÃªter l'enregistrement en cours.
 	 */
 	public void doStop() {
 		p.player.stop();
@@ -99,15 +94,15 @@ public class Pilot {
 	}
 
 	/**
-	 * Essaye de reprendre l'enregistrement. Si il est déjà démarré, reprend depuis
-	 * le début.
+	 * Essaye de reprendre l'enregistrement. Si il est dÃ©jÃ  dÃ©marrÃ©, reprend depuis
+	 * le dÃ©but.
 	 */
 	public void doPlay() {
 		goTo(p.player.getCurrentPhraseIndex());
 	}
 
 	/**
-	 * Créé un processus associé à la lecture d'un seul segment dans le mode de
+	 * CrÃ©Ã© un processus associÃ© Ã  la lecture d'un seul segment dans le mode de
 	 * lecture actuel.
 	 */
 	public ReadThread getReadThread(int n) {

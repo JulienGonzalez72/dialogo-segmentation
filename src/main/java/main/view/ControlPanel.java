@@ -8,7 +8,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import main.Constants;
-import main.Parametres;
 
 public class ControlPanel extends JPanel {
 
@@ -28,7 +27,7 @@ public class ControlPanel extends JPanel {
 		loadImages();
 	}
 
-	public ControlPanel(Panneau p, FenetreParametre fen) {
+	public ControlPanel(Panneau p, final FenetreParametre fen) {
 		this.pan = p;
 		
 		add(previousButton);
@@ -51,6 +50,7 @@ public class ControlPanel extends JPanel {
 				}
 				else {
 					pan.pilot.doPlay();
+					fen.setStartParametersEnabled(false);
 				}
 				updateButtons();
 			}
@@ -62,6 +62,7 @@ public class ControlPanel extends JPanel {
 		nextButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				pan.pilot.doNext();
+				fen.setStartParametersEnabled(false);
 				updateButtons();
 			}
 		});
@@ -88,14 +89,13 @@ public class ControlPanel extends JPanel {
 				try {
 					n = Integer.parseInt(goToField.getText()) - 1;
 					pan.pilot.goTo(n);
+					fen.setStartParametersEnabled(false);
 				} catch (IllegalArgumentException ex) {
 					JOptionPane.showMessageDialog(null, "Numéro de segment incorrect : " + goToField.getText());
 				}
 				updateButtons();
 			}
 		});
-
-		//addMenu();
 	}
 	
 	/**

@@ -20,7 +20,7 @@ public class Fenetre extends JFrame {
 	public Fenetre(String titre, int tailleX, int tailleY, FenetreParametre fenetreParam) {
 		setIconImage(getToolkit().getImage("icone.jpg"));
 		try {
-			pan = new Panneau(this, fenetreParam, null);
+			pan = new Panneau(this, null);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

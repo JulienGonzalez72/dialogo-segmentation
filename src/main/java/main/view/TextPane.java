@@ -4,10 +4,16 @@ import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JTextPane;
-import javax.swing.text.*;
-import javax.swing.text.Highlighter.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter.Highlight;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+
 import main.Constants;
 import main.Parametres;
 
@@ -18,17 +24,14 @@ public class TextPane extends JTextPane {
 	private List<Object> redHighlightTags = new ArrayList<>();
 	private List<Object> blueHighlightTags = new ArrayList<>();
 	private List<Object> greenHighlightTags = new ArrayList<>();
-	
+
 	public Parametres param;
 
 	public String textReel;
 
-	public TextPane(Parametres param) {
-
-		setFont(param.police);
+	public TextPane() {
 		setSelectionColor(new Color(0, 0, 0, 0));
-
-		/// mets les marges sur les côtés ///
+		/// mets les marges sur les cï¿½tï¿½s ///
 		SimpleAttributeSet attrs = new SimpleAttributeSet();
 		StyleConstants.setLineSpacing(attrs, 1);
 		StyleConstants.setSpaceAbove(attrs, Constants.TEXTPANE_MARGING);
@@ -38,7 +41,7 @@ public class TextPane extends JTextPane {
 	}
 
 	/**
-	 * surligne tout de début à fin avec la couleur spécifiée
+	 * surligne tout de dï¿½but ï¿½ fin avec la couleur spï¿½cifiï¿½e
 	 *
 	 */
 	public void surlignerPhrase(int debut, int fin, Color couleur) {
@@ -90,7 +93,7 @@ public class TextPane extends JTextPane {
 	 * desurligne tout
 	 *
 	 */
-	public void désurlignerTout() {
+	public void dÃ©surlignerTout() {
 		getHighlighter().removeAllHighlights();
 		redHighlightTags.clear();
 		greenHighlightTags.clear();
@@ -98,7 +101,7 @@ public class TextPane extends JTextPane {
 	}
 
 	/**
-	 * Enlève tout le surlignage présent entre les bornes start et end.
+	 * Enlï¿½ve tout le surlignage prï¿½sent entre les bornes start et end.
 	 */
 	public void removeHighlight(int start, int end) {
 		Highlight[] hl = getHighlighter().getHighlights();

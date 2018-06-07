@@ -17,7 +17,7 @@ public class TextFrame extends JFrame {
 	public boolean preferencesExiste = true;
 	private Parametres param;
 
-	public TextFrame(String titre, int tailleX, int tailleY, FenetreParametre fenetreParam) {
+	public TextFrame(String titre, int tailleX, int tailleY) {
 		setIconImage(getToolkit().getImage("icone.jpg"));
 		try {
 			pan = new TextPanel(this, null);

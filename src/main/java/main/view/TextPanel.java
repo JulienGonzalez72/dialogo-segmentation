@@ -67,7 +67,7 @@ public class TextPanel extends JPanel {
 					"Erreur", JOptionPane.ERROR_MESSAGE);
 			System.exit(0);
 		}
-		/// enlève la consigne ///
+		/// enlï¿½ve la consigne ///
 		if (Constants.HAS_INSTRUCTIONS) {
 			texteCesures = texteCesures.substring(texteCesures.indexOf("/") + 1, texteCesures.length());
 		}
@@ -98,7 +98,7 @@ public class TextPanel extends JPanel {
 	}
 
 	/**
-	 * S'exécute lorsque le panneau s'est bien intégré à la fenêtre.
+	 * S'exï¿½cute lorsque le panneau s'est bien intï¿½grï¿½ ï¿½ la fenï¿½tre.
 	 */
 	public void init(Parametres param) {
 		setParameters(param);
@@ -144,7 +144,7 @@ public class TextPanel extends JPanel {
 	}
 
 	/**
-	 * retourne le contenu du fichier .txt situé à l'emplacement du paramètre
+	 * retourne le contenu du fichier .txt situï¿½ ï¿½ l'emplacement du paramï¿½tre
 	 */
 	public static String getTextFromFile(String emplacement) throws IOException {
 		File fichierTxt = new File(emplacement);
@@ -168,7 +168,7 @@ public class TextPanel extends JPanel {
 	 */
 	public void afficherPageSuivante() {
 		showPage(pageActuelle + 1);
-		editorPane.désurlignerTout();
+		editorPane.dÃ©surlignerTout();
 		if ((param.readMode == ReadMode.GUIDEE || param.readMode == ReadMode.ANTICIPE)
 				&& (controlerGlobal != null && player != null)) {
 			controlerGlobal.highlightPhrase(param.rightColor, player.getCurrentPhraseIndex());
@@ -176,7 +176,7 @@ public class TextPanel extends JPanel {
 	}
 
 	/**
-	 * Construit les pages et affiche la première.
+	 * Construit les pages et affiche la premiï¿½re.
 	 */
 	public void rebuildPages() {
 		buildPages(param.startingPhrase - 1);
@@ -193,7 +193,7 @@ public class TextPanel extends JPanel {
 	public void afficherPagePrecedente() {
 		if (pageActuelle > 0) {
 			showPage(pageActuelle - 1);
-			editorPane.désurlignerTout();
+			editorPane.dÃ©surlignerTout();
 		}
 	}
 
@@ -202,7 +202,7 @@ public class TextPanel extends JPanel {
 	 */
 	public void buildPages(int startPhrase) {
 		segmentsEnFonctionDeLaPage.clear();
-		editorPane.désurlignerTout();
+		editorPane.dÃ©surlignerTout();
 		String text = textHandler.getShowText();
 		int lastOffset = 0;
 		int page = 1;
@@ -242,7 +242,7 @@ public class TextPanel extends JPanel {
 				page++;
 			}
 			String newText = textHandler.getShowText().substring(lastOffset);
-			/// dernière page ///
+			/// derniï¿½re page ///
 			if (newText.equals(text)) {
 				if (!segmentsEnFonctionDeLaPage.get(page - 1).contains(textHandler.getPhraseIndex(off))) {
 					segmentsEnFonctionDeLaPage.get(page - 1).add(textHandler.getPhraseIndex(off));
@@ -255,7 +255,7 @@ public class TextPanel extends JPanel {
 	}
 
 	public void showPage(int page) {
-		/// on ne fait rien si on est déjà sur cette page ///
+		/// on ne fait rien si on est dï¿½jï¿½ sur cette page ///
 		if (pageActuelle == page) {
 			return;
 		}
@@ -292,7 +292,7 @@ public class TextPanel extends JPanel {
 		editorPane.surlignerPhrase(debut, fin, param.wrongColor);
 	}
 
-	public int getNumeroPremierSegmentAffiché() {
+	public int getNumeroPremierSegmentAffichÃ©() {
 		return segmentsEnFonctionDeLaPage.get(pageActuelle).get(0);
 	}
 
@@ -310,13 +310,13 @@ public class TextPanel extends JPanel {
 			switch (param.readMode) {
 			case SEGMENTE:
 			case SUIVI:
-				message = "L'exercice est terminé." + "\n" + "Le patient a fait " + nbErreurs + " erreur"
+				message = "L'exercice est terminï¿½." + "\n" + "Le patient a fait " + nbErreurs + " erreur"
 						+ (nbErreurs > 1 ? "s" : "") + " de clic.\n" + "Le patient a fait " + nbErreursParSegment
 						+ " erreur" + (nbErreursParSegment > 1 ? "s" : "") + " de segment.";
 				break;
 			case ANTICIPE:
 			case GUIDEE:
-				message = "L'exercice est terminé.";
+				message = "L'exercice est terminï¿½.";
 			default:
 				break;
 			}
@@ -333,7 +333,7 @@ public class TextPanel extends JPanel {
 	 */
 	public void surlignerJusquaSegment(Color c, int n) {
 		if (textHandler.getPhrase(n) != null) {
-			int debutRelatifSegment = textHandler.getRelativeStartPhrasePosition(getNumeroPremierSegmentAffiché(), n);
+			int debutRelatifSegment = textHandler.getRelativeStartPhrasePosition(getNumeroPremierSegmentAffichÃ©(), n);
 			int finRelativeSegment = debutRelatifSegment + textHandler.getPhrase(n).length();
 			editorPane.surlignerPhrase(0, finRelativeSegment, param.rightColor);
 		}

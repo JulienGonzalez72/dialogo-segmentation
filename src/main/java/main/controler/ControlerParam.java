@@ -61,7 +61,7 @@ public class ControlerParam implements ActionListener {
 				if (!fen.fenetre.isVisible()) {
 					fen.lancerExercice();
 				}
-				/// modifie les paramètres de l'exercice en cours ///
+				/// modifie les paramï¿½tres de l'exercice en cours ///
 				else {
 					fen.fenetre.setParameters(param);
 				}
@@ -70,8 +70,8 @@ public class ControlerParam implements ActionListener {
 	}
 
 	/**
-	 * Retourne vrai si : - Aucune couleur n'est sélectionnée en double - Les champs
-	 * saisies sont cohérents
+	 * Retourne vrai si : - Aucune couleur n'est sï¿½lectionnï¿½e en double - Les champs
+	 * saisies sont cohï¿½rents
 	 */
 	public boolean verifierValiditeChamp() {
 		boolean valide = true;
@@ -88,7 +88,7 @@ public class ControlerParam implements ActionListener {
 			premierSegment = Integer.valueOf((String) panneau.startingPhraseField.getText());
 			if (!isValidPhrase(premierSegment)) {
 				JOptionPane.showMessageDialog(panneau,
-						"Entrez un segment inférieur à "
+						"Entrez un segment infï¿½rieur ï¿½ "
 								+ (((TextPanel) fen.fenetre.getContentPane()).textHandler.getPhrasesCount() - 1),
 						"Erreur", JOptionPane.ERROR_MESSAGE);
 				premierSegment = 1;
@@ -100,12 +100,12 @@ public class ControlerParam implements ActionListener {
 			valide = false;
 		}
 
-		// nb fautes tolérées
+		// nb fautes tolï¿½rï¿½es
 		int n = -1;
 		try {
 			n = Integer.valueOf((String) panneau.toleratedErrorsField.getText());
 			if (n < 0) {
-				JOptionPane.showMessageDialog(panneau, "Le nombre de fautes tolérées doit être positif ou nul",
+				JOptionPane.showMessageDialog(panneau, "Le nombre de fautes tolï¿½rï¿½es doit ï¿½tre positif ou nul",
 						"Erreur", JOptionPane.ERROR_MESSAGE);
 				n = 1;
 				panneau.toleratedErrorsField.setText("0");
@@ -124,25 +124,25 @@ public class ControlerParam implements ActionListener {
 	}
 
 	/**
-	 * Retourne vrai si toutes les couleurs des paramètres sont uniques
+	 * Retourne vrai si toutes les couleurs des paramï¿½tres sont uniques
 	 */
 	private boolean couleursUniques() {
 		boolean r = true;
-		List<Color> couleursUtilisées = new ArrayList<Color>();
-		couleursUtilisées.add(param.rightColor);
-		couleursUtilisées.add(param.wrongColor);
-		couleursUtilisées.add(param.correctionColor);
-		couleursUtilisées.add(param.bgColor);
-		if (occurence(param.rightColor, couleursUtilisées) != 1) {
+		List<Color> usedColors = new ArrayList<Color>();
+		usedColors.add(param.rightColor);
+		usedColors.add(param.wrongColor);
+		usedColors.add(param.correctionColor);
+		usedColors.add(param.bgColor);
+		if (occurence(param.rightColor, usedColors) != 1) {
 			r = false;
 		}
-		if (occurence(param.wrongColor, couleursUtilisées) != 1) {
+		if (occurence(param.wrongColor, usedColors) != 1) {
 			r = false;
 		}
-		if (occurence(param.correctionColor, couleursUtilisées) != 1) {
+		if (occurence(param.correctionColor, usedColors) != 1) {
 			r = false;
 		}
-		if (occurence(param.bgColor, couleursUtilisées) != 1) {
+		if (occurence(param.bgColor, usedColors) != 1) {
 			r = false;
 		}
 		return r;

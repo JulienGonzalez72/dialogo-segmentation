@@ -32,7 +32,7 @@ public class FenetreParametre extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(true);
 		
-		fenetre = new TextFrame(titre, tailleX * 2, tailleY, this);
+		fenetre = new TextFrame(titre, tailleX * 2, tailleY);
 		
 		pan = null;
 		try {

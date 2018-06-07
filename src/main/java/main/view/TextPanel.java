@@ -35,7 +35,7 @@ import main.model.TextHandler;
 import main.reading.ReadMode;
 import main.reading.ReadThread;
 
-public class Panneau extends JPanel {
+public class TextPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	public static int premierSegment;
@@ -49,7 +49,7 @@ public class Panneau extends JPanel {
 	public int nbEssaisRestantPourLeSegmentCourant;
 	public int nbErreurs;
 	public int nbErreursParSegment;
-	public Fenetre fenetre;
+	public TextFrame fenetre;
 	public ControlPanel controlPanel;
 	public ControlerText controlerGlobal;
 	public ControlerKey controlerKey;
@@ -65,7 +65,7 @@ public class Panneau extends JPanel {
 	 */
 	public JProgressBar progressBar;
 
-	public Panneau(Fenetre fenetre, Parametres param) throws IOException {
+	public TextPanel(TextFrame fenetre, Parametres param) throws IOException {
 		this.fenetre = fenetre;
 		this.controlerGlobal = new ControlerText(this);
 		this.fenetre = fenetre;
@@ -112,7 +112,10 @@ public class Panneau extends JPanel {
 	}
 
 	/**
-	 * S'exécute lorsque le panneau s'est bien intégré à la fenêtre.
+	 * <<<<<<< HEAD:src/main/java/main/view/Panneau.java S'exécute lorsque le
+	 * panneau s'est bien intégré à la fenêtre. ======= S'ex�cute lorsque le panneau
+	 * s'est bien int�gr� � la fen�tre. >>>>>>>
+	 * 4d0c5fc4d1a7669040ff27890026e54fc89e22ed:src/main/java/main/view/TextPanel.java
 	 */
 	public void init(Parametres param) {
 		setParameters(param);
@@ -156,7 +159,10 @@ public class Panneau extends JPanel {
 	}
 
 	/**
-	 * retourne le contenu du fichier .txt situé à l'emplacement du paramètre
+	 * <<<<<<< HEAD:src/main/java/main/view/Panneau.java retourne le contenu du
+	 * fichier .txt situé à l'emplacement du paramètre ======= retourne le contenu
+	 * du fichier .txt situ� � l'emplacement du param�tre >>>>>>>
+	 * 4d0c5fc4d1a7669040ff27890026e54fc89e22ed:src/main/java/main/view/TextPanel.java
 	 */
 	public static String getTextFromFile(String emplacement) throws IOException {
 		File fichierTxt = new File(emplacement);
@@ -188,7 +194,10 @@ public class Panneau extends JPanel {
 	}
 
 	/**
-	 * Construit les pages et affiche la première.
+	 * <<<<<<< HEAD:src/main/java/main/view/Panneau.java Construit les pages et
+	 * affiche la première. ======= Construit les pages et affiche la premi�re.
+	 * >>>>>>>
+	 * 4d0c5fc4d1a7669040ff27890026e54fc89e22ed:src/main/java/main/view/TextPanel.java
 	 */
 	public void rebuildPages() {
 		buildPages(param.startingPhrase - 1);
@@ -268,6 +277,7 @@ public class Panneau extends JPanel {
 
 	public void showPage(int page) {
 		/// on ne fait rien si on est déjà sur cette page ///
+
 		if (pageActuelle == page) {
 			return;
 		}
@@ -322,13 +332,16 @@ public class Panneau extends JPanel {
 			switch (param.readMode) {
 			case SEGMENTE:
 			case SUIVI:
+
 				message = "L'exercice est terminé." + "\n" + "Le patient a fait " + nbErreurs + " erreur"
 						+ (nbErreurs > 1 ? "s" : "") + " de clic.\n" + "Le patient a fait " + nbErreursParSegment
 						+ " erreur" + (nbErreursParSegment > 1 ? "s" : "") + " de segment.";
 				break;
 			case ANTICIPE:
 			case GUIDEE:
+
 				message = "L'exercice est terminé.";
+
 			default:
 				break;
 			}

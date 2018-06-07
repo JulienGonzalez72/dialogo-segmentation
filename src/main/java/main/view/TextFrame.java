@@ -9,18 +9,18 @@ import javax.swing.*;
 import main.Constants;
 import main.Parametres;
 
-public class Fenetre extends JFrame {
+public class TextFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	public Panneau pan;
+	public TextPanel pan;
 	public boolean preferencesExiste = true;
 	private Parametres param;
 
-	public Fenetre(String titre, int tailleX, int tailleY, FenetreParametre fenetreParam) {
+	public TextFrame(String titre, int tailleX, int tailleY) {
 		setIconImage(getToolkit().getImage("icone.jpg"));
 		try {
-			pan = new Panneau(this, null);
+			pan = new TextPanel(this, null);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -49,15 +49,15 @@ public class Fenetre extends JFrame {
 					lastHeight = getHeight();
 				}
 				
-				Fenetre.this.param.panWidth = Fenetre.this.getWidth();
-				Fenetre.this.param.panHeight = Fenetre.this.getHeight();
+				TextFrame.this.param.panWidth = TextFrame.this.getWidth();
+				TextFrame.this.param.panHeight = TextFrame.this.getHeight();
 				
 			}
 			
 			@Override
 			public void componentMoved(ComponentEvent e) {
-				Fenetre.this.param.panX = Fenetre.this.getX();
-				Fenetre.this.param.panY = Fenetre.this.getY();
+				TextFrame.this.param.panX = TextFrame.this.getX();
+				TextFrame.this.param.panY = TextFrame.this.getY();
 			}
 		});
 		

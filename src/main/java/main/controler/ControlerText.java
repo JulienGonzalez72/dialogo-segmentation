@@ -4,36 +4,36 @@ import java.awt.Color;
 import java.awt.Cursor;
 
 import main.Constants;
-import main.view.Panneau;
+import main.view.TextPanel;
 
 public class ControlerText {
 
-	public Panneau p;
+	public TextPanel p;
 
 	/**
-	 * Construit un contr�leur � partir du panneau correspondant.
+	 * Construit un contrôleur à partir du panneau correspondant.
 	 */
-	public ControlerText(Panneau p) {
+	public ControlerText(TextPanel p) {
 		this.p = p;
 	}
 
 	/**
-	 * Construit les pages � partir du segment de numero sp�cifi�.
+	 * Construit les pages é partir du segment de numero spécifié.
 	 */
 	public void buildPages(int startPhrase) {
 		p.buildPages(startPhrase);
 	}
 
 	/**
-	 * Affiche la page indiqu�e.
+	 * Affiche la page indiquée.
 	 */
 	public void showPage(int page) {
 		p.showPage(page);
 	}
 
 	/**
-	 * Joue un fichier .wav correspondant � un segment de phrase. On sortira de
-	 * cette fonction lorsque le fichier .wav aura �t� totalement jou�. METHODE DE
+	 * Joue un fichier .wav correspondant é un segment de phrase. On sortira de
+	 * cette fonction lorsque le fichier .wav aura été totalement joué. METHODE DE
 	 * TEST
 	 */
 	public void play(int phrase) {
@@ -44,7 +44,7 @@ public class ControlerText {
 				p.setCursor(Cursor.getDefaultCursor());
 				break;
 			}
-			/// fixe toujours le curseur d'�coute pendant toute la dur�e de l'enregistrement
+			/// fixe toujours le curseur d'écoute pendant toute la durée de l'enregistrement
 			/// ///
 			if (!p.getCursorName().equals(Constants.CURSOR_LISTEN)) {
 				p.setCursor(Constants.CURSOR_LISTEN);
@@ -60,8 +60,8 @@ public class ControlerText {
 	}
 
 	/**
-	 * Retourne la dur�e en millisecondes de l'enregistrement qui correspond au
-	 * segment de phrase indiqu�.
+	 * Retourne la durée en millisecondes de l'enregistrement qui correspond au
+	 * segment de phrase indiqué.
 	 */
 	public long getPhraseDuration(int phrase) {
 		p.player.load(phrase);
@@ -69,14 +69,14 @@ public class ControlerText {
 	}
 
 	/**
-	 * Retourne la dur�e en millisecondes de l'enregistrement courant.
+	 * Retourne la durée en millisecondes de l'enregistrement courant.
 	 */
 	public long getCurrentPhraseDuration() {
 		return p.player.getDuration();
 	}
 
 	/**
-	 * Retourne le temps d'attente en millisecondes correspondant � l'enregistrement
+	 * Retourne le temps d'attente en millisecondes correspondant é l'enregistrement
 	 * courant.
 	 */
 	public long getCurrentWaitTime() {
@@ -89,7 +89,7 @@ public class ControlerText {
 	 * @param time
 	 *            le temps de pause, en millisecondes
 	 * @param cursorName
-	 *            le type de curseur � d�finir pendant l'attente (peut �tre
+	 *            le type de curseur à définir pendant l'attente (peut étre
 	 *            Constants.CURSOR_SPEAK ou Constants.CURSOR_LISTEN)
 	 */
 	public void doWait(long time, String cursorName) {
@@ -103,14 +103,14 @@ public class ControlerText {
 	}
 
 	/**
-	 * Attente d�un clic de la souris sur le dernier mot du segment.
+	 * Attente d'un clic de la souris sur le dernier mot du segment.
 	 * <ul>
-	 * <li>Param�tre d�entr�e�1: Num�ro de segment</li>
-	 * <li>Param�tre de sortie�: True ou False (r�ussite)</li>
-	 * <li>On sort de cette fonction lorsqu�un clic a �t� r�alis�. Si le clic a �t�
-	 * r�alis� sur le bon mot on sort avec true, et si le clic a �t� r�alis� sur une
-	 * partie erron�e, on surligne cette partie avec une couleur qui indique une
-	 * erreur, Rouge ? En param�tre ? Et on sort avec False.
+	 * <li>Paramétre déentréeé1: Numéro de segment</li>
+	 * <li>Paramétre de sortieé: True ou False (réussite)</li>
+	 * <li>On sort de cette fonction lorsquéun clic a été réalisé. Si le clic a été
+	 * réalisé sur le bon mot on sort avec true, et si le clic a été réalisé sur une
+	 * partie erronée, on surligne cette partie avec une couleur paramétrée. Et on
+	 * sort avec False.
 	 * </ul>
 	 */
 	public boolean waitForClick(int n) {
@@ -154,7 +154,8 @@ public class ControlerText {
 
 	/**
 	 * Supprime le surlignage qui se trouve sur le segment n. Ne fait rien si ce
-	 * segment n'est pas surlign�.
+	 * <<<<<<< HEAD segment n'est pas surlign�. ======= segment n'est pas surligné.
+	 * >>>>>>> 4d0c5fc4d1a7669040ff27890026e54fc89e22ed
 	 */
 	public void removeHighlightPhrase(int n) {
 		int debutRelatifSegment = p.textHandler.getRelativeStartPhrasePosition(p.getNumeroPremierSegmentAffiché(), n);
@@ -163,7 +164,9 @@ public class ControlerText {
 	}
 
 	/**
-	 * Arr�te l'enregistrement courant et enl�ve tout le surlignage.
+	 * <<<<<<< HEAD Arr�te l'enregistrement courant et enl�ve tout le surlignage.
+	 * ======= Arréte l'enregistrement courant et enléve tout le surlignage. >>>>>>>
+	 * 4d0c5fc4d1a7669040ff27890026e54fc89e22ed
 	 */
 	public void stopAll() {
 		p.player.stop();
@@ -171,16 +174,20 @@ public class ControlerText {
 	}
 
 	/**
-	 * Charge un segment de phrase dans le lecteur sans le d�marrer.<br>
-	 * Pas n�cessaire si on d�marre le lecteur directement avec la m�thode
-	 * {@link #play}.
+	 * <<<<<<< HEAD Charge un segment de phrase dans le lecteur sans le
+	 * d�marrer.<br>
+	 * Pas n�cessaire si on d�marre le lecteur directement avec la m�thode =======
+	 * Charge un segment de phrase dans le lecteur sans le démarrer.<br>
+	 * Pas nécessaire si on démarre le lecteur directement avec la méthode >>>>>>>
+	 * 4d0c5fc4d1a7669040ff27890026e54fc89e22ed {@link #play}.
 	 */
 	public void loadSound(int phrase) {
 		p.player.load(phrase);
 	}
 
 	/**
-	 * Enl�ve tout le surlignage d'erreur.
+	 * <<<<<<< HEAD Enl�ve tout le surlignage d'erreur. ======= Enléve tout le
+	 * surlignage d'erreur. >>>>>>> 4d0c5fc4d1a7669040ff27890026e54fc89e22ed
 	 */
 	public void removeWrongHighlights() {
 		p.editorPane.enleverSurlignageRouge();
@@ -201,7 +208,9 @@ public class ControlerText {
 	}
 
 	/**
-	 * Surligne tout depuis le d�but de la page jusqu'au segment de phrase indiqu�.
+	 * <<<<<<< HEAD Surligne tout depuis le d�but de la page jusqu'au segment de
+	 * phrase indiqu�. ======= Surligne tout depuis le début de la page jusqu'au
+	 * segment de phrase indiqué. >>>>>>> 4d0c5fc4d1a7669040ff27890026e54fc89e22ed
 	 */
 	public void highlightUntilPhrase(Color c, int n) {
 		p.surlignerJusquaSegment(c, n);

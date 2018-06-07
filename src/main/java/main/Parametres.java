@@ -12,8 +12,8 @@ import java.util.Map;
 import java.util.Properties;
 
 import main.reading.ReadMode;
-import main.view.Fenetre;
 import main.view.FenetreParametre;
+import main.view.TextFrame;
 
 public class Parametres {
 
@@ -80,13 +80,13 @@ public class Parametres {
 	/**
 	 * Applique les preferences de taille et position uniquement
 	 */
-	public void appliquerPreferenceTaillePosition(Fenetre fen) {
+	public void appliquerPreferenceTaillePosition(TextFrame fen) {
 		fen.setBounds(panX, panY, panWidth, panHeight);
 	}
 
 	/**
-	 * Essaye de charger les paramètres associés à un mode de lecture, retourne les
-	 * paramètres par défaut sinon.
+	 * Essaye de charger les paramï¿½tres associï¿½s ï¿½ un mode de lecture, retourne les
+	 * paramï¿½tres par dï¿½faut sinon.
 	 */
 	public static Parametres load(ReadMode readMode) {
 		Parametres p = new Parametres(readMode);
@@ -135,7 +135,7 @@ public class Parametres {
 	}
 
 	/**
-	 * Essaye de charger les paramètres associés à tous les modes de lecture
+	 * Essaye de charger les paramï¿½tres associï¿½s ï¿½ tous les modes de lecture
 	 * existants.
 	 */
 	public static Map<ReadMode, Parametres> loadAll() {

@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 import main.Constants;
 import main.Parametres;
 import main.view.FenetreParametre;
-import main.view.Panneau;
+import main.view.TextPanel;
 
 public class ControlerParam implements ActionListener {
 
@@ -92,10 +92,10 @@ public class ControlerParam implements ActionListener {
 		try {
 			premierSegment = Integer.valueOf((String) panneau.startingPhraseField.getText());
 			if (!isValidPhrase(premierSegment)) {
-				JOptionPane.showMessageDialog(panneau,
-						"Entrez un segment inf�rieur � "
-								+ (((Panneau) fen.fenetre.getContentPane()).textHandler.getPhrasesCount() - 1),
-						"Erreur", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(panneau, "Entrez un segment inférieur à "
+
+						+ (((TextPanel) fen.fenetre.getContentPane()).textHandler.getPhrasesCount() - 1), "Erreur",
+						JOptionPane.ERROR_MESSAGE);
 				premierSegment = 1;
 				panneau.startingPhraseField.setText("1");
 				valide = false;
@@ -125,7 +125,8 @@ public class ControlerParam implements ActionListener {
 	}
 
 	public boolean isValidPhrase(int phrase) {
-		return phrase + 2 <= ((Panneau) fen.fenetre.getContentPane()).textHandler.getPhrasesCount() && phrase >= 1;
+
+		return phrase + 2 <= ((TextPanel) fen.fenetre.getContentPane()).textHandler.getPhrasesCount() && phrase >= 1;
 	}
 
 	/**
@@ -133,21 +134,22 @@ public class ControlerParam implements ActionListener {
 	 */
 	private boolean couleursUniques() {
 		boolean r = true;
-		List<Color> couleursUtilisées = new ArrayList<Color>();
-		couleursUtilisées.add(param.rightColor);
-		couleursUtilisées.add(param.wrongColor);
-		couleursUtilisées.add(param.correctionColor);
-		couleursUtilisées.add(param.bgColor);
-		if (occurence(param.rightColor, couleursUtilisées) != 1) {
+
+		List<Color> usedColors = new ArrayList<Color>();
+		usedColors.add(param.rightColor);
+		usedColors.add(param.wrongColor);
+		usedColors.add(param.correctionColor);
+		usedColors.add(param.bgColor);
+		if (occurence(param.rightColor, usedColors) != 1) {
 			r = false;
 		}
-		if (occurence(param.wrongColor, couleursUtilisées) != 1) {
+		if (occurence(param.wrongColor, usedColors) != 1) {
 			r = false;
 		}
-		if (occurence(param.correctionColor, couleursUtilisées) != 1) {
+		if (occurence(param.correctionColor, usedColors) != 1) {
 			r = false;
 		}
-		if (occurence(param.bgColor, couleursUtilisées) != 1) {
+		if (occurence(param.bgColor, usedColors) != 1) {
 			r = false;
 		}
 		return r;

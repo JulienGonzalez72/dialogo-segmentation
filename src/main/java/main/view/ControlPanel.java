@@ -19,7 +19,7 @@ public class ControlPanel extends JPanel {
 	private JButton nextButton = new JButton();
 	private JButton repeatButton = new JButton();
 	public JTextField goToField = new JTextField();
-	private Panneau pan;
+	private TextPanel pan;
 
 	private boolean usable = true;
 
@@ -27,7 +27,7 @@ public class ControlPanel extends JPanel {
 		loadImages();
 	}
 
-	public ControlPanel(Panneau p, final FenetreParametre fen) {
+	public ControlPanel(TextPanel p, final FenetreParametre fen) {
 		this.pan = p;
 		
 		add(previousButton);

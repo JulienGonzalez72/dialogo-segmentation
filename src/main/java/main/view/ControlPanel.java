@@ -1,12 +1,22 @@
 package main.view;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+
 import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+
 import main.Constants;
 
 public class ControlPanel extends JPanel {
@@ -29,54 +39,53 @@ public class ControlPanel extends JPanel {
 
 	public ControlPanel(TextPanel p, final FenetreParametre fen) {
 		this.pan = p;
-		
+
 		add(previousButton);
 		previousButton.setIcon(new ImageIcon(previousIcon));
 		previousButton.setEnabled(false);
 		previousButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				pan.pilot.doPrevious();
+				pan.controlerGlobal.doPrevious();
 				updateButtons();
 			}
 		});
-		
+
 		add(playButton);
 		playButton.setIcon(new ImageIcon(playIcon));
 		playButton.setEnabled(false);
 		playButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (pan.player.isPlaying()) {
-					pan.pilot.doStop();
-				}
-				else {
-					pan.pilot.doPlay();
+					pan.controlerGlobal.doStop();
+				} else {
+					pan.controlerGlobal.doPlay();
 					fen.setStartParametersEnabled(false);
 				}
 				updateButtons();
 			}
 		});
-		
+
 		add(nextButton);
 		nextButton.setIcon(new ImageIcon(nextIcon));
 		nextButton.setEnabled(false);
 		nextButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				pan.pilot.doNext();
+				pan.controlerGlobal.doNext();
 				fen.setStartParametersEnabled(false);
 				updateButtons();
 			}
 		});
-		
+
 		add(repeatButton);
 		repeatButton.setIcon(new ImageIcon(repeatIcon));
 		repeatButton.setEnabled(false);
 		repeatButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				pan.pilot.doPlay();
+				pan.controlerGlobal.doPlay();
 				updateButtons();
 			}
 		});
-		
+
 		JLabel goToLabel = new JLabel("Passer au segment :");
 		goToLabel.setFont(goToLabel.getFont().deriveFont(Font.ITALIC));
 		add(goToLabel);
@@ -88,18 +97,18 @@ public class ControlPanel extends JPanel {
 				int n;
 				try {
 					n = Integer.parseInt(goToField.getText()) - 1;
-					pan.pilot.goTo(n);
+					pan.controlerGlobal.goTo(n);
 					fen.setStartParametersEnabled(false);
 				} catch (IllegalArgumentException ex) {
-					JOptionPane.showMessageDialog(null, "Numéro de segment incorrect : " + goToField.getText());
+					JOptionPane.showMessageDialog(null, "Numï¿½ro de segment incorrect : " + goToField.getText());
 				}
 				updateButtons();
 			}
 		});
 	}
-	
+
 	/**
-	 * Méthode qui s'exécute lorsque les contrôles sont prêts à être effectifs.
+	 * Mï¿½thode qui s'exï¿½cute lorsque les contrï¿½les sont prï¿½ts ï¿½ ï¿½tre effectifs.
 	 */
 	public void init() {
 		Runnable update = new Runnable() {
@@ -114,7 +123,7 @@ public class ControlPanel extends JPanel {
 	}
 
 	/**
-	 * Actualise l'état de tous les composants de la fenêtre de contrôle.
+	 * Actualise l'ï¿½tat de tous les composants de la fenï¿½tre de contrï¿½le.
 	 */
 	public void updateButtons() {
 		if (usable) {
@@ -138,9 +147,10 @@ public class ControlPanel extends JPanel {
 		usable = false;
 		updateButtons();
 	}
-	
+
 	/**
-	 * Désactive tous les boutons de la fenêtre de contrôle puis les ré-active après le temps duration.
+	 * Dï¿½sactive tous les boutons de la fenï¿½tre de contrï¿½le puis les rï¿½-active aprï¿½s
+	 * le temps duration.
 	 */
 	public void disableAll(final long duration) {
 		disableAll();

@@ -5,17 +5,22 @@ import java.awt.Cursor;
 import java.awt.Font;
 
 import main.Constants;
+import main.reading.ReadThread;
 import main.view.TextPanel;
 
 public class ControlerText {
 
 	private TextPanel p;
+	private Pilot pilot;
 
 	/**
 	 * Construit un contrôleur à partir du panneau correspondant.
 	 */
 	public ControlerText(TextPanel p) {
 		this.p = p;
+		this.pilot = new Pilot(p);
+		ControlerKey controlerKey = new ControlerKey(pilot);
+		p.editorPane.addKeyListener(controlerKey);
 	}
 
 	/**
@@ -83,7 +88,7 @@ public class ControlerText {
 	 */
 	public long getCurrentWaitTime() {
 		// TODO remettre le bon temps de pause (avec ReadingParameters)
-		return (long) (getCurrentPhraseDuration() * /*p.param.tempsPauseEnPourcentageDuTempsDeLecture / 100.*/1);
+		return (long) (getCurrentPhraseDuration() * /* p.param.tempsPauseEnPourcentageDuTempsDeLecture / 100. */1);
 	}
 
 	/**
@@ -245,7 +250,7 @@ public class ControlerText {
 	 * Se place sur le segment de numero n et d�marre le lecteur.
 	 */
 	public void goTo(int n) throws IllegalArgumentException {
-		p.pilot.goTo(n);
+		pilot.goTo(n);
 	}
 
 	/**
@@ -254,7 +259,7 @@ public class ControlerText {
 	 * segment du texte.
 	 */
 	public void doNext() {
-		p.pilot.doNext();
+		pilot.doNext();
 	}
 
 	/**
@@ -262,14 +267,14 @@ public class ControlerText {
 	 * premier segment du texte.
 	 */
 	public void doPrevious() {
-		p.pilot.doPrevious();
+		pilot.doPrevious();
 	}
 
 	/**
 	 * Essaye d'arréter l'enregistrement en cours.
 	 */
 	public void doStop() {
-		p.pilot.doStop();
+		pilot.doStop();
 	}
 
 	/**
@@ -277,7 +282,7 @@ public class ControlerText {
 	 * le début.
 	 */
 	public void doPlay() {
-		p.pilot.doPlay();
+		pilot.doPlay();
 	}
 
 	/**
@@ -292,6 +297,21 @@ public class ControlerText {
 	 */
 	public void setFontSize(float fontSize) {
 		setFont(p.editorPane.getFont().deriveFont(fontSize));
+	}
+
+	/**
+	 * 
+	 * Retourne le segment courant
+	 */
+	public int getCurrentPhraseIndex() {
+		return pilot.getCurrentPhraseIndex();
+	}
+
+	/**
+	 * Charge un thread de la même classe que r
+	 */
+	public void loadReadThread(ReadThread r) {
+		pilot.loadReadThread(r);
 	}
 
 }

@@ -1,10 +1,6 @@
 package main.controler;
 
-import main.reading.AnticipatedThread;
-import main.reading.GuidedThread;
-import main.reading.HighlightThread;
 import main.reading.ReadThread;
-import main.reading.SegmentedThread;
 import main.view.TextPanel;
 
 // TODO classe non fonctionnelle
@@ -15,7 +11,7 @@ public class Pilot {
 	 */
 	private ReadThread activeThread;
 	private TextPanel p;
-	private ControlerText controler;
+
 	/**
 	 * Segment actuel
 	 */
@@ -23,7 +19,6 @@ public class Pilot {
 
 	public Pilot(TextPanel p) {
 		this.p = p;
-		controler = p.controlerGlobal;
 	}
 
 	/**
@@ -35,7 +30,7 @@ public class Pilot {
 		}
 		phrase = n;
 		p.editorPane.enleverSurlignageRouge();
-		
+
 		/// empêche le redimensionnement de la fenêtre lors de la première lecture ///
 		p.fenetre.setResizable(false);
 
@@ -45,7 +40,6 @@ public class Pilot {
 		if (activeThread != null) {
 			activeThread.doStop();
 		}
-		activeThread = getReadThread(n);
 		activeThread.onPhraseEnd.add(new Runnable() {
 			public void run() {
 				phrase = activeThread.N;
@@ -102,33 +96,6 @@ public class Pilot {
 		goTo(p.player.getCurrentPhraseIndex());
 	}
 
-	/**
-	 * Créé un processus associé à la lecture d'un seul segment dans le mode de
-	 * lecture actuel.
-	 */
-	public ReadThread getReadThread(int n) {
-		ReadThread t = null;
-		/*switch (p.param.readMode) {
-			case ANTICIPE:
-				t = new AnticipatedThread(controler, n);
-				break;
-			case GUIDEE:
-				t = new GuidedThread(controler, n);
-				break;
-			case SEGMENTE:
-				t = new SegmentedThread(controler, n);
-				break;
-			case SUIVI:
-				t = new HighlightThread(controler, n);
-				break;
-			default:
-				t = null;
-				break;
-		}
-		t.param = p.param;*/
-		return t;
-	}
-
 	public int getCurrentPhraseIndex() {
 		return phrase;
 	}
@@ -139,6 +106,13 @@ public class Pilot {
 
 	public boolean hasPreviousPhrase() {
 		return p.player.hasPreviousPhrase();
+	}
+
+	/**
+	 * Charge un thread de la même classe que r Et initialisé au segment n
+	 */
+	public void loadReadThread(ReadThread r) {
+		this.activeThread = r;
 	}
 
 }

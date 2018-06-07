@@ -9,7 +9,6 @@ import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -25,16 +24,12 @@ import javax.swing.UIManager;
 import javax.swing.text.BadLocationException;
 
 import main.Constants;
-import main.Parametres;
-import main.controler.ControlerKey;
 import main.controler.ControlerMouse;
 import main.controler.ControlerText;
-import main.controler.Pilot;
 import main.model.Player;
 import main.model.ReadingParameters;
 import main.model.TextHandler;
 import main.model.ToolParameters;
-import main.reading.ReadMode;
 import main.reading.ReadThread;
 
 public class TextPanel extends JPanel {
@@ -54,15 +49,13 @@ public class TextPanel extends JPanel {
 	public TextFrame fenetre;
 	public ControlPanel controlPanel;
 	public ControlerText controlerGlobal;
-	public ControlerKey controlerKey;
 	public ControlerMouse controlerMouse;
-	public Pilot pilot;
 	public ReadThread task;
 	public Map<Integer, List<Integer>> segmentsEnFonctionDeLaPage = new HashMap<Integer, List<Integer>>();
 	public Player player;
 	public ToolParameters param;
 	public ReadingParameters rParam = new ReadingParameters();
-	
+
 	/**
 	 * Barre de progression
 	 */
@@ -72,28 +65,24 @@ public class TextPanel extends JPanel {
 		this.fenetre = fenetre;
 		this.controlerGlobal = new ControlerText(this);
 		this.fenetre = fenetre;
-		/*String textPath = "ressources/textes/" + Constants.TEXT_FILE_NAME;
-		String texteCesures = null;
-		try {
-			texteCesures = getTextFromFile(textPath);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			JOptionPane.showMessageDialog(null,
-					"<html><h3 align='center'>Erreur lors du chargement du texte !</h3></html>", "Erreur",
-					JOptionPane.ERROR_MESSAGE);
-			System.exit(0);
-		}
-		/// enlève la consigne ///
-		if (Constants.HAS_INSTRUCTIONS) {
-			texteCesures = texteCesures.substring(texteCesures.indexOf("/") + 1, texteCesures.length());
-		}*/
-		
+		/*
+		 * String textPath = "ressources/textes/" + Constants.TEXT_FILE_NAME; String
+		 * texteCesures = null; try { texteCesures = getTextFromFile(textPath); } catch
+		 * (FileNotFoundException e) { e.printStackTrace();
+		 * JOptionPane.showMessageDialog(null,
+		 * "<html><h3 align='center'>Erreur lors du chargement du texte !</h3></html>",
+		 * "Erreur", JOptionPane.ERROR_MESSAGE); System.exit(0); } /// enlève la
+		 * consigne /// if (Constants.HAS_INSTRUCTIONS) { texteCesures =
+		 * texteCesures.substring(texteCesures.indexOf("/") + 1, texteCesures.length());
+		 * }
+		 */
+
 		this.setLayout(new BorderLayout());
-		
+
 		editorPane = new TextPane();
 		editorPane.setEditable(false);
 		add(editorPane, BorderLayout.CENTER);
-		
+
 		progressBar = new JProgressBar(0, 0);
 		progressBar.setStringPainted(true);
 		add(progressBar, BorderLayout.SOUTH);
@@ -104,21 +93,19 @@ public class TextPanel extends JPanel {
 	 */
 	public void init(ToolParameters param) {
 		setParameters(param);
-		
+
 		textHandler = new TextHandler(param.text);
 		progressBar.setMaximum(textHandler.getPhrasesCount() - 1);
-		
-		/*try {
-			Player.loadAll("ressources/sounds/" + Constants.AUDIO_FILE_NAME, Constants.AUDIO_FILE_NAME, 1, textHandler.getPhrasesCount());
-		} catch (IOException e) {
-			e.printStackTrace();
-			JOptionPane.showMessageDialog(null,
-					"<html><h3 align='center'>Erreur lors du chargement de l'audio !</h3></html>",
-					"Erreur", JOptionPane.ERROR_MESSAGE);
-			System.exit(0);
-		}
-		player = new Player(textHandler);*/
-		
+
+		/*
+		 * try { Player.loadAll("ressources/sounds/" + Constants.AUDIO_FILE_NAME,
+		 * Constants.AUDIO_FILE_NAME, 1, textHandler.getPhrasesCount()); } catch
+		 * (IOException e) { e.printStackTrace(); JOptionPane.showMessageDialog(null,
+		 * "<html><h3 align='center'>Erreur lors du chargement de l'audio !</h3></html>"
+		 * , "Erreur", JOptionPane.ERROR_MESSAGE); System.exit(0); } player = new
+		 * Player(textHandler);
+		 */
+
 		progressBar.setValue(param.startingPhrase);
 		progressBar.setString(param.startingPhrase + "/" + (textHandler.getPhrasesCount() - 1));
 		pageActuelle = 0;
@@ -126,19 +113,14 @@ public class TextPanel extends JPanel {
 		/// construit la mise en page virtuelle ///
 		rebuildPages();
 		/// initialise le lecteur ///
-		//player.load(param.startingPhrase - 1);
-		this.pilot = new Pilot(this);
-
-		controlerKey = new ControlerKey(pilot);
-		editorPane.addKeyListener(controlerKey);
 		controlerMouse = new ControlerMouse(this, textHandler);
 		editorPane.addMouseListener(controlerMouse);
 		editorPane.requestFocus();
-		
+
 		if (fenetre.onInit != null)
 			fenetre.onInit.run();
 	}
-	
+
 	public void setParameters(ToolParameters param) {
 		this.param = editorPane.param = param;
 		premierSegment = param.startingPhrase;
@@ -160,14 +142,13 @@ public class TextPanel extends JPanel {
 	}
 
 	/**
-<<<<<<< HEAD
-	 * retourne le contenu du fichier .txt situé é l'emplacement du paramètre
-=======
-	 * <<<<<<< HEAD:src/main/java/main/view/Panneau.java retourne le contenu du
-	 * fichier .txt situé à l'emplacement du paramètre ======= retourne le contenu
-	 * du fichier .txt situ� � l'emplacement du param�tre >>>>>>>
+	 * <<<<<<< HEAD retourne le contenu du fichier .txt situé é l'emplacement du
+	 * paramètre ======= <<<<<<< HEAD:src/main/java/main/view/Panneau.java retourne
+	 * le contenu du fichier .txt situé à l'emplacement du paramètre =======
+	 * retourne le contenu du fichier .txt situ� � l'emplacement du param�tre
+	 * >>>>>>>
 	 * 4d0c5fc4d1a7669040ff27890026e54fc89e22ed:src/main/java/main/view/TextPanel.java
->>>>>>> 80a9c7c8cb1ee3c12c78c000bb50e157e0aed560
+	 * >>>>>>> 80a9c7c8cb1ee3c12c78c000bb50e157e0aed560
 	 */
 	public static String getTextFromFile(String emplacement) throws IOException {
 		File fichierTxt = new File(emplacement);
@@ -191,15 +172,24 @@ public class TextPanel extends JPanel {
 	 */
 	public void afficherPageSuivante() {
 		showPage(pageActuelle + 1);
-		/*editorPane.désurlignerTout();
-		if ((param.readMode == ReadMode.GUIDEE || param.readMode == ReadMode.ANTICIPE)
-				&& (controlerGlobal != null && player != null)) {
-			controlerGlobal.highlightPhrase(param.rightColor, player.getCurrentPhraseIndex());
-		}*/
+		/*
+		 * editorPane.désurlignerTout(); if ((param.readMode == ReadMode.GUIDEE ||
+		 * param.readMode == ReadMode.ANTICIPE) && (controlerGlobal != null && player !=
+		 * null)) { controlerGlobal.highlightPhrase(param.rightColor,
+		 * player.getCurrentPhraseIndex()); }
+		 */
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Construit les pages et affiche la première.
+=======
+	 * <<<<<<< HEAD Construit les pages et affiche la premiére. ======= <<<<<<<
+	 * HEAD:src/main/java/main/view/Panneau.java Construit les pages et affiche la
+	 * première. ======= Construit les pages et affiche la premi�re. >>>>>>>
+	 * 4d0c5fc4d1a7669040ff27890026e54fc89e22ed:src/main/java/main/view/TextPanel.java
+	 * >>>>>>> 80a9c7c8cb1ee3c12c78c000bb50e157e0aed560
+>>>>>>> f4212a45510bada564535e90a33e7024d66f7f73
 	 */
 	public void rebuildPages() {
 		buildPages(param.startingPhrase - 1);
@@ -283,13 +273,12 @@ public class TextPanel extends JPanel {
 			return;
 		}
 		pageActuelle = page;
-		//on met a jour le titre de la fenetre
-		/*String temp = "";
-		temp = temp.toLowerCase();
-		char[] c = temp.toCharArray();
-		c[0] = Character.toUpperCase(c[0]);
-		temp = String.copyValueOf(c);
-		fenetre.setTitle("Lexidia - "+temp+" - Page " + page);*/
+		// on met a jour le titre de la fenetre
+		/*
+		 * String temp = ""; temp = temp.toLowerCase(); char[] c = temp.toCharArray();
+		 * c[0] = Character.toUpperCase(c[0]); temp = String.copyValueOf(c);
+		 * fenetre.setTitle("Lexidia - "+temp+" - Page " + page);
+		 */
 		String texteAfficher = "";
 		// on recupere les segments a afficher dans la page
 		List<String> liste = new ArrayList<String>();
@@ -330,29 +319,20 @@ public class TextPanel extends JPanel {
 			UIManager.put("OptionPane.background", Color.WHITE);
 			UIManager.put("Panel.background", Color.WHITE);
 			String message = null;
-			/*switch (param.readMode) {
-			case SEGMENTE:
-			case SUIVI:
-<<<<<<< HEAD
-=======
-
->>>>>>> 80a9c7c8cb1ee3c12c78c000bb50e157e0aed560
-				message = "L'exercice est terminé." + "\n" + "Le patient a fait " + nbErreurs + " erreur"
-						+ (nbErreurs > 1 ? "s" : "") + " de clic.\n" + "Le patient a fait " + nbErreursParSegment
-						+ " erreur" + (nbErreursParSegment > 1 ? "s" : "") + " de segment.";
-				break;
-			case ANTICIPE:
-			case GUIDEE:
-<<<<<<< HEAD
-				message = "L'exercice est terminé.";
-=======
-
-				message = "L'exercice est terminé.";
-
->>>>>>> 80a9c7c8cb1ee3c12c78c000bb50e157e0aed560
-			default:
-				break;
-			}*/
+			/*
+			 * switch (param.readMode) { case SEGMENTE: case SUIVI: <<<<<<< HEAD =======
+			 * 
+			 * >>>>>>> 80a9c7c8cb1ee3c12c78c000bb50e157e0aed560 message =
+			 * "L'exercice est terminé." + "\n" + "Le patient a fait " + nbErreurs +
+			 * " erreur" + (nbErreurs > 1 ? "s" : "") + " de clic.\n" + "Le patient a fait "
+			 * + nbErreursParSegment + " erreur" + (nbErreursParSegment > 1 ? "s" : "") +
+			 * " de segment."; break; case ANTICIPE: case GUIDEE: <<<<<<< HEAD message =
+			 * "L'exercice est terminé."; =======
+			 * 
+			 * message = "L'exercice est terminé.";
+			 * 
+			 * >>>>>>> 80a9c7c8cb1ee3c12c78c000bb50e157e0aed560 default: break; }
+			 */
 			JOptionPane.showMessageDialog(this, message, "Compte Rendu", JOptionPane.INFORMATION_MESSAGE);
 		} finally {
 			UIManager.put("OptionPane.background", optionPaneBG);

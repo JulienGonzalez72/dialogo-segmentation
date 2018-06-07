@@ -7,6 +7,7 @@ import main.reading.ReadThread;
 import main.reading.SegmentedThread;
 import main.view.TextPanel;
 
+// TODO classe non fonctionnelle
 public class Pilot {
 
 	/**
@@ -26,17 +27,17 @@ public class Pilot {
 	}
 	
 	/**
-	 * Se place sur le segment de numero n et démarre le lecteur.
+	 * Se place sur le segment de numero n et dï¿½marre le lecteur.
 	 */
 	public void goTo(int n) throws IllegalArgumentException {
 		if (n < p.param.startingPhrase - 1 || n >= p.textHandler.getPhrasesCount() - 1) {
-			throw new IllegalArgumentException("Numéro de segment invalide : " + n);
+			throw new IllegalArgumentException("NumÃ©ro de segment invalide : " + n);
 		}
 		phrase = n;
 		//vire le surlignagerouge
 		p.editorPane.enleverSurlignageRouge();
 		
-		/// empêche le redimensionnement de la fenêtre lors de la première lecture ///
+		/// empÃªche le redimensionnement de la fenÃªtre lors de la premiÃ¨re lecture ///
 		p.fenetre.setResizable(false);
 		
 		//met a jour la barre de progression
@@ -53,7 +54,7 @@ public class Pilot {
 				if (phrase == p.textHandler.getPhrasesCount() - 1) {
 					p.afficherCompteRendu();
 				}
-				/// met à jour la barre de progression ///
+				/// met ï¿½ jour la barre de progression ///
 				else {
 					updateBar();
 				}
@@ -68,23 +69,23 @@ public class Pilot {
 	}
 	
 	/**
-	 * Essaye de passer au segment suivant, passe à la page suivante
-	 * si c'était le dernier segment de la page.
-	 * Déclenche une erreur si on était au dernier segment du texte.
+	 * Essaye de passer au segment suivant, passe ï¿½ la page suivante
+	 * si c'ï¿½tait le dernier segment de la page.
+	 * Dï¿½clenche une erreur si on ï¿½tait au dernier segment du texte.
 	 */
 	public void doNext() {
 		goTo(p.player.getCurrentPhraseIndex() + 1);
 	}
 
 	/**
-	 * Essaye de passer au segment précédent. Déclenche une erreur si on était au premier segment du texte.
+	 * Essaye de passer au segment prï¿½cï¿½dent. Dï¿½clenche une erreur si on ï¿½tait au premier segment du texte.
 	 */
 	public void doPrevious() {
 		goTo(p.player.getCurrentPhraseIndex() - 1);
 	}
 
 	/**
-	 * Essaye d'arrêter l'enregistrement en cours.
+	 * Essaye d'arrï¿½ter l'enregistrement en cours.
 	 */
 	public void doStop() {
 		p.player.stop();
@@ -94,20 +95,20 @@ public class Pilot {
 	}
 
 	/**
-	 * Essaye de reprendre l'enregistrement. Si il est déjà démarré, reprend depuis
-	 * le début.
+	 * Essaye de reprendre l'enregistrement. Si il est dï¿½jï¿½ dï¿½marrï¿½, reprend depuis
+	 * le dï¿½but.
 	 */
 	public void doPlay() {
 		goTo(p.player.getCurrentPhraseIndex());
 	}
 
 	/**
-	 * Créé un processus associé à la lecture d'un seul segment dans le mode de
+	 * Crï¿½ï¿½ un processus associï¿½ ï¿½ la lecture d'un seul segment dans le mode de
 	 * lecture actuel.
 	 */
 	public ReadThread getReadThread(int n) {
-		ReadThread t;
-		switch (p.param.readMode) {
+		ReadThread t = null;
+		/*switch (p.param.readMode) {
 			case ANTICIPE:
 				t = new AnticipatedThread(controler, n);
 				break;
@@ -124,7 +125,7 @@ public class Pilot {
 				t = null;
 				break;
 		}
-		t.param = p.param;
+		t.param = p.param;*/
 		return t;
 	}
 	

@@ -17,7 +17,9 @@ import main.Parametres;
 import main.controler.ControlerKey;
 import main.controler.ControlerMouse;
 import main.model.Player;
+import main.model.ReadingParameters;
 import main.model.TextHandler;
+import main.model.ToolParameters;
 import main.reading.ReadMode;
 import main.reading.ReadThread;
 
@@ -44,19 +46,20 @@ public class TextPanel extends JPanel {
 	public ReadThread task;
 	public Map<Integer, List<Integer>> segmentsEnFonctionDeLaPage = new HashMap<Integer, List<Integer>>();
 	public Player player;
-	public Parametres param;
+	public ToolParameters param;
+	public ReadingParameters rParam = new ReadingParameters();
 	
 	/**
 	 *  Barre de progression
 	 */
 	public JProgressBar progressBar;
 
-	public TextPanel(TextFrame fenetre, Parametres param) throws IOException {
+	public TextPanel(TextFrame fenetre) throws IOException {
 		this.fenetre = fenetre;
 		this.controlerGlobal = new ControlerText(this);
 		this.fenetre = fenetre;
 		
-		String textPath = "ressources/textes/" + Constants.TEXT_FILE_NAME;
+		/*String textPath = "ressources/textes/" + Constants.TEXT_FILE_NAME;
 		String texteCesures = null;
 		try {
 			texteCesures = getTextFromFile(textPath);
@@ -67,13 +70,32 @@ public class TextPanel extends JPanel {
 					"Erreur", JOptionPane.ERROR_MESSAGE);
 			System.exit(0);
 		}
-		/// enl�ve la consigne ///
+		/// enlève la consigne ///
 		if (Constants.HAS_INSTRUCTIONS) {
 			texteCesures = texteCesures.substring(texteCesures.indexOf("/") + 1, texteCesures.length());
-		}
-		textHandler = new TextHandler(texteCesures);
-		System.out.println(textHandler.toString());
-		try {
+		}*/
+		
+		this.setLayout(new BorderLayout());
+		
+		editorPane = new TextPane();
+		editorPane.setEditable(false);
+		add(editorPane, BorderLayout.CENTER);
+		
+		progressBar = new JProgressBar(0, 0);
+		progressBar.setStringPainted(true);
+		add(progressBar, BorderLayout.SOUTH);
+	}
+
+	/**
+	 * S'exécute lorsque le panneau s'est bien intégré à la fenêtre.
+	 */
+	public void init(ToolParameters param) {
+		setParameters(param);
+		
+		textHandler = new TextHandler(param.text);
+		progressBar.setMaximum(textHandler.getPhrasesCount() - 1);
+		
+		/*try {
 			Player.loadAll("ressources/sounds/" + Constants.AUDIO_FILE_NAME, Constants.AUDIO_FILE_NAME, 1, textHandler.getPhrasesCount());
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -82,26 +104,7 @@ public class TextPanel extends JPanel {
 					"Erreur", JOptionPane.ERROR_MESSAGE);
 			System.exit(0);
 		}
-		
-		this.setLayout(new BorderLayout());
-		
-		player = new Player(textHandler, null);
-		
-		editorPane = new TextPane();
-		editorPane.setEditable(false);
-		add(editorPane, BorderLayout.CENTER);
-		
-		progressBar = new JProgressBar(0, (textHandler.getPhrasesCount()-1));
-		progressBar.setStringPainted(true);
-		//progressBar.setForeground(Constants.RIGHT_COLOR);
-		add(progressBar, BorderLayout.SOUTH);
-	}
-
-	/**
-	 * S'ex�cute lorsque le panneau s'est bien int�gr� � la fen�tre.
-	 */
-	public void init(Parametres param) {
-		setParameters(param);
+		player = new Player(textHandler);*/
 		
 		progressBar.setValue(param.startingPhrase);
 		progressBar.setString(param.startingPhrase+"/"+(textHandler.getPhrasesCount()-1));
@@ -111,7 +114,7 @@ public class TextPanel extends JPanel {
 		/// construit la mise en page virtuelle ///
 		rebuildPages();
 		/// initialise le lecteur ///
-		player.load(param.startingPhrase - 1);
+		//player.load(param.startingPhrase - 1);
 		
 		this.pilot = new Pilot(this);
 		
@@ -120,16 +123,18 @@ public class TextPanel extends JPanel {
 		controlerMouse = new ControlerMouse(this, textHandler);
 		editorPane.addMouseListener(controlerMouse);
 		editorPane.requestFocus();
+		
+		if (fenetre.onInit != null)
+			fenetre.onInit.run();
 	}
 	
-	public void setParameters(Parametres param) {
+	public void setParameters(ToolParameters param) {
 		this.param = editorPane.param = param;
 		premierSegment = param.startingPhrase;
 		
 		editorPane.setBackground(param.bgColor);
-		editorPane.setFont(param.police);
-		nbEssaisRestantPourLeSegmentCourant = nbEssaisParSegment = param.nbFautesTolerees;
-		player.setParameters(param);
+		editorPane.setFont(param.font);
+		nbEssaisRestantPourLeSegmentCourant = nbEssaisParSegment = 0;
 	}
 	
 	public void setCursor(String fileName) {
@@ -144,7 +149,7 @@ public class TextPanel extends JPanel {
 	}
 
 	/**
-	 * retourne le contenu du fichier .txt situ� � l'emplacement du param�tre
+	 * retourne le contenu du fichier .txt situé é l'emplacement du paramètre
 	 */
 	public static String getTextFromFile(String emplacement) throws IOException {
 		File fichierTxt = new File(emplacement);
@@ -168,15 +173,15 @@ public class TextPanel extends JPanel {
 	 */
 	public void afficherPageSuivante() {
 		showPage(pageActuelle + 1);
-		editorPane.désurlignerTout();
+		/*editorPane.désurlignerTout();
 		if ((param.readMode == ReadMode.GUIDEE || param.readMode == ReadMode.ANTICIPE)
 				&& (controlerGlobal != null && player != null)) {
 			controlerGlobal.highlightPhrase(param.rightColor, player.getCurrentPhraseIndex());
-		}
+		}*/
 	}
 
 	/**
-	 * Construit les pages et affiche la premi�re.
+	 * Construit les pages et affiche la premiére.
 	 */
 	public void rebuildPages() {
 		buildPages(param.startingPhrase - 1);
@@ -242,7 +247,7 @@ public class TextPanel extends JPanel {
 				page++;
 			}
 			String newText = textHandler.getShowText().substring(lastOffset);
-			/// derni�re page ///
+			/// derniére page ///
 			if (newText.equals(text)) {
 				if (!segmentsEnFonctionDeLaPage.get(page - 1).contains(textHandler.getPhraseIndex(off))) {
 					segmentsEnFonctionDeLaPage.get(page - 1).add(textHandler.getPhraseIndex(off));
@@ -255,18 +260,18 @@ public class TextPanel extends JPanel {
 	}
 
 	public void showPage(int page) {
-		/// on ne fait rien si on est d�j� sur cette page ///
+		/// on ne fait rien si on est déjé sur cette page ///
 		if (pageActuelle == page) {
 			return;
 		}
 		pageActuelle = page;
 		//on met a jour le titre de la fenetre
-		String temp = param.readMode+"";
+		/*String temp = "";
 		temp = temp.toLowerCase();
 		char[] c = temp.toCharArray();
 		c[0] = Character.toUpperCase(c[0]);
 		temp = String.copyValueOf(c);
-		fenetre.setTitle("Lexidia - "+temp+" - Page " + page);
+		fenetre.setTitle("Lexidia - "+temp+" - Page " + page);*/
 		String texteAfficher = "";
 		// on recupere les segments a afficher dans la page
 		List<String> liste = new ArrayList<String>();
@@ -289,7 +294,7 @@ public class TextPanel extends JPanel {
 	public void indiquerErreur(int debut, int fin) {
 		nbErreurs++;
 		editorPane.enleverSurlignageRouge();
-		editorPane.surlignerPhrase(debut, fin, param.wrongColor);
+		editorPane.surlignerPhrase(debut, fin, rParam.wrongColor);
 	}
 
 	public int getNumeroPremierSegmentAffiché() {
@@ -307,19 +312,19 @@ public class TextPanel extends JPanel {
 			UIManager.put("OptionPane.background", Color.WHITE);
 			UIManager.put("Panel.background", Color.WHITE);
 			String message = null;
-			switch (param.readMode) {
+			/*switch (param.readMode) {
 			case SEGMENTE:
 			case SUIVI:
-				message = "L'exercice est termin�." + "\n" + "Le patient a fait " + nbErreurs + " erreur"
+				message = "L'exercice est terminé." + "\n" + "Le patient a fait " + nbErreurs + " erreur"
 						+ (nbErreurs > 1 ? "s" : "") + " de clic.\n" + "Le patient a fait " + nbErreursParSegment
 						+ " erreur" + (nbErreursParSegment > 1 ? "s" : "") + " de segment.";
 				break;
 			case ANTICIPE:
 			case GUIDEE:
-				message = "L'exercice est termin�.";
+				message = "L'exercice est terminé.";
 			default:
 				break;
-			}
+			}*/
 			JOptionPane.showMessageDialog(this, message, "Compte Rendu", JOptionPane.INFORMATION_MESSAGE);
 		} finally {
 			UIManager.put("OptionPane.background", optionPaneBG);
@@ -335,7 +340,7 @@ public class TextPanel extends JPanel {
 		if (textHandler.getPhrase(n) != null) {
 			int debutRelatifSegment = textHandler.getRelativeStartPhrasePosition(getNumeroPremierSegmentAffiché(), n);
 			int finRelativeSegment = debutRelatifSegment + textHandler.getPhrase(n).length();
-			editorPane.surlignerPhrase(0, finRelativeSegment, param.rightColor);
+			editorPane.surlignerPhrase(0, finRelativeSegment, rParam.rightColor);
 		}
 	}
 

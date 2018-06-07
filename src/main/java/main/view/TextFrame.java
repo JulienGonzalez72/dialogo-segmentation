@@ -1,6 +1,7 @@
 package main.view;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.*;
 import java.io.IOException;
 
@@ -8,33 +9,40 @@ import javax.swing.*;
 
 import main.Constants;
 import main.Parametres;
+import main.controler.ControlerText;
+import main.model.ToolParameters;
 
 public class TextFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-
+	
+	/**
+	 * S'exécute lorsque la fenêtre et son conteneur se sont bien initialisés.
+	 */
+	public Runnable onInit;
+	
 	public TextPanel pan;
 	public boolean preferencesExiste = true;
-	private Parametres param;
-
-	public TextFrame(String titre, int tailleX, int tailleY) {
+	private ToolParameters param;
+	
+	public TextFrame(String titre) {
 		setIconImage(getToolkit().getImage("icone.jpg"));
 		try {
-			pan = new TextPanel(this, null);
+			pan = new TextPanel(this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		setContentPane(pan);
 		setTitle(titre);
-		setSize(tailleX, tailleY);
+		setSize(800, 600);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(true);
 		setMinimumSize(new Dimension(Constants.MIN_FENETRE_WIDTH, Constants.MIN_FENETRE_HEIGHT));
 	}
 	
-	public void init(final Parametres param) {
-		setParameters(param);
+	public void init(String text, int startingPhrase, Font font, int x, int y, int width, int height) {
+		setParameters(new ToolParameters(font, width, height, x, y, startingPhrase, text));
 		
 		addComponentListener(new ComponentAdapter() {
 			private int lastWidth = getWidth(), lastHeight = getHeight();
@@ -65,14 +73,14 @@ public class TextFrame extends JFrame {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				param.startingPhrase = pan.pilot.getCurrentPhraseIndex() + 1;
-				param.stockerPreference();
+				//param.stockerPreference();
 			}
 		});
 	}
 	
-	public void setParameters(Parametres param) {
+	public void setParameters(ToolParameters param) {
 		this.param = param;
-		param.appliquerPreferenceTaillePosition(this);
+		setBounds(param.panX, param.panY, param.panWidth, param.panHeight);
 		pan.setParameters(param);
 	}
 	
@@ -83,6 +91,10 @@ public class TextFrame extends JFrame {
 				pan.init(param);
 			}
 		});
+	}
+	
+	public ControlerText getControler() {
+		return pan.controlerGlobal;
 	}
 
 }

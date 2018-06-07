@@ -24,11 +24,14 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import main.Constants;
 import main.Parametres;
 
-
+/**
+ * Classe pour tester le son.
+ * @author Julien Gonzalez
+ */
 public class Player /*extends AbstractDelegatingBasicController<BasicController>*/ {
 
 	/**
-	 * Liste des fichiers audio nÈcessaires ‡ l'enregistrement en cours chargÈs au dÈbut, associÈs ‡ leurs numÈros de segment. 
+	 * Liste des fichiers audio n√©cessaires √© l'enregistrement en cours charg√©s au d√©but, associ√©s √© leurs num√©ros de segment. 
 	 */
 	private static Map<Integer, File> tracks;
 	
@@ -44,19 +47,19 @@ public class Player /*extends AbstractDelegatingBasicController<BasicController>
 	private long lastPosition;
 
 	/**
-	 * Si un temps de pause s'effectue aprËs l'enregistrement (valeur par dÈfaut =
+	 * Si un temps de pause s'effectue apr√©s l'enregistrement (valeur par d√©faut =
 	 * <code>false</code>).
 	 */
 	public boolean waitAfter = false;
 
 	/**
-	 * Ecouteurs qui s'enclenchent lorsque un segment a finis d'Ítre prononcÈ.
+	 * Ecouteurs qui s'enclenchent lorsque un segment a finis d'√©tre prononc√©.
 	 */
 	public List<Runnable> onPhraseEnd = new ArrayList<>();
 	public List<Runnable> onNextPhrase = new ArrayList<>();
 	public List<Runnable> onPreviousPhrase = new ArrayList<>();
 	/**
-	 * Ecouteurs qui s'enclenchent lorsque l'enregistrement est lancÈ.
+	 * Ecouteurs qui s'enclenchent lorsque l'enregistrement est lanc√©.
 	 */
 	public List<Runnable> onPlay = new ArrayList<>();
 	/**
@@ -65,15 +68,15 @@ public class Player /*extends AbstractDelegatingBasicController<BasicController>
 	 */
 	public List<Runnable> onBlockEnd = new ArrayList<>();
 	/**
-	 * Ecouteurs qui se dÈclenchent lorsque l'utilisateur est mis en attente pour rÈpÈter.
+	 * Ecouteurs qui se d√©clenchent lorsque l'utilisateur est mis en attente pour r√©p√©ter.
 	 */
 	public List<Runnable> onWait = new ArrayList<>();
 	
-	private Parametres param;
+	//private Parametres param;
 	
 	//private Mp3Wrapper wrapper;
 
-	public Player(TextHandler textHandler, Parametres param) {
+	public Player(TextHandler textHandler/*, Parametres param*/) {
 		/*super(null);
 		IPlayerConfiguration config = new IPlayerConfiguration() {
 			@Override
@@ -109,11 +112,11 @@ public class Player /*extends AbstractDelegatingBasicController<BasicController>
 			ex.printStackTrace();
 		}*/
 		text = textHandler;
-		this.param = param;
+		//this.param = param;
 	}
 
 	/**
-	 * Charge l'enregistrement correspondant ‡ un segment prÈcis.
+	 * Charge l'enregistrement correspondant √© un segment pr√©cis.
 	 */
 	public void load(int phrase) {
 		currentPhrase = phrase;
@@ -137,7 +140,7 @@ public class Player /*extends AbstractDelegatingBasicController<BasicController>
 	}
 
 	/**
-	 * DÈmarre la lecture (n'a aucun effet si la lecture est dÈj‡ dÈmarrÈe).
+	 * D√©marre la lecture (n'a aucun effet si la lecture est d√©j√© d√©marr√©e).
 	 */
 	public void play() {
 		if (playing) {
@@ -204,7 +207,7 @@ public class Player /*extends AbstractDelegatingBasicController<BasicController>
 
 			/// fin du blocage ///
 			if (blocked && time > clip.getMicrosecondLength() / 1000
-					* param.tempsPauseEnPourcentageDuTempsDeLecture / 100.) {
+					/* param.tempsPauseEnPourcentageDuTempsDeLecture / 100.*/) {
 				blocked = false;
 				cancel();
 				for (Runnable r : onBlockEnd) {
@@ -215,7 +218,7 @@ public class Player /*extends AbstractDelegatingBasicController<BasicController>
 	}
 
 	/**
-	 * ArrÍte la lecture (n'a aucun effet si elle n'est pas en cours).
+	 * Arr√©te la lecture (n'a aucun effet si elle n'est pas en cours).
 	 */
 	public void stop() {
 		if (clip != null) {
@@ -237,7 +240,7 @@ public class Player /*extends AbstractDelegatingBasicController<BasicController>
 	}
 
 	/**
-	 * Indique si le segment a finis d'Ítre prononcÈ.
+	 * Indique si le segment a finis d'√©tre prononc√©.
 	 */
 	public boolean isPhraseFinished() {
 		return clip != null ? clip.getFramePosition() == clip.getFrameLength() : false;
@@ -258,7 +261,7 @@ public class Player /*extends AbstractDelegatingBasicController<BasicController>
 	}
 
 	/**
-	 * Retourne la phrase courante du lecteur, qu'elle soit finie d'Ítre prononcÈe
+	 * Retourne la phrase courante du lecteur, qu'elle soit finie d'√©tre prononc√©e
 	 * ou non.
 	 */
 	public String getCurrentPhrase() {
@@ -273,7 +276,7 @@ public class Player /*extends AbstractDelegatingBasicController<BasicController>
 	}
 
 	/**
-	 * Passe au segment suivant et dÈmarre le lecteur.
+	 * Passe au segment suivant et d√©marre le lecteur.
 	 */
 	public void nextPhrase() {
 		for (Runnable r : onNextPhrase) {
@@ -284,14 +287,14 @@ public class Player /*extends AbstractDelegatingBasicController<BasicController>
 	}
 
 	/**
-	 * Retourne true si il reste au moins un segment ‡ lire.
+	 * Retourne true si il reste au moins un segment √© lire.
 	 */
 	public boolean hasNextPhrase() {
 		return currentPhrase < text.getPhrasesCount() - 2;
 	}
 
 	/**
-	 * Retourne au segment prÈdÈdent et dÈmarre le lecteur.
+	 * Retourne au segment pr√©d√©dent et d√©marre le lecteur.
 	 */
 	public void previousPhrase() {
 		for (Runnable r : onPreviousPhrase) {
@@ -305,7 +308,7 @@ public class Player /*extends AbstractDelegatingBasicController<BasicController>
 	 * Retourne true si il y a au moins un segment avant le segment actuel.
 	 */
 	public boolean hasPreviousPhrase() {
-		return currentPhrase > param.startingPhrase - 1;
+		return currentPhrase > /*param.startingPhrase - 1*/0;
 	}
 
 	/**
@@ -318,7 +321,7 @@ public class Player /*extends AbstractDelegatingBasicController<BasicController>
 	}
 
 	/**
-	 * Se place directement ‡ un segment donnÈ sans dÈmarrer le lecteur.
+	 * Se place directement √© un segment donn√© sans d√©marrer le lecteur.
 	 */
 	public void goTo(int index) {
 		lastPosition = 0;
@@ -327,7 +330,7 @@ public class Player /*extends AbstractDelegatingBasicController<BasicController>
 	}
 	
 	/**
-	 * Retourne la durÈe en millisecondes de l'enregistrement courant.
+	 * Retourne la dur√©e en millisecondes de l'enregistrement courant.
 	 */
 	public long getDuration() {
 		return clip != null ? clip.getMicrosecondLength() / 1000 : 0;
@@ -349,12 +352,12 @@ public class Player /*extends AbstractDelegatingBasicController<BasicController>
 		this.currentPhrase = currentPhrase;
 	}
 	
-	public void setParameters(Parametres param) {
+	/*public void setParameters(Parametres param) {
 		this.param = param;
-	}
+	}*/
 	
 	/**
-	 * Charge tous les fichiers audio pour les rendre prÍts ‡ l'utilisation.
+	 * Charge tous les fichiers audio pour les rendre pr√©ts √© l'utilisation.
 	 */
 	public static void loadAll(String filePath, String fileName, int startPhrase, int endPhrase) throws IOException {
 		tracks = new HashMap<>();
@@ -366,7 +369,7 @@ public class Player /*extends AbstractDelegatingBasicController<BasicController>
 				tracks.put(i, file);
 			}
 			else {
-				throw new IOException(path + " (Le fichier spÈcifiÈ est introuvable)");
+				throw new IOException(path + " (Le fichier sp√©cifi√© est introuvable)");
 			}
 		}
 	}

@@ -12,11 +12,12 @@ import main.Parametres;
 import main.controler.ControlerParam;
 import main.reading.ReadMode;
 
+// TODO classe non fonctionnelle
 public class FenetreParametre extends JFrame {
 
 	public TextFrame fenetre;
 	/**
-	 * Liste des paramètres par mode de lecture.
+	 * Liste des paramÃ©tres par mode de lecture.
 	 */
 	private Map<ReadMode, Parametres> params = new HashMap<>();
 	public ControlPanel controlPanel;
@@ -44,8 +45,8 @@ public class FenetreParametre extends JFrame {
 		controlPanel = new ControlPanel(fenetre.pan, this);
 
 		JTabbedPane generalTab = new JTabbedPane();
-		generalTab.addTab("Paramètres", pan);
-		generalTab.addTab("Contrôle", controlPanel);
+		generalTab.addTab("ParamÃ©tres", pan);
+		generalTab.addTab("ContrÃ©le", controlPanel);
 		setContentPane(generalTab);
 		addMenu();
 		setVisible(true);
@@ -93,14 +94,14 @@ public class FenetreParametre extends JFrame {
 			titre.setPreferredSize(new Dimension(0, 30));
 			add(titre, BorderLayout.NORTH);
 			
-			validButton = fastButton("Démarrer l'exercice", new Font("OpenDyslexic", Font.BOLD, 18), Color.green);
+			validButton = fastButton("DÃ©marrer l'exercice", new Font("OpenDyslexic", Font.BOLD, 18), Color.green);
 			JLabel police = fastLabel("Police : ");
 			JLabel taillePolice = fastLabel("Taille de la police : ");
 			JLabel couleurDeFond = fastLabel("Couleur de fond : ");
 			couleurJuste = fastLabel("Couleur pour \"juste\" : ");
 			couleurFausse = fastLabel("Couleur pour \"faux\" : ");
 			couleurCorrection = fastLabel("Couleur de correction : ");
-			JLabel segments = fastLabel("Segment de départ ");
+			JLabel segments = fastLabel("Segment de dÃ©part ");
 			JLabel attente = fastLabel("Temps d'attente en % du temps de lecture");
 
 			controleur = new ControlerParam(fen, this);
@@ -150,7 +151,7 @@ public class FenetreParametre extends JFrame {
 			wrongColorComboBox = new ColorComboBox(Constants.COLORS, true);
 			correctColorComboBox = new ColorComboBox(Constants.COLORS, true);
 
-			/// flèches haut et bas pour incrémenter/décrémenter un nombre ///
+			/// flÃ©ches haut et bas pour incrÃ©menter/dÃ©crÃ©menter un nombre ///
 			KeyListener numberKey = new KeyAdapter() {
 				@Override
 				public void keyPressed(KeyEvent e) {
@@ -205,14 +206,14 @@ public class FenetreParametre extends JFrame {
 			fastCentering(wrongColorComboBox, midPanel, "   ");
 			fastCentering(correctColorComboBox, midPanel, "   ");
 
-			anticipatedModeRadio = fastRadio("Anticipé", controleur);
-			anticipatedModeRadio.setToolTipText("Mode Anticipé");
+			anticipatedModeRadio = fastRadio("AnticipÃ©", controleur);
+			anticipatedModeRadio.setToolTipText("Mode AnticipÃ©");
 			highlightModeRadio = fastRadio("Suivi", controleur);
-			highlightModeRadio.setToolTipText("Mode de lecture segmentée : version surlignage");
-			guidedModeRadio = fastRadio("Guidé", controleur);
-			guidedModeRadio.setToolTipText("Mode guidé");
-			segmentedModeRadio = fastRadio("Segmenté", controleur);
-			segmentedModeRadio.setToolTipText("Mode de lecture segmentée");
+			highlightModeRadio.setToolTipText("Mode de lecture segmentÃ©e : version surlignage");
+			guidedModeRadio = fastRadio("GuidÃ©", controleur);
+			guidedModeRadio.setToolTipText("Mode guidÃ©");
+			segmentedModeRadio = fastRadio("SegmentÃ©", controleur);
+			segmentedModeRadio.setToolTipText("Mode de lecture segmentÃ©e");
 			segmentedModeRadio.setSelected(true);
 			
 			modes = new ButtonGroup();
@@ -258,8 +259,8 @@ public class FenetreParametre extends JFrame {
 		}
 
 		/**
-		 * Applique les préférences chargées aux pré-sélections de la fenêtre de paramètres
-		 * et à la fenêtre principale si elle existe.
+		 * Applique les prÃ©fÃ©rences chargÃ©es aux prÃ©-sÃ©lections de la fenÃ©tre de paramÃ©tres
+		 * et Ã© la fenÃ©tre principale si elle existe.
 		 */
 		public void applyPreferences(ReadMode readMode) {
 			Parametres param = params.get(readMode);
@@ -281,7 +282,7 @@ public class FenetreParametre extends JFrame {
 		}
 		
 		/**
-		 * Enregistre les préférences en fonction de la sélection de l'utilisateur.
+		 * Enregistre les prÃ©fÃ©rences en fonction de la sÃ©lection de l'utilisateur.
 		 */
 		public void savePreferences(ReadMode readMode) {
 			Parametres param = params.get(readMode);
@@ -308,7 +309,7 @@ public class FenetreParametre extends JFrame {
 		}
 		
 		/**
-		 * Mets à jour les composants de la fenêtre en fonction du mode sélectionné.
+		 * Mets Ã© jour les composants de la fenÃ©tre en fonction du mode sÃ©lectionnÃ©.
 		 */
 		public void updateMode() {
 			switch (getReadMode()) {
@@ -420,7 +421,7 @@ public class FenetreParametre extends JFrame {
 		}
 		
 		/**
-		 * Retourne le mode de lecture sélectionné par l'utilisateur.
+		 * Retourne le mode de lecture sÃ©lectionnÃ© par l'utilisateur.
 		 */
 		public ReadMode getReadMode() {
 			if (guidedModeRadio.isSelected())
@@ -437,15 +438,15 @@ public class FenetreParametre extends JFrame {
 	}
 
 	public void lancerExercice() {
-		pan.validButton.setText("Appliquer les paramètres");
+		pan.validButton.setText("Appliquer les paramÃ¨tres");
 		setLaunchParametersEnabled(false);
-		fenetre.init(getCurrentParameters());
+		//fenetre.init(getCurrentParameters());
 		fenetre.start();
 		controlPanel.init();
 	}
 
 	public void stopExercice() {
-		pan.validButton.setText("Démarrer l'exercice");
+		pan.validButton.setText("DÃ©marrer l'exercice");
 		setLaunchParametersEnabled(true);
 		stopItem.setEnabled(false);
 		fenetre.setVisible(false);
@@ -455,10 +456,10 @@ public class FenetreParametre extends JFrame {
 	}
 	
 	/**
-	 * Active ou désactive les paramètres non modifiables à partir de la première écoute.
+	 * Active ou dÃ©sactive les paramÃ©tres non modifiables Ã© partir de la premiÃ©re Ã©coute.
 	 */
 	public void setStartParametersEnabled(boolean enabled) {
-		///désacive la taille et la police et le segment de départ ///
+		///dÃ©sacive la taille et la police et le segment de dÃ©part ///
 		pan.fontFamilyComboBox.setEnabled(enabled);
 		pan.fontSizeComboBox.setEnabled(enabled);
 		pan.startingPhraseField.setEnabled(enabled);
@@ -469,7 +470,7 @@ public class FenetreParametre extends JFrame {
 	}
 	
 	/**
-	 * Active ou désactive les paramètres non modifiable lors du lancement de l'exercice.
+	 * Active ou dÃ©sactive les paramÃ©tres non modifiable lors du lancement de l'exercice.
 	 */
 	public void setLaunchParametersEnabled(boolean enabled) {
 		pan.anticipatedModeRadio.setEnabled(enabled);
@@ -481,7 +482,7 @@ public class FenetreParametre extends JFrame {
 	}
 	
 	/**
-	 * Retourne les paramètres du mode sélectionné.
+	 * Retourne les paramÃ©tres du mode sÃ©lectionnÃ©.
 	 */
 	public Parametres getCurrentParameters() {
 		if (pan.getReadMode() == null)
@@ -504,7 +505,7 @@ public class FenetreParametre extends JFrame {
 				System.exit(0);
 			}
 		});
-		stopItem = new JMenuItem("Arrêter l'exercice");
+		stopItem = new JMenuItem("ArrÃ©ter l'exercice");
 		stopItem.setToolTipText("Relancer l'exercice");
 		stopItem.setMnemonic(KeyEvent.VK_R);
 		stopItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.ALT_MASK));
@@ -530,7 +531,7 @@ public class FenetreParametre extends JFrame {
 	}
 	
 	/**
-	 * Retourne le font correspondant à :
+	 * Retourne le font correspondant Ã  :
 	 * 
 	 * @param1 : la police
 	 * @param2 : l'index du font dans la liste des polices de la FenetreParametre

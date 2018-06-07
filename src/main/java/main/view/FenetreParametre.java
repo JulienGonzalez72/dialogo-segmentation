@@ -241,11 +241,11 @@ public class FenetreParametre extends JFrame {
 			anticipatedModeRadio = fastRadio("Anticipé", controleur);
 			anticipatedModeRadio.setToolTipText("Mode Anticipé");
 			highlightModeRadio = fastRadio("Suivi", controleur);
-			highlightModeRadio.setToolTipText("Mode de lecture segment�e : version surlignage");
+			highlightModeRadio.setToolTipText("Mode de lecture segmentée : version surlignage");
 			guidedModeRadio = fastRadio("Guidé", controleur);
 			guidedModeRadio.setToolTipText("Mode guidé");
 			segmentedModeRadio = fastRadio("Segmenté", controleur);
-			segmentedModeRadio.setToolTipText("Mode de lecture segment�e");
+			segmentedModeRadio.setToolTipText("Mode de lecture segmentée");
 			segmentedModeRadio.setSelected(true);
 
 			modes = new ButtonGroup();
@@ -493,7 +493,7 @@ public class FenetreParametre extends JFrame {
 	}
 
 	/**
-	 * Active ou d�sactive les param�tres non modifiables � partir de la premi�re
+	 * Active ou d�sactive les param�tres non modifiables à partir de la premi�re
 	 * �coute.
 	 */
 	public void setStartParametersEnabled(boolean enabled) {
@@ -544,7 +544,7 @@ public class FenetreParametre extends JFrame {
 				System.exit(0);
 			}
 		});
-		stopItem = new JMenuItem("Arr�ter l'exercice");
+		stopItem = new JMenuItem("Arréter l'exercice");
 		stopItem.setToolTipText("Relancer l'exercice");
 		stopItem.setMnemonic(KeyEvent.VK_R);
 		stopItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.ALT_MASK));

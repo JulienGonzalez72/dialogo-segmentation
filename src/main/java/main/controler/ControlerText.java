@@ -2,6 +2,7 @@ package main.controler;
 
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Font;
 
 import main.Constants;
 import main.view.TextPanel;
@@ -154,8 +155,8 @@ public class ControlerText {
 
 	/**
 	 * Supprime le surlignage qui se trouve sur le segment n. Ne fait rien si ce
-	 * <<<<<<< HEAD segment n'est pas surlign�. ======= segment n'est pas surligné.
-	 * >>>>>>> 4d0c5fc4d1a7669040ff27890026e54fc89e22ed
+	 * segment n'est pas surligné.
+	 * 
 	 */
 	public void removeHighlightPhrase(int n) {
 		int debutRelatifSegment = p.textHandler.getRelativeStartPhrasePosition(p.getNumeroPremierSegmentAffiché(), n);
@@ -164,9 +165,8 @@ public class ControlerText {
 	}
 
 	/**
-	 * <<<<<<< HEAD Arr�te l'enregistrement courant et enl�ve tout le surlignage.
-	 * ======= Arréte l'enregistrement courant et enléve tout le surlignage. >>>>>>>
-	 * 4d0c5fc4d1a7669040ff27890026e54fc89e22ed
+	 * 
+	 * Arréte l'enregistrement courant et enlève tout le surlignage.
 	 */
 	public void stopAll() {
 		p.player.stop();
@@ -174,20 +174,15 @@ public class ControlerText {
 	}
 
 	/**
-	 * <<<<<<< HEAD Charge un segment de phrase dans le lecteur sans le
-	 * d�marrer.<br>
-	 * Pas n�cessaire si on d�marre le lecteur directement avec la m�thode =======
 	 * Charge un segment de phrase dans le lecteur sans le démarrer.<br>
-	 * Pas nécessaire si on démarre le lecteur directement avec la méthode >>>>>>>
-	 * 4d0c5fc4d1a7669040ff27890026e54fc89e22ed {@link #play}.
+	 * Pas nécessaire si on démarre le lecteur directement avec la méthode
 	 */
 	public void loadSound(int phrase) {
 		p.player.load(phrase);
 	}
 
 	/**
-	 * <<<<<<< HEAD Enl�ve tout le surlignage d'erreur. ======= Enléve tout le
-	 * surlignage d'erreur. >>>>>>> 4d0c5fc4d1a7669040ff27890026e54fc89e22ed
+	 * Enlève tout le surlignage d'erreur.
 	 */
 	public void removeWrongHighlights() {
 		p.editorPane.enleverSurlignageRouge();
@@ -208,9 +203,7 @@ public class ControlerText {
 	}
 
 	/**
-	 * <<<<<<< HEAD Surligne tout depuis le d�but de la page jusqu'au segment de
-	 * phrase indiqu�. ======= Surligne tout depuis le début de la page jusqu'au
-	 * segment de phrase indiqué. >>>>>>> 4d0c5fc4d1a7669040ff27890026e54fc89e22ed
+	 * Surligne tout depuis le début de la page jusqu'au segment de phrase indiqué.
 	 */
 	public void highlightUntilPhrase(Color c, int n) {
 		p.surlignerJusquaSegment(c, n);
@@ -257,6 +250,13 @@ public class ControlerText {
 	 */
 	public void doPlay() {
 		p.pilot.doPlay();
+	}
+
+	/**
+	 * Applique un Font à l'exercice
+	 */
+	public void setFont(Font f) {
+		p.editorPane.setFont(f);
 	}
 
 }

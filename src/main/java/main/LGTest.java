@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import main.controler.ControlerText;
+import main.reading.ReadThread;
 import main.view.*;
 
 public class LGTest {
@@ -21,7 +22,7 @@ public class LGTest {
 		
 		/// on initalise la fenêtre avec les paramètres nécessaires à sa création ///
 		frame.init(getTextFromFile("ressources/textes/Amélie la sorcière.txt"), // le texte à afficher
-				1, // le premier segment à afficher
+				3, // le premier segment à afficher
 				new Font(Font.MONOSPACED, Font.BOLD, 20), // les caractéristiques de la police (nom, style, taille)
 				100, // la position x de la fenêtre
 				100, // la position y de la fenêtre
@@ -37,9 +38,22 @@ public class LGTest {
 				/// on récupère le contrôleur ///
 				ControlerText controler = frame.getControler();
 				
-				controler.highlightPhrase(Color.GREEN, 4);
+				LGThread thread = new LGThread(controler, 1);
+				
+				controler.loadReadThread(thread);
+				
+				controler.goTo(1);
 			}
 		};
+	}
+	
+	static class LGThread extends ReadThread {
+		public LGThread(ControlerText controler, int N) {
+			super(controler, N);
+		}
+		public void run() {
+			controler.highlightPhrase(Color.ORANGE, N);
+		}
 	}
 	
 	/**

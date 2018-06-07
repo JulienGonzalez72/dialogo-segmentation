@@ -19,7 +19,7 @@ public class ControlerText {
 	}
 
 	/**
-	 * Construit les pages é partir du segment de numero spécifié.
+	 * Construit les pages à partir du segment de numero spécifié.
 	 */
 	public void buildPages(int startPhrase) {
 		p.buildPages(startPhrase);
@@ -37,6 +37,7 @@ public class ControlerText {
 	 * cette fonction lorsque le fichier .wav aura été totalement joué. METHODE DE
 	 * TEST
 	 */
+	@Deprecated
 	public void play(int phrase) {
 		p.setCursor(Constants.CURSOR_LISTEN);
 		p.player.play(phrase);
@@ -115,7 +116,7 @@ public class ControlerText {
 	 * sort avec False.
 	 * </ul>
 	 */
-	public boolean waitForClick(int n) {
+	/*public boolean waitForClick(int n) {
 		p.controlerMouse.clicking = false;
 		while (true) {
 			Thread.yield();
@@ -136,6 +137,31 @@ public class ControlerText {
 									p.textHandler.startWordPosition(offset) + 1),
 							p.textHandler.getRelativeOffset(p.getNumeroPremierSegmentAffiché(),
 									p.textHandler.endWordPosition(offset)));
+					return false;
+				}
+			}
+		}
+	}*/
+	
+	/**
+	 * Attends un clic sur un mot du texte.<br/>
+	 * Retourne <code>true</code> si le mot correspond au dernier mot du segment n, <code>false</code> si c'est le mauvais mot.
+	 */
+	public boolean waitForClick(int n) {
+		p.controlerMouse.clicking = false;
+		while (true) {
+			Thread.yield();
+			if (p.controlerMouse.clicking) {
+				/// cherche la position exacte dans le texte ///
+				int offset = p.textHandler.getAbsoluteOffset(p.getNumeroPremierSegmentAffiché(),
+						p.editorPane.getCaretPosition());
+				/// si le clic est juste ///
+				if (p.textHandler.wordPause(offset)
+						&& p.textHandler.getPhraseIndex(offset) == p.player.getCurrentPhraseIndex()) {
+					return true;
+				}
+				/// si le clic est faux ///
+				else {
 					return false;
 				}
 			}
@@ -259,6 +285,13 @@ public class ControlerText {
 	 */
 	public void setFont(Font f) {
 		p.editorPane.setFont(f);
+	}
+	
+	/**
+	 * Change la taille de la police.
+	 */
+	public void setFontSize(float fontSize) {
+		setFont(p.editorPane.getFont().deriveFont(fontSize));
 	}
 
 }

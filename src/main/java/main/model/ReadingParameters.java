@@ -9,6 +9,8 @@ public class ReadingParameters {
 	public Color rightColor = Constants.RIGHT_COLOR;
 	public Color correctionColor = Constants.WRONG_PHRASE_COLOR;
 	public Color wrongColor = Constants.WRONG_COLOR;
+	public int toleratedErrors = 2;
+	public int repeatTime;
 	
 	public ReadingParameters() {
 	}

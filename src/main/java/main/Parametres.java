@@ -15,6 +15,7 @@ import main.reading.ReadMode;
 import main.view.FenetreParametre;
 import main.view.TextFrame;
 
+@Deprecated
 public class Parametres {
 
 	public Font police = FenetreParametre.getFont(null, 0, Font.BOLD, Constants.DEFAULT_FONT_SIZE);

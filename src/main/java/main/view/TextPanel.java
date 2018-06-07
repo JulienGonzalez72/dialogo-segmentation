@@ -199,14 +199,7 @@ public class TextPanel extends JPanel {
 	}
 
 	/**
-<<<<<<< HEAD
-	 * Construit les pages et affiche la premiére.
-=======
-	 * <<<<<<< HEAD:src/main/java/main/view/Panneau.java Construit les pages et
-	 * affiche la première. ======= Construit les pages et affiche la premi�re.
-	 * >>>>>>>
-	 * 4d0c5fc4d1a7669040ff27890026e54fc89e22ed:src/main/java/main/view/TextPanel.java
->>>>>>> 80a9c7c8cb1ee3c12c78c000bb50e157e0aed560
+	 * Construit les pages et affiche la première.
 	 */
 	public void rebuildPages() {
 		buildPages(param.startingPhrase - 1);
@@ -272,7 +265,7 @@ public class TextPanel extends JPanel {
 				page++;
 			}
 			String newText = textHandler.getShowText().substring(lastOffset);
-			/// derniére page ///
+			/// dernière page ///
 			if (newText.equals(text)) {
 				if (!segmentsEnFonctionDeLaPage.get(page - 1).contains(textHandler.getPhraseIndex(off))) {
 					segmentsEnFonctionDeLaPage.get(page - 1).add(textHandler.getPhraseIndex(off));

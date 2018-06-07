@@ -3,7 +3,6 @@ package main.controler;
 import main.reading.ReadThread;
 import main.view.TextPanel;
 
-// TODO classe non fonctionnelle
 public class Pilot {
 
 	/**
@@ -22,43 +21,39 @@ public class Pilot {
 	}
 
 	/**
-	 * Se place sur le segment de numero n et démarre le lecteur.
+	 * Se place sur le segment de numero n et démarre l'algorithme de lecture.
 	 */
 	public void goTo(int n) throws IllegalArgumentException {
-		if (n < p.param.startingPhrase - 1 || n >= p.textHandler.getPhrasesCount() - 1) {
-			throw new IllegalArgumentException("Numéro de segment invalide : " + n);
+		if (n < p.param.startingPhrase - 1 || n > p.textHandler.getPhrasesCount() - 1) {
+			throw new IllegalArgumentException("Numéro de segment invalide : " + (n + 1));
 		}
-		phrase = n;
-		p.editorPane.enleverSurlignageRouge();
+		if (activeThread == null) {
+			throw new IllegalArgumentException("Algorithme de lecture non chargé !");
+		}
+		activeThread.N = phrase = n;
 
-		/// empêche le redimensionnement de la fenêtre lors de la première lecture ///
+		/// empêche le redimensionnement de la fenêtre à partir de la première lecture ///
 		p.fenetre.setResizable(false);
 
 		// met a jour la barre de progression
 		updateBar();
 
-		if (activeThread != null) {
+		if (activeThread.isRunning()) {
 			activeThread.doStop();
 		}
 		activeThread.onPhraseEnd.add(new Runnable() {
 			public void run() {
 				phrase = activeThread.N;
-				/// fin du dernier segment du texte ///
-				if (phrase == p.textHandler.getPhrasesCount() - 1) {
-					p.afficherCompteRendu();
-				}
 				/// met à jour la barre de progression ///
-				else {
-					updateBar();
-				}
+				updateBar();
 			}
 		});
 		activeThread.start();
 	}
 
 	private void updateBar() {
-		p.progressBar.setValue(getCurrentPhraseIndex());
-		p.progressBar.setString((getCurrentPhraseIndex() + 1) + "/" + (p.textHandler.getPhrasesCount() - 1));
+		p.progressBar.setValue(phrase + 1);
+		p.progressBar.setString((phrase) + "/" + (p.textHandler.getPhrasesCount() - 1));
 	}
 
 	/**
@@ -67,7 +62,7 @@ public class Pilot {
 	 * segment du texte.
 	 */
 	public void doNext() {
-		goTo(p.player.getCurrentPhraseIndex() + 1);
+		goTo(phrase + 1);
 	}
 
 	/**
@@ -75,14 +70,13 @@ public class Pilot {
 	 * premier segment du texte.
 	 */
 	public void doPrevious() {
-		goTo(p.player.getCurrentPhraseIndex() - 1);
+		goTo(phrase - 1);
 	}
 
 	/**
 	 * Essaye d'arrêter l'enregistrement en cours.
 	 */
 	public void doStop() {
-		p.player.stop();
 		if (activeThread != null) {
 			activeThread.doStop();
 		}
@@ -93,23 +87,26 @@ public class Pilot {
 	 * le début.
 	 */
 	public void doPlay() {
-		goTo(p.player.getCurrentPhraseIndex());
-	}
-
-	public int getCurrentPhraseIndex() {
-		return phrase;
-	}
-
-	public boolean isPlaying() {
-		return p.player.isPlaying();
-	}
-
-	public boolean hasPreviousPhrase() {
-		return p.player.hasPreviousPhrase();
+		goTo(phrase);
 	}
 
 	/**
-	 * Charge un thread de la même classe que r Et initialisé au segment n
+	 * Retourne l'indice du segment actuel dans le texte (en partant de 0).
+	 */
+	public int getCurrentPhraseIndex() {
+		return phrase;
+	}
+	
+	public boolean isRunning() {
+		return activeThread != null && activeThread.isRunning();
+	}
+
+	public boolean hasPreviousPhrase() {
+		return phrase > p.param.startingPhrase;
+	}
+
+	/**
+	 * Charge un thread de la même classe que r. Indispensable avant une quelconque manipulation de contrôle.
 	 */
 	public void loadReadThread(ReadThread r) {
 		this.activeThread = r;

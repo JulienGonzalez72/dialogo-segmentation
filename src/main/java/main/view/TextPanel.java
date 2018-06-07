@@ -48,7 +48,6 @@ public class TextPanel extends JPanel {
 	public int nbErreursParSegment;
 	public TextFrame fenetre;
 	public ControlPanel controlPanel;
-	public ControlerText controlerGlobal;
 	public ControlerMouse controlerMouse;
 	public ReadThread task;
 	public Map<Integer, List<Integer>> segmentsEnFonctionDeLaPage = new HashMap<Integer, List<Integer>>();
@@ -62,8 +61,6 @@ public class TextPanel extends JPanel {
 	public JProgressBar progressBar;
 
 	public TextPanel(TextFrame fenetre) throws IOException {
-		this.fenetre = fenetre;
-		this.controlerGlobal = new ControlerText(this);
 		this.fenetre = fenetre;
 		/*
 		 * String textPath = "ressources/textes/" + Constants.TEXT_FILE_NAME; String
@@ -142,13 +139,7 @@ public class TextPanel extends JPanel {
 	}
 
 	/**
-	 * <<<<<<< HEAD retourne le contenu du fichier .txt situé é l'emplacement du
-	 * paramètre ======= <<<<<<< HEAD:src/main/java/main/view/Panneau.java retourne
-	 * le contenu du fichier .txt situé à l'emplacement du paramètre =======
-	 * retourne le contenu du fichier .txt situ� � l'emplacement du param�tre
-	 * >>>>>>>
-	 * 4d0c5fc4d1a7669040ff27890026e54fc89e22ed:src/main/java/main/view/TextPanel.java
-	 * >>>>>>> 80a9c7c8cb1ee3c12c78c000bb50e157e0aed560
+	 * Retourne le contenu du fichier .txt situé à l'emplacement du paramètre.
 	 */
 	public static String getTextFromFile(String emplacement) throws IOException {
 		File fichierTxt = new File(emplacement);
@@ -181,15 +172,7 @@ public class TextPanel extends JPanel {
 	}
 
 	/**
-<<<<<<< HEAD
 	 * Construit les pages et affiche la première.
-=======
-	 * <<<<<<< HEAD Construit les pages et affiche la premiére. ======= <<<<<<<
-	 * HEAD:src/main/java/main/view/Panneau.java Construit les pages et affiche la
-	 * première. ======= Construit les pages et affiche la premi�re. >>>>>>>
-	 * 4d0c5fc4d1a7669040ff27890026e54fc89e22ed:src/main/java/main/view/TextPanel.java
-	 * >>>>>>> 80a9c7c8cb1ee3c12c78c000bb50e157e0aed560
->>>>>>> f4212a45510bada564535e90a33e7024d66f7f73
 	 */
 	public void rebuildPages() {
 		buildPages(param.startingPhrase - 1);

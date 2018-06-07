@@ -15,6 +15,7 @@ import main.Parametres;
 import main.view.FenetreParametre;
 import main.view.TextPanel;
 
+// TODO classe non fonctionnelle
 public class ControlerParam implements ActionListener {
 
 	FenetreParametre.PanneauParam panneau;

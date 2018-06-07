@@ -22,7 +22,7 @@ public class LGTest {
 		
 		/// on initalise la fenêtre avec les paramètres nécessaires à sa création ///
 		frame.init(getTextFromFile("ressources/textes/Amélie la sorcière.txt"), // le texte à afficher
-				3, // le premier segment à afficher
+				1, // le premier segment à afficher
 				new Font(Font.MONOSPACED, Font.BOLD, 20), // les caractéristiques de la police (nom, style, taille)
 				100, // la position x de la fenêtre
 				100, // la position y de la fenêtre
@@ -36,28 +36,35 @@ public class LGTest {
 		frame.onInit = new Runnable() {
 			public void run() {
 				/// on récupère le contrôleur ///
-				ControlerText controler = frame.getControler();
+				ControlerText controler = new ControlerText(frame);
 				
-				LGThread thread = new LGThread(controler, 1);
+				/// on créé notre thread personnalisé ///
+				LGThread thread = new LGThread(controler);
 				
+				/// on le charge dans le contrôleur pour avoir tous les contrôles dessus ///
 				controler.loadReadThread(thread);
 				
-				controler.goTo(1);
+				/// on démarre le thread au segment 1 ///
+				controler.goTo(2);
 			}
 		};
 	}
 	
+	/**
+	 * Ceci est notre algorithme de lecture personnalisé, il doit hériter de ReadThread et définir un constructeur identique.
+	 */
 	static class LGThread extends ReadThread {
-		public LGThread(ControlerText controler, int N) {
-			super(controler, N);
+		public LGThread(ControlerText controler) {
+			super(controler);
 		}
 		public void run() {
+			controler.setFontSize(22);
 			controler.highlightPhrase(Color.ORANGE, N);
 		}
 	}
 	
 	/**
-	 * retourne le contenu du fichier .txt situé à l'emplacement du paramètre
+	 * Retourne le contenu du fichier .txt situé à l'emplacement du paramètre.
 	 */
 	public static String getTextFromFile(String emplacement) {
 		try {

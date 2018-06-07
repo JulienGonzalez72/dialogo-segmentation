@@ -7,7 +7,6 @@ public class ControlerKey implements KeyListener {
 
 	private Pilot pilot;
 
-
 	/**
 	 * Moment du dernier clic
 	 */
@@ -24,7 +23,7 @@ public class ControlerKey implements KeyListener {
 			if (e.getWhen() - lastClick > Constants.LEFT_DELAY) {
 				pilot.goTo(pilot.getCurrentPhraseIndex());
 			}
-			/// retourne au segment précédent ///
+			/// retourne au segment prÃ©cÃ©dent ///
 			else if (pilot.hasPreviousPhrase()) {
 				pilot.goTo(pilot.getCurrentPhraseIndex() - 1);
 			}
@@ -33,7 +32,7 @@ public class ControlerKey implements KeyListener {
 
 		else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 			/// pause ///
-			if (pilot.isPlaying()) {
+			if (pilot.isRunning()) {
 				pilot.doStop();
 			}
 			/// reprend le segment ///

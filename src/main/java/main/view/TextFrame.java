@@ -24,7 +24,7 @@ public class TextFrame extends JFrame {
 	 */
 	public Runnable onInit;
 
-	public TextPanel pan;
+	private TextPanel pan;
 	public boolean preferencesExiste = true;
 	private ToolParameters param;
 
@@ -75,7 +75,7 @@ public class TextFrame extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				param.startingPhrase = pan.controlerGlobal.getCurrentPhraseIndex() + 1;
+				//param.startingPhrase = pan.controlerGlobal.getCurrentPhraseIndex() + 1;
 				// param.stockerPreference();
 			}
 		});
@@ -95,9 +95,9 @@ public class TextFrame extends JFrame {
 			}
 		});
 	}
-
-	public ControlerText getControler() {
-		return pan.controlerGlobal;
+	
+	public TextPanel getPanel() {
+		return pan;
 	}
 
 }

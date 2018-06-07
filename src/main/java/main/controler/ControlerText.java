@@ -7,6 +7,7 @@ import java.awt.Font;
 import main.Constants;
 import main.reading.ReadThread;
 import main.view.TextPanel;
+import main.view.TextFrame;
 
 public class ControlerText {
 
@@ -14,13 +15,13 @@ public class ControlerText {
 	private Pilot pilot;
 
 	/**
-	 * Construit un contrôleur à partir du panneau correspondant.
+	 * Construit un contrôleur à partir de la fenêtre d'exercice correspondante.
 	 */
-	public ControlerText(TextPanel p) {
-		this.p = p;
+	public ControlerText(TextFrame frame) {
+		this.p = frame.getPanel();
 		this.pilot = new Pilot(p);
-		ControlerKey controlerKey = new ControlerKey(pilot);
-		p.editorPane.addKeyListener(controlerKey);
+		//ControlerKey controlerKey = new ControlerKey(pilot);
+		//p.editorPane.addKeyListener(controlerKey);
 	}
 
 	/**
@@ -192,6 +193,7 @@ public class ControlerText {
 	 * 
 	 */
 	public void removeHighlightPhrase(int n) {
+		n--;
 		int debutRelatifSegment = p.textHandler.getRelativeStartPhrasePosition(p.getNumeroPremierSegmentAffiché(), n);
 		int finRelativeSegment = debutRelatifSegment + p.textHandler.getPhrase(n).length();
 		p.editorPane.removeHighlight(debutRelatifSegment, finRelativeSegment);
@@ -201,6 +203,7 @@ public class ControlerText {
 	 * 
 	 * Arréte l'enregistrement courant et enlève tout le surlignage.
 	 */
+	@Deprecated
 	public void stopAll() {
 		p.player.stop();
 		p.editorPane.désurlignerTout();
@@ -210,6 +213,7 @@ public class ControlerText {
 	 * Charge un segment de phrase dans le lecteur sans le démarrer.<br>
 	 * Pas nécessaire si on démarre le lecteur directement avec la méthode
 	 */
+	@Deprecated
 	public void loadSound(int phrase) {
 		p.player.load(phrase);
 	}
@@ -245,9 +249,16 @@ public class ControlerText {
 	public void incrementerErreurSegment() {
 		p.nbErreursParSegment++;
 	}
+	
+	public void showReport() {
+		p.afficherCompteRendu();
+	}
 
 	/**
-	 * Se place sur le segment de numero n et d�marre le lecteur.
+	 * Se place sur le segment de numero <i>n</i> et démarre le lecteur.
+	 * @throws IllegalArgumentException si <i>n</i> est inférieur au numéro du premier segment
+	 * ou supérieur au nombre de segments dans le texte,
+	 * ou si le thread de lecture n'a pas été chargé avec {@link #loadReadThread(ReadThread)}.
 	 */
 	public void goTo(int n) throws IllegalArgumentException {
 		pilot.goTo(n);
@@ -300,11 +311,10 @@ public class ControlerText {
 	}
 
 	/**
-	 * 
-	 * Retourne le segment courant
+	 * Retourne le numéro du segment courant (en partant de 1).
 	 */
 	public int getCurrentPhraseIndex() {
-		return pilot.getCurrentPhraseIndex();
+		return pilot.getCurrentPhraseIndex() + 1;
 	}
 
 	/**

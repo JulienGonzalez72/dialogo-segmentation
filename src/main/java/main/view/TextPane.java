@@ -15,7 +15,6 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
 import main.Constants;
-import main.Parametres;
 import main.model.ReadingParameters;
 import main.model.ToolParameters;
 

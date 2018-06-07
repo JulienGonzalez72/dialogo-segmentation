@@ -1,20 +1,49 @@
 package main.view;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.util.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JSlider;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
+import javax.swing.KeyStroke;
+import javax.swing.ListCellRenderer;
+import javax.swing.SwingConstants;
 
 import main.Constants;
 import main.Parametres;
-<<<<<<< HEAD
-import main.controler.ControleurParam;
-=======
 import main.controler.ControlerParam;
 import main.reading.ReadMode;
->>>>>>> e3ade8438f5b3f0c5dcfa42e0ff32688d3a9f078
 
 public class FenetreParametre extends JFrame {
 
@@ -27,7 +56,7 @@ public class FenetreParametre extends JFrame {
 	public ControlPanel controlPanel;
 	public JMenuItem stopItem;
 	public PanneauParam pan;
-	
+
 	public FenetreParametre(String titre, int tailleX, int tailleY) {
 		params = Parametres.loadAll();
 		setIconImage(getToolkit().getImage("icone.jpg"));
@@ -43,7 +72,7 @@ public class FenetreParametre extends JFrame {
 		} catch (NumberFormatException | IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		fenetre = new Fenetre(titre, tailleX * 2, tailleY, this);
 		controlPanel = new ControlPanel(fenetre.pan, this);
 
@@ -65,9 +94,9 @@ public class FenetreParametre extends JFrame {
 	}
 
 	public class PanneauParam extends JPanel {
-		
+
 		private static final long serialVersionUID = 1L;
-		
+
 		public JPanel panelModes;
 		public JComboBox<String> fontFamilyComboBox;
 		public JComboBox<Integer> fontSizeComboBox;
@@ -88,7 +117,7 @@ public class FenetreParametre extends JFrame {
 		public FenetreParametre fen;
 		public ReadMode oldMode = ReadMode.SEGMENTE;
 		private ControlerParam controleur;
-		
+
 		public PanneauParam(FenetreParametre fen) throws NumberFormatException, IOException {
 			this.fen = fen;
 			setLayout(new BorderLayout());
@@ -96,7 +125,7 @@ public class FenetreParametre extends JFrame {
 			titre.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
 			titre.setPreferredSize(new Dimension(0, 30));
 			add(titre, BorderLayout.NORTH);
-			
+
 			validButton = fastButton("Démarrer l'exercice", new Font("OpenDyslexic", Font.BOLD, 18), Color.green);
 			JLabel police = fastLabel("Police : ");
 			JLabel taillePolice = fastLabel("Taille de la police : ");
@@ -109,11 +138,11 @@ public class FenetreParametre extends JFrame {
 
 			controleur = new ControlerParam(fen, this);
 			validButton.addActionListener(controleur);
-			
+
 			fontFamilyComboBox = new JComboBox<String>(Constants.FONT_FAMILIES);
 			fontFamilyComboBox.setRenderer(new ListCellRenderer<Object>() {
 				private DefaultListCellRenderer renderer = new DefaultListCellRenderer();
-				
+
 				public Component getListCellRendererComponent(JList<? extends Object> list, Object value, int index,
 						boolean isSelected, boolean cellHasFocus) {
 					list.setFont(
@@ -122,10 +151,10 @@ public class FenetreParametre extends JFrame {
 					return renderer.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 				}
 			});
-			fontFamilyComboBox.setFont(FenetreParametre.getFont((String) fontFamilyComboBox.getSelectedItem(), 0, Font.BOLD,
-					Constants.DEFAULT_FONT_SIZE));
+			fontFamilyComboBox.setFont(FenetreParametre.getFont((String) fontFamilyComboBox.getSelectedItem(), 0,
+					Font.BOLD, Constants.DEFAULT_FONT_SIZE));
 			fontFamilyComboBox.addActionListener(controleur);
-			
+
 			fontSizeComboBox = new JComboBox<Integer>(Constants.FONT_SIZES);
 			fontSizeComboBox.setRenderer(new ListCellRenderer<Object>() {
 				private DefaultListCellRenderer renderer = new DefaultListCellRenderer();
@@ -160,24 +189,26 @@ public class FenetreParametre extends JFrame {
 				public void keyPressed(KeyEvent e) {
 					if (e.getKeyCode() != KeyEvent.VK_UP && e.getKeyCode() != KeyEvent.VK_DOWN)
 						return;
-					
+
 					JTextField jtf = (JTextField) e.getSource();
 					try {
 						int n = Integer.parseInt(jtf.getText());
-						
-						if (e.getKeyCode() == KeyEvent.VK_UP) n++;
-						else if (e.getKeyCode() == KeyEvent.VK_DOWN) n--;
-						else return;
-						
+
+						if (e.getKeyCode() == KeyEvent.VK_UP)
+							n++;
+						else if (e.getKeyCode() == KeyEvent.VK_DOWN)
+							n--;
+						else
+							return;
+
 						if (controleur.isValidPhrase(n))
 							jtf.setText(String.valueOf(n));
 					} catch (NumberFormatException ex) {
 					}
 				}
 			};
-			
-			startingPhraseField = fastTextField("",
-					new Font("OpenDyslexic", Font.PLAIN, 15), "1");
+
+			startingPhraseField = fastTextField("", new Font("OpenDyslexic", Font.PLAIN, 15), "1");
 			startingPhraseField.addActionListener(controleur);
 			startingPhraseField.addKeyListener(numberKey);
 
@@ -217,13 +248,13 @@ public class FenetreParametre extends JFrame {
 			segmentedModeRadio = fastRadio("Segmenté", controleur);
 			segmentedModeRadio.setToolTipText("Mode de lecture segmentée");
 			segmentedModeRadio.setSelected(true);
-			
+
 			modes = new ButtonGroup();
 			modes.add(highlightModeRadio);
 			modes.add(guidedModeRadio);
 			modes.add(segmentedModeRadio);
 			modes.add(anticipatedModeRadio);
-			
+
 			waitSlider = new JSlider();
 			waitSlider.setMaximum(Constants.MAX_WAIT_TIME_PERCENT);
 			waitSlider.setMinimum(Constants.MIN_WAIT_TIME_PERCENT);
@@ -232,7 +263,7 @@ public class FenetreParametre extends JFrame {
 			waitSlider.setPaintLabels(true);
 			waitSlider.setMinorTickSpacing(10);
 			waitSlider.setMajorTickSpacing(50);
-			
+
 			JPanel panelSud = new JPanel(new GridLayout(8, 1));
 			replayCheckBox = fastCheckBox("Rejouer les phrases si erreur", controleur);
 			replayCheckBox.setSelected(true);
@@ -252,138 +283,66 @@ public class FenetreParametre extends JFrame {
 			panelSud.add(waitSlider);
 			panelSud.add(new JLabel());
 			panelSud.add(validButton);
-			
+
 			add(midPanel, BorderLayout.CENTER);
 			add(panelSud, BorderLayout.SOUTH);
-			
+
 			applyPreferences(getReadMode());
 			updateMode();
 		}
 
 		/**
-		 * Applique les préférences chargées aux pré-sélections de la fenêtre de paramètres
-		 * et à la fenêtre principale si elle existe.
+		 * Applique les préférences chargées aux pré-sélections de la fenêtre de
+		 * paramètres et à la fenêtre principale si elle existe.
 		 */
 		public void applyPreferences(ReadMode readMode) {
 			Parametres param = params.get(readMode);
-			
+
 			fontSizeComboBox.setSelectedItem(param.taillePolice);
 			fontFamilyComboBox.setSelectedItem(getCorrectFontName(param.police.getFontName()));
-			
+
 			startingPhraseField.setText(String.valueOf(param.startingPhrase));
 			toleratedErrorsField.setText(String.valueOf(param.nbFautesTolerees));
-			
+
 			appliquerCouleur(param.bgColor, bgColorComboBox);
 			appliquerCouleur(param.rightColor, rightColorComboBox);
 			appliquerCouleur(param.wrongColor, wrongColorComboBox);
 			appliquerCouleur(param.correctionColor, correctColorComboBox);
-			
+
 			waitSlider.setValue(param.tempsPauseEnPourcentageDuTempsDeLecture);
 
 			replayCheckBox.setSelected(param.rejouerSon);
 		}
-		
+
 		/**
 		 * Enregistre les préférences en fonction de la sélection de l'utilisateur.
 		 */
 		public void savePreferences(ReadMode readMode) {
 			Parametres param = params.get(readMode);
-			param.bgColor = bgColorComboBox.getBackground();//stringToColor((String) bgColorComboBox.getSelectedItem());
-			param.rightColor = rightColorComboBox.getBackground();//stringToColor((String) rightColorComboBox.getSelectedItem());
-			param.wrongColor = wrongColorComboBox.getBackground();//stringToColor((String) wrongColorComboBox.getSelectedItem());
-			param.correctionColor = correctColorComboBox.getBackground();//stringToColor((String) correctColorComboBox.getSelectedItem());
+			param.bgColor = bgColorComboBox.getBackground();// stringToColor((String)
+															// bgColorComboBox.getSelectedItem());
+			param.rightColor = rightColorComboBox.getBackground();// stringToColor((String)
+																	// rightColorComboBox.getSelectedItem());
+			param.wrongColor = wrongColorComboBox.getBackground();// stringToColor((String)
+																	// wrongColorComboBox.getSelectedItem());
+			param.correctionColor = correctColorComboBox.getBackground();// stringToColor((String)
+																			// correctColorComboBox.getSelectedItem());
 			param.taillePolice = (Integer) fontSizeComboBox.getSelectedItem();
-			param.police = FenetreParametre.getFont((String) fontFamilyComboBox.getSelectedItem(), fontFamilyComboBox.getSelectedIndex(), Font.BOLD, param.taillePolice);
+			param.police = FenetreParametre.getFont((String) fontFamilyComboBox.getSelectedItem(),
+					fontFamilyComboBox.getSelectedIndex(), Font.BOLD, param.taillePolice);
 			try {
 				param.startingPhrase = Integer.parseInt(startingPhraseField.getText());
-			} catch (NumberFormatException e) {}
+			} catch (NumberFormatException e) {
+			}
 			try {
-<<<<<<< HEAD
-				pro.load(ips);
-			} catch (IOException e) {
+				param.nbFautesTolerees = Integer.parseInt(toleratedErrorsField.getText());
+			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			}
-
-			int t = Integer.valueOf(pro.getProperty("taillePolice"));
-			if (t == 12) {
-				listeTailles.setSelectedItem(tailles[0]);
-			}
-			if (t == 16) {
-				listeTailles.setSelectedItem(tailles[1]);
-			}
-			if (t == 18) {
-				listeTailles.setSelectedItem(tailles[2]);
-			}
-			if (t == 20) {
-				listeTailles.setSelectedItem(tailles[3]);
-			}
-			if (t == 22) {
-				listeTailles.setSelectedItem(tailles[4]);
-			}
-			if (t == 24) {
-				listeTailles.setSelectedItem(tailles[5]);
-			}
-			if (t == 30) {
-				listeTailles.setSelectedItem(tailles[6]);
-			}
-			if (t == 36) {
-				listeTailles.setSelectedItem(tailles[7]);
-			}
-			if (t == 42) {
-				listeTailles.setSelectedItem(tailles[8]);
-			}
-
-			int index = -1;
-			String p = pro.getProperty("typePolice");
-			if (p.equals("OpenDyslexic") || p.equals("OpenDyslexic Bold")) {
-				index = 0;
-			}
-			if (p.equals("Andika") || p.equals("Andika Basic")) {
-				index = 1;
-			}
-			if (p.equals("Lexia")) {
-				index = 2;
-			}
-			if (p.equals("Arial") || p.equals("Arial Gras")) {
-				index = 3;
-			}
-			if (p.equals("Times New Roman") || p.equals("Times New Roman Gras")) {
-				index = 4;
-			}
-			listePolices.setSelectedItem(polices[index]);
-
-			appliquerCouleur(param.fromStringToColor(pro.getProperty("couleurFond")), listeCouleurs);
-			appliquerCouleur(param.fromStringToColor(pro.getProperty("couleurBonne")), listeBonnesCouleurs);
-			appliquerCouleur(param.fromStringToColor(pro.getProperty("couleurFausse")), listeMauvaisesCouleurs);
-			appliquerCouleur(param.fromStringToColor(pro.getProperty("couleurCorrection")), listeCorrectionCouleurs);
-			switch (param.readMode) {
-			case SEGMENTE:
-				modeNormal.setSelected(true);
-				break;
-			case SUIVI:
-				modeSurlignage.setSelected(true);
-				break;
-			case GUIDEE:
-				modeKaraoke.setSelected(true);
-				break;
-			case ANTICIPE:
-				modeAnticipe.setSelected(true);
-				break;
-			}
-
-			int temp = Integer.valueOf(pro.getProperty("tempsAttente"));
-			param.tempsPauseEnPourcentageDuTempsDeLecture = temp;
-			sliderAttente.setValue(temp);
-
-			rejouerSon.setSelected(Boolean.valueOf(pro.getProperty("rejouerSon")));
-=======
-				param.nbFautesTolerees = Integer.parseInt(toleratedErrorsField.getText());
-			} catch (NumberFormatException e) {}
 			param.rejouerSon = replayCheckBox.isSelected();
 			param.tempsPauseEnPourcentageDuTempsDeLecture = waitSlider.getValue();
->>>>>>> e3ade8438f5b3f0c5dcfa42e0ff32688d3a9f078
 		}
-		
+
 		private void appliquerCouleur(Color color, ColorComboBox listeCouleurs) {
 			listeCouleurs.selectColor(color);
 		}
@@ -391,46 +350,46 @@ public class FenetreParametre extends JFrame {
 		public void fermer() {
 			fen.setVisible(false);
 		}
-		
+
 		/**
 		 * Mets à jour les composants de la fenêtre en fonction du mode sélectionné.
 		 */
 		public void updateMode() {
 			switch (getReadMode()) {
-				case GUIDEE :
-				case ANTICIPE :
-					setRightColorParameterVisible(true);
-					setWrongColorParameterVisible(false);
-					setCorrectColorParameterVisible(false);
-					break;
-				case SEGMENTE :
-					setRightColorParameterVisible(false);
-					setWrongColorParameterVisible(true);
-					setCorrectColorParameterVisible(true);
-					break;
-				case SUIVI :
-					setRightColorParameterVisible(true);
-					setWrongColorParameterVisible(true);
-					setCorrectColorParameterVisible(true);
-					break;
+			case GUIDEE:
+			case ANTICIPE:
+				setRightColorParameterVisible(true);
+				setWrongColorParameterVisible(false);
+				setCorrectColorParameterVisible(false);
+				break;
+			case SEGMENTE:
+				setRightColorParameterVisible(false);
+				setWrongColorParameterVisible(true);
+				setCorrectColorParameterVisible(true);
+				break;
+			case SUIVI:
+				setRightColorParameterVisible(true);
+				setWrongColorParameterVisible(true);
+				setCorrectColorParameterVisible(true);
+				break;
 			}
 		}
-		
+
 		private void setRightColorParameterVisible(boolean visible) {
 			couleurJuste.setVisible(visible);
 			rightColorComboBox.setVisible(visible);
 		}
-		
+
 		private void setWrongColorParameterVisible(boolean visible) {
 			couleurFausse.setVisible(visible);
 			wrongColorComboBox.setVisible(visible);
 		}
-		
+
 		private void setCorrectColorParameterVisible(boolean visible) {
 			couleurCorrection.setVisible(visible);
 			correctColorComboBox.setVisible(visible);
 		}
-		
+
 		final Font defaultFont = new Font("OpenDyslexic", Font.ITALIC, 16);
 
 		public JLabel fastLabel(String nom, Font font) {
@@ -503,7 +462,7 @@ public class FenetreParametre extends JFrame {
 			temp.add(new JLabel(marge), BorderLayout.EAST);
 			p.add(temp);
 		}
-		
+
 		/**
 		 * Retourne le mode de lecture sélectionné par l'utilisateur.
 		 */
@@ -537,33 +496,35 @@ public class FenetreParametre extends JFrame {
 		fenetre.pan.pilot.doStop();
 		setStartParametersEnabled(true);
 	}
-	
+
 	/**
-	 * Active ou désactive les paramètres non modifiables à partir de la première écoute.
+	 * Active ou désactive les paramètres non modifiables à partir de la première
+	 * écoute.
 	 */
 	public void setStartParametersEnabled(boolean enabled) {
-		///désacive la taille et la police et le segment de départ ///
+		/// désacive la taille et la police et le segment de départ ///
 		pan.fontFamilyComboBox.setEnabled(enabled);
 		pan.fontSizeComboBox.setEnabled(enabled);
 		pan.startingPhraseField.setEnabled(enabled);
-		
+
 		pan.rightColorComboBox.setEnabled(enabled);
 		pan.wrongColorComboBox.setEnabled(enabled);
 		pan.correctColorComboBox.setEnabled(enabled);
 	}
-	
+
 	/**
-	 * Active ou désactive les paramètres non modifiable lors du lancement de l'exercice.
+	 * Active ou désactive les paramètres non modifiable lors du lancement de
+	 * l'exercice.
 	 */
 	public void setLaunchParametersEnabled(boolean enabled) {
 		pan.anticipatedModeRadio.setEnabled(enabled);
 		pan.guidedModeRadio.setEnabled(enabled);
 		pan.highlightModeRadio.setEnabled(enabled);
 		pan.segmentedModeRadio.setEnabled(enabled);
-		
+
 		pan.startingPhraseField.setEnabled(enabled);
 	}
-	
+
 	/**
 	 * Retourne les paramètres du mode sélectionné.
 	 */
@@ -604,15 +565,15 @@ public class FenetreParametre extends JFrame {
 		menubar.add(file);
 		setJMenuBar(menubar);
 	}
-	
+
 	public static String getCorrectFontName(String font) {
-		String[] deletions = {" Bold", " Basic", " Gras", " Italic"};
+		String[] deletions = { " Bold", " Basic", " Gras", " Italic" };
 		for (int i = 0; i < deletions.length; i++) {
 			font = font.replaceAll(deletions[i], "");
 		}
 		return font;
 	}
-	
+
 	/**
 	 * Retourne le font correspondant à :
 	 * 
@@ -640,5 +601,5 @@ public class FenetreParametre extends JFrame {
 		}
 		return null;
 	}
-	
-}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+
+}

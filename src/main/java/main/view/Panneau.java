@@ -1,20 +1,34 @@
 package main.view;
 
-import java.awt.*;
-import java.io.*;
-import java.util.Map;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Toolkit;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import javax.swing.*;
+import java.util.Map;
+
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.UIManager;
 import javax.swing.text.BadLocationException;
 
 import main.Constants;
-import main.controler.ControlerText;
-import main.controler.Pilot;
 import main.Parametres;
 import main.controler.ControlerKey;
 import main.controler.ControlerMouse;
+import main.controler.ControlerText;
+import main.controler.Pilot;
 import main.model.Player;
 import main.model.TextHandler;
 import main.reading.ReadMode;
@@ -45,13 +59,13 @@ public class Panneau extends JPanel {
 	public Player player;
 	public FenetreParametre fenetreParam;
 	public Parametres param;
-	
+
 	/**
-	 *  Barre de progression
+	 * Barre de progression
 	 */
 	public JProgressBar progressBar;
 
-	public Panneau(Fenetre fenetre,FenetreParametre fenetreParam,Parametres param) throws IOException {
+	public Panneau(Fenetre fenetre, FenetreParametre fenetreParam, Parametres param) throws IOException {
 		this.fenetre = fenetre;
 		this.controlerGlobal = new ControlerText(this);
 
@@ -65,18 +79,18 @@ public class Panneau extends JPanel {
 			texteCesures = texteCesures.substring(texteCesures.indexOf("/") + 1, texteCesures.length());
 		}
 		textHandler = new TextHandler(texteCesures);
-		
+
 		this.setLayout(new BorderLayout());
-		
+
 		player = new Player(textHandler, null);
-		
-		editorPane = new TextPane();
+
+		editorPane = new TextPane(param);
 		editorPane.setEditable(false);
 		add(editorPane, BorderLayout.CENTER);
-		
-		progressBar = new JProgressBar(0, (textHandler.getPhrasesCount()-1));
+
+		progressBar = new JProgressBar(0, (textHandler.getPhrasesCount() - 1));
 		progressBar.setStringPainted(true);
-		//progressBar.setForeground(Constants.RIGHT_COLOR);
+		// progressBar.setForeground(Constants.RIGHT_COLOR);
 		add(progressBar, BorderLayout.SOUTH);
 	}
 
@@ -85,39 +99,39 @@ public class Panneau extends JPanel {
 	 */
 	public void init(Parametres param) {
 		setParameters(param);
-		
+
 		progressBar.setValue(param.startingPhrase);
-		progressBar.setString(param.startingPhrase+"/"+(textHandler.getPhrasesCount()-1));
-		
+		progressBar.setString(param.startingPhrase + "/" + (textHandler.getPhrasesCount() - 1));
+
 		fenetreParam.editorPane = editorPane;
 		pageActuelle = 0;
-		
+
 		/// construit la mise en page virtuelle ///
 		rebuildPages();
 		/// initialise le lecteur ///
 		player.load(param.startingPhrase - 1);
-		
+
 		controlPanel = fenetreParam.controlPanel;
 		fenetreParam.controlPanel.init();
 		this.pilot = new Pilot(this);
-		
+
 		controlerKey = new ControlerKey(pilot);
 		editorPane.addKeyListener(controlerKey);
 		controlerMouse = new ControlerMouse(this, textHandler);
 		editorPane.addMouseListener(controlerMouse);
 		editorPane.requestFocus();
 	}
-	
+
 	public void setParameters(Parametres param) {
 		this.param = editorPane.param = param;
 		premierSegment = param.startingPhrase;
-		
+
 		editorPane.setBackground(param.bgColor);
 		editorPane.setFont(param.police);
 		nbEssaisRestantPourLeSegmentCourant = nbEssaisParSegment = param.nbFautesTolerees;
 		player.setParameters(param);
 	}
-	
+
 	public void setCursor(String fileName) {
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Image img = tk.getImage(fileName);
@@ -246,13 +260,13 @@ public class Panneau extends JPanel {
 			return;
 		}
 		pageActuelle = page;
-		//on met a jour le titre de la fenetre
-		String temp = param.readMode+"";
+		// on met a jour le titre de la fenetre
+		String temp = param.readMode + "";
 		temp = temp.toLowerCase();
 		char[] c = temp.toCharArray();
 		c[0] = Character.toUpperCase(c[0]);
 		temp = String.copyValueOf(c);
-		fenetre.setTitle("Lexidia - "+temp+" - Page " + page);
+		fenetre.setTitle("Lexidia - " + temp + " - Page " + page);
 		String texteAfficher = "";
 		// on recupere les segments a afficher dans la page
 		List<String> liste = new ArrayList<String>();
@@ -283,10 +297,10 @@ public class Panneau extends JPanel {
 	}
 
 	public void afficherCompteRendu() {
-		//met a jour la barre de progression
-		progressBar.setValue(textHandler.getPhrasesCount()-1);
-		progressBar.setString((textHandler.getPhrasesCount()-1)+"/"+(textHandler.getPhrasesCount()-1));
-		
+		// met a jour la barre de progression
+		progressBar.setValue(textHandler.getPhrasesCount() - 1);
+		progressBar.setString((textHandler.getPhrasesCount() - 1) + "/" + (textHandler.getPhrasesCount() - 1));
+
 		Object optionPaneBG = UIManager.get("OptionPane.background");
 		Object panelBG = UIManager.get("Panel.background");
 		try {
@@ -311,7 +325,7 @@ public class Panneau extends JPanel {
 			UIManager.put("OptionPane.background", optionPaneBG);
 			UIManager.put("Panel.background", panelBG);
 		}
-		///réactive la taille et la police et le segment de départ
+		/// réactive la taille et la police et le segment de départ
 		fenetreParam.pan.fontFamilyComboBox.setEnabled(true);
 		fenetreParam.pan.fontSizeComboBox.setEnabled(true);
 		fenetreParam.pan.startingPhraseField.setEnabled(true);

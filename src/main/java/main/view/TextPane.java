@@ -21,15 +21,11 @@ public class TextPane extends JTextPane {
 	
 	public Parametres param;
 
-<<<<<<< HEAD
 	public String textReel;
 
 	public TextPane(Parametres param) {
 
 		setFont(param.police);
-=======
-	public TextPane() {
->>>>>>> e3ade8438f5b3f0c5dcfa42e0ff32688d3a9f078
 		setSelectionColor(new Color(0, 0, 0, 0));
 
 		/// mets les marges sur les côtés ///
@@ -122,36 +118,6 @@ public class TextPane extends JTextPane {
 	public float getSpacingFactor() {
 		FontMetrics fm = getFontMetrics(getFont());
 		return (float) (1f + fm.getHeight() / getTextBounds("|").getHeight());
-	}
-
-	public void updateColors() throws BadLocationException {
-		List<Object> newBlue = new ArrayList<>();
-		List<Object> newGreen = new ArrayList<>();
-		List<Object> newRed = new ArrayList<>();
-		for (Object object : blueHighlightTags) {
-			Highlight g = (Highlight) object;
-			object = getHighlighter().addHighlight(g.getStartOffset(), g.getEndOffset(),
-					new DefaultHighlighter.DefaultHighlightPainter(param.correctionColor));
-			newBlue.add(object);
-		}
-		for (Object object : redHighlightTags) {
-			Highlight g = (Highlight) object;
-			object = getHighlighter().addHighlight(g.getStartOffset(), g.getEndOffset(),
-					new DefaultHighlighter.DefaultHighlightPainter(param.wrongColor));
-			newRed.add(object);
-		}
-		for (Object object : greenHighlightTags) {
-			Highlight g = (Highlight) object;
-			object = getHighlighter().addHighlight(g.getStartOffset(), g.getEndOffset(),
-					new DefaultHighlighter.DefaultHighlightPainter(param.rightColor));
-			newGreen.add(object);
-		}
-		enleverSurlignageBleu();
-		enleverSurlignageRouge();
-		enleverSurlignageVert();
-		blueHighlightTags = newBlue;
-		redHighlightTags = newRed;
-		greenHighlightTags = newGreen;
 	}
 
 	@Override

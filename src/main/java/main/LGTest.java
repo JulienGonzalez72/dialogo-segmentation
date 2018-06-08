@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 
 import main.controler.ControlerText;
 import main.reading.ReadThread;
+import main.reading.ReaderFactory;
 import main.view.*;
 
 public class LGTest {
@@ -22,7 +23,7 @@ public class LGTest {
 		
 		/// on initalise la fenêtre avec les paramètres nécessaires à sa création ///
 		frame.init(getTextFromFile("ressources/textes/Amélie la sorcière.txt"), // le texte à afficher
-				3, // le premier segment à afficher
+				0, // le premier segment à afficher
 				new Font(Font.MONOSPACED, Font.BOLD, 20), // les caractéristiques de la police (nom, style, taille)
 				100, // la position x de la fenêtre
 				100, // la position y de la fenêtre
@@ -32,23 +33,30 @@ public class LGTest {
 		/// on affiche la fenêtre ///
 		frame.start();
 		
-		/// on exécute les traitement seulement lorsque la fenêtre d'exercice s'est bien initilisée ///
+		/// on exécute les traitements seulement lorsque la fenêtre d'exercice s'est bien initilisée ///
 		frame.onInit = new Runnable() {
 			public void run() {
 				/// on récupère le contrôleur ///
-				ControlerText controler = new ControlerText(frame);
+				final ControlerText controler = new ControlerText(frame);
 				
 				/// initialisation des couleurs ///
-				controler.setHighlightColors(Color.ORANGE, Color.PINK, Color.CYAN);
+				controler.setHighlightColors(Color.GREEN, Color.RED, Color.CYAN);
 				
-				/// on créé notre thread personnalisé ///
-				LGThread thread = new LGThread(controler);
+				/// initialisation du nombre d'essais par segment ///
+				controler.setPhraseTrials(3);
 				
-				/// on le charge dans le contrôleur pour avoir tous les contrôles dessus ///
-				controler.loadReadThread(thread);
+				/// active les contrôles clavier ///
+				controler.setKeyEnabled(true);
 				
-				/// on démarre le thread au segment 1 ///
-				controler.goTo(20);
+				/// on créé une usine de lecture qui va instancier notre thread personnalisé ///
+				controler.setReaderFactory(new ReaderFactory() {
+					public ReadThread createReadThread() {
+						return new LGThread(controler);
+					}
+				});
+				
+				/// on démarre le thread au premier segment ///
+				controler.goTo(0);
 			}
 		};
 	}
@@ -69,13 +77,22 @@ public class LGTest {
 				/// affichage de la page correspondant au segment actuel ///
 				controler.showPage(controler.getPageOfPhrase(N));
 				
-				/// surlignage du segment actuel ///
-				controler.highlightPhrase(N);
+				/// on enlève le surlignage existant ///
+				controler.removeAllHighlights();
 				
 				/// on attend un clic du patient ///
-				while (!controler.waitForClick(N)) {
-					/// on surligne le mot en cas d'erreur ///
+				while (!controler.waitForClick(N) && running) {
+					/// on comptabilise une erreur ///
+					controler.countError();
+					
+					/// on surligne le mauvais mot ///
 					controler.highlightWrongWord();
+					
+					/// lorsque le patient n'a plus d'essais restants ///
+					if (!controler.hasMoreTrials()) {
+						/// surlignage du segment actuel ///
+						controler.highlightCorrectionPhrase(N);
+					}
 				}
 				
 				/// passage au prochain segment ///
@@ -87,7 +104,7 @@ public class LGTest {
 	/**
 	 * Retourne le contenu du fichier .txt situé à l'emplacement du paramètre.
 	 */
-	public static String getTextFromFile(String emplacement) {
+	private static String getTextFromFile(String emplacement) {
 		try {
 			File fichierTxt = new File(emplacement);
 			InputStream ips = null;

@@ -51,6 +51,10 @@ public class TextPanel extends JPanel {
 	 * Nombre de segments pour lesquels le patient a atteint le nombre limite d'essais possibles.
 	 */
 	public int nbErreursParSegment;
+	/**
+	 * Nombre d'erreurs pour le segment courant.
+	 */
+	public int nbErreursSegmentCourant;
 	public TextFrame fenetre;
 	public ControlPanel controlPanel;
 	public ControlerMouse controlerMouse;
@@ -97,7 +101,7 @@ public class TextPanel extends JPanel {
 		setParameters(param);
 
 		textHandler = new TextHandler(param.text);
-		progressBar.setMaximum(textHandler.getPhrasesCount() - 1);
+		progressBar.setMaximum(textHandler.getPhrasesCount());
 
 		/*
 		 * try { Player.loadAll("ressources/sounds/" + Constants.AUDIO_FILE_NAME,
@@ -194,7 +198,7 @@ public class TextPanel extends JPanel {
 	public void afficherPagePrecedente() {
 		if (pageActuelle > 0) {
 			showPage(pageActuelle - 1);
-			editorPane.désurlignerTout();
+			editorPane.removeAllHighlights();
 		}
 	}
 
@@ -203,7 +207,7 @@ public class TextPanel extends JPanel {
 	 */
 	public void buildPages(int startPhrase) {
 		segmentsEnFonctionDeLaPage.clear();
-		editorPane.désurlignerTout();
+		editorPane.removeAllHighlights();
 		String text = textHandler.getShowText();
 		int lastOffset = 0;
 		int page = 1;

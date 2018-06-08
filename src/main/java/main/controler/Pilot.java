@@ -1,6 +1,7 @@
 package main.controler;
 
 import main.reading.ReadThread;
+import main.reading.ReaderFactory;
 import main.view.TextPanel;
 
 public class Pilot {
@@ -10,6 +11,7 @@ public class Pilot {
 	 */
 	private ReadThread activeThread;
 	private TextPanel p;
+	private ReaderFactory readerFactory;
 
 	/**
 	 * Segment actuel
@@ -25,12 +27,12 @@ public class Pilot {
 	 */
 	public void goTo(int n) throws IllegalArgumentException {
 		if (n < p.param.startingPhrase || n > p.textHandler.getPhrasesCount() - 1) {
-			throw new IllegalArgumentException("Numéro de segment invalide : " + n);
+			throw new IllegalArgumentException("Numéro de segment invalide : " + n
+					+ " (il doit être compris entre " + p.param.startingPhrase + " et " + p.textHandler.getPhrasesCount() + ")");
 		}
-		if (activeThread == null) {
-			throw new IllegalArgumentException("Algorithme de lecture non chargé !");
+		if (readerFactory == null) {
+			throw new IllegalArgumentException("Usine de lecture non chargée !");
 		}
-		activeThread.N = phrase = n;
 
 		/// empêche le redimensionnement de la fenêtre à partir de la première lecture ///
 		p.fenetre.setResizable(false);
@@ -38,22 +40,18 @@ public class Pilot {
 		// met a jour la barre de progression
 		updateBar();
 
-		if (activeThread.isRunning()) {
+		if (activeThread != null && activeThread.isRunning()) {
 			activeThread.doStop();
 		}
-		/*activeThread.onPhraseEnd.add(new Runnable() {
-			public void run() {
-				phrase = activeThread.N;
-				/// met à jour la barre de progression ///
-				updateBar();
-			}
-		});*/
+		
+		activeThread = readerFactory.createReadThread();
+		activeThread.N = phrase = n;
 		activeThread.start();
 	}
 
 	private void updateBar() {
-		p.progressBar.setValue(phrase);
-		p.progressBar.setString((phrase) + "/" + (p.textHandler.getPhrasesCount() - 1));
+		p.progressBar.setValue(phrase + 1);
+		p.progressBar.setString((phrase + 1) + "/" + (p.textHandler.getPhrasesCount()));
 	}
 
 	/**
@@ -104,12 +102,9 @@ public class Pilot {
 	public boolean hasPreviousPhrase() {
 		return phrase > p.param.startingPhrase;
 	}
-
-	/**
-	 * Charge un thread de la même classe que r. Indispensable avant une quelconque manipulation de contrôle.
-	 */
-	public void loadReadThread(ReadThread r) {
-		this.activeThread = r;
+	
+	public void setReaderFactory(ReaderFactory readerFactory) {
+		this.readerFactory = readerFactory;
 	}
 	
 	public void updateCurrentPhrase() {

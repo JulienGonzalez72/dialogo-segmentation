@@ -3,9 +3,11 @@ package main.controler;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
+import java.awt.event.KeyListener;
 
 import main.Constants;
 import main.reading.ReadThread;
+import main.reading.ReaderFactory;
 import main.view.TextPanel;
 import main.view.TextFrame;
 
@@ -20,8 +22,6 @@ public class ControlerText {
 	public ControlerText(TextFrame frame) {
 		this.p = frame.getPanel();
 		this.pilot = new Pilot(p);
-		//ControlerKey controlerKey = new ControlerKey(pilot);
-		//p.editorPane.addKeyListener(controlerKey);
 	}
 
 	/**
@@ -89,6 +89,7 @@ public class ControlerText {
 	 * Retourne le temps d'attente en millisecondes correspondant é l'enregistrement
 	 * courant.
 	 */
+	@Deprecated
 	public long getCurrentWaitTime() {
 		// TODO remettre le bon temps de pause (avec ReadingParameters)
 		return (long) (getCurrentPhraseDuration() * /* p.param.tempsPauseEnPourcentageDuTempsDeLecture / 100. */1);
@@ -112,44 +113,6 @@ public class ControlerText {
 			Thread.currentThread().interrupt();
 		}
 	}
-
-	/**
-	 * Attente d'un clic de la souris sur le dernier mot du segment.
-	 * <ul>
-	 * <li>Paramétre déentréeé1: Numéro de segment</li>
-	 * <li>Paramétre de sortieé: True ou False (réussite)</li>
-	 * <li>On sort de cette fonction lorsquéun clic a été réalisé. Si le clic a été
-	 * réalisé sur le bon mot on sort avec true, et si le clic a été réalisé sur une
-	 * partie erronée, on surligne cette partie avec une couleur paramétrée. Et on
-	 * sort avec False.
-	 * </ul>
-	 */
-	/*public boolean waitForClick(int n) {
-		p.controlerMouse.clicking = false;
-		while (true) {
-			Thread.yield();
-			if (p.controlerMouse.clicking) {
-				/// cherche la position exacte dans le texte ///
-				int offset = p.textHandler.getAbsoluteOffset(p.getNumeroPremierSegmentAffiché(),
-						p.editorPane.getCaretPosition());
-				/// si le clic est juste ///
-				if (p.textHandler.wordPause(offset)
-						&& p.textHandler.getPhraseIndex(offset) == p.player.getCurrentPhraseIndex()) {
-					return true;
-				}
-				/// si le clic est faux ///
-				else {
-					/// indique l'erreur en rouge ///
-					p.indiquerErreur(
-							p.textHandler.getRelativeOffset(p.getNumeroPremierSegmentAffiché(),
-									p.textHandler.startWordPosition(offset) + 1),
-							p.textHandler.getRelativeOffset(p.getNumeroPremierSegmentAffiché(),
-									p.textHandler.endWordPosition(offset)));
-					return false;
-				}
-			}
-		}
-	}*/
 	
 	/**
 	 * Attends un clic sur un mot du texte.<br/>
@@ -201,9 +164,7 @@ public class ControlerText {
 	}
 
 	/**
-	 * Supprime le surlignage qui se trouve sur le segment n. Ne fait rien si ce
-	 * segment n'est pas surligné.
-	 * 
+	 * Supprime tout le surlignage qui se trouve sur le segment <i>n</i>.<br/>
 	 */
 	public void removeHighlightPhrase(int n) {
 		int debutRelatifSegment = p.textHandler.getRelativeStartPhrasePosition(p.getFirstShownPhraseIndex(), n);
@@ -218,7 +179,7 @@ public class ControlerText {
 	@Deprecated
 	public void stopAll() {
 		p.player.stop();
-		p.editorPane.désurlignerTout();
+		p.editorPane.removeAllHighlights();
 	}
 
 	/**
@@ -235,6 +196,13 @@ public class ControlerText {
 	 */
 	public void removeWrongHighlights() {
 		p.editorPane.enleverSurlignageRouge();
+	}
+	
+	/**
+	 * Enlève tout le surlignage présent.
+	 */
+	public void removeAllHighlights() {
+		p.editorPane.removeAllHighlights();
 	}
 
 	/**
@@ -284,6 +252,7 @@ public class ControlerText {
 	 * Comptabilise une erreur.
 	 */
 	public void countError() {
+		p.nbErreursSegmentCourant++;
 		p.nbErreurs++;
 	}
 	
@@ -292,6 +261,20 @@ public class ControlerText {
 	 */
 	public void countPhraseError() {
 		p.nbErreursParSegment++;
+	}
+	
+	/**
+	 * Retourne <code>true</code> si il reste au moins un essai au patient pour le segment courant.
+	 */
+	public boolean hasMoreTrials() {
+		return p.nbErreursSegmentCourant < p.rParam.toleratedErrors + 1;
+	}
+	
+	/**
+	 * Modifie le nombre d'essais tolérés par segment.
+	 */
+	public void setPhraseTrials(int trials) {
+		p.rParam.toleratedErrors = trials;
 	}
 	
 	/**
@@ -387,20 +370,39 @@ public class ControlerText {
 	public int getCurrentPhraseIndex() {
 		return pilot.getCurrentPhraseIndex();
 	}
-
+	
 	/**
-	 * Charge un thread de lecture (nécessaire pour appeler la méthode {@link #goTo(int)}.
+	 * Charge une usine de lecture (nécessaire pour appeler la méthode {@link #goTo(int)}).
 	 */
-	public void loadReadThread(ReadThread r) {
-		pilot.loadReadThread(r);
+	public void setReaderFactory(ReaderFactory readerFactory) {
+		pilot.setReaderFactory(readerFactory);
 	}
 	
 	/**
 	 * Mets à jour la barre de progression et le numéro du segment en cours.<br/>
-	 * A effectuer au début de chaque segment traité.
+	 * A effectuer au début de chaque segment traité, mais pas plus d'une fois par segment.
 	 */
 	public void updateCurrentPhrase() {
 		pilot.updateCurrentPhrase();
+		p.nbErreursSegmentCourant = 0;
+	}
+	
+	/**
+	 * Active ou désactive les contrôles clavier
+	 * (touche gauche pour répéter le segment, touche espace pour arrêter/recommencer).
+	 */
+	public void setKeyEnabled(boolean keyEnabled) {
+		/// ajoute un contrôle clavier ///
+		if (keyEnabled && p.getKeyListeners().length == 0) {
+			ControlerKey controlerKey = new ControlerKey(pilot);
+			p.editorPane.addKeyListener(controlerKey);
+		}
+		/// retire les contrôles clavier ///
+		else if (!keyEnabled && p.getKeyListeners().length >= 1) {
+			for (KeyListener listener : p.getKeyListeners()) {
+				p.removeKeyListener(listener);
+			}
+		}
 	}
 
 }

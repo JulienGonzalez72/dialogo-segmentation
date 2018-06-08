@@ -12,7 +12,6 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import main.Constants;
-import main.controler.ControlerText;
 import main.model.ToolParameters;
 
 public class TextFrame extends JFrame {

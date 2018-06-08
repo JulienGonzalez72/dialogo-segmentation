@@ -11,11 +11,11 @@ import main.Constants;
 public class TextHandler {
 
 	/**
-	 * Texte avec c�sures
+	 * Texte avec césures
 	 */
 	private String txt;
 	/**
-	 * Liste des segments associ�s � leurs num�ros
+	 * Liste des segments associés é leurs numéros
 	 */
 	private Map<Integer, String> phrases;
 
@@ -73,7 +73,7 @@ public class TextHandler {
 	}
 
 	/**
-	 * Indique si la c�sure est plac�e au bon endroit.
+	 * Indique si la césure est placée au bon endroit.
 	 */
 	public boolean correctPause(int offset) {
 		String b = getTextWithCutPauses(offset);
@@ -81,7 +81,7 @@ public class TextHandler {
 	}
 
 	/**
-	 * Retourne l'indice de la pause � la position indiqu�e.
+	 * Retourne l'indice de la pause é la position indiquée.
 	 */
 	public int getPauseIndex(int offset) {
 		if (!correctPause(offset))
@@ -96,21 +96,21 @@ public class TextHandler {
 	}
 
 	/**
-	 * Retourne la position absolue du segment indiqu� en param�tre.
+	 * Retourne la position absolue du segment indiqué en paramétre.
 	 */
 	public int getPauseOffset(int phrase) {
 		return getPhrasesLength(0, phrase);
 	}
 
 	/**
-	 * Retourne la position absolue du d�but du segment pass� en param�tre.
+	 * Retourne la position absolue du début du segment passé en paramétre.
 	 */
 	public int getPhraseOffset(int phrase) {
 		return getPhrasesLength(0, phrase - 1);
 	}
 
 	/**
-	 * Retourne l'indice du segment � la position indiqu�e.
+	 * Retourne l'indice du segment é la position indiquée.
 	 */
 	public int getPhraseIndex(int offset) {
 		if (offset >= getShowText().length())
@@ -126,7 +126,7 @@ public class TextHandler {
 	}
 
 	/**
-	 * Enl�ve les c�sures du texte avec c�sures jusqu'� la position indiqu�e.
+	 * Enléve les césures du texte avec césures jusqu'é la position indiquée.
 	 */
 	private String getTextWithCutPauses(int endOffset) {
 		StringBuilder b = new StringBuilder(txt);
@@ -161,7 +161,7 @@ public class TextHandler {
 	}
 
 	/**
-	 * Retourne la position du d�but du segment d'indice <i>phrase</i>, relative au
+	 * Retourne la position du début du segment d'indice <i>phrase</i>, relative au
 	 * premier segment <i>startPhrase</i>.
 	 */
 	public int getRelativeStartPhrasePosition(int startPhrase, int phrase) {
@@ -173,8 +173,8 @@ public class TextHandler {
 	}
 
 	/**
-	 * Indique si le mot sur lequel a cliqu� l'utilisateur correspond bien � une
-	 * c�sure.
+	 * Indique si le mot sur lequel a cliqué l'utilisateur correspond bien é une
+	 * césure.
 	 */
 	public boolean wordPause(int offset) {
 		int err = 0;
@@ -183,7 +183,7 @@ public class TextHandler {
 			if (correctPause(i)) {
 				return true;
 			}
-			/// �vite le probl�me de la ponctuation avec des espaces avant ///
+			/// évite le probléme de la ponctuation avec des espaces avant ///
 			if (i < txt.length() - 2 && isPunctuation(txt.charAt(i + 1))) {
 				err--;
 			}
@@ -201,16 +201,16 @@ public class TextHandler {
 	}
 
 	/**
-	 * Retourne la position du caract�re dans le texte en entier en indiquant la
-	 * position d'un caract�re cliqu� � partir d'un segment indiqu�.
+	 * Retourne la position du caractére dans le texte en entier en indiquant la
+	 * position d'un caractère cliqué à partir d'un segment indiqué.
 	 */
 	public int getAbsoluteOffset(int startPhrase, int offset) {
 		return getPhrasesLength(0, startPhrase - 1) + offset;
 	}
 
 	/**
-	 * Ceci est l'op�ration inverse, elle permet d'obtenir la position par rapport
-	 * au premier segment affich� avec la position du caract�re dans tout le texte.
+	 * Ceci est l'opération inverse, elle permet d'obtenir la position par rapport
+	 * au premier segment affiché avec la position du caractère dans tout le texte.
 	 */
 	public int getRelativeOffset(int startPhrase, int offset) {
 		return offset - getPhrasesLength(0, startPhrase - 1);

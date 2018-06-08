@@ -12,7 +12,12 @@ public class ControlerMouse implements MouseListener {
 	TextHandler handler;
 	
 	/**
-	 * Icone de la souris lors d'une phase d'�coute
+	 * Dernière position absolue du texte sur laquelle l'utilisateur a cliqué.
+	 */
+	public int lastTextOffset;
+	
+	/**
+	 * Si l'utilisateur est en train de cliquer.
 	 */
 	public boolean clicking;
 
@@ -24,6 +29,8 @@ public class ControlerMouse implements MouseListener {
 
 	public void mousePressed(MouseEvent e) {
 		clicking = true;
+		lastTextOffset = handler.getAbsoluteOffset(view.getFirstShownPhraseIndex(),
+				view.editorPane.getCaretPosition());
 	}
 
 	public void mouseEntered(MouseEvent e) {

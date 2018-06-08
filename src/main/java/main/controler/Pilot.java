@@ -24,8 +24,8 @@ public class Pilot {
 	 * Se place sur le segment de numero n et démarre l'algorithme de lecture.
 	 */
 	public void goTo(int n) throws IllegalArgumentException {
-		if (n < p.param.startingPhrase - 1 || n > p.textHandler.getPhrasesCount() - 1) {
-			throw new IllegalArgumentException("Numéro de segment invalide : " + (n + 1));
+		if (n < p.param.startingPhrase || n > p.textHandler.getPhrasesCount() - 1) {
+			throw new IllegalArgumentException("Numéro de segment invalide : " + n);
 		}
 		if (activeThread == null) {
 			throw new IllegalArgumentException("Algorithme de lecture non chargé !");
@@ -41,18 +41,18 @@ public class Pilot {
 		if (activeThread.isRunning()) {
 			activeThread.doStop();
 		}
-		activeThread.onPhraseEnd.add(new Runnable() {
+		/*activeThread.onPhraseEnd.add(new Runnable() {
 			public void run() {
 				phrase = activeThread.N;
 				/// met à jour la barre de progression ///
 				updateBar();
 			}
-		});
+		});*/
 		activeThread.start();
 	}
 
 	private void updateBar() {
-		p.progressBar.setValue(phrase + 1);
+		p.progressBar.setValue(phrase);
 		p.progressBar.setString((phrase) + "/" + (p.textHandler.getPhrasesCount() - 1));
 	}
 
@@ -110,6 +110,14 @@ public class Pilot {
 	 */
 	public void loadReadThread(ReadThread r) {
 		this.activeThread = r;
+	}
+	
+	public void updateCurrentPhrase() {
+		if (activeThread != null) {
+			phrase = activeThread.N;
+		}
+		/// met à jour la barre de progression ///
+		updateBar();
 	}
 
 }

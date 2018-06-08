@@ -25,7 +25,6 @@ import javax.swing.text.BadLocationException;
 
 import main.Constants;
 import main.controler.ControlerMouse;
-import main.controler.ControlerText;
 import main.model.Player;
 import main.model.ReadingParameters;
 import main.model.TextHandler;
@@ -44,7 +43,13 @@ public class TextPanel extends JPanel {
 	public int nbPages;
 	public int nbEssaisParSegment;
 	public int nbEssaisRestantPourLeSegmentCourant;
+	/**
+	 * Nombre d'erreurs total.
+	 */
 	public int nbErreurs;
+	/**
+	 * Nombre de segments pour lesquels le patient a atteint le nombre limite d'essais possibles.
+	 */
 	public int nbErreursParSegment;
 	public TextFrame fenetre;
 	public ControlPanel controlPanel;
@@ -175,7 +180,7 @@ public class TextPanel extends JPanel {
 	 * Construit les pages et affiche la première.
 	 */
 	public void rebuildPages() {
-		buildPages(param.startingPhrase - 1);
+		buildPages(param.startingPhrase);
 		pageActuelle = 0;
 		afficherPageSuivante();
 		/// calcule le nombre de pages total ///
@@ -281,27 +286,16 @@ public class TextPanel extends JPanel {
 				|| player.getCurrentPhraseIndex() + 2 == textHandler.getPhrasesCount();
 	}
 
-	public void indiquerErreur(int debut, int fin) {
-		nbErreurs++;
-		editorPane.enleverSurlignageRouge();
-		editorPane.surlignerPhrase(debut, fin, rParam.wrongColor);
-	}
-
-	public int getNumeroPremierSegmentAffiché() {
+	public int getFirstShownPhraseIndex() {
 		return segmentsEnFonctionDeLaPage.get(pageActuelle).get(0);
 	}
 
-	public void afficherCompteRendu() {
-		// met a jour la barre de progression
-		progressBar.setValue(textHandler.getPhrasesCount() - 1);
-		progressBar.setString((textHandler.getPhrasesCount() - 1) + "/" + (textHandler.getPhrasesCount() - 1));
-
+	public void afficherCompteRendu(String message) {
 		Object optionPaneBG = UIManager.get("OptionPane.background");
 		Object panelBG = UIManager.get("Panel.background");
 		try {
 			UIManager.put("OptionPane.background", Color.WHITE);
 			UIManager.put("Panel.background", Color.WHITE);
-			String message = null;
 			/*
 			 * switch (param.readMode) { case SEGMENTE: case SUIVI: <<<<<<< HEAD =======
 			 * 
@@ -329,9 +323,9 @@ public class TextPanel extends JPanel {
 	 */
 	public void surlignerJusquaSegment(Color c, int n) {
 		if (textHandler.getPhrase(n) != null) {
-			int debutRelatifSegment = textHandler.getRelativeStartPhrasePosition(getNumeroPremierSegmentAffiché(), n);
+			int debutRelatifSegment = textHandler.getRelativeStartPhrasePosition(getFirstShownPhraseIndex(), n);
 			int finRelativeSegment = debutRelatifSegment + textHandler.getPhrase(n).length();
-			editorPane.surlignerPhrase(0, finRelativeSegment, rParam.rightColor);
+			editorPane.surlignerPhrase(0, finRelativeSegment, editorPane.hParam.rightColor);
 		}
 	}
 

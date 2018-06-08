@@ -71,6 +71,7 @@ public class ControlerText {
 	 * Retourne la durée en millisecondes de l'enregistrement qui correspond au
 	 * segment de phrase indiqué.
 	 */
+	@Deprecated
 	public long getPhraseDuration(int phrase) {
 		p.player.load(phrase);
 		return p.player.getDuration();
@@ -79,6 +80,7 @@ public class ControlerText {
 	/**
 	 * Retourne la durée en millisecondes de l'enregistrement courant.
 	 */
+	@Deprecated
 	public long getCurrentPhraseDuration() {
 		return p.player.getDuration();
 	}
@@ -152,6 +154,7 @@ public class ControlerText {
 	/**
 	 * Attends un clic sur un mot du texte.<br/>
 	 * Retourne <code>true</code> si le mot correspond au dernier mot du segment n, <code>false</code> si c'est le mauvais mot.
+	 * @highlightWrongWord si le mot est surligné en cas d'erreur.
 	 */
 	public boolean waitForClick(int n) {
 		p.controlerMouse.clicking = false;
@@ -159,11 +162,11 @@ public class ControlerText {
 			Thread.yield();
 			if (p.controlerMouse.clicking) {
 				/// cherche la position exacte dans le texte ///
-				int offset = p.textHandler.getAbsoluteOffset(p.getNumeroPremierSegmentAffiché(),
+				int offset = p.textHandler.getAbsoluteOffset(p.getFirstShownPhraseIndex(),
 						p.editorPane.getCaretPosition());
 				/// si le clic est juste ///
 				if (p.textHandler.wordPause(offset)
-						&& p.textHandler.getPhraseIndex(offset) == p.player.getCurrentPhraseIndex()) {
+						&& p.textHandler.getPhraseIndex(offset) == pilot.getCurrentPhraseIndex()) {
 					return true;
 				}
 				/// si le clic est faux ///
@@ -175,12 +178,22 @@ public class ControlerText {
 	}
 
 	/**
-	 * Colorie le segment numero n en couleur c.
+	 * Colorie le segment numero n avec la couleur de réussite.
 	 */
-	public void highlightPhrase(Color c, int n) {
-		n--;
+	public void highlightPhrase(int n) {
+		highlightPhrase(p.editorPane.hParam.rightColor, n);
+	}
+	
+	/**
+	 * Colorie le segment numero n avec la couleur de correction.
+	 */
+	public void highlightCorrectionPhrase(int n) {
+		highlightPhrase(p.editorPane.hParam.correctionColor, n);
+	}
+	
+	private void highlightPhrase(Color c, int n) {
 		if (p.textHandler.getPhrase(n) != null) {
-			int debutRelatifSegment = p.textHandler.getRelativeStartPhrasePosition(p.getNumeroPremierSegmentAffiché(),
+			int debutRelatifSegment = p.textHandler.getRelativeStartPhrasePosition(p.getFirstShownPhraseIndex(),
 					n);
 			int finRelativeSegment = debutRelatifSegment + p.textHandler.getPhrase(n).length();
 			p.editorPane.surlignerPhrase(debutRelatifSegment, finRelativeSegment, c);
@@ -193,8 +206,7 @@ public class ControlerText {
 	 * 
 	 */
 	public void removeHighlightPhrase(int n) {
-		n--;
-		int debutRelatifSegment = p.textHandler.getRelativeStartPhrasePosition(p.getNumeroPremierSegmentAffiché(), n);
+		int debutRelatifSegment = p.textHandler.getRelativeStartPhrasePosition(p.getFirstShownPhraseIndex(), n);
 		int finRelativeSegment = debutRelatifSegment + p.textHandler.getPhrase(n).length();
 		p.editorPane.removeHighlight(debutRelatifSegment, finRelativeSegment);
 	}
@@ -246,16 +258,61 @@ public class ControlerText {
 		p.surlignerJusquaSegment(c, n);
 	}
 
+	@Deprecated
 	public void incrementerErreurSegment() {
 		p.nbErreursParSegment++;
 	}
 	
-	public void showReport() {
-		p.afficherCompteRendu();
+	/**
+	 * Surligne le dernier mot sur lequel le patient a cliqué après avoir enlevé le surlignage d'erreur existant.
+	 */
+	public void highlightWrongWord() {
+		removeWrongHighlights();
+		int clickOffset = p.controlerMouse.lastTextOffset;
+		int startOffset = p.textHandler.getRelativeOffset(p.getFirstShownPhraseIndex(),
+				p.textHandler.startWordPosition(clickOffset) + 1);
+		int endOffset = p.textHandler.getRelativeOffset(p.getFirstShownPhraseIndex(),
+				p.textHandler.endWordPosition(clickOffset));
+		highlight(p.editorPane.hParam.wrongColor, startOffset, endOffset);
+	}
+	
+	private void highlight(Color c, int start, int end) {
+		p.editorPane.surlignerPhrase(start, end, c);
+	}
+	
+	/**
+	 * Comptabilise une erreur.
+	 */
+	public void countError() {
+		p.nbErreurs++;
+	}
+	
+	/**
+	 * Comptabilise une erreur de segment (lorsque le patient atteint le nombre maximal d'erreurs tolérés par segment).
+	 */
+	public void countPhraseError() {
+		p.nbErreursParSegment++;
+	}
+	
+	/**
+	 * Affiche le compte rendu de l'exercice.
+	 * @param showErrors si le compte rendu affiche le nombre d'erreurs total
+	 * @param showPhraseErrors si le compte rendu affiche le nombre d'erreurs de segment
+	 */
+	public void showReport(boolean showErrors, boolean showPhraseErrors) {
+		String message = "<html>L'exercice est terminé.";
+		if (showErrors) {
+			message += "<br/>Le patient a fait " + p.nbErreurs + (p.nbErreurs > 1 ? "s" : "") + ".";
+		}
+		if (showPhraseErrors) {
+			message += "<br/>Le patient a fait " + p.nbErreurs + (p.nbErreurs > 1 ? "s" : "") + " de segment.";
+		}
+		message += "</html>";
+		p.afficherCompteRendu(message);
 	}
 
 	/**
-	 * Se place sur le segment de numero <i>n</i> et démarre le lecteur.
+	 * Se place sur le segment de numero <i>n</i> et démarre l'algorithme de lecture.
 	 * @throws IllegalArgumentException si <i>n</i> est inférieur au numéro du premier segment
 	 * ou supérieur au nombre de segments dans le texte,
 	 * ou si le thread de lecture n'a pas été chargé avec {@link #loadReadThread(ReadThread)}.
@@ -297,7 +354,7 @@ public class ControlerText {
 	}
 
 	/**
-	 * Applique un Font à l'exercice
+	 * Applique un Font à l'exercice.
 	 */
 	public void setFont(Font f) {
 		p.editorPane.setFont(f);
@@ -309,19 +366,41 @@ public class ControlerText {
 	public void setFontSize(float fontSize) {
 		setFont(p.editorPane.getFont().deriveFont(fontSize));
 	}
-
+	
 	/**
-	 * Retourne le numéro du segment courant (en partant de 1).
+	 * Modifie les couleurs de surlignage pour l'exercice.<br/>
+	 * Certaines couleurs peuvent être initiliasées à <code>null</code> si elles ne sont pas utilisées dans l'exercice.
+	 * Ne peut pas fonctionner si du texte a déjà été surligné.
+	 * @param rightColor couleur de surlignage pour les segments passés avec succès
+	 * @param wrongColor couleur de surlignage pour les erreurs
+	 * @param correctionColor couleur de surlignage pour les segments corrigés
 	 */
-	public int getCurrentPhraseIndex() {
-		return pilot.getCurrentPhraseIndex() + 1;
+	public void setHighlightColors(Color rightColor, Color wrongColor, Color correctionColor) {
+		p.editorPane.hParam.rightColor = rightColor;
+		p.editorPane.hParam.wrongColor = wrongColor;
+		p.editorPane.hParam.correctionColor = correctionColor;
 	}
 
 	/**
-	 * Charge un thread de la même classe que r
+	 * Retourne le numéro du segment courant (en partant de 0).
+	 */
+	public int getCurrentPhraseIndex() {
+		return pilot.getCurrentPhraseIndex();
+	}
+
+	/**
+	 * Charge un thread de lecture (nécessaire pour appeler la méthode {@link #goTo(int)}.
 	 */
 	public void loadReadThread(ReadThread r) {
 		pilot.loadReadThread(r);
+	}
+	
+	/**
+	 * Mets à jour la barre de progression et le numéro du segment en cours.<br/>
+	 * A effectuer au début de chaque segment traité.
+	 */
+	public void updateCurrentPhrase() {
+		pilot.updateCurrentPhrase();
 	}
 
 }

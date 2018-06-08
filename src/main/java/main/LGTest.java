@@ -22,7 +22,7 @@ public class LGTest {
 		
 		/// on initalise la fenêtre avec les paramètres nécessaires à sa création ///
 		frame.init(getTextFromFile("ressources/textes/Amélie la sorcière.txt"), // le texte à afficher
-				1, // le premier segment à afficher
+				3, // le premier segment à afficher
 				new Font(Font.MONOSPACED, Font.BOLD, 20), // les caractéristiques de la police (nom, style, taille)
 				100, // la position x de la fenêtre
 				100, // la position y de la fenêtre
@@ -38,6 +38,9 @@ public class LGTest {
 				/// on récupère le contrôleur ///
 				ControlerText controler = new ControlerText(frame);
 				
+				/// initialisation des couleurs ///
+				controler.setHighlightColors(Color.ORANGE, Color.PINK, Color.CYAN);
+				
 				/// on créé notre thread personnalisé ///
 				LGThread thread = new LGThread(controler);
 				
@@ -45,7 +48,7 @@ public class LGTest {
 				controler.loadReadThread(thread);
 				
 				/// on démarre le thread au segment 1 ///
-				controler.goTo(2);
+				controler.goTo(20);
 			}
 		};
 	}
@@ -58,8 +61,26 @@ public class LGTest {
 			super(controler);
 		}
 		public void run() {
-			controler.setFontSize(22);
-			controler.highlightPhrase(Color.ORANGE, N);
+			/// on répète l'opération jusqu'au dernier segment ou jusqu'à ce que le thread s'arrête ///
+			while (N < controler.getPhrasesCount() && running) {
+				/// opération de mise à jour, indispensable au début de chaque segment ///
+				controler.updateCurrentPhrase();
+				
+				/// affichage de la page correspondant au segment actuel ///
+				controler.showPage(controler.getPageOfPhrase(N));
+				
+				/// surlignage du segment actuel ///
+				controler.highlightPhrase(N);
+				
+				/// on attend un clic du patient ///
+				while (!controler.waitForClick(N)) {
+					/// on surligne le mot en cas d'erreur ///
+					controler.highlightWrongWord();
+				}
+				
+				/// passage au prochain segment ///
+				N++;
+			}
 		}
 	}
 	

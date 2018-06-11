@@ -25,10 +25,10 @@ public class TextPane extends JTextPane {
 	private List<Object> redHighlightTags = new ArrayList<>();
 	private List<Object> blueHighlightTags = new ArrayList<>();
 	private List<Object> greenHighlightTags = new ArrayList<>();
-	
+
 	public ToolParameters param;
 	public HighlightParameters hParam = new HighlightParameters();
-	
+
 	public String textReel;
 
 	public TextPane() {
@@ -155,7 +155,7 @@ public class TextPane extends JTextPane {
 		redHighlightTags = newRed;
 		greenHighlightTags = newGreen;
 	}
-	
+
 	@Override
 	public void paintComponent(Graphics g) {
 		g.setColor(Color.YELLOW);

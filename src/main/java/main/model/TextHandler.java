@@ -11,38 +11,48 @@ import main.Constants;
 public class TextHandler {
 
 	/**
-	 * Texte avec césures
+	 * Texte d'origine
 	 */
-	private String txt;
+	private String originText;
+
 	/**
-	 * Liste des segments associés é leurs numéros
+	 * Texte formate
+	 */
+	public String txt;
+
+	/**
+	 * Liste des segments associes a leurs numéros
 	 */
 	private Map<Integer, String> phrases;
 
+	/**
+	 * Liste des mots associes a leurs numéros de trous.
+	 */
+	private Map<Integer, Hole> holes;
+
+	/**
+	 * Liste des mots pour chaque segment.
+	 */
+	public Map<Integer, List<Hole>> motsParSegment;
+
+	/**
+	 * Pour chaque mot, true si il est en texte plein ou false si il est caché.
+	 */
+	private Map<Integer, Boolean> filledWords;
+
 	public TextHandler(String texteOriginal) {
-		txt = format(texteOriginal);
+		this.originText = format(texteOriginal);
+		this.holes = new HashMap<Integer, Hole>();
+		this.motsParSegment = new HashMap<>();
+		this.filledWords = new HashMap<>();
 		this.phrases = new HashMap<Integer, String>();
-		for (String phrase : txt.split(Constants.PAUSE)) {
-			if (!isEmpty(phrase)) {
-				phrases.put(phrases.size(), phrase);
-			}
-		}
+
+		remplirMots(texteOriginal);
+		updateText();
 	}
 
 	private static String format(String str) {
 		return str.replace(" /", "/");
-	}
-
-	private static boolean isEmpty(String str) {
-		return str == null || (str.length() == 1 && Character.isWhitespace(str.charAt(0)));
-	}
-
-	/**
-	 * Retourne le texte sans slash
-	 */
-
-	public String getShowText() {
-		return txt.replace(Constants.PAUSE, "");
 	}
 
 	public String[] getPhrases(int start, int end) {
@@ -231,6 +241,277 @@ public class TextHandler {
 	@Override
 	public String toString() {
 		return phrases.toString();
+	}
+
+	//////////////////////////////////////////////////
+	/////////////////////////////////////////////////
+	////////////////////////////////////////////////
+
+	public boolean oneHoleEqualOneWord() {
+		boolean r = true;
+		for (Hole h : holes.values()) {
+			if (h.getHidedWord().contains(" ")) {
+				r = false;
+			}
+		}
+		return r;
+	}
+
+	private void remplirMots(String s) {
+		int numeroSegmentCourant = 0;
+		String temp = s.replaceAll(" /", "/");
+		char[] tab = temp.toCharArray();
+		boolean dansCrochet = false;
+		int numero = 0;
+		int offset = 0;
+		String motCourant = "";
+		List<Hole> listStrings = new ArrayList<>();
+		for (int i = 0; i < tab.length; i++) {
+			if (tab[i] == '/') {
+				motsParSegment.put(numeroSegmentCourant, listStrings);
+				listStrings = new ArrayList<>();
+				numeroSegmentCourant++;
+				offset = 0;
+			} else if (tab[i] == '[') {
+				dansCrochet = true;
+				i++;
+			} else if (tab[i] == ']') {
+				dansCrochet = false;
+			} else {
+				offset++;
+			}
+			if (dansCrochet) {
+				motCourant += tab[i];
+			} else if (motCourant != "") {
+				Hole h = new Hole(motCourant);
+				h.startOffset = offset - motCourant.length() + 1;
+				offset += h.getShift() + 1;
+				holes.put(numero, h);
+				filledWords.put(numero, false);
+				listStrings.add(h);
+				motCourant = "";
+				numero++;
+			}
+		}
+	}
+
+	private void updateText() {
+		String r = "";
+		String temp = originText.replace(" /", "/");
+		char[] tab = temp.toCharArray();
+		boolean dansCrochet = false;
+		int numeroTrou = 0;
+
+		for (int i = 0; i < tab.length; i++) {
+			if (tab[i] == '[') {
+				dansCrochet = true;
+				i++;
+			} else if (tab[i] == ']') {
+				r += holes.get(numeroTrou);
+				dansCrochet = false;
+				numeroTrou++;
+				i++;
+			}
+			if (!dansCrochet) {
+				r += tab[i];
+			}
+		}
+		txt = r;
+		phrases.clear();
+		for (String phrase : txt.split(Constants.PAUSE)) {
+			if (phrase.length() > 1) {
+				phrases.put(phrases.size(), phrase);
+			}
+		}
+	}
+
+	public String getShowText() {
+		String r = "";
+		String temp = txt.replace(Constants.PAUSE, "");
+		char[] tab = temp.toCharArray();
+		boolean dansCrochet = false;
+		for (int i = 0; i < tab.length; i++) {
+			if (tab[i] == '[') {
+				dansCrochet = true;
+				i++;
+			} else if (tab[i] == ']') {
+				dansCrochet = false;
+				i++;
+			}
+			if (dansCrochet) {
+				r += tab[i];
+			} else {
+				r += tab[i];
+			}
+		}
+		return r;
+	}
+
+	/**
+	 * Retourne une liste des mots é trouver par segment.
+	 */
+	public List<String> getHidedWords(int phrase) {
+		return motsParSegment.containsKey(phrase) ? Hole.getHidedWords(motsParSegment.get(phrase))
+				: new ArrayList<String>();
+	}
+
+	/**
+	 * Retourne le nombre de trous que contient le segment <code>phrase</code>.
+	 */
+	public int getHolesCount(int phrase) {
+		return motsParSegment.containsKey(phrase) ? motsParSegment.get(phrase).size() : 0;
+	}
+
+	public int getHolesCount(int startPhrase, int endPhrase) {
+		int count = 0;
+		for (int i = startPhrase; i <= endPhrase; i++) {
+			count += getHolesCount(i);
+		}
+		return count;
+	}
+
+	/**
+	 * Retourne le nombre de trous total du texte.
+	 */
+	public int getHolesCount() {
+		return holes.size();
+	}
+
+	/**
+	 * Retourne <code>true</code> si il y a au moins un autre trou aprés le trou
+	 * indiqué dans le méme segment.
+	 */
+	public boolean hasNextHoleInPhrase(int hole) {
+		int p = getPhraseOf(hole);
+		List<String> words = getHidedWords(p);
+		int holeInPhrase = hole - getHolesCount(0, p - 1);
+		return holeInPhrase < words.size() - 1;
+	}
+
+	/**
+	 * Retourne <code>true</code> si il y a au moins un autre trou avant le trou
+	 * indiqué dans le même segment.
+	 */
+	public boolean hasPreviousHoleInPhrase(int hole) {
+		int p = getPhraseOf(hole);
+		List<String> words = getHidedWords(p);
+		int holeInPhrase = hole - getHolesCount(0, p - 1);
+		return holeInPhrase > 0 && words.size() > 1;
+	}
+
+	/**
+	 * Retourne le numéro de segment correspondant au trou indiqué.
+	 */
+	public int getPhraseOf(int hole) {
+		int n = 0;
+		for (int i = 0; i < getPhrasesCount(); i++) {
+			n += getHolesCount(i);
+			if (n > hole) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	/**
+	 * Retourne la position de départ du trou indiqué.
+	 */
+	public int getHoleStartOffset(int hole) {
+		return getPhrasesLength(0, getPhraseOf(hole) - 1) + holes.get(hole).startOffset;
+	}
+
+	public int getHoleEndOffset(int hole) {
+		return getHoleStartOffset(hole) + holes.get(hole).length();
+	}
+
+	/**
+	 * Retourne le numéro du dernier trou du segment indiqué.
+	 */
+	public int getLastHole(int phrase) {
+		int r = -1;
+		for (int i = 0; i < getHolesCount(); i++) {
+			if (phrase == getPhraseOf(i)) {
+				r = i + 1;
+			}
+		}
+		return r;
+	}
+
+	/**
+	 * Retourne le numéro du premier trou é partir du segment indiqué.<br>
+	 * Retourne -1 s'il n'y a plus de trous aprés.
+	 */
+	public int getFirstHole(int phrase) {
+		for (int i = 0; i < getHolesCount(); i++) {
+			if (getPhraseOf(i) >= phrase) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	/**
+	 * Retourne <code>true</code> si le segment indiqué contient au moins un trou.
+	 */
+	public boolean hasHole(int phrase) {
+		return getHolesCount(phrase) > 0;
+	}
+
+	/**
+	 * Retourne le mot associé au trou indiqué.
+	 */
+	public String getHiddendWord(int hole) {
+		return holes.get(hole).getHidedWord();
+	}
+
+	public int getHidedWordLength(int h) {
+		return holes.get(h).length();
+	}
+
+	/**
+	 * Remplace le trou h par le mot qui lui correspond.
+	 */
+	public void fillHole(int hole) {
+		Hole h = holes.get(hole);
+
+		if (h.isHidden()) {
+			h.fill();
+
+			/// décale les trous du méme segment ///
+			for (int i = hole + 1; i < getHolesCount() && getPhraseOf(i) == getPhraseOf(hole); i++) {
+				holes.get(i).startOffset -= h.getShift();
+			}
+
+			updateText();
+		}
+	}
+
+	public void hideHole(int hole) {
+		Hole h = holes.get(hole);
+
+		if (!h.isHidden()) {
+			h.hide();
+
+			/// décale les trous du méme segment ///
+			for (int i = hole + 1; i < getHolesCount() && getPhraseOf(i) == getPhraseOf(hole); i++) {
+				holes.get(i).startOffset += h.getShift();
+			}
+
+			updateText();
+		}
+	}
+
+	public boolean isHidden(int hole) {
+		return holes.get(hole).isHidden();
+	}
+
+	public void init() {
+		this.holes = new HashMap<Integer, Hole>();
+		this.motsParSegment = new HashMap<>();
+		this.filledWords = new HashMap<>();
+		this.phrases = new HashMap<Integer, String>();
+		remplirMots(originText);
+		updateText();
 	}
 
 }

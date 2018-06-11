@@ -282,12 +282,6 @@ public class TextPanel extends JDesktopPane {
 			return;
 		}
 		pageActuelle = page;
-		// on met a jour le titre de la fenetre
-		/*
-		 * String temp = ""; temp = temp.toLowerCase(); char[] c = temp.toCharArray();
-		 * c[0] = Character.toUpperCase(c[0]); temp = String.copyValueOf(c);
-		 * fenetre.setTitle("Lexidia - "+temp+" - Page " + page);
-		 */
 		String texteAfficher = "";
 		// on recupere les segments a afficher dans la page
 		List<String> liste = new ArrayList<String>();
@@ -299,12 +293,6 @@ public class TextPanel extends JDesktopPane {
 		}
 		editorPane.setText(texteAfficher);
 
-	}
-
-	public boolean pageFinis() {
-		// la page actuelle contient t-elle le segment suivant ? si non elle est finis
-		return (!phrasesInFonctionOfPages.get(pageActuelle).contains(player.getCurrentPhraseIndex() + 1))
-				|| player.getCurrentPhraseIndex() + 2 == textHandler.getPhrasesCount();
 	}
 
 	public int getFirstShownPhraseIndex() {

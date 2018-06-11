@@ -113,9 +113,9 @@ public class TATTest {
 					 ******************************/
 
 					// tant que la saisie n'est pas juste
-					/*while (!controler.waitForFillFenetreFixe(h)) {
-						controler.doError(h);
-					}*/
+					/*
+					 * while (!controler.waitForFillFenetreFixe(h)) { controler.doError(h); }
+					 */
 
 					/**********************************
 					 * EXEMPLE POUR FENETRE NON FIXE
@@ -134,6 +134,8 @@ public class TATTest {
 
 				/// passage au prochain segment ///
 				N++;
+
+				controler.setHint(-1);
 			}
 		}
 	}

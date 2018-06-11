@@ -352,18 +352,32 @@ public class ControlerText {
 
 	/**
 	 * Applique un Font à l'exercice.
+	 * @throws IllegalArgumentException si l'exercice a déjà commencé.
 	 */
-	public void setFont(Font f) {
+	public void setFont(Font f) throws IllegalArgumentException {
+		if (pilot.hasStarted()) {
+			throw new IllegalArgumentException("Police inchangeable après le démarrage de l'exercice !");
+		}
 		p.editorPane.setFont(f);
 	}
 
 	/**
 	 * Change la taille de la police.
+	 * @throws IllegalArgumentException si l'exercice a déjà commencé.
 	 */
-	public void setFontSize(float fontSize) {
+	public void setFontSize(float fontSize) throws IllegalArgumentException {
 		setFont(p.editorPane.getFont().deriveFont(fontSize));
 	}
 
+	/**
+	 * Termine l'exercice. Retourne au premier segment de la page.
+	 * Permet de pouvoir faire à nouveau les réglages de base de l'exercice.
+	 */
+	public void end() {
+		pilot.end();
+		p.rebuildPages();
+	}
+	
 	/**
 	 * Modifie les couleurs de surlignage pour l'exercice.<br/>
 	 * Certaines couleurs peuvent être initiliasées à <code>null</code> si elles ne
@@ -381,6 +395,15 @@ public class ControlerText {
 		p.editorPane.hParam.rightColor = rightColor;
 		p.editorPane.hParam.wrongColor = wrongColor;
 		p.editorPane.hParam.correctionColor = correctionColor;
+		p.editorPane.updateColors();
+	}
+	
+	/**
+	 * Change la couleur de fond de l'exercice.
+	 */
+	public void setBackgroundColor(Color color) {
+		p.param.bgColor = color;
+		p.editorPane.setBackground(color);
 	}
 
 	/**
@@ -425,6 +448,10 @@ public class ControlerText {
 			}
 		}
 	}
+	
+	/*
+	 * Méthodes du texte à trou
+	 */
 
 	/////////////////////////////////////////////
 	////////////////////////////////////////////

@@ -100,6 +100,7 @@ public class LGTest {
 
 				/// passage au prochain segment ///
 				N++;
+				controler.setBackgroundColor(Color.GREEN);
 			}
 		}
 	}

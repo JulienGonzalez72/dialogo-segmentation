@@ -17,6 +17,7 @@ public class Pilot {
 	 * Segment actuel
 	 */
 	private int phrase;
+	private boolean started;
 
 	public Pilot(TextPanel p) {
 		this.p = p;
@@ -47,6 +48,8 @@ public class Pilot {
 		activeThread = readerFactory.createReadThread();
 		activeThread.N = phrase = n;
 		activeThread.start();
+		
+		started = true;
 	}
 
 	private void updateBar() {
@@ -105,6 +108,17 @@ public class Pilot {
 	
 	public void setReaderFactory(ReaderFactory readerFactory) {
 		this.readerFactory = readerFactory;
+	}
+	
+	public boolean hasStarted() {
+		return started;
+	}
+	
+	public void end() {
+		phrase = 0;
+		updateBar();
+		p.fenetre.setResizable(true);
+		started = false;
 	}
 	
 	public void updateCurrentPhrase() {

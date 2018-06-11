@@ -265,12 +265,6 @@ public class TextPanel extends JPanel {
 			return;
 		}
 		pageActuelle = page;
-		// on met a jour le titre de la fenetre
-		/*
-		 * String temp = ""; temp = temp.toLowerCase(); char[] c = temp.toCharArray();
-		 * c[0] = Character.toUpperCase(c[0]); temp = String.copyValueOf(c);
-		 * fenetre.setTitle("Lexidia - "+temp+" - Page " + page);
-		 */
 		String texteAfficher = "";
 		// on recupere les segments a afficher dans la page
 		List<String> liste = new ArrayList<String>();
@@ -282,12 +276,6 @@ public class TextPanel extends JPanel {
 		}
 		editorPane.setText(texteAfficher);
 
-	}
-
-	public boolean pageFinis() {
-		// la page actuelle contient t-elle le segment suivant ? si non elle est finis
-		return (!segmentsEnFonctionDeLaPage.get(pageActuelle).contains(player.getCurrentPhraseIndex() + 1))
-				|| player.getCurrentPhraseIndex() + 2 == textHandler.getPhrasesCount();
 	}
 
 	public int getFirstShownPhraseIndex() {
@@ -331,15 +319,6 @@ public class TextPanel extends JPanel {
 			int finRelativeSegment = debutRelatifSegment + textHandler.getPhrase(n).length();
 			editorPane.surlignerPhrase(0, finRelativeSegment, editorPane.hParam.rightColor);
 		}
-	}
-
-	/**
-	 * Retourne la longueur du segment n
-	 */
-	public int getPagesLength(int n) {
-		int start = segmentsEnFonctionDeLaPage.get(n).get(0);
-		int fin = segmentsEnFonctionDeLaPage.get(n).get(segmentsEnFonctionDeLaPage.get(n).size() - 1);
-		return textHandler.getPhrasesLength(start, fin);
 	}
 
 }

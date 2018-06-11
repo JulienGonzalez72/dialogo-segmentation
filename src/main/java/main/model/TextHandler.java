@@ -40,7 +40,6 @@ public class TextHandler {
 	/**
 	 * Retourne le texte sans slash
 	 */
-
 	public String getShowText() {
 		return txt.replace(Constants.PAUSE, "");
 	}

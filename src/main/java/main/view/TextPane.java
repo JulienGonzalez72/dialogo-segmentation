@@ -2,7 +2,6 @@ package main.view;
 
 import java.awt.Color;
 import java.awt.FontMetrics;
-import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
@@ -88,13 +87,8 @@ public class TextPane extends JTextPane {
 		greenHighlightTags.clear();
 	}
 
-	public boolean containsBlueHighlight() {
-		return !blueHighlightTags.isEmpty();
-	}
-
 	/**
 	 * desurligne tout
-	 *
 	 */
 	public void removeAllHighlights() {
 		getHighlighter().removeAllHighlights();
@@ -126,41 +120,45 @@ public class TextPane extends JTextPane {
 		return (float) (1f + fm.getHeight() / getTextBounds("|").getHeight());
 	}
 
-	public void updateColors() throws BadLocationException {
-		List<Object> newBlue = new ArrayList<>();
-		List<Object> newGreen = new ArrayList<>();
-		List<Object> newRed = new ArrayList<>();
-		for (Object object : blueHighlightTags) {
-			Highlight g = (Highlight) object;
-			object = getHighlighter().addHighlight(g.getStartOffset(), g.getEndOffset(),
-					new DefaultHighlighter.DefaultHighlightPainter(hParam.correctionColor));
-			newBlue.add(object);
+	public void updateColors() {
+		try {
+			List<Object> newBlue = new ArrayList<>();
+			List<Object> newGreen = new ArrayList<>();
+			List<Object> newRed = new ArrayList<>();
+			for (Object object : blueHighlightTags) {
+				Highlight g = (Highlight) object;
+				object = getHighlighter().addHighlight(g.getStartOffset(), g.getEndOffset(),
+						new DefaultHighlighter.DefaultHighlightPainter(hParam.correctionColor));
+				newBlue.add(object);
+			}
+			for (Object object : redHighlightTags) {
+				Highlight g = (Highlight) object;
+				object = getHighlighter().addHighlight(g.getStartOffset(), g.getEndOffset(),
+						new DefaultHighlighter.DefaultHighlightPainter(hParam.wrongColor));
+				newRed.add(object);
+			}
+			for (Object object : greenHighlightTags) {
+				Highlight g = (Highlight) object;
+				object = getHighlighter().addHighlight(g.getStartOffset(), g.getEndOffset(),
+						new DefaultHighlighter.DefaultHighlightPainter(hParam.rightColor));
+				newGreen.add(object);
+			}
+			enleverSurlignageBleu();
+			enleverSurlignageRouge();
+			enleverSurlignageVert();
+			blueHighlightTags = newBlue;
+			redHighlightTags = newRed;
+			greenHighlightTags = newGreen;
+		} catch (BadLocationException e) {
+			e.printStackTrace();
 		}
-		for (Object object : redHighlightTags) {
-			Highlight g = (Highlight) object;
-			object = getHighlighter().addHighlight(g.getStartOffset(), g.getEndOffset(),
-					new DefaultHighlighter.DefaultHighlightPainter(hParam.wrongColor));
-			newRed.add(object);
-		}
-		for (Object object : greenHighlightTags) {
-			Highlight g = (Highlight) object;
-			object = getHighlighter().addHighlight(g.getStartOffset(), g.getEndOffset(),
-					new DefaultHighlighter.DefaultHighlightPainter(hParam.rightColor));
-			newGreen.add(object);
-		}
-		enleverSurlignageBleu();
-		enleverSurlignageRouge();
-		enleverSurlignageVert();
-		blueHighlightTags = newBlue;
-		redHighlightTags = newRed;
-		greenHighlightTags = newGreen;
 	}
 	
-	@Override
+	/*@Override
 	public void paintComponent(Graphics g) {
 		g.setColor(Color.YELLOW);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		super.paintComponent(g);
-	}
+	}*/
 
 }

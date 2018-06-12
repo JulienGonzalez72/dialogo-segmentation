@@ -60,7 +60,7 @@ public final class Constants {
 	public static final int PARAMS_FRAME_Y = 0;
 	public static final String PARAMS_FRAME_TITLE = "Dialogo Segmentation";
 	public static final boolean LOAD_FIRST_PHRASE = false;
-	
+
 	public static final int DEFAULT_PAN_X = PARAMS_FRAME_X + PARAMS_FRAME_WIDTH;
 	public static final int DEFAULT_PAN_Y = PARAMS_FRAME_Y;
 	public static final int DEFAULT_PAN_WIDTH = 800;
@@ -100,7 +100,7 @@ public final class Constants {
 	 * Intervalle de temps sans clic possible aprés un appuie sur la touche gauche
 	 */
 	public static final long LEFT_DELAY = 400;
-	
+
 	/**
 	 * Icone de la souris lors d'une phase d'écoute
 	 */
@@ -109,17 +109,18 @@ public final class Constants {
 	 * Icone de la souris lors d'une phase de prononciation
 	 */
 	public static final String CURSOR_SPEAK = "parler.png";
-	
+
 	/**
-	 * Temps de chargement aprés chaque pression sur un bouton de contréle suivant/précédent.
+	 * Temps de chargement aprés chaque pression sur un bouton de contréle
+	 * suivant/précédent.
 	 */
 	public static final long DISABLE_TIME = 200;
-	
+
 	/**
 	 * Hauteur des cellules des listes déroulantes de la fenétre des paramétres.
 	 */
 	public static final int COMBOBOX_CELL_HEIGHT = 30;
-	
+
 	/**
 	 * Couleurs disponibles pour l'utilisateur.
 	 */
@@ -134,7 +135,7 @@ public final class Constants {
 		COLORS.put("Rouge", new Color(255, 40, 40));
 		COLORS.put("Vert", Color.GREEN);
 	}
-	
+
 	public static final Map<String, Color> MORE_COLORS = new TreeMap<>();
 	static {
 		MORE_COLORS.put("Abricot", new Color(230, 126, 48));
@@ -168,11 +169,18 @@ public final class Constants {
 		MORE_COLORS.put("Vert pomme", new Color(52, 201, 36));
 		MORE_COLORS.put("Violet", new Color(127, 0, 255));
 	}
-	
+
 	public static final String SHOW_MORE_COLORS_TEXT = "Autre couleur...";
-	
-	public static final String[] FONT_FAMILIES = {"OpenDyslexic", "Andika", "Lexia", "Arial", "Times New Roman"};
-	
-	public static final Integer[] FONT_SIZES = {12, 16, 18, 20, 22, 24, 30, 36, 42};
+
+	public static final String[] FONT_FAMILIES = { "OpenDyslexic", "Andika", "Lexia", "Arial", "Times New Roman" };
+
+	public static final Integer[] FONT_SIZES = { 12, 16, 18, 20, 22, 24, 30, 36, 42 };
+
+	/**
+	 * Couleur de prévisualisation des mots dans les trous
+	 */
+	public static final Color HINT_COLOR = new Color(100, 100, 100);
+
+	public static final Color ALERT_COLOR = Color.red;
 
 }

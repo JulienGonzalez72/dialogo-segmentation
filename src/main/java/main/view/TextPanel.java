@@ -2,9 +2,13 @@ package main.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.File;
@@ -16,7 +20,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import javax.swing.JDesktopPane;
+import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -24,6 +32,7 @@ import javax.swing.UIManager;
 import javax.swing.text.BadLocationException;
 
 import main.Constants;
+import main.controler.ControlerMask;
 import main.controler.ControlerMouse;
 import main.model.Player;
 import main.model.ReadingParameters;
@@ -31,7 +40,7 @@ import main.model.TextHandler;
 import main.model.ToolParameters;
 import main.reading.ReadThread;
 
-public class TextPanel extends JPanel {
+public class TextPanel extends JDesktopPane {
 
 	private static final long serialVersionUID = 1L;
 	public static int premierSegment;
@@ -48,7 +57,8 @@ public class TextPanel extends JPanel {
 	 */
 	public int nbErreurs;
 	/**
-	 * Nombre de segments pour lesquels le patient a atteint le nombre limite d'essais possibles.
+	 * Nombre de segments pour lesquels le patient a atteint le nombre limite
+	 * d'essais possibles.
 	 */
 	public int nbErreursParSegment;
 	/**
@@ -59,7 +69,7 @@ public class TextPanel extends JPanel {
 	public ControlPanel controlPanel;
 	public ControlerMouse controlerMouse;
 	public ReadThread task;
-	public Map<Integer, List<Integer>> segmentsEnFonctionDeLaPage = new HashMap<Integer, List<Integer>>();
+	public Map<Integer, List<Integer>> phrasesInFonctionOfPages = new HashMap<Integer, List<Integer>>();
 	public Player player;
 	public ToolParameters param;
 	public ReadingParameters rParam = new ReadingParameters();
@@ -69,20 +79,20 @@ public class TextPanel extends JPanel {
 	 */
 	public JProgressBar progressBar;
 
-	public TextPanel(TextFrame fenetre) throws IOException {
-		this.fenetre = fenetre;
-		/*
-		 * String textPath = "ressources/textes/" + Constants.TEXT_FILE_NAME; String
-		 * texteCesures = null; try { texteCesures = getTextFromFile(textPath); } catch
-		 * (FileNotFoundException e) { e.printStackTrace();
-		 * JOptionPane.showMessageDialog(null,
-		 * "<html><h3 align='center'>Erreur lors du chargement du texte !</h3></html>",
-		 * "Erreur", JOptionPane.ERROR_MESSAGE); System.exit(0); } /// enlève la
-		 * consigne /// if (Constants.HAS_INSTRUCTIONS) { texteCesures =
-		 * texteCesures.substring(texteCesures.indexOf("/") + 1, texteCesures.length());
-		 * }
-		 */
+	/*
+	 * ///////////////////////////////////////////////////////////// Ci dessous les
+	 * attributs utilisés pour la gestion des trous
+	 */////////////////////////////////////////////////////////////
 
+	public ControlerMask controlerMask;
+	public List<Mask> maskFrame = new ArrayList<>();
+	public JPanel panelSud = new JPanel();
+	public JDesktopPane panelFixedFrame = null;
+	public Mask fixedFrame;
+
+	public TextPanel(TextFrame fenetre) throws IOException {
+		controlerMask = new ControlerMask();
+		this.fenetre = fenetre;
 		this.setLayout(new BorderLayout());
 
 		editorPane = new TextPane();
@@ -91,7 +101,10 @@ public class TextPanel extends JPanel {
 
 		progressBar = new JProgressBar(0, 0);
 		progressBar.setStringPainted(true);
-		add(progressBar, BorderLayout.SOUTH);
+		progressBar.setForeground(Color.GREEN);
+
+		add(panelSud, BorderLayout.SOUTH);
+
 	}
 
 	/**
@@ -102,15 +115,6 @@ public class TextPanel extends JPanel {
 
 		textHandler = new TextHandler(param.text);
 		progressBar.setMaximum(textHandler.getPhrasesCount());
-
-		/*
-		 * try { Player.loadAll("ressources/sounds/" + Constants.AUDIO_FILE_NAME,
-		 * Constants.AUDIO_FILE_NAME, 1, textHandler.getPhrasesCount()); } catch
-		 * (IOException e) { e.printStackTrace(); JOptionPane.showMessageDialog(null,
-		 * "<html><h3 align='center'>Erreur lors du chargement de l'audio !</h3></html>"
-		 * , "Erreur", JOptionPane.ERROR_MESSAGE); System.exit(0); } player = new
-		 * Player(textHandler);
-		 */
 
 		progressBar.setValue(param.startingPhrase);
 		progressBar.setString(param.startingPhrase + "/" + (textHandler.getPhrasesCount() - 1));
@@ -123,8 +127,21 @@ public class TextPanel extends JPanel {
 		editorPane.addMouseListener(controlerMouse);
 		editorPane.requestFocus();
 
-		if (fenetre.onInit != null)
+		if (fenetre.onInit != null) {
 			fenetre.onInit.run();
+		}
+
+		if (rParam.fixedField) {
+			panelSud.setLayout(new BorderLayout());
+			panelFixedFrame = new JDesktopPane();
+			panelFixedFrame.setPreferredSize(new Dimension(fenetre.getWidth(), param.font.getSize()));
+			panelSud.add(panelFixedFrame);
+			panelSud.add(progressBar, BorderLayout.SOUTH);
+		} else {
+			panelSud.setLayout(new GridLayout(1, 1));
+			panelSud.add(progressBar);
+		}
+		panelSud.setVisible(true);
 	}
 
 	public void setParameters(ToolParameters param) {
@@ -188,7 +205,7 @@ public class TextPanel extends JPanel {
 		pageActuelle = 0;
 		afficherPageSuivante();
 		/// calcule le nombre de pages total ///
-		nbPages = segmentsEnFonctionDeLaPage.size();
+		nbPages = phrasesInFonctionOfPages.size();
 	}
 
 	public boolean hasNextPage() {
@@ -206,7 +223,7 @@ public class TextPanel extends JPanel {
 	 * Construit les pages
 	 */
 	public void buildPages(int startPhrase) {
-		segmentsEnFonctionDeLaPage.clear();
+		phrasesInFonctionOfPages.clear();
 		editorPane.removeAllHighlights();
 		String text = textHandler.getShowText();
 		int lastOffset = 0;
@@ -243,14 +260,14 @@ public class TextPanel extends JPanel {
 				}
 			}
 			if (!phrases.isEmpty()) {
-				segmentsEnFonctionDeLaPage.put(page, phrases);
+				phrasesInFonctionOfPages.put(page, phrases);
 				page++;
 			}
 			String newText = textHandler.getShowText().substring(lastOffset);
 			/// dernière page ///
 			if (newText.equals(text)) {
-				if (!segmentsEnFonctionDeLaPage.get(page - 1).contains(textHandler.getPhraseIndex(off))) {
-					segmentsEnFonctionDeLaPage.get(page - 1).add(textHandler.getPhraseIndex(off));
+				if (!phrasesInFonctionOfPages.get(page - 1).contains(textHandler.getPhraseIndex(off))) {
+					phrasesInFonctionOfPages.get(page - 1).add(textHandler.getPhraseIndex(off));
 				}
 				break;
 			} else {
@@ -268,7 +285,7 @@ public class TextPanel extends JPanel {
 		String texteAfficher = "";
 		// on recupere les segments a afficher dans la page
 		List<String> liste = new ArrayList<String>();
-		for (Integer i : segmentsEnFonctionDeLaPage.get(pageActuelle)) {
+		for (Integer i : phrasesInFonctionOfPages.get(pageActuelle)) {
 			liste.add(textHandler.getPhrase(i));
 		}
 		for (String string : liste) {
@@ -279,7 +296,7 @@ public class TextPanel extends JPanel {
 	}
 
 	public int getFirstShownPhraseIndex() {
-		return segmentsEnFonctionDeLaPage.get(pageActuelle).get(0);
+		return phrasesInFonctionOfPages.get(pageActuelle).get(0);
 	}
 
 	public void afficherCompteRendu(String message) {
@@ -319,6 +336,128 @@ public class TextPanel extends JPanel {
 			int finRelativeSegment = debutRelatifSegment + textHandler.getPhrase(n).length();
 			editorPane.surlignerPhrase(0, finRelativeSegment, editorPane.hParam.rightColor);
 		}
+	}
+
+	/**
+	 * Retourne la longueur du segment n
+	 */
+	public int getPagesLength(int n) {
+		int start = phrasesInFonctionOfPages.get(n).get(0);
+		int fin = phrasesInFonctionOfPages.get(n).get(phrasesInFonctionOfPages.get(n).size() - 1);
+		return textHandler.getPhrasesLength(start, fin);
+	}
+
+	////////////////////////////////////////////
+	///////////////////////////////////////////
+	//////////////////////////////////////////
+	/////////////////////////////////////////
+
+	/**
+	 * Affiche une fenetre correspondant au mot d�limit� par start et end, d'indice
+	 * numeroCourant, et met le masque correspondant dans la liste des masques
+	 */
+	public void showFrame(int start, int end, int h) throws BadLocationException {
+
+		Mask frame = new Mask(start, end, null);
+		((javax.swing.plaf.basic.BasicInternalFrameUI) frame.getUI()).setNorthPane(null);
+		frame.setBorder(null);
+
+		setLayout(null);
+
+		frame.initField(param.font.deriveFont(param.font.getSize() / 1.5f), controlerMask);
+
+		frame.setVisible(true);
+		frame.hiddenWord = textHandler.getHiddendWord(h);
+		frame.n = h;
+		maskFrame.add(frame);
+
+		Rectangle r = editorPane.modelToView(start).union(editorPane.modelToView(end));
+
+		frame.setBounds(r.x, r.y, r.width, r.height / 2);
+		add(frame);
+
+		for (Component c : getComponents()) {
+			if (c instanceof JInternalFrame) {
+				((JInternalFrame) c).toFront();
+			}
+		}
+	}
+
+	public void replaceAllMask() {
+		for (int i = 0; i < maskFrame.size(); i++) {
+			if (maskFrame.get(i).isVisible()) {
+				try {
+					replacerMasque(maskFrame.get(i));
+				} catch (BadLocationException e1) {
+					e1.printStackTrace();
+				}
+			}
+		}
+	}
+
+	/**
+	 * replace une fenetre
+	 */
+	public void replacerMasque(Mask frame) throws BadLocationException {
+		try {
+			int start = frame.start;
+			int end = frame.end;
+			Rectangle r = editorPane.modelToView(start).union(editorPane.modelToView(end));
+			frame.setBounds(r.x, r.y, r.width, r.height / 2);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	// donne le numero d'un masque
+	public int getNumero(Mask m) {
+		return maskFrame.indexOf(m);
+	}
+
+	public void removeAllMasks() {
+		for (int i = 0; i < maskFrame.size(); i++) {
+			Mask m = maskFrame.get(i);
+			m.setVisible(false);
+			remove(m);
+		}
+		maskFrame.clear();
+	}
+
+	public void blink(final Color c) {
+		Timer blinkTimer = new Timer();
+		final long interval = 250;
+		blinkTimer.scheduleAtFixedRate(new TimerTask() {
+			private long time;
+
+			public void run() {
+				time += interval;
+				if (time >= interval * 4) {
+					editorPane.setBackground(param.bgColor);
+					cancel();
+					return;
+				}
+				if (time % (interval * 2) != 0)
+					editorPane.setBackground(c);
+				else
+					editorPane.setBackground(param.bgColor);
+			}
+		}, 0, interval);
+	}
+
+	public void updateText() {
+		String texteAfficher = "";
+		// on recupere les segments a afficher dans la page
+		List<String> liste = new ArrayList<String>();
+
+		for (int i = 0; i < phrasesInFonctionOfPages.get(pageActuelle).size(); i++) {
+			int index = phrasesInFonctionOfPages.get(pageActuelle).get(i);
+			liste.add(textHandler.getPhrase(index));
+		}
+		for (int i = 0; i < liste.size(); i++) {
+			texteAfficher += liste.get(i);
+		}
+
+		editorPane.setText(texteAfficher);
 	}
 
 }

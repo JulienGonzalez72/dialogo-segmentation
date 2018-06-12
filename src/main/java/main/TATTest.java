@@ -14,7 +14,7 @@ import main.reading.ReadThread;
 import main.reading.ReaderFactory;
 import main.view.TextFrame;
 
-public class LGTest {
+public class TATTest {
 
 	public static void main(String[] args) {
 		/// on créé la fenêtre d'exercice ///
@@ -71,6 +71,7 @@ public class LGTest {
 		}
 
 		public void run() {
+
 			/// on répète l'opération jusqu'au dernier segment ou jusqu'à ce que le thread
 			/// s'arrête ///
 			while (N < controler.getPhrasesCount() && running) {
@@ -83,23 +84,58 @@ public class LGTest {
 				/// on enlève le surlignage existant ///
 				controler.removeAllHighlights();
 
-				/// on attend un clic du patient ///
-				while (!controler.waitForClick(N) && running) {
-					/// on comptabilise une erreur ///
-					controler.countError();
+				// on recupere le numero du trou courant//
+				int h;
+				if (controler.getHolesCount(N) == 0) {
+					h = -1;
+				} else {
+					h = controler.getFirstHole(N);
+				}
+				// on recupere le premier trou du segment //
+				int firstHole = h;
 
-					/// on surligne le mauvais mot ///
-					controler.highlightWrongWord();
-
-					/// lorsque le patient n'a plus d'essais restants ///
-					if (!controler.hasMoreTrials()) {
-						/// surlignage du segment actuel ///
-						controler.highlightCorrectionPhrase(N);
+				if (h != -1) {
+					/// valide tous les trous de la page avant le trou actuel ///
+					for (int i = 0; i < h; i++) {
+						if (controler.getPageOf(i) == controler.getPageOf(h)) {
+							controler.fillHole(i);
+						}
 					}
+				}
+
+				// tant qu'il reste un trou dans le segment
+				while (h > -1 && h < (controler.getHolesCount(N) + firstHole)) {
+					// on montre uniquement les trous à partir du trou actuel et de cette page
+					controler.showHolesInPage(h);
+
+					/*******************************
+					 * EXEMPLE POUR FENETRE FIXE
+					 ******************************/
+
+					// tant que la saisie n'est pas juste
+					/*
+					 * while (!controler.waitForFillFenetreFixe(h)) { controler.doError(h); }
+					 */
+
+					/**********************************
+					 * EXEMPLE POUR FENETRE NON FIXE
+					 **********************************/
+
+					// tant que la saisie n'est pas juste
+					while (!controler.waitForFill(h)) {
+						controler.doError(h);
+					}
+
+					// remplacer le trou par le mot correspondant et replacer tous les masques
+					controler.replaceMaskByWord(h);
+					/// passage au trou suivant
+					h++;
 				}
 
 				/// passage au prochain segment ///
 				N++;
+
+				controler.setHint(-1);
 			}
 		}
 	}

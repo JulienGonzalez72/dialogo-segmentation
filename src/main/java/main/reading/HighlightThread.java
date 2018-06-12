@@ -14,12 +14,12 @@ public class HighlightThread extends ReadThread {
 	}
 
 	/**
-	 * mémorisation des surlignages
+	 * mï¿½morisation des surlignages
 	 */
 	private static Map<Integer, Color> coloriage = new HashMap<>();
 
 	/**
-	 * dernière phrase traitée
+	 * derniï¿½re phrase traitï¿½e
 	 */
 	private static int lastN = 0;
 
@@ -27,9 +27,9 @@ public class HighlightThread extends ReadThread {
 		while (N < controler.getPhrasesCount() - 1 && running) {
 			/// affichage de la page correspondant au segment N ///
 			controler.showPage(controler.getPageOfPhrase(N));
-			// si on a avancé dans le texte
+			// si on a avancï¿½ dans le texte
 			if (lastN < N) {
-				// on surligne depuis le départ jusqu'à l'arrivée
+				// on surligne depuis le dï¿½part jusqu'ï¿½ l'arrivï¿½e
 				for (int i = lastN; i < N; i++) {
 					// si le segment n'a pas de couleur retenue
 					if (!coloriage.containsKey(i)) {
@@ -40,21 +40,21 @@ public class HighlightThread extends ReadThread {
 						// et on stocke sa couleur
 						coloriage.put(i, param.rightColor);
 					} else {
-						// on le colorie avc la couleur stockée
+						// on le colorie avc la couleur stockï¿½e
 						if (pageActuelleContient(i)) {
 							controler.highlightPhrase(coloriage.get(i), i);
 						}
 					}
 				}
-				// si on a reculé dans le texte
+				// si on a reculï¿½ dans le texte
 			} else if (lastN > N) {
-				// on désurligne depuis le départ jusqu'à l'arrivée et on déstocke la couleur
+				// on dï¿½surligne depuis le dï¿½part jusqu'ï¿½ l'arrivï¿½e et on dï¿½stocke la couleur
 				for (int i = lastN; i > N; i--) {
 					controler.removeHighlightPhrase(i);
 					coloriage.remove(i - 1);
 				}
 			}
-			// si changement de page il y a récupération des anciens surlignages
+			// si changement de page il y a rï¿½cupï¿½ration des anciens surlignages
 			if (!pageActuelleContient(lastN) && lastN > N) {
 				for (int i = 0; i < coloriage.keySet().size(); i++) {
 					// sauf celui de a phrase actuelle
@@ -63,7 +63,7 @@ public class HighlightThread extends ReadThread {
 					}
 				}
 			}
-			// mise a jour du segment précédent
+			// mise a jour du segment prï¿½cï¿½dent
 			lastN = N;
 			/// play du son correspondant au segment N ///
 			controler.play(N);
@@ -74,15 +74,15 @@ public class HighlightThread extends ReadThread {
 			// tant que on a pas fait le bon clic
 			boolean doOne = true;
 			while (!controler.waitForClick(N)) {
-				// décrémentation du nombre d'essais restants
+				// dï¿½crï¿½mentation du nombre d'essais restants
 				nbTry--;
 				if (nbTry <= 0) {
-					/// on arrête l'exécution si le thread est terminé ///
+					/// on arrï¿½te l'exï¿½cution si le thread est terminï¿½ ///
 					if (!running) {
 						return;
 					}
 					if (doOne) {
-						// incrémentation des erreurs de segments
+						// incrï¿½mentation des erreurs de segments
 						controler.incrementerErreurSegment();
 						doOne = false;
 					}
@@ -100,7 +100,7 @@ public class HighlightThread extends ReadThread {
 			}
 			// si on a plus d'essais restants
 			if (nbTry == controler.p.param.nbFautesTolerees) {
-				/// on arrête l'exécution si le thread est terminé ///
+				/// on arrï¿½te l'exï¿½cution si le thread est terminï¿½ ///
 				if (!running) {
 					return;
 				}
@@ -111,12 +111,12 @@ public class HighlightThread extends ReadThread {
 			}
 			// enlever surlignage
 			controler.removeWrongHighlights();
-			/// on arrête l'exécution si le thread est terminé ///
+			/// on arrï¿½te l'exï¿½cution si le thread est terminï¿½ ///
 			if (!running) {
 				return;
 			}
 			N++;
-			/// appel des écouteurs de fin de segment ///
+			/// appel des ï¿½couteurs de fin de segment ///
 			for (Runnable r : onPhraseEnd) {
 				r.run();
 			}
@@ -124,7 +124,7 @@ public class HighlightThread extends ReadThread {
 	}
 
 	private boolean pageActuelleContient(int segment) {
-		return controler.p.segmentsEnFonctionDeLaPage.get(controler.p.pageActuelle).contains(segment);
+		return controler.p.phrasesInFonctionOfPages.get(controler.p.pageActuelle).contains(segment);
 	}
 
 }

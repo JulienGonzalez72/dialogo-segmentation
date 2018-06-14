@@ -21,7 +21,7 @@ public class LGTest {
 		final TextFrame frame = new TextFrame("Dialogo - Lecture segmentée"); // le titre
 
 		/// on initalise la fenêtre avec les paramètres nécessaires à sa création ///
-		frame.init(getTextFromFile("ressources/textes/Amélie la sorcière.txt"), // le texte à afficher
+		frame.init(getTextFromFile("src/main/resources/textes/Amélie la sorcière.txt"), // le texte à afficher
 				0, // le premier segment à afficher
 				new Font(Font.MONOSPACED, Font.BOLD, 20), // les caractéristiques de la police (nom, style, taille)
 				100, // la position x de la fenêtre

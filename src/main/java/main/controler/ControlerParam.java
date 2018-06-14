@@ -16,9 +16,9 @@ import main.view.FenetreParametre;
 import main.view.TextPanel;
 
 // TODO classe non fonctionnelle
-public class ControlerParam implements ActionListener {
+public class ControlerParam /*implements ActionListener*/ {
 
-	FenetreParametre.PanneauParam panneau;
+	/*FenetreParametre.PanneauParam panneau;
 	FenetreParametre fen;
 	private Parametres param;
 
@@ -75,10 +75,10 @@ public class ControlerParam implements ActionListener {
 		}
 	}
 
-	/**
+	*//**
 	 * Retourne vrai si : - Aucune couleur n'est s�lectionn�e en double - Les champs
 	 * saisies sont coh�rents
-	 */
+	 *//*
 	public boolean verifierValiditeChamp() {
 		boolean valide = true;
 
@@ -130,9 +130,9 @@ public class ControlerParam implements ActionListener {
 		return phrase + 2 <= ((TextPanel) fen.fenetre.getContentPane()).textHandler.getPhrasesCount() && phrase >= 1;
 	}
 
-	/**
+	*//**
 	 * Retourne vrai si toutes les couleurs des param�tres sont uniques
-	 */
+	 *//*
 	private boolean couleursUniques() {
 		boolean r = true;
 
@@ -156,9 +156,9 @@ public class ControlerParam implements ActionListener {
 		return r;
 	}
 
-	/**
+	*//**
 	 * Retourne le nombre d'apparition de la couleur dans la FenetreParametre
-	 */
+	 *//*
 	private int occurence(Color c, List<Color> liste) {
 		int r = 0;
 		for (Color c2 : liste) {
@@ -167,6 +167,6 @@ public class ControlerParam implements ActionListener {
 			}
 		}
 		return r;
-	}
+	}*/
 
 }

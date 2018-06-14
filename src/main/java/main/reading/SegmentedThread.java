@@ -3,9 +3,9 @@ package main.reading;
 import main.Constants;
 import main.controler.ControlerText;
 
-public class SegmentedThread extends ReadThread {
+public class SegmentedThread /*extends ReadThread*/ {
 
-	public SegmentedThread(ControlerText controler, int N) {
+	/*public SegmentedThread(ControlerText controler, int N) {
 		super(controler, N);
 	}
 
@@ -24,7 +24,7 @@ public class SegmentedThread extends ReadThread {
 				nbTry--;
 				if (nbTry == 0) {
 					if (doOne) {
-						// incrémentation des erreurs de segments
+						// incrï¿½mentation des erreurs de segments
 						controler.incrementerErreurSegment();
 						doOne = false;
 					}
@@ -42,12 +42,12 @@ public class SegmentedThread extends ReadThread {
 			controler.removeHighlightPhrase(N);
 			controler.removeWrongHighlights();
 			N++;
-			/// appel des écouteurs de fin de segment ///
+			/// appel des ï¿½couteurs de fin de segment ///
 			for (Runnable r : onPhraseEnd) {
 				r.run();
 			}
 		}
 
-	}
+	}*/
 
 }

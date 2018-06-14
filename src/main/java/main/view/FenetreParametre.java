@@ -48,10 +48,10 @@ import main.reading.ReadMode;
 // TODO classe non fonctionnelle
 public class FenetreParametre extends JFrame {
 
-	public TextFrame fenetre;
-	/**
+	/*public TextFrame fenetre;
+	*//**
 	 * Liste des paramètres par mode de lecture.
-	 */
+	 *//*
 	private Map<ReadMode, Parametres> params = new HashMap<>();
 	public ControlPanel controlPanel;
 	public JMenuItem stopItem;
@@ -291,13 +291,13 @@ public class FenetreParametre extends JFrame {
 			updateMode();
 		}
 
-		/**
+		*//**
 		 * <<<<<<< HEAD Applique les préférences chargées aux pré-sélections de la
 		 * fenétre de paramétres et é la fenétre principale si elle existe. =======
 		 * Applique les pr�f�rences charg�es aux pr�-s�lections de la fen�tre de
 		 * param�tres et � la fen�tre principale si elle existe. >>>>>>>
 		 * 80a9c7c8cb1ee3c12c78c000bb50e157e0aed560
-		 */
+		 *//*
 		public void applyPreferences(ReadMode readMode) {
 			Parametres param = params.get(readMode);
 
@@ -317,11 +317,11 @@ public class FenetreParametre extends JFrame {
 			replayCheckBox.setSelected(param.rejouerSon);
 		}
 
-		/**
+		*//**
 		 * <<<<<<< HEAD Enregistre les préférences en fonction de la sélection de
 		 * l'utilisateur. ======= Enregistre les pr�f�rences en fonction de la s�lection
 		 * de l'utilisateur. >>>>>>> 80a9c7c8cb1ee3c12c78c000bb50e157e0aed560
-		 */
+		 *//*
 		public void savePreferences(ReadMode readMode) {
 			Parametres param = params.get(readMode);
 			param.bgColor = bgColorComboBox.getBackground();
@@ -351,11 +351,11 @@ public class FenetreParametre extends JFrame {
 			fen.setVisible(false);
 		}
 
-		/**
+		*//**
 		 * <<<<<<< HEAD Mets é jour les composants de la fenétre en fonction du mode
 		 * sélectionné. ======= Mets � jour les composants de la fen�tre en fonction du
 		 * mode s�lectionn�. >>>>>>> 80a9c7c8cb1ee3c12c78c000bb50e157e0aed560
-		 */
+		 *//*
 		public void updateMode() {
 			switch (getReadMode()) {
 			case GUIDEE:
@@ -451,12 +451,12 @@ public class FenetreParametre extends JFrame {
 			return r;
 		}
 
-		/**
+		*//**
 		 * Centre le composant c dans le panneau p
 		 * 
 		 * @param marge
 		 *            = taille de la marge
-		 */
+		 *//*
 		private void fastCentering(Component c, JPanel p, String marge) {
 			JPanel temp = new JPanel(new BorderLayout());
 			temp.add(new JLabel(marge), BorderLayout.WEST);
@@ -465,11 +465,11 @@ public class FenetreParametre extends JFrame {
 			p.add(temp);
 		}
 
-		/**
+		*//**
 		 * <<<<<<< HEAD Retourne le mode de lecture sélectionné par l'utilisateur.
 		 * ======= Retourne le mode de lecture s�lectionn� par l'utilisateur. >>>>>>>
 		 * 80a9c7c8cb1ee3c12c78c000bb50e157e0aed560
-		 */
+		 *//*
 		public ReadMode getReadMode() {
 			if (guidedModeRadio.isSelected())
 				return ReadMode.GUIDEE;
@@ -502,10 +502,10 @@ public class FenetreParametre extends JFrame {
 		setStartParametersEnabled(true);
 	}
 
-	/**
+	*//**
 	 * Active ou désactive les paramétres non modifiables à partir de la première
 	 * écoute.
-	 */
+	 *//*
 	public void setStartParametersEnabled(boolean enabled) {
 		/// désacive la taille et la police et le segment de départ ///
 		pan.fontFamilyComboBox.setEnabled(enabled);
@@ -517,10 +517,10 @@ public class FenetreParametre extends JFrame {
 		pan.correctColorComboBox.setEnabled(enabled);
 	}
 
-	/**
+	*//**
 	 * Active ou désactive les paramétres non modifiables lors du lancement de
 	 * l'exercice.
-	 */
+	 *//*
 	public void setLaunchParametersEnabled(boolean enabled) {
 		pan.anticipatedModeRadio.setEnabled(enabled);
 		pan.guidedModeRadio.setEnabled(enabled);
@@ -530,9 +530,9 @@ public class FenetreParametre extends JFrame {
 		pan.startingPhraseField.setEnabled(enabled);
 	}
 
-	/**
+	*//**
 	 * Retourne les paramétres du mode sélectionné.
-	 */
+	 *//*
 	public Parametres getCurrentParameters() {
 		if (pan.getReadMode() == null)
 			return null;
@@ -579,7 +579,7 @@ public class FenetreParametre extends JFrame {
 		return font;
 	}
 
-	/**
+	*//**
 	 * <<<<<<< HEAD Retourne le font correspondant à : ======= Retourne le font
 	 * correspondant � : >>>>>>> 80a9c7c8cb1ee3c12c78c000bb50e157e0aed560
 	 * 
@@ -587,7 +587,7 @@ public class FenetreParametre extends JFrame {
 	 * @param2 : l'index du font dans la liste des polices de la FenetreParametre
 	 * @param3 : le style
 	 * @param4 : la taille
-	 */
+	 *//*
 	public static Font getFont(String police, int selectedIndex, int style, int size) {
 		try {
 			Font font;
@@ -606,6 +606,6 @@ public class FenetreParametre extends JFrame {
 			e.printStackTrace();
 		}
 		return null;
-	}
+	}*/
 
 }

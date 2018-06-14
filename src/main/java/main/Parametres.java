@@ -18,7 +18,7 @@ import main.view.TextFrame;
 @Deprecated
 public class Parametres {
 
-	public Font police = FenetreParametre.getFont(null, 0, Font.BOLD, Constants.DEFAULT_FONT_SIZE);
+	/*public Font police = FenetreParametre.getFont(null, 0, Font.BOLD, Constants.DEFAULT_FONT_SIZE);
 	public int taillePolice = Constants.DEFAULT_FONT_SIZE;
 	public Color bgColor = Constants.BG_COLOR;
 	public Color rightColor = Constants.RIGHT_COLOR;
@@ -78,17 +78,17 @@ public class Parametres {
 		}
 	}
 
-	/**
+	*//**
 	 * Applique les preferences de taille et position uniquement
-	 */
+	 *//*
 	public void appliquerPreferenceTaillePosition(TextFrame fen) {
 		fen.setBounds(panX, panY, panWidth, panHeight);
 	}
 
-	/**
+	*//**
 	 * Essaye de charger les param�tres associ�s � un mode de lecture, retourne les
 	 * param�tres par d�faut sinon.
-	 */
+	 *//*
 	public static Parametres load(ReadMode readMode) {
 		Parametres p = new Parametres(readMode);
 
@@ -135,16 +135,16 @@ public class Parametres {
 		return p;
 	}
 
-	/**
+	*//**
 	 * Essaye de charger les param�tres associ�s � tous les modes de lecture
 	 * existants.
-	 */
+	 *//*
 	public static Map<ReadMode, Parametres> loadAll() {
 		Map<ReadMode, Parametres> params = new HashMap<>();
 		for (ReadMode rm : ReadMode.values()) {
 			params.put(rm, load(rm));
 		}
 		return params;
-	}
+	}*/
 
 }

@@ -1,0 +1,16 @@
+#Sauvegarde
+#Thu Jun 07 09:48:00 CEST 2018
+nbEssais=2
+taillePolice=36
+couleurCorrection=0/255/255
+couleurBonne=0/255/0
+typePolice=OpenDyslexic Bold
+couleurFausse=255/40/40
+h=600
+tempsAttente=100
+premierSegment=1
+y=0
+x=550
+w=800
+rejouerSon=true
+couleurFond=255/255/150

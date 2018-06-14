@@ -179,7 +179,7 @@ public class ControlerText {
 
 	/**
 	 * 
-	 * Arréte l'enregistrement courant et enlève tout le surlignage.
+	 * Arrête l'enregistrement courant et enlève tout le surlignage.
 	 */
 	@Deprecated
 	public void stopAll() {

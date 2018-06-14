@@ -3,9 +3,9 @@ package main.reading;
 import main.Constants;
 import main.controler.ControlerText;
 
-public class AnticipatedThread extends ReadThread {
+public class AnticipatedThread /*extends ReadThread*/ {
 
-	public AnticipatedThread(ControlerText controler, int N) {
+	/*public AnticipatedThread(ControlerText controler, int N) {
 		super(controler, N);
 	}
 
@@ -39,6 +39,6 @@ public class AnticipatedThread extends ReadThread {
 				r.run();
 			}
 		}
-	}
+	}*/
 
 }

@@ -3,15 +3,15 @@ package main.reading;
 import main.Constants;
 import main.controler.ControlerText;
 
-public class GuidedThread extends ReadThread {
+public class GuidedThread /*extends ReadThread*/ {
 	
-	public GuidedThread(ControlerText controler, int N) {
+	/*public GuidedThread(ControlerText controler, int N) {
 		super(controler, N);
 	}
 	
 	public void run() {
 		while (N < controler.getPhrasesCount() - 1 && running) {
-			/// réinitiliase l'état ///
+			/// rï¿½initiliase l'ï¿½tat ///
 			controler.stopAll();
 			/// affichage de la page correspondant au segment N ///
 			controler.showPage(controler.getPageOfPhrase(N));
@@ -21,18 +21,18 @@ public class GuidedThread extends ReadThread {
 			controler.play(N);
 			/// attente de la fin du temps de pause ///
 			controler.doWait(controler.getCurrentWaitTime(), Constants.CURSOR_SPEAK);
-			/// on arrête l'exécution si le thread est terminé ///
+			/// on arrï¿½te l'exï¿½cution si le thread est terminï¿½ ///
 			if (!running) {
 				return;
 			}
 			/// suppression du surlignage du segment de phrase N ///
 			controler.removeHighlightPhrase(N);
 			N++;
-			/// appel des écouteurs de fin de segment ///
+			/// appel des ï¿½couteurs de fin de segment ///
 			for (Runnable r : onPhraseEnd) {
 				r.run();
 			}
 		}
-	}
+	}*/
 	
 }

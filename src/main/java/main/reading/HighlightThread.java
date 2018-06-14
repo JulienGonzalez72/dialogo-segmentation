@@ -7,20 +7,20 @@ import java.util.Map;
 import main.Constants;
 import main.controler.ControlerText;
 
-public class HighlightThread extends ReadThread {
+public class HighlightThread /*extends ReadThread*/ {
 
-	public HighlightThread(ControlerText controler, int N) {
+	/*public HighlightThread(ControlerText controler, int N) {
 		super(controler, N);
 	}
 
-	/**
+	*//**
 	 * m�morisation des surlignages
-	 */
+	 *//*
 	private static Map<Integer, Color> coloriage = new HashMap<>();
 
-	/**
+	*//**
 	 * derni�re phrase trait�e
-	 */
+	 *//*
 	private static int lastN = 0;
 
 	public void run() {
@@ -125,6 +125,6 @@ public class HighlightThread extends ReadThread {
 
 	private boolean pageActuelleContient(int segment) {
 		return controler.p.phrasesInFonctionOfPages.get(controler.p.pageActuelle).contains(segment);
-	}
+	}*/
 
 }

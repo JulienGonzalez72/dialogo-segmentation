@@ -21,7 +21,7 @@ import main.Constants;
 
 public class ControlPanel extends JPanel {
 
-	private static int imageSize = Constants.CONTROL_IMAGE_SIZE;
+	/*private static int imageSize = Constants.CONTROL_IMAGE_SIZE;
 	private static Image previousIcon, playIcon, pauseIcon, nextIcon, repeatIcon;
 
 	private JButton previousButton = new JButton();
@@ -107,9 +107,9 @@ public class ControlPanel extends JPanel {
 		});
 	}
 
-	/**
+	*//**
 	 * M�thode qui s'ex�cute lorsque les contr�les sont pr�ts � �tre effectifs.
-	 */
+	 *//*
 	public void init() {
 		Runnable update = new Runnable() {
 			public void run() {
@@ -122,9 +122,9 @@ public class ControlPanel extends JPanel {
 		enableAll();
 	}
 
-	/**
+	*//**
 	 * Actualise l'�tat de tous les composants de la fen�tre de contr�le.
-	 */
+	 *//*
 	public void updateButtons() {
 		if (usable) {
 			previousButton.setEnabled(pan.player.hasPreviousPhrase());
@@ -148,10 +148,10 @@ public class ControlPanel extends JPanel {
 		updateButtons();
 	}
 
-	/**
+	*//**
 	 * D�sactive tous les boutons de la fen�tre de contr�le puis les r�-active apr�s
 	 * le temps duration.
-	 */
+	 *//*
 	public void disableAll(final long duration) {
 		disableAll();
 		SwingUtilities.invokeLater(new Runnable() {
@@ -187,6 +187,6 @@ public class ControlPanel extends JPanel {
 			e.printStackTrace();
 			return null;
 		}
-	}
+	}*/
 
 }

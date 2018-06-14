@@ -20,8 +20,8 @@ public class TATTest {
 		/// on créé la fenêtre d'exercice ///
 		final TextFrame frame = new TextFrame("Dialogo - Lecture segmentée"); // le titre
 
-		/// on initalise la fenêtre avec les paramètres nécessaires à sa création ///
-		frame.init(getTextFromFile("ressources/textes/Amélie la sorcière.txt"), // le texte à afficher
+		/// on initalise la fenêtre avec les paramétres nécessaires à sa création ///
+		frame.init(getTextFromFile("src/main/resources/textes/Amélie la sorcière.txt"), // le texte à afficher
 				0, // le premier segment à afficher
 				new Font(Font.MONOSPACED, Font.BOLD, 20), // les caractéristiques de la police (nom, style, taille)
 				100, // la position x de la fenêtre
@@ -91,7 +91,7 @@ public class TATTest {
 				} else {
 					h = controler.getFirstHole(N);
 				}
-				// on recupere le premier trou du segment //
+				// on recupère le premier trou du segment //
 				int firstHole = h;
 
 				if (h != -1) {

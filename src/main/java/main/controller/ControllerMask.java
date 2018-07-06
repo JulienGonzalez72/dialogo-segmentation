@@ -1,15 +1,15 @@
-package main.controler;
+package main.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class ControlerMask implements ActionListener, KeyListener {
+public class ControllerMask implements ActionListener, KeyListener {
 
 	public boolean enter;
 
-	public ControlerMask() {
+	public ControllerMask() {
 
 	}
 

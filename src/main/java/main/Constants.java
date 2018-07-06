@@ -18,7 +18,7 @@ public final class Constants {
 	 */
 	public static final Color WRONG_COLOR = new Color(255, 40, 40);
 	/**
-	 * Couleur pour indiquer la réussite
+	 * Couleur pour indiquer la r�ussite
 	 */
 	public static final Color RIGHT_COLOR = Color.GREEN;
 	/**
@@ -47,7 +47,7 @@ public final class Constants {
 	public static final int CONTROL_IMAGE_SIZE = 40;
 
 	/*
-	 * Valeurs par défaut des paramétres
+	 * Valeurs par d�faut des param�tres
 	 */
 	public static final int DEFAULT_FONT_SIZE = 16;
 	public static final int DEFAULT_FONT_STYLE = Font.BOLD;
@@ -72,14 +72,14 @@ public final class Constants {
 	public static final long PAGE_WAIT_TIME = 1000;
 
 	/**
-	 * Caractére qui correspond é une césure
+	 * Caract�re qui correspond � une c�sure
 	 */
 	public static final String PAUSE = "/";
 
 	public static final float TEXTPANE_MARGING = 20f;
 
 	/**
-	 * Vitesse de lecture (en fréquence)
+	 * Vitesse de lecture (en fr�quence)
 	 */
 	public static final long PLAYER_INTERVAL = 20;
 
@@ -92,17 +92,17 @@ public final class Constants {
 	 */
 	public static final String AUDIO_FILE_NAME = "Aha take on me";
 	/**
-	 * Indique si l'exercice courant é une consigne dans son texte
+	 * Indique si l'exercice courant a une consigne dans son texte
 	 */
 	public static final boolean HAS_INSTRUCTIONS = false;
 
 	/**
-	 * Intervalle de temps sans clic possible aprés un appuie sur la touche gauche
+	 * Intervalle de temps sans clic possible apres un appuie sur la touche gauche
 	 */
 	public static final long LEFT_DELAY = 400;
 
 	/**
-	 * Icone de la souris lors d'une phase d'écoute
+	 * Icone de la souris lors d'une phase d'ecoute
 	 */
 	public static final String CURSOR_LISTEN = "ecouter.png";
 	/**
@@ -111,13 +111,13 @@ public final class Constants {
 	public static final String CURSOR_SPEAK = "parler.png";
 
 	/**
-	 * Temps de chargement aprés chaque pression sur un bouton de contréle
-	 * suivant/précédent.
+	 * Temps de chargement apres chaque pression sur un bouton de controle
+	 * suivant/precedent.
 	 */
 	public static final long DISABLE_TIME = 200;
 
 	/**
-	 * Hauteur des cellules des listes déroulantes de la fenétre des paramétres.
+	 * Hauteur des cellules des listes deroulantes de la fenetre des parametres.
 	 */
 	public static final int COMBOBOX_CELL_HEIGHT = 30;
 
@@ -143,7 +143,7 @@ public final class Constants {
 		MORE_COLORS.put("Beurre", new Color(240, 227, 107));
 		MORE_COLORS.put("Bleu canard", new Color(4, 139, 154));
 		MORE_COLORS.put("Bleu ciel", new Color(119, 181, 254));
-		MORE_COLORS.put("Bleu givré", new Color(128, 208, 208));
+		MORE_COLORS.put("Bleu givre", new Color(128, 208, 208));
 		MORE_COLORS.put("Bleu marine", new Color(3, 34, 76));
 		MORE_COLORS.put("Caramel", new Color(126, 51, 0));
 		MORE_COLORS.put("Carotte", new Color(244, 102, 27));
@@ -177,7 +177,7 @@ public final class Constants {
 	public static final Integer[] FONT_SIZES = { 12, 16, 18, 20, 22, 24, 30, 36, 42 };
 
 	/**
-	 * Couleur de prévisualisation des mots dans les trous
+	 * Couleur de previsualisation des mots dans les trous
 	 */
 	public static final Color HINT_COLOR = new Color(100, 100, 100);
 

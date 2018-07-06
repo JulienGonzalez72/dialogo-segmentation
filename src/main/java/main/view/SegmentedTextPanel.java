@@ -32,21 +32,21 @@ import javax.swing.UIManager;
 import javax.swing.text.BadLocationException;
 
 import main.Constants;
-import main.controler.ControlerMask;
-import main.controler.ControlerMouse;
+import main.controller.ControllerMask;
+import main.controller.ControllerMouse;
 import main.model.Player;
 import main.model.ReadingParameters;
 import main.model.TextHandler;
 import main.model.ToolParameters;
 import main.reading.ReadThread;
 
-public class TextPanel extends JDesktopPane {
+public class SegmentedTextPanel extends JDesktopPane {
 
 	private static final long serialVersionUID = 1L;
 	public static int premierSegment;
 
 	// panneau du texte
-	public TextPane editorPane;
+	public SegmentedTextPane editorPane;
 	public TextHandler textHandler;
 	public int pageActuelle;
 	public int nbPages;
@@ -65,9 +65,9 @@ public class TextPanel extends JDesktopPane {
 	 * Nombre d'erreurs pour le segment courant.
 	 */
 	public int nbErreursSegmentCourant;
-	public TextFrame fenetre;
+	public SegmentedTextFrame fenetre;
 	public ControlPanel controlPanel;
-	public ControlerMouse controlerMouse;
+	public ControllerMouse controlerMouse;
 	public ReadThread task;
 	public Map<Integer, List<Integer>> phrasesInFonctionOfPages = new HashMap<Integer, List<Integer>>();
 	public Player player;
@@ -84,18 +84,18 @@ public class TextPanel extends JDesktopPane {
 	 * attributs utilisés pour la gestion des trous
 	 */////////////////////////////////////////////////////////////
 
-	public ControlerMask controlerMask;
+	public ControllerMask controlerMask;
 	public List<Mask> maskFrame = new ArrayList<>();
 	public JPanel panelSud = new JPanel();
 	public JDesktopPane panelFixedFrame = null;
 	public Mask fixedFrame;
 
-	public TextPanel(TextFrame fenetre) throws IOException {
-		controlerMask = new ControlerMask();
+	public SegmentedTextPanel(SegmentedTextFrame fenetre) throws IOException {
+		controlerMask = new ControllerMask();
 		this.fenetre = fenetre;
 		this.setLayout(new BorderLayout());
 
-		editorPane = new TextPane();
+		editorPane = new SegmentedTextPane();
 		editorPane.setEditable(false);
 		add(editorPane, BorderLayout.CENTER);
 
@@ -123,7 +123,7 @@ public class TextPanel extends JDesktopPane {
 		/// construit la mise en page virtuelle ///
 		rebuildPages();
 		/// initialise le lecteur ///
-		controlerMouse = new ControlerMouse(this, textHandler);
+		controlerMouse = new ControllerMouse(this, textHandler);
 		editorPane.addMouseListener(controlerMouse);
 		editorPane.requestFocus();
 

@@ -1,7 +1,7 @@
 package main.reading;
 
 import main.Constants;
-import main.controler.ControlerText;
+import main.controller.ControllerText;
 
 public class GuidedThread /*extends ReadThread*/ {
 	

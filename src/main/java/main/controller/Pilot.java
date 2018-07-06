@@ -1,8 +1,8 @@
-package main.controler;
+package main.controller;
 
 import main.reading.ReadThread;
 import main.reading.ReaderFactory;
-import main.view.TextPanel;
+import main.view.SegmentedTextPanel;
 
 public class Pilot {
 
@@ -10,7 +10,7 @@ public class Pilot {
 	 * Thread de lecture actif
 	 */
 	private ReadThread activeThread;
-	private TextPanel p;
+	private SegmentedTextPanel p;
 	private ReaderFactory readerFactory;
 
 	/**
@@ -19,7 +19,7 @@ public class Pilot {
 	private int phrase;
 	private boolean started;
 
-	public Pilot(TextPanel p) {
+	public Pilot(SegmentedTextPanel p) {
 		this.p = p;
 	}
 

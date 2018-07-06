@@ -3,7 +3,7 @@ package main.reading;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.controler.ControlerText;
+import main.controller.ControllerText;
 
 public abstract class ReadThread extends Thread {
 
@@ -17,9 +17,9 @@ public abstract class ReadThread extends Thread {
 	 **/
 	public List<Runnable> onPhraseEnd = new ArrayList<>();
 	public boolean running = true;
-	public ControlerText controler;
+	public ControllerText controler;
 
-	public ReadThread(ControlerText controler) {
+	public ReadThread(ControllerText controler) {
 		this.controler = controler;
 	}
 

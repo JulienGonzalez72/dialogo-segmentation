@@ -1,9 +1,9 @@
-package main.controler;
+package main.controller;
 
 import java.awt.event.*;
 import main.Constants;
 
-public class ControlerKey implements KeyListener {
+public class ControllerKey implements KeyListener {
 
 	private Pilot pilot;
 
@@ -12,7 +12,7 @@ public class ControlerKey implements KeyListener {
 	 */
 	private long lastClick;
 
-	public ControlerKey(Pilot pilot) {
+	public ControllerKey(Pilot pilot) {
 		this.pilot = pilot;
 	}
 	

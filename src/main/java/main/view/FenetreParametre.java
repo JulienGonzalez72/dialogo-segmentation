@@ -42,7 +42,7 @@ import javax.swing.SwingConstants;
 
 import main.Constants;
 import main.Parametres;
-import main.controler.ControlerParam;
+import main.controller.ControllerParam;
 import main.reading.ReadMode;
 
 // TODO classe non fonctionnelle

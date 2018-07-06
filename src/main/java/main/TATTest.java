@@ -9,35 +9,35 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import main.controler.ControlerText;
+import main.controller.ControllerText;
 import main.reading.ReadThread;
 import main.reading.ReaderFactory;
-import main.view.TextFrame;
+import main.view.SegmentedTextFrame;
 
 public class TATTest {
 
 	public static void main(String[] args) {
-		/// on crÃ©Ã© la fenÃªtre d'exercice ///
-		final TextFrame frame = new TextFrame("Dialogo - Lecture segmentÃ©e"); // le titre
+		/// on cree la fenetre d'exercice ///
+		final SegmentedTextFrame frame = new SegmentedTextFrame("Dialogo - Lecture segmentee"); // le titre
 
-		/// on initalise la fenÃªtre avec les paramÃ©tres nÃ©cessaires Ã  sa crÃ©ation ///
-		frame.init(getTextFromFile("src/main/resources/textes/AmÃ©lie la sorciÃ¨re.txt"), // le texte Ã  afficher
-				0, // le premier segment Ã  afficher
-				new Font(Font.MONOSPACED, Font.BOLD, 20), // les caractÃ©ristiques de la police (nom, style, taille)
-				100, // la position x de la fenÃªtre
-				100, // la position y de la fenÃªtre
-				500, // la largeur de la fenÃªtre
-				500); // la hauteur de la fenÃªtre
+		/// on initalise la fenetre avec les parametres necessaires a sa creation ///
+		frame.init(getTextFromFile("src/main/resources/textes/Amélie la sorcière.txt"), // le texte a afficher
+				0, // le premier segment a afficher
+				new Font(Font.MONOSPACED, Font.BOLD, 20), // les caractéristiques de la police (nom, style, taille)
+				100, // la position x de la fenêtre
+				100, // la position y de la fenêtre
+				500, // la largeur de la fenêtre
+				500); // la hauteur de la fenêtre
 
-		/// on affiche la fenÃªtre ///
+		/// on affiche la fenêtre ///
 		frame.start();
 
-		/// on exÃ©cute les traitements seulement lorsque la fenÃªtre d'exercice s'est
-		/// bien initilisÃ©e ///
+		/// on exécute les traitements seulement lorsque la fenêtre d'exercice s'est
+		/// bien initilisée ///
 		frame.onInit = new Runnable() {
 			public void run() {
-				/// on rÃ©cupÃ¨re le contrÃ´leur ///
-				final ControlerText controler = new ControlerText(frame);
+				/// on récupère le contrôleur ///
+				final ControllerText controler = new ControllerText(frame);
 
 				/// initialisation des couleurs ///
 				controler.setHighlightColors(Color.GREEN, Color.RED, Color.CYAN);
@@ -45,43 +45,43 @@ public class TATTest {
 				/// initialisation du nombre d'essais par segment ///
 				controler.setPhraseTrials(3);
 
-				/// active les contrÃ´les clavier ///
+				/// active les contrôles clavier ///
 				controler.setKeyEnabled(true);
 
-				/// on crÃ©Ã© une usine de lecture qui va instancier notre thread personnalisÃ© ///
+				/// on créé une usine de lecture qui va instancier notre thread personnalisé ///
 				controler.setReaderFactory(new ReaderFactory() {
 					public ReadThread createReadThread() {
 						return new LGThread(controler);
 					}
 				});
 
-				/// on dÃ©marre le thread au premier segment ///
+				/// on démarre le thread au premier segment ///
 				controler.goTo(0);
 			}
 		};
 	}
 
 	/**
-	 * Ceci est notre algorithme de lecture personnalisÃ©, il doit hÃ©riter de
-	 * ReadThread et dÃ©finir un constructeur identique.
+	 * Ceci est notre algorithme de lecture personnalisé, il doit hériter de
+	 * ReadThread et définir un constructeur identique.
 	 */
 	static class LGThread extends ReadThread {
-		public LGThread(ControlerText controler) {
+		public LGThread(ControllerText controler) {
 			super(controler);
 		}
 
 		public void run() {
 
-			/// on rÃ©pÃ¨te l'opÃ©ration jusqu'au dernier segment ou jusqu'Ã  ce que le thread
-			/// s'arrÃªte ///
+			/// on répète l'opération jusqu'au dernier segment ou jusqu'Ã  ce que le thread
+			/// s'arrête ///
 			while (N < controler.getPhrasesCount() && running) {
-				/// opÃ©ration de mise Ã  jour, indispensable au dÃ©but de chaque segment ///
+				/// opération de mise Ã  jour, indispensable au début de chaque segment ///
 				controler.updateCurrentPhrase();
 
 				/// affichage de la page correspondant au segment actuel ///
 				controler.showPage(controler.getPageOfPhrase(N));
 
-				/// on enlÃ¨ve le surlignage existant ///
+				/// on enlève le surlignage existant ///
 				controler.removeAllHighlights();
 
 				// on recupere le numero du trou courant//
@@ -91,7 +91,7 @@ public class TATTest {
 				} else {
 					h = controler.getFirstHole(N);
 				}
-				// on recupÃ¨re le premier trou du segment //
+				// on recupère le premier trou du segment //
 				int firstHole = h;
 
 				if (h != -1) {
@@ -141,7 +141,7 @@ public class TATTest {
 	}
 
 	/**
-	 * Retourne le contenu du fichier .txt situÃ© Ã  l'emplacement du paramÃ¨tre.
+	 * Retourne le contenu du fichier .txt situé Ã  l'emplacement du paramètre.
 	 */
 	private static String getTextFromFile(String emplacement) {
 		try {

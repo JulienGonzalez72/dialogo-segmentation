@@ -1,14 +1,14 @@
-package main.controler;
+package main.controller;
 
 import java.awt.event.*;
 
 import main.model.TextHandler;
-import main.view.TextPanel;
+import main.view.SegmentedTextPanel;
 
-public class ControlerMouse implements MouseListener {
+public class ControllerMouse implements MouseListener {
 
 	public static int nbErreurs;
-	TextPanel view;
+	SegmentedTextPanel view;
 	TextHandler handler;
 	
 	/**
@@ -21,7 +21,7 @@ public class ControlerMouse implements MouseListener {
 	 */
 	public boolean clicking;
 
-	public ControlerMouse(TextPanel p, TextHandler handler) {
+	public ControllerMouse(SegmentedTextPanel p, TextHandler handler) {
 		view = p;
 		this.handler = handler;
 		nbErreurs = 0;

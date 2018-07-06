@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import main.Constants;
-import main.controler.ControlerText;
+import main.controller.ControllerText;
 
 public class HighlightThread /*extends ReadThread*/ {
 

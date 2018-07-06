@@ -14,7 +14,7 @@ import javax.swing.SwingUtilities;
 import main.Constants;
 import main.model.ToolParameters;
 
-public class TextFrame extends JFrame {
+public class SegmentedTextFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
@@ -23,14 +23,14 @@ public class TextFrame extends JFrame {
 	 */
 	public Runnable onInit;
 
-	private TextPanel pan;
+	private SegmentedTextPanel pan;
 	public boolean preferencesExiste = true;
 	private ToolParameters param;
 
-	public TextFrame(String titre) {
+	public SegmentedTextFrame(String titre) {
 		setIconImage(getToolkit().getImage("icone.jpg"));
 		try {
-			pan = new TextPanel(this);
+			pan = new SegmentedTextPanel(this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -59,15 +59,15 @@ public class TextFrame extends JFrame {
 					lastHeight = getHeight();
 				}
 
-				TextFrame.this.param.panWidth = TextFrame.this.getWidth();
-				TextFrame.this.param.panHeight = TextFrame.this.getHeight();
+				SegmentedTextFrame.this.param.panWidth = SegmentedTextFrame.this.getWidth();
+				SegmentedTextFrame.this.param.panHeight = SegmentedTextFrame.this.getHeight();
 
 			}
 
 			@Override
 			public void componentMoved(ComponentEvent e) {
-				TextFrame.this.param.panX = TextFrame.this.getX();
-				TextFrame.this.param.panY = TextFrame.this.getY();
+				SegmentedTextFrame.this.param.panX = SegmentedTextFrame.this.getX();
+				SegmentedTextFrame.this.param.panY = SegmentedTextFrame.this.getY();
 			}
 		});
 
@@ -95,7 +95,7 @@ public class TextFrame extends JFrame {
 		});
 	}
 	
-	public TextPanel getPanel() {
+	public SegmentedTextPanel getPanel() {
 		return pan;
 	}
 

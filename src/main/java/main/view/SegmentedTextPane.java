@@ -17,7 +17,7 @@ import main.Constants;
 import main.model.HighlightParameters;
 import main.model.ToolParameters;
 
-public class TextPane extends JTextPane {
+public class SegmentedTextPane extends JTextPane {
 
 	private static final long serialVersionUID = 1L;
 
@@ -30,7 +30,7 @@ public class TextPane extends JTextPane {
 
 	public String textReel;
 
-	public TextPane() {
+	public SegmentedTextPane() {
 		setSelectionColor(new Color(0, 0, 0, 0));
 
 		/// mets les marges sur les côtés ///

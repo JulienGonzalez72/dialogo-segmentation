@@ -13,7 +13,7 @@ import java.util.Properties;
 
 import main.reading.ReadMode;
 import main.view.FenetreParametre;
-import main.view.TextFrame;
+import main.view.SegmentedTextFrame;
 
 @Deprecated
 public class Parametres {

@@ -9,35 +9,35 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import main.controler.ControlerText;
+import main.controller.ControllerText;
 import main.reading.ReadThread;
 import main.reading.ReaderFactory;
-import main.view.TextFrame;
+import main.view.SegmentedTextFrame;
 
 public class LGTest {
 
 	public static void main(String[] args) {
-		/// on créé la fenêtre d'exercice ///
-		final TextFrame frame = new TextFrame("Dialogo - Lecture segmentée"); // le titre
+		/// on cr�� la fenetre d'exercice ///
+		final SegmentedTextFrame frame = new SegmentedTextFrame("Dialogo - Lecture segment�e"); // le titre
 
-		/// on initalise la fenêtre avec les paramètres nécessaires à sa création ///
-		frame.init(getTextFromFile("src/main/resources/textes/Amélie la sorcière.txt"), // le texte à afficher
-				0, // le premier segment à afficher
-				new Font(Font.MONOSPACED, Font.BOLD, 20), // les caractéristiques de la police (nom, style, taille)
-				100, // la position x de la fenêtre
-				100, // la position y de la fenêtre
-				500, // la largeur de la fenêtre
-				500); // la hauteur de la fenêtre
+		/// on initalise la fenetre avec les parametres necessaires a sa creation ///
+		frame.init(getTextFromFile("src/main/resources/textes/Am�lie la sorci�re.txt"), // le texte a� afficher
+				0, // le premier segment a� afficher
+				new Font(Font.MONOSPACED, Font.BOLD, 20), // les caracteristiques de la police (nom, style, taille)
+				100, // la position x de la fenetre
+				100, // la position y de la fenetre
+				500, // la largeur de la fenetre
+				500); // la hauteur de la fenetre
 
-		/// on affiche la fenêtre ///
+		/// on affiche la fenetre ///
 		frame.start();
 
-		/// on exécute les traitements seulement lorsque la fenêtre d'exercice s'est
-		/// bien initilisée ///
+		/// on execute les traitements seulement lorsque la fenetre d'exercice s'est
+		/// bien initilisee ///
 		frame.onInit = new Runnable() {
 			public void run() {
-				/// on récupère le contrôleur ///
-				final ControlerText controler = new ControlerText(frame);
+				/// on recupere le contreleur ///
+				final ControllerText controler = new ControllerText(frame);
 
 				/// initialisation des couleurs ///
 				controler.setHighlightColors(Color.GREEN, Color.RED, Color.CYAN);
@@ -48,39 +48,39 @@ public class LGTest {
 				/// active les contrôles clavier ///
 				controler.setKeyEnabled(true);
 
-				/// on créé une usine de lecture qui va instancier notre thread personnalisé ///
+				/// on cree une usine de lecture qui va instancier notre thread personnalise ///
 				controler.setReaderFactory(new ReaderFactory() {
 					public ReadThread createReadThread() {
 						return new LGThread(controler);
 					}
 				});
 
-				/// on démarre le thread au premier segment ///
+				/// on demarre le thread au premier segment ///
 				controler.goTo(0);
 			}
 		};
 	}
 
 	/**
-	 * Ceci est notre algorithme de lecture personnalisé, il doit hériter de
-	 * ReadThread et définir un constructeur identique.
+	 * Ceci est notre algorithme de lecture personnalise, il doit heriter de
+	 * ReadThread et definir un constructeur identique.
 	 */
 	static class LGThread extends ReadThread {
-		public LGThread(ControlerText controler) {
+		public LGThread(ControllerText controler) {
 			super(controler);
 		}
 
 		public void run() {
-			/// on répète l'opération jusqu'au dernier segment ou jusqu'à ce que le thread
-			/// s'arrête ///
+			/// on repete l'operation jusqu'au dernier segment ou jusqu'a� ce que le thread
+			/// s'arrete ///
 			while (N < controler.getPhrasesCount() && running) {
-				/// opération de mise à jour, indispensable au début de chaque segment ///
+				/// operation de mise a jour, indispensable au debut de chaque segment ///
 				controler.updateCurrentPhrase();
 
 				/// affichage de la page correspondant au segment actuel ///
 				controler.showPage(controler.getPageOfPhrase(N));
 
-				/// on enlève le surlignage existant ///
+				/// on enleve le surlignage existant ///
 				controler.removeAllHighlights();
 
 				/// on attend un clic du patient ///
@@ -105,7 +105,7 @@ public class LGTest {
 	}
 
 	/**
-	 * Retourne le contenu du fichier .txt situé à l'emplacement du paramètre.
+	 * Retourne le contenu du fichier .txt situe a� l'emplacement du parametre.
 	 */
 	private static String getTextFromFile(String emplacement) {
 		try {

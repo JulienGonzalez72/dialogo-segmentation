@@ -1,4 +1,4 @@
-package main.controler;
+package main.controller;
 
 import java.awt.Color;
 import java.awt.Cursor;
@@ -12,18 +12,18 @@ import main.Constants;
 import main.reading.ReadThread;
 import main.reading.ReaderFactory;
 import main.view.Mask;
-import main.view.TextFrame;
-import main.view.TextPanel;
+import main.view.SegmentedTextFrame;
+import main.view.SegmentedTextPanel;
 
-public class ControlerText {
+public class ControllerText {
 
-	private TextPanel p;
+	private SegmentedTextPanel p;
 	private Pilot pilot;
 
 	/**
 	 * Construit un contrôleur à partir de la fenêtre d'exercice correspondante.
 	 */
-	public ControlerText(TextFrame frame) {
+	public ControllerText(SegmentedTextFrame frame) {
 		this.p = frame.getPanel();
 		this.pilot = new Pilot(p);
 	}
@@ -443,7 +443,7 @@ public class ControlerText {
 	public void setKeyEnabled(boolean keyEnabled) {
 		/// ajoute un contrôle clavier ///
 		if (keyEnabled && p.getKeyListeners().length == 0) {
-			ControlerKey controlerKey = new ControlerKey(pilot);
+			ControllerKey controlerKey = new ControllerKey(pilot);
 			p.editorPane.addKeyListener(controlerKey);
 		}
 		/// retire les contrôles clavier ///

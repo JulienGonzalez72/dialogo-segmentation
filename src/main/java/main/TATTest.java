@@ -18,7 +18,7 @@ public class TATTest {
 
 	public static void main(String[] args) {
 		/// on créé la fenêtre d'exercice ///
-		final TextFrame frame = new TextFrame("Dialogo - Lecture segmentée"); // le titre
+		final TextFrame frame = new TextFrame("Dialogo - Texte à trous"); // le titre
 
 		/// on initalise la fenêtre avec les paramétres nécessaires à sa création ///
 		frame.init(getTextFromFile("src/main/resources/textes/Amélie la sorcière.txt"), // le texte à afficher
@@ -47,6 +47,9 @@ public class TATTest {
 
 				/// active les contrôles clavier ///
 				controler.setKeyEnabled(true);
+				
+				/// désactive le mode fenêtre fixe ///
+				controler.setModeFixedField(false);
 
 				/// on créé une usine de lecture qui va instancier notre thread personnalisé ///
 				controler.setReaderFactory(new ReaderFactory() {
@@ -113,9 +116,9 @@ public class TATTest {
 					 ******************************/
 
 					// tant que la saisie n'est pas juste
-					/*
-					 * while (!controler.waitForFillFenetreFixe(h)) { controler.doError(h); }
-					 */
+					
+					  //while (!controler.waitForFillFixedFrame(h)) { controler.doError(h); }
+					 
 
 					/**********************************
 					 * EXEMPLE POUR FENETRE NON FIXE

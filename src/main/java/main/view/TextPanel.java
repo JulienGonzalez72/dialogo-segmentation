@@ -220,38 +220,46 @@ public class TextPanel extends JDesktopPane {
 	}
 
 	/**
-	 * Construit les pages
+	 * Construit la mise en page du texte.
 	 */
 	public void buildPages(int startPhrase) {
 		phrasesInFonctionOfPages.clear();
 		editorPane.removeAllHighlights();
+		/// récupère le texte entier à afficher ///
 		String text = textHandler.getShowText();
 		int lastOffset = 0;
 		int page = 1;
 		int lastPhrase = startPhrase - 1;
 		while (lastPhrase < textHandler.getPhrasesCount()) {
 			List<Integer> phrases = new ArrayList<>();
+			/// affiche le texte virtuellement ///
 			editorPane.setText(text);
+			/// hauteur des lignes ///
 			int h = 0;
 			try {
+				/// micro-attente (pour éviter certains bugs de synchronisation ///
 				Thread.sleep(10);
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
 			try {
+				/// on récupère la hauteur des lignes en fonction de la police sélectionnée ///
 				h = editorPane.modelToView(0).height;
 			} catch (BadLocationException e) {
 				e.printStackTrace();
 			} catch (NullPointerException e) {
 			}
+			/// on cherche la position dans le texte du caractère le plus proche du coin inférieur droit de la page ///
 			int off = textHandler.getAbsoluteOffset(lastPhrase,
 					editorPane.viewToModel(new Point((int) (editorPane.getWidth() - Constants.TEXTPANE_MARGING),
 							(int) (editorPane.getHeight() - h))));
+			/// on parcourt chaque caractère jusqu'à cette position ///
 			for (int i = lastOffset; i < off; i++) {
 				int phraseIndex = textHandler.getPhraseIndex(i);
 				if (phraseIndex == -1) {
 					lastOffset = textHandler.getShowText().length();
 				}
+				/// on ajoute le segment s'il rentre en entier ///
 				if (!phrases.contains(phraseIndex) && phraseIndex > lastPhrase
 						&& phraseIndex != textHandler.getPhraseIndex(off)) {
 					lastPhrase = phraseIndex;
@@ -259,6 +267,7 @@ public class TextPanel extends JDesktopPane {
 					lastOffset = i;
 				}
 			}
+			/// enregistre tous les segments trouvés dans une page précise ///
 			if (!phrases.isEmpty()) {
 				phrasesInFonctionOfPages.put(page, phrases);
 				page++;

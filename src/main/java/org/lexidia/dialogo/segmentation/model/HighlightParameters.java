@@ -6,8 +6,28 @@ import org.lexidia.dialogo.segmentation.main.Constants;
 
 public class HighlightParameters {
 
-	public Color rightColor = Constants.RIGHT_COLOR;
-	public Color correctionColor = Constants.WRONG_PHRASE_COLOR;
-	public Color wrongColor = Constants.WRONG_COLOR;
+	private Color rightColor = Constants.RIGHT_COLOR;
+	private Color correctionColor = Constants.WRONG_PHRASE_COLOR;
+	private Color wrongColor = Constants.WRONG_COLOR;
+	
+	public Color getWrongColor() {
+		return wrongColor;
+	}
+	public void setWrongColor(Color wrongColor) {
+		this.wrongColor = wrongColor;
+	}
+	public Color getCorrectionColor() {
+		return correctionColor;
+	}
+	public void setCorrectionColor(Color correctionColor) {
+		this.correctionColor = correctionColor;
+	}
+	public Color getRightColor() {
+		return rightColor;
+	}
+	public void setRightColor(Color rightColor) {
+		this.rightColor = rightColor;
+	}
+	
 	
 }

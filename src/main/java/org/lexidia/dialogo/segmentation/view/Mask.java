@@ -19,51 +19,51 @@ import org.lexidia.dialogo.segmentation.main.Constants;
 
 public class Mask extends JInternalFrame {
 
-	public Object lock = new Object();
-	public int start;
-	public int end;
-	public JTextField jtf;
+	private Object lock = new Object();
+	private int start;
+	private int end;
+	private JTextField jtf;
 
 	/**
-	 * numï¿½ro du trou
+	 * numéro du trou
 	 */
-	public int n;
-	public int phrase;
-	public String hiddenWord;
+	private int n;
+	private int phrase;
+	private String hiddenWord;
 
 	public Mask() {
 	}
 
 	public Mask(int start, int end, JTextField jtf) {
-		this.start = start;
-		this.end = end;
+		this.setStart(start);
+		this.setEnd(end);
 	}
 
 	public void initField(Font font, ActionListener actionListener) {
-		this.jtf = new Field();
-		jtf.addActionListener(actionListener);
-		jtf.setEnabled(false);
-		jtf.setFont(font);
-		jtf.setHorizontalAlignment(SwingConstants.CENTER);
+		this.setJtf(new Field());
+		getJtf().addActionListener(actionListener);
+		getJtf().setEnabled(false);
+		getJtf().setFont(font);
+		getJtf().setHorizontalAlignment(SwingConstants.CENTER);
 		/// dï¿½sactive le hint ï¿½ partir de la premiï¿½re frappe ///
-		jtf.addKeyListener(new KeyAdapter() {
+		getJtf().addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if (jtf instanceof Field) {
-					((Field) jtf).hint(false);
+				if (getJtf() instanceof Field) {
+					((Field) getJtf()).hint(false);
 				}
 			}
 		});
-		add(jtf);
+		add(getJtf());
 	}
 
 	public void activate() {
-		jtf.setEnabled(true);
-		jtf.grabFocus();
+		getJtf().setEnabled(true);
+		getJtf().grabFocus();
 	}
 
 	public void desactivate() {
-		jtf.setEnabled(false);
+		getJtf().setEnabled(false);
 	}
 
 	/**
@@ -71,15 +71,15 @@ public class Mask extends JInternalFrame {
 	 * cachï¿½.
 	 */
 	public boolean correctWord() {
-		return jtf.getText().equals(hiddenWord);
+		return getJtf().getText().equals(getHiddenWord());
 	}
 
 	public String toString() {
-		return hiddenWord + " ( " + start + "/" + end + " )";
+		return getHiddenWord() + " ( " + getStart() + "/" + getEnd() + " )";
 	}
 
 	public void setHint(final long duration) {
-		final Field field = (Field) jtf;
+		final Field field = (Field) getJtf();
 		field.hint(true);
 		Timer timer = new Timer();
 		timer.scheduleAtFixedRate(new TimerTask() {
@@ -96,7 +96,7 @@ public class Mask extends JInternalFrame {
 	}
 
 	public void setHint() {
-		((Field) jtf).hint(true);
+		((Field) getJtf()).hint(true);
 	}
 
 	private class Field extends JTextField {
@@ -110,10 +110,10 @@ public class Mask extends JInternalFrame {
 				((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			}
 
-			if (hint && hiddenWord != null && getText().isEmpty()) {
+			if (hint && getHiddenWord() != null && getText().isEmpty()) {
 				FontMetrics fm = g.getFontMetrics();
 				g.setColor(Constants.HINT_COLOR);
-				g.drawString(hiddenWord, getWidth() / 2 - fm.stringWidth(hiddenWord) / 2, fm.getHeight());
+				g.drawString(getHiddenWord(), getWidth() / 2 - fm.stringWidth(getHiddenWord()) / 2, fm.getHeight());
 			}
 		}
 
@@ -124,7 +124,63 @@ public class Mask extends JInternalFrame {
 	}
 
 	public int getNbCarac() {
-		return hiddenWord.length();
+		return getHiddenWord().length();
+	}
+
+	public Object getLock() {
+		return lock;
+	}
+
+	public void setLock(Object lock) {
+		this.lock = lock;
+	}
+
+	public int getStart() {
+		return start;
+	}
+
+	public void setStart(int start) {
+		this.start = start;
+	}
+
+	public int getEnd() {
+		return end;
+	}
+
+	public void setEnd(int end) {
+		this.end = end;
+	}
+
+	public JTextField getJtf() {
+		return jtf;
+	}
+
+	public void setJtf(JTextField jtf) {
+		this.jtf = jtf;
+	}
+
+	public int getN() {
+		return n;
+	}
+
+	public void setN(int n) {
+		this.n = n;
+	}
+
+	public int getPhrase() {
+		return phrase;
+	}
+
+	public void setPhrase(int phrase) {
+		this.phrase = phrase;
+	}
+
+	public String getHiddenWord() {
+		return hiddenWord;
+	}
+
+	public void setHiddenWord(String hiddenWord) {
+		this.hiddenWord = hiddenWord;
 	}
 
 }

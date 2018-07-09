@@ -26,10 +26,10 @@ public class SegmentedTextPane extends JTextPane {
 	private List<Object> blueHighlightTags = new ArrayList<>();
 	private List<Object> greenHighlightTags = new ArrayList<>();
 
-	public ToolParameters param;
-	public HighlightParameters hParam = new HighlightParameters();
+	private ToolParameters param;
+	private HighlightParameters hParam = new HighlightParameters();
 
-	public String textReel;
+	private String textReel;
 
 	public SegmentedTextPane() {
 		setSelectionColor(new Color(0, 0, 0, 0));
@@ -53,11 +53,11 @@ public class SegmentedTextPane extends JTextPane {
 		try {
 			Object tag = getHighlighter().addHighlight(debut, fin,
 					new DefaultHighlighter.DefaultHighlightPainter(couleur));
-			if (couleur.equals(hParam.wrongColor)) {
+			if (couleur.equals(gethParam().getWrongColor())) {
 				redHighlightTags.add(tag);
-			} else if (couleur.equals(hParam.correctionColor)) {
+			} else if (couleur.equals(gethParam().getCorrectionColor())) {
 				blueHighlightTags.add(tag);
-			} else if (couleur.equals(hParam.rightColor)) {
+			} else if (couleur.equals(gethParam().getRightColor())) {
 				greenHighlightTags.add(tag);
 			}
 		} catch (BadLocationException e) {
@@ -129,19 +129,19 @@ public class SegmentedTextPane extends JTextPane {
 			for (Object object : blueHighlightTags) {
 				Highlight g = (Highlight) object;
 				object = getHighlighter().addHighlight(g.getStartOffset(), g.getEndOffset(),
-						new DefaultHighlighter.DefaultHighlightPainter(hParam.correctionColor));
+						new DefaultHighlighter.DefaultHighlightPainter(gethParam().getCorrectionColor()));
 				newBlue.add(object);
 			}
 			for (Object object : redHighlightTags) {
 				Highlight g = (Highlight) object;
 				object = getHighlighter().addHighlight(g.getStartOffset(), g.getEndOffset(),
-						new DefaultHighlighter.DefaultHighlightPainter(hParam.wrongColor));
+						new DefaultHighlighter.DefaultHighlightPainter(gethParam().getWrongColor()));
 				newRed.add(object);
 			}
 			for (Object object : greenHighlightTags) {
 				Highlight g = (Highlight) object;
 				object = getHighlighter().addHighlight(g.getStartOffset(), g.getEndOffset(),
-						new DefaultHighlighter.DefaultHighlightPainter(hParam.rightColor));
+						new DefaultHighlighter.DefaultHighlightPainter(gethParam().getRightColor()));
 				newGreen.add(object);
 			}
 			enleverSurlignageBleu();
@@ -153,6 +153,31 @@ public class SegmentedTextPane extends JTextPane {
 		} catch (BadLocationException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public ToolParameters getParam() {
+		return param;
+	}
+
+	public ToolParameters setParam(ToolParameters param) {
+		this.param = param;
+		return param;
+	}
+
+	public HighlightParameters gethParam() {
+		return hParam;
+	}
+
+	public void sethParam(HighlightParameters hParam) {
+		this.hParam = hParam;
+	}
+
+	public String getTextReel() {
+		return textReel;
+	}
+
+	public void setTextReel(String textReel) {
+		this.textReel = textReel;
 	}
 
 	/*

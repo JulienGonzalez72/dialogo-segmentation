@@ -34,7 +34,7 @@ public class TATTest {
 
 		/// on exécute les traitements seulement lorsque la fenêtre d'exercice s'est
 		/// bien initilisée ///
-		frame.onInit = new Runnable() {
+		frame.setOnInit(new Runnable() {
 			public void run() {
 				/// on récupère le contrôleur ///
 				final ControllerText controler = new ControllerText(frame);
@@ -61,7 +61,7 @@ public class TATTest {
 				/// on démarre le thread au premier segment ///
 				controler.goTo(0);
 			}
-		};
+		});
 	}
 
 	/**
@@ -77,22 +77,22 @@ public class TATTest {
 
 			/// on répète l'opération jusqu'au dernier segment ou jusqu'a ce que le thread
 			/// s'arrête ///
-			while (N < controler.getPhrasesCount() && running) {
+			while (getN() < getControler().getPhrasesCount() && isRunning()) {
 				/// opération de mise a jour, indispensable au début de chaque segment ///
-				controler.updateCurrentPhrase();
+				getControler().updateCurrentPhrase();
 
 				/// affichage de la page correspondant au segment actuel ///
-				controler.showPage(controler.getPageOfPhrase(N));
+				getControler().showPage(getControler().getPageOfPhrase(getN()));
 
 				/// on enlève le surlignage existant ///
-				controler.removeAllHighlights();
+				getControler().removeAllHighlights();
 
 				// on recupere le numero du trou courant//
 				int h;
-				if (controler.getHolesCount(N) == 0) {
+				if (getControler().getHolesCount(getN()) == 0) {
 					h = -1;
 				} else {
-					h = controler.getFirstHole(N);
+					h = getControler().getFirstHole(getN());
 				}
 				// on recupère le premier trou du segment //
 				int firstHole = h;
@@ -100,16 +100,16 @@ public class TATTest {
 				if (h != -1) {
 					/// valide tous les trous de la page avant le trou actuel ///
 					for (int i = 0; i < h; i++) {
-						if (controler.getPageOf(i) == controler.getPageOf(h)) {
-							controler.fillHole(i);
+						if (getControler().getPageOf(i) == getControler().getPageOf(h)) {
+							getControler().fillHole(i);
 						}
 					}
 				}
 
 				// tant qu'il reste un trou dans le segment
-				while (h > -1 && h < (controler.getHolesCount(N) + firstHole)) {
+				while (h > -1 && h < (getControler().getHolesCount(getN()) + firstHole)) {
 					// on montre uniquement les trous Ã  partir du trou actuel et de cette page
-					controler.showHolesInPage(h);
+					getControler().showHolesInPage(h);
 
 					/*******************************
 					 * EXEMPLE POUR FENETRE FIXE
@@ -125,20 +125,20 @@ public class TATTest {
 					 **********************************/
 
 					// tant que la saisie n'est pas juste
-					while (!controler.waitForFill(h)) {
-						controler.doError(h);
+					while (!getControler().waitForFill(h)) {
+						getControler().doError(h);
 					}
 
 					// remplacer le trou par le mot correspondant et replacer tous les masques
-					controler.replaceMaskByWord(h);
+					getControler().replaceMaskByWord(h);
 					/// passage au trou suivant
 					h++;
 				}
 
 				/// passage au prochain segment ///
-				N++;
+				setN(getN() + 1);
 
-				controler.setHint(-1);
+				getControler().setHint(-1);
 			}
 		}
 	}

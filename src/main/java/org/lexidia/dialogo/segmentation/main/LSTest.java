@@ -34,7 +34,7 @@ public class LSTest {
 
 		/// on execute les traitements seulement lorsque la fenetre d'exercice s'est
 		/// bien initilisee ///
-		frame.onInit = new Runnable() {
+		frame.setOnInit(new Runnable() {
 			public void run() {
 				/// on recupere le contreleur ///
 				final ControllerText controler = new ControllerText(frame);
@@ -58,7 +58,7 @@ public class LSTest {
 				/// on demarre le thread au premier segment ///
 				controler.goTo(0);
 			}
-		};
+		});
 	}
 
 	/**
@@ -73,33 +73,33 @@ public class LSTest {
 		public void run() {
 			/// on repete l'operation jusqu'au dernier segment ou jusqu'a  ce que le thread
 			/// s'arrete ///
-			while (N < controler.getPhrasesCount() && running) {
+			while (getN() < getControler().getPhrasesCount() && isRunning()) {
 				/// operation de mise a jour, indispensable au debut de chaque segment ///
-				controler.updateCurrentPhrase();
+				getControler().updateCurrentPhrase();
 
 				/// affichage de la page correspondant au segment actuel ///
-				controler.showPage(controler.getPageOfPhrase(N));
+				getControler().showPage(getControler().getPageOfPhrase(getN()));
 
 				/// on enleve le surlignage existant ///
-				controler.removeAllHighlights();
+				getControler().removeAllHighlights();
 
 				/// on attend un clic du patient ///
-				while (!controler.waitForClick(N) && running) {
+				while (!getControler().waitForClick(getN()) && isRunning()) {
 					/// on comptabilise une erreur ///
-					controler.countError();
+					getControler().countError();
 
 					/// on surligne le mauvais mot ///
-					controler.highlightWrongWord();
+					getControler().highlightWrongWord();
 
 					/// lorsque le patient n'a plus d'essais restants ///
-					if (!controler.hasMoreTrials()) {
+					if (!getControler().hasMoreTrials()) {
 						/// surlignage du segment actuel ///
-						controler.highlightCorrectionPhrase(N);
+						getControler().highlightCorrectionPhrase(getN());
 					}
 				}
 
 				/// passage au prochain segment ///
-				N++;
+				setN(getN() + 1);
 			}
 		}
 	}

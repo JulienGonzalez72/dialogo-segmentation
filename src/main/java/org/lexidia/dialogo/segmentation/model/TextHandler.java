@@ -18,7 +18,7 @@ public class TextHandler {
 	/**
 	 * Texte formate
 	 */
-	public String txt;
+	private String txt;
 
 	/**
 	 * Liste des segments associes a leurs numéros
@@ -33,7 +33,7 @@ public class TextHandler {
 	/**
 	 * Liste des mots pour chaque segment.
 	 */
-	public Map<Integer, List<Hole>> motsParSegment;
+	private Map<Integer, List<Hole>> motsParSegment;
 
 	/**
 	 * Pour chaque mot, true si il est en texte plein ou false si il est caché.
@@ -43,7 +43,7 @@ public class TextHandler {
 	public TextHandler(String texteOriginal) {
 		this.originText = format(texteOriginal);
 		this.holes = new HashMap<Integer, Hole>();
-		this.motsParSegment = new HashMap<>();
+		this.setMotsParSegment(new HashMap<Integer,List<Hole>>());
 		this.filledWords = new HashMap<>();
 		this.phrases = new HashMap<Integer, String>();
 
@@ -98,7 +98,7 @@ public class TextHandler {
 			return -1;
 		int index = 0;
 		for (int i = 0; i < offset; i++) {
-			if (txt.charAt(i) == '/') {
+			if (getTxt().charAt(i) == '/') {
 				index++;
 			}
 		}
@@ -127,7 +127,7 @@ public class TextHandler {
 			return -1;
 		int index = 0;
 		for (int i = 0; i < offset; i++) {
-			if (txt.charAt(i) == '/') {
+			if (getTxt().charAt(i) == '/') {
 				index++;
 				offset += Constants.PAUSE.length();
 			}
@@ -139,7 +139,7 @@ public class TextHandler {
 	 * Enléve les césures du texte avec césures jusqu'é la position indiquée.
 	 */
 	private String getTextWithCutPauses(int endOffset) {
-		StringBuilder b = new StringBuilder(txt);
+		StringBuilder b = new StringBuilder(getTxt());
 		for (int i = 0; i < b.length(); i++) {
 			if (i >= endOffset) {
 				break;
@@ -268,7 +268,7 @@ public class TextHandler {
 		List<Hole> listStrings = new ArrayList<>();
 		for (int i = 0; i < tab.length; i++) {
 			if (tab[i] == '/') {
-				motsParSegment.put(numeroSegmentCourant, listStrings);
+				getMotsParSegment().put(numeroSegmentCourant, listStrings);
 				listStrings = new ArrayList<>();
 				numeroSegmentCourant++;
 				offset = 0;
@@ -284,7 +284,7 @@ public class TextHandler {
 				motCourant += tab[i];
 			} else if (motCourant != "") {
 				Hole h = new Hole(motCourant);
-				h.startOffset = offset - motCourant.length() + 1;
+				h.setStartOffset(offset - motCourant.length() + 1);
 				offset += h.getShift() + 1;
 				holes.put(numero, h);
 				filledWords.put(numero, false);
@@ -316,9 +316,9 @@ public class TextHandler {
 				r += tab[i];
 			}
 		}
-		txt = r;
+		setTxt(r);
 		phrases.clear();
-		for (String phrase : txt.split(Constants.PAUSE)) {
+		for (String phrase : getTxt().split(Constants.PAUSE)) {
 			if (phrase.length() > 1) {
 				phrases.put(phrases.size(), phrase);
 			}
@@ -327,7 +327,7 @@ public class TextHandler {
 
 	public String getShowText() {
 		String r = "";
-		String temp = txt.replace(Constants.PAUSE, "");
+		String temp = getTxt().replace(Constants.PAUSE, "");
 		char[] tab = temp.toCharArray();
 		boolean dansCrochet = false;
 		for (int i = 0; i < tab.length; i++) {
@@ -351,7 +351,7 @@ public class TextHandler {
 	 * Retourne une liste des mots é trouver par segment.
 	 */
 	public List<String> getHidedWords(int phrase) {
-		return motsParSegment.containsKey(phrase) ? Hole.getHidedWords(motsParSegment.get(phrase))
+		return getMotsParSegment().containsKey(phrase) ? Hole.getHidedWords(getMotsParSegment().get(phrase))
 				: new ArrayList<String>();
 	}
 
@@ -359,7 +359,7 @@ public class TextHandler {
 	 * Retourne le nombre de trous que contient le segment <code>phrase</code>.
 	 */
 	public int getHolesCount(int phrase) {
-		return motsParSegment.containsKey(phrase) ? motsParSegment.get(phrase).size() : 0;
+		return getMotsParSegment().containsKey(phrase) ? getMotsParSegment().get(phrase).size() : 0;
 	}
 
 	public int getHolesCount(int startPhrase, int endPhrase) {
@@ -417,7 +417,7 @@ public class TextHandler {
 	 * Retourne la position de départ du trou indiqué.
 	 */
 	public int getHoleStartOffset(int hole) {
-		return getPhrasesLength(0, getPhraseOf(hole) - 1) + holes.get(hole).startOffset;
+		return getPhrasesLength(0, getPhraseOf(hole) - 1) + holes.get(hole).getStartOffset();
 	}
 
 	public int getHoleEndOffset(int hole) {
@@ -479,7 +479,7 @@ public class TextHandler {
 
 			/// décale les trous du méme segment ///
 			for (int i = hole + 1; i < getHolesCount() && getPhraseOf(i) == getPhraseOf(hole); i++) {
-				holes.get(i).startOffset -= h.getShift();
+				holes.get(i).setStartOffset(holes.get(i).getStartOffset() - h.getShift());
 			}
 
 			updateText();
@@ -494,7 +494,7 @@ public class TextHandler {
 
 			/// décale les trous du méme segment ///
 			for (int i = hole + 1; i < getHolesCount() && getPhraseOf(i) == getPhraseOf(hole); i++) {
-				holes.get(i).startOffset += h.getShift();
+				holes.get(i).setStartOffset(holes.get(i).getStartOffset() + h.getShift());
 			}
 
 			updateText();
@@ -507,11 +507,27 @@ public class TextHandler {
 
 	public void init() {
 		this.holes = new HashMap<Integer, Hole>();
-		this.motsParSegment = new HashMap<>();
+		this.setMotsParSegment(new HashMap<Integer,List<Hole>>());
 		this.filledWords = new HashMap<>();
 		this.phrases = new HashMap<Integer, String>();
 		remplirMots(originText);
 		updateText();
+	}
+
+	public String getTxt() {
+		return txt;
+	}
+
+	public void setTxt(String txt) {
+		this.txt = txt;
+	}
+
+	public Map<Integer, List<Hole>> getMotsParSegment() {
+		return motsParSegment;
+	}
+
+	public void setMotsParSegment(Map<Integer, List<Hole>> motsParSegment) {
+		this.motsParSegment = motsParSegment;
 	}
 
 }

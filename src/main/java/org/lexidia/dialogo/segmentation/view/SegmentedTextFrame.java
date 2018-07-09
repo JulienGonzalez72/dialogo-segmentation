@@ -19,12 +19,12 @@ public class SegmentedTextFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * S'exécute lorsque la fenêtre et son conteneur se sont bien initialisés.
+	 * S'ex�cute lorsque la fen�tre et son conteneur se sont bien initialisés.
 	 */
-	public Runnable onInit;
+	private Runnable onInit;
 
 	private SegmentedTextPanel pan;
-	public boolean preferencesExiste = true;
+	private boolean preferencesExiste = true;
 	private ToolParameters param;
 
 	public SegmentedTextFrame(String titre) {
@@ -52,22 +52,22 @@ public class SegmentedTextFrame extends JFrame {
 			@Override
 			public void componentResized(ComponentEvent e) {
 				/// lors d'un redimensionnement, refait la mise en page ///
-				if (isResizable() && pan.editorPane != null && pan.editorPane.getWidth() > 0
+				if (isResizable() && pan.getEditorPane() != null && pan.getEditorPane().getWidth() > 0
 						&& (lastWidth != getWidth() || lastHeight != getHeight())) {
 					pan.rebuildPages();
 					lastWidth = getWidth();
 					lastHeight = getHeight();
 				}
 
-				SegmentedTextFrame.this.param.panWidth = SegmentedTextFrame.this.getWidth();
-				SegmentedTextFrame.this.param.panHeight = SegmentedTextFrame.this.getHeight();
+				SegmentedTextFrame.this.param.setPanWidth(SegmentedTextFrame.this.getWidth());
+				SegmentedTextFrame.this.param.setPanHeight(SegmentedTextFrame.this.getHeight());
 
 			}
 
 			@Override
 			public void componentMoved(ComponentEvent e) {
-				SegmentedTextFrame.this.param.panX = SegmentedTextFrame.this.getX();
-				SegmentedTextFrame.this.param.panY = SegmentedTextFrame.this.getY();
+				SegmentedTextFrame.this.param.setPanX(SegmentedTextFrame.this.getX());
+				SegmentedTextFrame.this.param.setPanY(SegmentedTextFrame.this.getY());
 			}
 		});
 
@@ -82,7 +82,7 @@ public class SegmentedTextFrame extends JFrame {
 
 	public void setParameters(ToolParameters param) {
 		this.param = param;
-		setBounds(param.panX, param.panY, param.panWidth, param.panHeight);
+		setBounds(param.getPanX(), param.getPanY(), param.getPanWidth(), param.getPanHeight());
 		pan.setParameters(param);
 	}
 
@@ -97,6 +97,22 @@ public class SegmentedTextFrame extends JFrame {
 	
 	public SegmentedTextPanel getPanel() {
 		return pan;
+	}
+
+	public Runnable getOnInit() {
+		return onInit;
+	}
+
+	public void setOnInit(Runnable onInit) {
+		this.onInit = onInit;
+	}
+
+	public boolean isPreferencesExiste() {
+		return preferencesExiste;
+	}
+
+	public void setPreferencesExiste(boolean preferencesExiste) {
+		this.preferencesExiste = preferencesExiste;
 	}
 
 }

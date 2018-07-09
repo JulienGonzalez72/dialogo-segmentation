@@ -27,16 +27,16 @@ public class Pilot {
 	 * Se place sur le segment de numero n et démarre l'algorithme de lecture.
 	 */
 	public void goTo(int n) throws IllegalArgumentException {
-		if (n < p.param.startingPhrase || n > p.textHandler.getPhrasesCount() - 1) {
+		if (n < p.getParam().getStartingPhrase() || n > p.getTextHandler().getPhrasesCount() - 1) {
 			throw new IllegalArgumentException("Numéro de segment invalide : " + n
-					+ " (il doit être compris entre " + p.param.startingPhrase + " et " + p.textHandler.getPhrasesCount() + ")");
+					+ " (il doit être compris entre " + p.getParam().getStartingPhrase() + " et " + p.getTextHandler().getPhrasesCount() + ")");
 		}
 		if (readerFactory == null) {
 			throw new IllegalArgumentException("Usine de lecture non chargée !");
 		}
 
 		/// empêche le redimensionnement de la fenêtre à partir de la première lecture ///
-		p.fenetre.setResizable(false);
+		p.getFenetre().setResizable(false);
 
 		// met a jour la barre de progression
 		updateBar();
@@ -46,15 +46,15 @@ public class Pilot {
 		}
 		
 		activeThread = readerFactory.createReadThread();
-		activeThread.N = phrase = n;
+		activeThread.setN(phrase = n);
 		activeThread.start();
 		
 		started = true;
 	}
 
 	private void updateBar() {
-		p.progressBar.setValue(phrase + 1);
-		p.progressBar.setString((phrase + 1) + "/" + (p.textHandler.getPhrasesCount()));
+		p.getProgressBar().setValue(phrase + 1);
+		p.getProgressBar().setString((phrase + 1) + "/" + (p.getTextHandler().getPhrasesCount()));
 	}
 
 	/**
@@ -103,7 +103,7 @@ public class Pilot {
 	}
 
 	public boolean hasPreviousPhrase() {
-		return phrase > p.param.startingPhrase;
+		return phrase > p.getParam().getStartingPhrase();
 	}
 	
 	public void setReaderFactory(ReaderFactory readerFactory) {
@@ -117,13 +117,13 @@ public class Pilot {
 	public void end() {
 		phrase = 0;
 		updateBar();
-		p.fenetre.setResizable(true);
+		p.getFenetre().setResizable(true);
 		started = false;
 	}
 	
 	public void updateCurrentPhrase() {
 		if (activeThread != null) {
-			phrase = activeThread.N;
+			phrase = activeThread.getN();
 		}
 		/// met à jour la barre de progression ///
 		updateBar();

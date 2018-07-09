@@ -8,28 +8,56 @@ import org.lexidia.dialogo.segmentation.controller.ControllerText;
 public abstract class ReadThread extends Thread {
 
 	/**
-	 * NumÃ©ro du segment courant
+	 * Numéro du segment courant
 	 **/
-	public int N = 1;
+	private int N = 1;
 	
 	/**
-	 * Actions a effectuer Ã  la fin de la lecture du segment
+	 * Actions a effectuer à  la fin de la lecture du segment
 	 **/
-	public List<Runnable> onPhraseEnd = new ArrayList<>();
-	public boolean running = true;
-	public ControllerText controler;
+	private List<Runnable> onPhraseEnd = new ArrayList<>();
+	private boolean running = true;
+	private ControllerText controler;
 
 	public ReadThread(ControllerText controler) {
-		this.controler = controler;
+		this.setControler(controler);
 	}
 
 	public void doStop() {
 		interrupt();
-		running = false;
+		setRunning(false);
 	}
 	
 	public boolean isRunning() {
 		return running && isAlive();
+	}
+
+	public int getN() {
+		return N;
+	}
+
+	public void setN(int n) {
+		N = n;
+	}
+
+	public List<Runnable> getOnPhraseEnd() {
+		return onPhraseEnd;
+	}
+
+	public void setOnPhraseEnd(List<Runnable> onPhraseEnd) {
+		this.onPhraseEnd = onPhraseEnd;
+	}
+
+	public void setRunning(boolean running) {
+		this.running = running;
+	}
+
+	public ControllerText getControler() {
+		return controler;
+	}
+
+	public void setControler(ControllerText controler) {
+		this.controler = controler;
 	}
 
 }

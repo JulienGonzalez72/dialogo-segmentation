@@ -24,7 +24,7 @@ import org.lexidia.dialogo.segmentation.main.Constants;
 
 public class ColorComboBox extends JComboBox<String> {
 
-	public ColorChangeListener colorListener;
+	private ColorChangeListener colorListener;
 
 	private final Map<String, Color> colors;
 	private boolean canPerform = true;
@@ -52,8 +52,8 @@ public class ColorComboBox extends JComboBox<String> {
 				}
 				if (c != null) {
 					updateBackground(c);
-					if (colorListener != null) {
-						colorListener.colorChanged(c);
+					if (getColorListener() != null) {
+						getColorListener().colorChanged(c);
 					}
 				}
 			}
@@ -137,6 +137,14 @@ public class ColorComboBox extends JComboBox<String> {
 	private static Color getForeground(Color bgColor) {
 		float luminosity = bgColor.getRed() + bgColor.getGreen() * 1.5f + bgColor.getBlue();
 		return luminosity < 382.5 ? Color.WHITE : Color.BLACK;
+	}
+
+	public ColorChangeListener getColorListener() {
+		return colorListener;
+	}
+
+	public void setColorListener(ColorChangeListener colorListener) {
+		this.colorListener = colorListener;
 	}
 
 	public interface ColorChangeListener {

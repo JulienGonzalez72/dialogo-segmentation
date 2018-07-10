@@ -29,7 +29,7 @@ public class ControllerText {
 	}
 
 	/**
-	 * Construit les pages é partir du segment de numero spécifié.
+	 * Construit les pages à partir du segment de numero spécifié.
 	 */
 	public void buildPages(int startPhrase) {
 		p.buildPages(startPhrase);
@@ -69,6 +69,13 @@ public class ControllerText {
 	 */
 	public int getPhrasesCount() {
 		return p.getTextHandler().getPhrasesCount();
+	}
+	
+	/**
+	 * Retourne le contenu textuel du segment de numéro indiqué.
+	 */
+	public String getPhraseContent(int phrase) {
+		return p.getTextHandler().getPhrase(phrase);
 	}
 
 	/**

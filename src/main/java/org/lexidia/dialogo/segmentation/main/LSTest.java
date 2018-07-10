@@ -22,7 +22,7 @@ public class LSTest {
 
 		/// on initalise la fenetre avec les parametres necessaires a sa creation ///
 		frame.init(getTextFromFile("src/main/resources/textes/Amélie la sorcière.txt"), // le texte a  afficher
-				0, // le premier segment a  afficher
+				4, // le premier segment a  afficher
 				new Font(Font.MONOSPACED, Font.BOLD, 20), // les caracteristiques de la police (nom, style, taille)
 				100, // la position x de la fenetre
 				100, // la position y de la fenetre
@@ -56,7 +56,7 @@ public class LSTest {
 				});
 
 				/// on demarre le thread au premier segment ///
-				controler.goTo(0);
+				controler.goTo(4);
 			}
 		};
 	}

@@ -21,34 +21,34 @@ public class TextHandler {
 	public String txt;
 
 	/**
-	 * Liste des segments associes a leurs numÃ©ros
+	 * Liste des segments associes a leurs numéros
 	 */
 	private Map<Integer, String> phrases;
 
 	/**
-	 * Liste des mots associes a leurs numÃ©ros de trous.
+	 * Liste des mots associes a leurs numéros de trous.
 	 */
 	private Map<Integer, Hole> holes;
 
 	/**
 	 * Liste des mots pour chaque segment.
 	 */
-	public Map<Integer, List<Hole>> motsParSegment;
+	private Map<Integer, List<Hole>> motsParSegment;
 
 	/**
-	 * Pour chaque mot, true si il est en texte plein ou false si il est cachÃ©.
+	 * Pour chaque mot, true si il est en texte plein ou false si il est caché.
 	 */
 	private Map<Integer, Boolean> filledWords;
-
+	
+	/**
+	 * Si le texte est traité pour des exercices de textes à trou.
+	 */
+	public static boolean holeTreatment = true;
+	
 	public TextHandler(String texteOriginal) {
 		this.originText = format(texteOriginal);
-		this.holes = new HashMap<Integer, Hole>();
-		this.motsParSegment = new HashMap<>();
-		this.filledWords = new HashMap<>();
-		this.phrases = new HashMap<Integer, String>();
-
-		remplirMots(texteOriginal);
-		updateText();
+		
+		init();
 	}
 
 	private static String format(String str) {
@@ -83,7 +83,7 @@ public class TextHandler {
 	}
 
 	/**
-	 * Indique si la cÃ©sure est placÃ©e au bon endroit.
+	 * Indique si la césure est placée au bon endroit.
 	 */
 	public boolean correctPause(int offset) {
 		String b = getTextWithCutPauses(offset);
@@ -91,7 +91,7 @@ public class TextHandler {
 	}
 
 	/**
-	 * Retourne l'indice de la pause Ã© la position indiquÃ©e.
+	 * Retourne l'indice de la pause à la position indiquée.
 	 */
 	public int getPauseIndex(int offset) {
 		if (!correctPause(offset))
@@ -106,21 +106,21 @@ public class TextHandler {
 	}
 
 	/**
-	 * Retourne la position absolue du segment indiquÃ© en paramÃ©tre.
+	 * Retourne la position absolue du segment indiqué en paramétre.
 	 */
 	public int getPauseOffset(int phrase) {
 		return getPhrasesLength(0, phrase);
 	}
 
 	/**
-	 * Retourne la position absolue du dÃ©but du segment passÃ© en paramÃ©tre.
+	 * Retourne la position absolue du début du segment passé en paramétre.
 	 */
 	public int getPhraseOffset(int phrase) {
 		return getPhrasesLength(0, phrase - 1);
 	}
 
 	/**
-	 * Retourne l'indice du segment Ã© la position indiquÃ©e.
+	 * Retourne l'indice du segment é la position indiquée.
 	 */
 	public int getPhraseIndex(int offset) {
 		if (offset >= getShowText().length())
@@ -136,7 +136,7 @@ public class TextHandler {
 	}
 
 	/**
-	 * EnlÃ©ve les cÃ©sures du texte avec cÃ©sures jusqu'Ã© la position indiquÃ©e.
+	 * Enléve les césures du texte avec césures jusqu'é la position indiquée.
 	 */
 	private String getTextWithCutPauses(int endOffset) {
 		StringBuilder b = new StringBuilder(txt);
@@ -171,7 +171,7 @@ public class TextHandler {
 	}
 
 	/**
-	 * Retourne la position du dÃ©but du segment d'indice <i>phrase</i>, relative au
+	 * Retourne la position du début du segment d'indice <i>phrase</i>, relative au
 	 * premier segment <i>startPhrase</i>.
 	 */
 	public int getRelativeStartPhrasePosition(int startPhrase, int phrase) {
@@ -183,8 +183,8 @@ public class TextHandler {
 	}
 
 	/**
-	 * Indique si le mot sur lequel a cliquÃ© l'utilisateur correspond bien Ã© une
-	 * cÃ©sure.
+	 * Indique si le mot sur lequel a cliqué l'utilisateur correspond bien é une
+	 * césure.
 	 */
 	public boolean wordPause(int offset) {
 		int err = 0;
@@ -193,7 +193,7 @@ public class TextHandler {
 			if (correctPause(i)) {
 				return true;
 			}
-			/// Ã©vite le problÃ©me de la ponctuation avec des espaces avant ///
+			/// évite le probléme de la ponctuation avec des espaces avant ///
 			if (i < txt.length() - 2 && isPunctuation(txt.charAt(i + 1))) {
 				err--;
 			}
@@ -211,16 +211,16 @@ public class TextHandler {
 	}
 
 	/**
-	 * Retourne la position du caractÃ©re dans le texte en entier en indiquant la
-	 * position d'un caractÃ¨re cliquÃ© Ã  partir d'un segment indiquÃ©.
+	 * Retourne la position du caractére dans le texte en entier en indiquant la
+	 * position d'un caractÃ¨re cliqué Ã  partir d'un segment indiqué.
 	 */
 	public int getAbsoluteOffset(int startPhrase, int offset) {
 		return getPhrasesLength(0, startPhrase - 1) + offset;
 	}
 
 	/**
-	 * Ceci est l'opÃ©ration inverse, elle permet d'obtenir la position par rapport
-	 * au premier segment affichÃ© avec la position du caractÃ¨re dans tout le texte.
+	 * Ceci est l'opération inverse, elle permet d'obtenir la position par rapport
+	 * au premier segment affiché avec la position du caractÃ¨re dans tout le texte.
 	 */
 	public int getRelativeOffset(int startPhrase, int offset) {
 		return offset - getPhrasesLength(0, startPhrase - 1);
@@ -303,16 +303,21 @@ public class TextHandler {
 		int numeroTrou = 0;
 
 		for (int i = 0; i < tab.length; i++) {
-			if (tab[i] == '[') {
-				dansCrochet = true;
-				i++;
-			} else if (tab[i] == ']') {
-				r += holes.get(numeroTrou);
-				dansCrochet = false;
-				numeroTrou++;
-				i++;
+			if (holeTreatment) {
+				if (tab[i] == '[') {
+					dansCrochet = true;
+					i++;
+				} else if (tab[i] == ']') {
+					r += holes.get(numeroTrou);
+					dansCrochet = false;
+					numeroTrou++;
+					i++;
+				}
+				if (!dansCrochet) {
+					r += tab[i];
+				} 
 			}
-			if (!dansCrochet) {
+			else {
 				r += tab[i];
 			}
 		}
@@ -329,18 +334,16 @@ public class TextHandler {
 		String r = "";
 		String temp = txt.replace(Constants.PAUSE, "");
 		char[] tab = temp.toCharArray();
-		boolean dansCrochet = false;
 		for (int i = 0; i < tab.length; i++) {
-			if (tab[i] == '[') {
-				dansCrochet = true;
-				i++;
-			} else if (tab[i] == ']') {
-				dansCrochet = false;
-				i++;
-			}
-			if (dansCrochet) {
+			if (holeTreatment) {
+				if (tab[i] == '[') {
+					i++;
+				} else if (tab[i] == ']') {
+					i++;
+				}
 				r += tab[i];
-			} else {
+			}
+			else {
 				r += tab[i];
 			}
 		}
@@ -348,7 +351,7 @@ public class TextHandler {
 	}
 
 	/**
-	 * Retourne une liste des mots Ã© trouver par segment.
+	 * Retourne une liste des mots à trouver par segment.
 	 */
 	public List<String> getHidedWords(int phrase) {
 		return motsParSegment.containsKey(phrase) ? Hole.getHidedWords(motsParSegment.get(phrase))
@@ -378,8 +381,8 @@ public class TextHandler {
 	}
 
 	/**
-	 * Retourne <code>true</code> si il y a au moins un autre trou aprÃ©s le trou
-	 * indiquÃ© dans le mÃ©me segment.
+	 * Retourne <code>true</code> si il y a au moins un autre trou aprés le trou
+	 * indiqué dans le méme segment.
 	 */
 	public boolean hasNextHoleInPhrase(int hole) {
 		int p = getPhraseOf(hole);
@@ -390,7 +393,7 @@ public class TextHandler {
 
 	/**
 	 * Retourne <code>true</code> si il y a au moins un autre trou avant le trou
-	 * indiquÃ© dans le mÃªme segment.
+	 * indiqué dans le même segment.
 	 */
 	public boolean hasPreviousHoleInPhrase(int hole) {
 		int p = getPhraseOf(hole);
@@ -400,7 +403,7 @@ public class TextHandler {
 	}
 
 	/**
-	 * Retourne le numÃ©ro de segment correspondant au trou indiquÃ©.
+	 * Retourne le numéro de segment correspondant au trou indiqué.
 	 */
 	public int getPhraseOf(int hole) {
 		int n = 0;
@@ -414,7 +417,7 @@ public class TextHandler {
 	}
 
 	/**
-	 * Retourne la position de dÃ©part du trou indiquÃ©.
+	 * Retourne la position de départ du trou indiqué.
 	 */
 	public int getHoleStartOffset(int hole) {
 		return getPhrasesLength(0, getPhraseOf(hole) - 1) + holes.get(hole).startOffset;
@@ -425,7 +428,7 @@ public class TextHandler {
 	}
 
 	/**
-	 * Retourne le numÃ©ro du dernier trou du segment indiquÃ©.
+	 * Retourne le numéro du dernier trou du segment indiqué.
 	 */
 	public int getLastHole(int phrase) {
 		int r = -1;
@@ -438,8 +441,8 @@ public class TextHandler {
 	}
 
 	/**
-	 * Retourne le numÃ©ro du premier trou Ã© partir du segment indiquÃ©.<br>
-	 * Retourne -1 s'il n'y a plus de trous aprÃ©s.
+	 * Retourne le numéro du premier trou à partir du segment indiqué.<br>
+	 * Retourne -1 s'il n'y a plus de trous aprés.
 	 */
 	public int getFirstHole(int phrase) {
 		for (int i = 0; i < getHolesCount(); i++) {
@@ -451,14 +454,14 @@ public class TextHandler {
 	}
 
 	/**
-	 * Retourne <code>true</code> si le segment indiquÃ© contient au moins un trou.
+	 * Retourne <code>true</code> si le segment indiqué contient au moins un trou.
 	 */
 	public boolean hasHole(int phrase) {
 		return getHolesCount(phrase) > 0;
 	}
 
 	/**
-	 * Retourne le mot associÃ© au trou indiquÃ©.
+	 * Retourne le mot associé au trou indiqué.
 	 */
 	public String getHiddendWord(int hole) {
 		return holes.get(hole).getHidedWord();
@@ -477,7 +480,7 @@ public class TextHandler {
 		if (h.isHidden()) {
 			h.fill();
 
-			/// dÃ©cale les trous du mÃ©me segment ///
+			/// décale les trous du méme segment ///
 			for (int i = hole + 1; i < getHolesCount() && getPhraseOf(i) == getPhraseOf(hole); i++) {
 				holes.get(i).startOffset -= h.getShift();
 			}
@@ -492,7 +495,7 @@ public class TextHandler {
 		if (!h.isHidden()) {
 			h.hide();
 
-			/// dÃ©cale les trous du mÃ©me segment ///
+			/// décale les trous du même segment ///
 			for (int i = hole + 1; i < getHolesCount() && getPhraseOf(i) == getPhraseOf(hole); i++) {
 				holes.get(i).startOffset += h.getShift();
 			}
@@ -510,7 +513,9 @@ public class TextHandler {
 		this.motsParSegment = new HashMap<>();
 		this.filledWords = new HashMap<>();
 		this.phrases = new HashMap<Integer, String>();
-		remplirMots(originText);
+		if (holeTreatment) {
+			remplirMots(originText);
+		}
 		updateText();
 	}
 

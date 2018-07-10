@@ -469,7 +469,7 @@ public class ControllerText {
 	}
 
 	/*
-	 * Méthodes du texte é trou
+	 * Méthodes du texte à trou
 	 */
 
 	/////////////////////////////////////////////

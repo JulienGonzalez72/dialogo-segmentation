@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import org.lexidia.dialogo.segmentation.main.Constants;
+import org.lexidia.dialogo.segmentation.model.TextHandler;
 import org.lexidia.dialogo.segmentation.model.ToolParameters;
 
 public class SegmentedTextFrame extends JFrame {
@@ -19,7 +20,7 @@ public class SegmentedTextFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * S'exÃ©cute lorsque la fenÃªtre et son conteneur se sont bien initialisÃ©s.
+	 * S'exécute lorsque la fenêtre et son conteneur se sont bien initialisés.
 	 */
 	public Runnable onInit;
 
@@ -93,6 +94,16 @@ public class SegmentedTextFrame extends JFrame {
 				pan.init(param);
 			}
 		});
+	}
+	
+	/**
+	 * Active ou désactive le traitement des textes à trou, c'est-à-dire que si cette option est activée (par défaut),
+	 * toutes les expressions entre crochets seront remplacées par des underscore.<br>
+	 * Cette méthode doit être appelée avant d'afficher la fenêtre.
+	 * @param holeTreatment <code>true</code> si l'option de traitement de textes à trou doit être activé, <code>false</code> sinon
+	 */
+	public void setHoleTreatment(boolean holeTreatment) {
+		TextHandler.holeTreatment = holeTreatment;
 	}
 	
 	public SegmentedTextPanel getPanel() {

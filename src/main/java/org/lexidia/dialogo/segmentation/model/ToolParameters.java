@@ -11,23 +11,87 @@ import org.lexidia.dialogo.segmentation.main.Constants;
  */
 public class ToolParameters {
 	
-	public Font font;
-	public int panWidth;
-	public int panHeight;
-	public int panX;
-	public int panY;
-	public int startingPhrase;
-	public String text;
-	public Color bgColor = Constants.BG_COLOR;
+	private Font font;
+	private int panWidth;
+	private int panHeight;
+	private int panX;
+	private int panY;
+	private int startingPhrase;
+	private String text;
+	private Color bgColor = Constants.BG_COLOR;
 	
 	public ToolParameters(Font font, int panWidth, int panHeight, int panX, int panY, int startingPhrase, String text) {
+		this.setFont(font);
+		this.setPanWidth(panWidth);
+		this.setPanHeight(panHeight);
+		this.setPanX(panX);
+		this.setPanY(panY);
+		this.setStartingPhrase(startingPhrase);
+		this.setText(text);
+	}
+
+	public Font getFont() {
+		return font;
+	}
+
+	public void setFont(Font font) {
 		this.font = font;
+	}
+
+	public int getPanWidth() {
+		return panWidth;
+	}
+
+	public void setPanWidth(int panWidth) {
 		this.panWidth = panWidth;
+	}
+
+	public int getPanHeight() {
+		return panHeight;
+	}
+
+	public void setPanHeight(int panHeight) {
 		this.panHeight = panHeight;
+	}
+
+	public int getPanX() {
+		return panX;
+	}
+
+	public void setPanX(int panX) {
 		this.panX = panX;
+	}
+
+	public int getPanY() {
+		return panY;
+	}
+
+	public void setPanY(int panY) {
 		this.panY = panY;
+	}
+
+	public int getStartingPhrase() {
+		return startingPhrase;
+	}
+
+	public void setStartingPhrase(int startingPhrase) {
 		this.startingPhrase = startingPhrase;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
 		this.text = text;
+	}
+
+	public Color getBgColor() {
+		return bgColor;
+	}
+
+	public void setBgColor(Color bgColor) {
+		this.bgColor = bgColor;
 	}
 	
 }

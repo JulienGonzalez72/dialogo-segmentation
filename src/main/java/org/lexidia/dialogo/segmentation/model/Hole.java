@@ -13,9 +13,9 @@ public class Hole {
 	private String word;
 
 	/**
-	 * Position de dï¿½but dans le segment
+	 * Position de début dans le segment
 	 */
-	public int startOffset;
+	private int startOffset;
 
 	public Hole(String word) {
 		this.word = word;
@@ -75,6 +75,14 @@ public class Hole {
 			words.add(holes.get(i).getHidedWord());
 		}
 		return words;
+	}
+
+	public int getStartOffset() {
+		return startOffset;
+	}
+
+	public void setStartOffset(int startOffset) {
+		this.startOffset = startOffset;
 	}
 
 }

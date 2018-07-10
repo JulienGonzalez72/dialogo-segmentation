@@ -7,10 +7,18 @@ import java.awt.event.KeyListener;
 
 public class ControllerMask implements ActionListener, KeyListener {
 
-	public boolean enter;
+	private boolean enter;
 
 	public ControllerMask() {
 
+	}
+	
+	public void setEnter(boolean enter) {
+		this.enter = enter;
+	}
+
+	public boolean isEnter() {
+		return enter;
 	}
 
 	@Override

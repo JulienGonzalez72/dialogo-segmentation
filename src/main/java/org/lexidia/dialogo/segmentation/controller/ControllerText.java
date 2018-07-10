@@ -50,9 +50,9 @@ public class ControllerText {
 	@Deprecated
 	public void play(int phrase) {
 		p.setCursor(Constants.CURSOR_LISTEN);
-		p.player.play(phrase);
+		p.getPlayer().play(phrase);
 		while (true) {
-			if (p.player.isPhraseFinished()) {
+			if (p.getPlayer().isPhraseFinished()) {
 				p.setCursor(Cursor.getDefaultCursor());
 				break;
 			}
@@ -68,7 +68,7 @@ public class ControllerText {
 	 * Retourne le nombre de segments total du texte.
 	 */
 	public int getPhrasesCount() {
-		return p.textHandler.getPhrasesCount();
+		return p.getTextHandler().getPhrasesCount();
 	}
 
 	/**
@@ -77,8 +77,8 @@ public class ControllerText {
 	 */
 	@Deprecated
 	public long getPhraseDuration(int phrase) {
-		p.player.load(phrase);
-		return p.player.getDuration();
+		p.getPlayer().load(phrase);
+		return p.getPlayer().getDuration();
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class ControllerText {
 	 */
 	@Deprecated
 	public long getCurrentPhraseDuration() {
-		return p.player.getDuration();
+		return p.getPlayer().getDuration();
 	}
 
 	/**
@@ -126,16 +126,16 @@ public class ControllerText {
 	 * @highlightWrongWord si le mot est surligné en cas d'erreur.
 	 */
 	public boolean waitForClick(int n) {
-		p.controlerMouse.clicking = false;
+		p.getControlerMouse().setClicking(false);
 		while (true) {
 			Thread.yield();
-			if (p.controlerMouse.clicking) {
+			if (p.getControlerMouse().isClicking()) {
 				/// cherche la position exacte dans le texte ///
-				int offset = p.textHandler.getAbsoluteOffset(p.getFirstShownPhraseIndex(),
-						p.editorPane.getCaretPosition());
+				int offset = p.getTextHandler().getAbsoluteOffset(p.getFirstShownPhraseIndex(),
+						p.getEditorPane().getCaretPosition());
 				/// si le clic est juste ///
-				if (p.textHandler.wordPause(offset)
-						&& p.textHandler.getPhraseIndex(offset) == pilot.getCurrentPhraseIndex()) {
+				if (p.getTextHandler().wordPause(offset)
+						&& p.getTextHandler().getPhraseIndex(offset) == pilot.getCurrentPhraseIndex()) {
 					return true;
 				}
 				/// si le clic est faux ///
@@ -150,21 +150,21 @@ public class ControllerText {
 	 * Colorie le segment numero n avec la couleur de réussite.
 	 */
 	public void highlightPhrase(int n) {
-		highlightPhrase(p.editorPane.hParam.rightColor, n);
+		highlightPhrase(p.getEditorPane().gethParam().getRightColor(), n);
 	}
 
 	/**
 	 * Colorie le segment numero n avec la couleur de correction.
 	 */
 	public void highlightCorrectionPhrase(int n) {
-		highlightPhrase(p.editorPane.hParam.correctionColor, n);
+		highlightPhrase(p.getEditorPane().gethParam().getCorrectionColor(), n);
 	}
 
 	private void highlightPhrase(Color c, int n) {
-		if (p.textHandler.getPhrase(n) != null) {
-			int debutRelatifSegment = p.textHandler.getRelativeStartPhrasePosition(p.getFirstShownPhraseIndex(), n);
-			int finRelativeSegment = debutRelatifSegment + p.textHandler.getPhrase(n).length();
-			p.editorPane.surlignerPhrase(debutRelatifSegment, finRelativeSegment, c);
+		if (p.getTextHandler().getPhrase(n) != null) {
+			int debutRelatifSegment = p.getTextHandler().getRelativeStartPhrasePosition(p.getFirstShownPhraseIndex(), n);
+			int finRelativeSegment = debutRelatifSegment + p.getTextHandler().getPhrase(n).length();
+			p.getEditorPane().surlignerPhrase(debutRelatifSegment, finRelativeSegment, c);
 		}
 	}
 
@@ -172,9 +172,9 @@ public class ControllerText {
 	 * Supprime tout le surlignage qui se trouve sur le segment <i>n</i>.<br/>
 	 */
 	public void removeHighlightPhrase(int n) {
-		int debutRelatifSegment = p.textHandler.getRelativeStartPhrasePosition(p.getFirstShownPhraseIndex(), n);
-		int finRelativeSegment = debutRelatifSegment + p.textHandler.getPhrase(n).length();
-		p.editorPane.removeHighlight(debutRelatifSegment, finRelativeSegment);
+		int debutRelatifSegment = p.getTextHandler().getRelativeStartPhrasePosition(p.getFirstShownPhraseIndex(), n);
+		int finRelativeSegment = debutRelatifSegment + p.getTextHandler().getPhrase(n).length();
+		p.getEditorPane().removeHighlight(debutRelatifSegment, finRelativeSegment);
 	}
 
 	/**
@@ -183,8 +183,8 @@ public class ControllerText {
 	 */
 	@Deprecated
 	public void stopAll() {
-		p.player.stop();
-		p.editorPane.removeAllHighlights();
+		p.getPlayer().stop();
+		p.getEditorPane().removeAllHighlights();
 	}
 
 	/**
@@ -193,21 +193,21 @@ public class ControllerText {
 	 */
 	@Deprecated
 	public void loadSound(int phrase) {
-		p.player.load(phrase);
+		p.getPlayer().load(phrase);
 	}
 
 	/**
 	 * Enlève tout le surlignage d'erreur.
 	 */
 	public void removeWrongHighlights() {
-		p.editorPane.enleverSurlignageRouge();
+		p.getEditorPane().enleverSurlignageRouge();
 	}
 
 	/**
 	 * Enlève tout le surlignage présent.
 	 */
 	public void removeAllHighlights() {
-		p.editorPane.removeAllHighlights();
+		p.getEditorPane().removeAllHighlights();
 	}
 
 	/**
@@ -215,8 +215,8 @@ public class ControllerText {
 	 */
 	public int getPageOfPhrase(int n) {
 		int numeroPage = -1;
-		for (Integer i : p.phrasesInFonctionOfPages.keySet()) {
-			if (p.phrasesInFonctionOfPages.get(i).contains(n)) {
+		for (Integer i : p.getPhrasesInFonctionOfPages().keySet()) {
+			if (p.getPhrasesInFonctionOfPages().get(i).contains(n)) {
 				numeroPage = i;
 				break;
 			}
@@ -233,7 +233,7 @@ public class ControllerText {
 
 	@Deprecated
 	public void incrementerErreurSegment() {
-		p.nbErreursParSegment++;
+		p.setNbErreursParSegment(p.getNbErreursParSegment() + 1);
 	}
 
 	/**
@@ -242,24 +242,24 @@ public class ControllerText {
 	 */
 	public void highlightWrongWord() {
 		removeWrongHighlights();
-		int clickOffset = p.controlerMouse.lastTextOffset;
-		int startOffset = p.textHandler.getRelativeOffset(p.getFirstShownPhraseIndex(),
-				p.textHandler.startWordPosition(clickOffset) + 1);
-		int endOffset = p.textHandler.getRelativeOffset(p.getFirstShownPhraseIndex(),
-				p.textHandler.endWordPosition(clickOffset));
-		highlight(p.editorPane.hParam.wrongColor, startOffset, endOffset);
+		int clickOffset = p.getControlerMouse().getLastTextOffset();
+		int startOffset = p.getTextHandler().getRelativeOffset(p.getFirstShownPhraseIndex(),
+				p.getTextHandler().startWordPosition(clickOffset) + 1);
+		int endOffset = p.getTextHandler().getRelativeOffset(p.getFirstShownPhraseIndex(),
+				p.getTextHandler().endWordPosition(clickOffset));
+		highlight(p.getEditorPane().gethParam().getWrongColor(), startOffset, endOffset);
 	}
 
 	private void highlight(Color c, int start, int end) {
-		p.editorPane.surlignerPhrase(start, end, c);
+		p.getEditorPane().surlignerPhrase(start, end, c);
 	}
 
 	/**
 	 * Comptabilise une erreur.
 	 */
 	public void countError() {
-		p.nbErreursSegmentCourant++;
-		p.nbErreurs++;
+		p.setNbErreursSegmentCourant(p.getNbErreursSegmentCourant() + 1);
+		p.setNbErreurs(p.getNbErreurs() + 1);
 	}
 
 	/**
@@ -267,7 +267,7 @@ public class ControllerText {
 	 * maximal d'erreurs tolérés par segment).
 	 */
 	public void countPhraseError() {
-		p.nbErreursParSegment++;
+		p.setNbErreursParSegment(p.getNbErreursParSegment() + 1);
 	}
 
 	/**
@@ -275,14 +275,14 @@ public class ControllerText {
 	 * segment courant.
 	 */
 	public boolean hasMoreTrials() {
-		return p.nbErreursSegmentCourant < p.rParam.toleratedErrors + 1;
+		return p.getNbErreursSegmentCourant() < p.getrParam().getToleratedErrors() + 1;
 	}
 
 	/**
 	 * Modifie le nombre d'essais tolérés par segment.
 	 */
 	public void setPhraseTrials(int trials) {
-		p.rParam.toleratedErrors = trials;
+		p.getrParam().setToleratedErrors(trials);
 	}
 
 	/**
@@ -296,10 +296,10 @@ public class ControllerText {
 	public void showReport(boolean showErrors, boolean showPhraseErrors) {
 		String message = "<html>L'exercice est terminé.";
 		if (showErrors) {
-			message += "<br/>Le patient a fait " + p.nbErreurs + (p.nbErreurs > 1 ? "s" : "") + ".";
+			message += "<br/>Le patient a fait " + p.getNbErreurs() + (p.getNbErreurs() > 1 ? "s" : "") + ".";
 		}
 		if (showPhraseErrors) {
-			message += "<br/>Le patient a fait " + p.nbErreurs + (p.nbErreurs > 1 ? "s" : "") + " de segment.";
+			message += "<br/>Le patient a fait " + p.getNbErreurs() + (p.getNbErreurs() > 1 ? "s" : "") + " de segment.";
 		}
 		message += "</html>";
 		p.afficherCompteRendu(message);
@@ -361,7 +361,7 @@ public class ControllerText {
 		if (pilot.hasStarted()) {
 			throw new IllegalArgumentException("Police inchangeable après le démarrage de l'exercice !");
 		}
-		p.editorPane.setFont(f);
+		p.getEditorPane().setFont(f);
 	}
 
 	/**
@@ -371,7 +371,7 @@ public class ControllerText {
 	 *             si l'exercice a déjé commencé.
 	 */
 	public void setFontSize(float fontSize) throws IllegalArgumentException {
-		setFont(p.editorPane.getFont().deriveFont(fontSize));
+		setFont(p.getEditorPane().getFont().deriveFont(fontSize));
 	}
 
 	/**
@@ -397,18 +397,18 @@ public class ControllerText {
 	 *            couleur de surlignage pour les segments corrigés
 	 */
 	public void setHighlightColors(Color rightColor, Color wrongColor, Color correctionColor) {
-		p.editorPane.hParam.rightColor = rightColor;
-		p.editorPane.hParam.wrongColor = wrongColor;
-		p.editorPane.hParam.correctionColor = correctionColor;
-		p.editorPane.updateColors();
+		p.getEditorPane().gethParam().setRightColor(rightColor);
+		p.getEditorPane().gethParam().setWrongColor(wrongColor);
+		p.getEditorPane().gethParam().setCorrectionColor(correctionColor);
+		p.getEditorPane().updateColors();
 	}
 
 	/**
 	 * Change la couleur de fond de l'exercice.
 	 */
 	public void setBackgroundColor(Color color) {
-		p.param.bgColor = color;
-		p.editorPane.setBackground(color);
+		p.getParam().setBgColor(color);
+		p.getEditorPane().setBackground(color);
 	}
 
 	/**
@@ -433,7 +433,7 @@ public class ControllerText {
 	 */
 	public void updateCurrentPhrase() {
 		pilot.updateCurrentPhrase();
-		p.nbErreursSegmentCourant = 0;
+		p.setNbErreursSegmentCourant(0);
 	}
 
 	/**
@@ -444,7 +444,7 @@ public class ControllerText {
 		/// ajoute un contrôle clavier ///
 		if (keyEnabled && p.getKeyListeners().length == 0) {
 			ControllerKey controlerKey = new ControllerKey(pilot);
-			p.editorPane.addKeyListener(controlerKey);
+			p.getEditorPane().addKeyListener(controlerKey);
 		}
 		/// retire les contrôles clavier ///
 		else if (!keyEnabled && p.getKeyListeners().length >= 1) {
@@ -458,14 +458,14 @@ public class ControllerText {
 	 * Retourne le rectangle du panneau de l'exercice
 	 */
 	public Rectangle getBounds() {
-		return p.editorPane.getBounds();
+		return p.getEditorPane().getBounds();
 	}
 
 	/**
 	 * Gèle la fenetre si b est <code>true</code>, la dégèle si b est <code>false</code>
 	 */
 	public void freeze(boolean b) {
-		p.fenetre.setResizable(!b);
+		p.getFenetre().setResizable(!b);
 	}
 
 	/*
@@ -482,14 +482,14 @@ public class ControllerText {
 	 * Retourne true si le trou est le premier de son segment.
 	 */
 	public boolean isFirstInPhrase(int h) {
-		return !p.textHandler.hasPreviousHoleInPhrase(h);
+		return !p.getTextHandler().hasPreviousHoleInPhrase(h);
 	}
 
 	/**
 	 * Retourne false si le trou est le dernier de son segment
 	 */
 	public boolean isLastInPhrase(int h) {
-		return !p.textHandler.hasNextHoleInPhrase(h);
+		return !p.getTextHandler().hasNextHoleInPhrase(h);
 	}
 
 	/**
@@ -510,7 +510,7 @@ public class ControllerText {
 		// réinitialisation des trous
 		removeAllMasks();
 		// pour tous les trous
-		for (int i = 0; i < p.textHandler.getHolesCount(); i++) {
+		for (int i = 0; i < p.getTextHandler().getHolesCount(); i++) {
 			// si ce trou est dans la meme page que h
 			if (getPageOf(i) == page) {
 				// si ce trou est après le trou h ou est le trou h
@@ -530,10 +530,10 @@ public class ControllerText {
 		/// on cache le trou avant de montrer la fenêtre ///
 		hideHole(h);
 
-		int startPhrase = p.phrasesInFonctionOfPages.get(getPageOf(h)).get(0);
+		int startPhrase = p.getPhrasesInFonctionOfPages().get(getPageOf(h)).get(0);
 
-		int start = p.textHandler.getRelativeOffset(startPhrase, p.textHandler.getHoleStartOffset(h));
-		int end = p.textHandler.getRelativeOffset(startPhrase, p.textHandler.getHoleEndOffset(h));
+		int start = p.getTextHandler().getRelativeOffset(startPhrase, p.getTextHandler().getHoleStartOffset(h));
+		int end = p.getTextHandler().getRelativeOffset(startPhrase, p.getTextHandler().getHoleEndOffset(h));
 
 		try {
 			p.showFrame(start, end, h);
@@ -553,21 +553,21 @@ public class ControllerText {
 	 * Retourne le segment correspondant au trou h
 	 */
 	public int getPhraseOf(int h) {
-		return p.textHandler.getPhraseOf(h);
+		return p.getTextHandler().getPhraseOf(h);
 	}
 
 	/**
 	 * Retourne le nombre de trous associï¿½s au segment n.
 	 */
 	public int getHolesCount(int n) {
-		return p.textHandler.getHolesCount(n);
+		return p.getTextHandler().getHolesCount(n);
 	}
 
 	/**
 	 * Retourne le nombre de trous total dans le texte.
 	 */
 	public int getHolesCount() {
-		return p.textHandler.getHolesCount();
+		return p.getTextHandler().getHolesCount();
 	}
 
 	/**
@@ -578,7 +578,7 @@ public class ControllerText {
 		if (value == -1) {
 			value = 99999;
 		}
-		p.rParam.hintDuration = value;
+		p.getrParam().setHintDuration(value);
 	}
 
 	/**
@@ -591,11 +591,11 @@ public class ControllerText {
 			return true;
 		m.activate();
 		hint(m);
-		p.controlerMask.enter = false;
+		p.getControlerMask().setEnter(false);
 		while (true) {
 			Thread.yield();
-			if (p.controlerMask.enter) {
-				return m != null && m.n == h ? m.correctWord() : true;
+			if (p.getControlerMask().isEnter()) {
+				return m != null && m.getN() == h ? m.correctWord() : true;
 			}
 		}
 	}
@@ -620,10 +620,10 @@ public class ControllerText {
 			}
 
 			Thread.yield();
-			if (p.controlerMask.enter) {
-				p.controlerMask.enter = false;
+			if (p.getControlerMask().isEnter()) {
+				p.getControlerMask().setEnter(false);
 
-				if (m.jtf.getText().equals(m.hiddenWord)) {
+				if (m.getJtf().getText().equals(m.getHiddenWord())) {
 					desactivateFixedFrame();
 					return true;
 				} else {
@@ -642,7 +642,7 @@ public class ControllerText {
 		 * if (p.param.timeToShowWord == -1) { m.setHint(); } else {
 		 * m.setHint(p.param.timeToShowWord * m.getNbCarac()); }
 		 */
-		m.setHint(p.rParam.hintDuration * m.getNbCarac());
+		m.setHint(p.getrParam().getHintDuration() * m.getNbCarac());
 	}
 
 	/**
@@ -663,23 +663,23 @@ public class ControllerText {
 	 * Colore le trou h en couleur c
 	 */
 	public void colorFixedFrame(int h, Color c) {
-		getMask(h).jtf.setBackground(c);
+		getMask(h).getJtf().setBackground(c);
 	}
 
 	/**
 	 * Retourne la couleur de fond de l'exercice
 	 */
 	public Color getColorBackground() {
-		return p.editorPane.getBackground();
+		return p.getEditorPane().getBackground();
 	}
 
 	/**
 	 * Retourne le masque du trou h
 	 */
 	private Mask getMask(int h) {
-		for (int i = 0; i < p.maskFrame.size(); i++) {
-			if (p.maskFrame.get(i).n == h) {
-				return p.maskFrame.get(i);
+		for (int i = 0; i < p.getMaskFrame().size(); i++) {
+			if (p.getMaskFrame().get(i).getN() == h) {
+				return p.getMaskFrame().get(i);
 			}
 		}
 		return null;
@@ -693,21 +693,21 @@ public class ControllerText {
 		Mask frame = new Mask();
 		((javax.swing.plaf.basic.BasicInternalFrameUI) frame.getUI()).setNorthPane(null);
 		frame.setBorder(null);
-		frame.setBounds(0, 0, p.panelFixedFrame.getWidth(), p.panelFixedFrame.getHeight());
+		frame.setBounds(0, 0, p.getPanelFixedFrame().getWidth(), p.getPanelFixedFrame().getHeight());
 
-		p.panelFixedFrame.add(frame);
+		p.getPanelFixedFrame().add(frame);
 
-		Font f = new Font(p.editorPane.getFont().getFontName(), p.editorPane.getFont().getStyle(),
-				p.editorPane.getFont().getSize() * 7 / 10);
+		Font f = new Font(p.getEditorPane().getFont().getFontName(), p.getEditorPane().getFont().getStyle(),
+				p.getEditorPane().getFont().getSize() * 7 / 10);
 
-		frame.initField(f, p.controlerMask);
-		frame.n = h;
-		frame.hiddenWord = p.textHandler.getHiddendWord(h);
+		frame.initField(f, p.getControlerMask());
+		frame.setN(h);
+		frame.setHiddenWord(p.getTextHandler().getHiddendWord(h));
 		frame.toFront();
 		frame.setVisible(true);
 		frame.activate();
 
-		p.fixedFrame = frame;
+		p.setFixedFrame(frame);
 
 	}
 
@@ -716,7 +716,7 @@ public class ControllerText {
 	 * si <code>false</code>
 	 */
 	public void setModeFixedField(boolean b) {
-		p.rParam.fixedField = b;
+		p.getrParam().setFixedField(b);
 	}
 
 	/**
@@ -728,11 +728,11 @@ public class ControllerText {
 		blink(Constants.ALERT_COLOR);
 		countError();
 		// on reaffiche le hint
-		if (p.rParam.fixedField) {
-			getFixedFrame().jtf.setText("");
+		if (p.getrParam().isFixedField()) {
+			getFixedFrame().getJtf().setText("");
 			hint(getFixedFrame());
 		} else {
-			getMask(h).jtf.setText("");
+			getMask(h).getJtf().setText("");
 			hint(getMask(h));
 		}
 		/*
@@ -759,7 +759,7 @@ public class ControllerText {
 	 * Retourne la fenêtre fixe
 	 */
 	private Mask getFixedFrame() {
-		return p.fixedFrame;
+		return p.getFixedFrame();
 	}
 
 	/**
@@ -777,8 +777,8 @@ public class ControllerText {
 	 * Remplace le trou h par le bon mot.
 	 */
 	public void fillHole(int h) {
-		if (p.textHandler.isHidden(h)) {
-			p.textHandler.fillHole(h);
+		if (p.getTextHandler().isHidden(h)) {
+			p.getTextHandler().fillHole(h);
 			p.updateText();
 		}
 	}
@@ -787,8 +787,8 @@ public class ControllerText {
 	 * Cache le trou h.
 	 */
 	public void hideHole(int h) {
-		if (!p.textHandler.isHidden(h)) {
-			p.textHandler.hideHole(h);
+		if (!p.getTextHandler().isHidden(h)) {
+			p.getTextHandler().hideHole(h);
 			p.updateText();
 			p.replaceAllMask();
 		}
@@ -798,7 +798,7 @@ public class ControllerText {
 	 * Retourne <code>true</code> si le segment n contient au moins un trou.
 	 */
 	public boolean hasHole(int n) {
-		return p.textHandler.hasHole(n);
+		return p.getTextHandler().hasHole(n);
 	}
 
 	/**
@@ -806,7 +806,7 @@ public class ControllerText {
 	 * Retourne -1 s'il n'y a aucun trou après le segment.
 	 */
 	public int getFirstHole(int n) {
-		return p.textHandler.getFirstHole(n);
+		return p.getTextHandler().getFirstHole(n);
 	}
 
 	/**

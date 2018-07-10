@@ -41,27 +41,27 @@ public class Player /*extends AbstractDelegatingBasicController<BasicController>
 	 * Si un temps de pause s'effectue aprés l'enregistrement (valeur par défaut =
 	 * <code>false</code>).
 	 */
-	public boolean waitAfter = false;
+	private boolean waitAfter = false;
 
 	/**
 	 * Ecouteurs qui s'enclenchent lorsque un segment a finis d'étre prononcé.
 	 */
-	public List<Runnable> onPhraseEnd = new ArrayList<>();
-	public List<Runnable> onNextPhrase = new ArrayList<>();
-	public List<Runnable> onPreviousPhrase = new ArrayList<>();
+	private List<Runnable> onPhraseEnd = new ArrayList<>();
+	private List<Runnable> onNextPhrase = new ArrayList<>();
+	private List<Runnable> onPreviousPhrase = new ArrayList<>();
 	/**
 	 * Ecouteurs qui s'enclenchent lorsque l'enregistrement est lancé.
 	 */
-	public List<Runnable> onPlay = new ArrayList<>();
+	private List<Runnable> onPlay = new ArrayList<>();
 	/**
 	 * Ecouteurs qui s'enclenchent lorsque le temps de pause de
 	 * l'enregistrement se termine.
 	 */
-	public List<Runnable> onBlockEnd = new ArrayList<>();
+	private List<Runnable> onBlockEnd = new ArrayList<>();
 	/**
 	 * Ecouteurs qui se déclenchent lorsque l'utilisateur est mis en attente pour répéter.
 	 */
-	public List<Runnable> onWait = new ArrayList<>();
+	private List<Runnable> onWait = new ArrayList<>();
 	
 	//private Parametres param;
 	
@@ -148,7 +148,7 @@ public class Player /*extends AbstractDelegatingBasicController<BasicController>
 		//playTask = new PlayTask();
 		//timer.scheduleAtFixedRate(playTask, 0, 20);
 		playing = true;
-		for (Runnable r : onPlay) {
+		for (Runnable r : getOnPlay()) {
 			r.run();
 		}
 	}
@@ -159,10 +159,10 @@ public class Player /*extends AbstractDelegatingBasicController<BasicController>
 			if (isPhraseFinished()) {
 				stop();
 				lastPosition = 0;
-				for (Runnable r : onPhraseEnd) {
+				for (Runnable r : getOnPhraseEnd()) {
 					r.run();
 				}
-				if (waitAfter) {
+				if (isWaitAfter()) {
 					doWait();
 				}
 			}
@@ -185,7 +185,7 @@ public class Player /*extends AbstractDelegatingBasicController<BasicController>
 		}
 		timer = new Timer();
 		timer.scheduleAtFixedRate(waitTask, 0, 20);
-		for (Runnable r : onWait) {
+		for (Runnable r : getOnWait()) {
 			r.run();
 		}
 	}
@@ -201,7 +201,7 @@ public class Player /*extends AbstractDelegatingBasicController<BasicController>
 					/* param.tempsPauseEnPourcentageDuTempsDeLecture / 100.*/) {
 				blocked = false;
 				cancel();
-				for (Runnable r : onBlockEnd) {
+				for (Runnable r : getOnBlockEnd()) {
 					r.run();
 				}
 			}
@@ -270,7 +270,7 @@ public class Player /*extends AbstractDelegatingBasicController<BasicController>
 	 * Passe au segment suivant et démarre le lecteur.
 	 */
 	public void nextPhrase() {
-		for (Runnable r : onNextPhrase) {
+		for (Runnable r : getOnNextPhrase()) {
 			r.run();
 		}
 		currentPhrase++;
@@ -288,7 +288,7 @@ public class Player /*extends AbstractDelegatingBasicController<BasicController>
 	 * Retourne au segment prédédent et démarre le lecteur.
 	 */
 	public void previousPhrase() {
-		for (Runnable r : onPreviousPhrase) {
+		for (Runnable r : getOnPreviousPhrase()) {
 			r.run();
 		}
 		currentPhrase--;
@@ -363,6 +363,62 @@ public class Player /*extends AbstractDelegatingBasicController<BasicController>
 				throw new IOException(path + " (Le fichier spécifié est introuvable)");
 			}
 		}
+	}
+
+	public boolean isWaitAfter() {
+		return waitAfter;
+	}
+
+	public void setWaitAfter(boolean waitAfter) {
+		this.waitAfter = waitAfter;
+	}
+
+	public List<Runnable> getOnPhraseEnd() {
+		return onPhraseEnd;
+	}
+
+	public void setOnPhraseEnd(List<Runnable> onPhraseEnd) {
+		this.onPhraseEnd = onPhraseEnd;
+	}
+
+	public List<Runnable> getOnNextPhrase() {
+		return onNextPhrase;
+	}
+
+	public void setOnNextPhrase(List<Runnable> onNextPhrase) {
+		this.onNextPhrase = onNextPhrase;
+	}
+
+	public List<Runnable> getOnPreviousPhrase() {
+		return onPreviousPhrase;
+	}
+
+	public void setOnPreviousPhrase(List<Runnable> onPreviousPhrase) {
+		this.onPreviousPhrase = onPreviousPhrase;
+	}
+
+	public List<Runnable> getOnPlay() {
+		return onPlay;
+	}
+
+	public void setOnPlay(List<Runnable> onPlay) {
+		this.onPlay = onPlay;
+	}
+
+	public List<Runnable> getOnBlockEnd() {
+		return onBlockEnd;
+	}
+
+	public void setOnBlockEnd(List<Runnable> onBlockEnd) {
+		this.onBlockEnd = onBlockEnd;
+	}
+
+	public List<Runnable> getOnWait() {
+		return onWait;
+	}
+
+	public void setOnWait(List<Runnable> onWait) {
+		this.onWait = onWait;
 	}
 
 	/*@Override

@@ -31,6 +31,8 @@ import javax.swing.JProgressBar;
 import javax.swing.UIManager;
 import javax.swing.text.BadLocationException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.lexidia.dialogo.segmentation.controller.ControllerMask;
 import org.lexidia.dialogo.segmentation.controller.ControllerMouse;
 import org.lexidia.dialogo.segmentation.main.Constants;
@@ -89,8 +91,12 @@ public class SegmentedTextPanel extends JDesktopPane {
 	private JPanel panelSud = new JPanel();
 	private JDesktopPane panelFixedFrame = null;
 	private Mask fixedFrame;
+	
+	//object used to debug
+	private static final Log log = LogFactory.getLog(SegmentedTextPanel.class);
 
 	public SegmentedTextPanel(SegmentedTextFrame fenetre) throws IOException {
+		
 		setControlerMask(new ControllerMask());
 		this.setFenetre(fenetre);
 		this.setLayout(new BorderLayout());
@@ -219,10 +225,13 @@ public class SegmentedTextPanel extends JDesktopPane {
 		}
 	}
 
+
+	
 	/**
 	 * Construit la mise en page du texte.
 	 */
 	public void buildPages(int startPhrase) {
+		log.debug("Start of buildPages");
 		getPhrasesInFonctionOfPages().clear();
 		getEditorPane().removeAllHighlights();
 		/// récupère le texte entier à afficher ///
@@ -240,14 +249,15 @@ public class SegmentedTextPanel extends JDesktopPane {
 				/// micro-attente (pour éviter certains bugs de synchronisation ///
 				Thread.sleep(10);
 			} catch (InterruptedException e1) {
-				e1.printStackTrace();
+				log.error("Error with Thread.sleep", e1);
 			}
 			try {
 				/// on récupère la hauteur des lignes en fonction de la police sélectionnée ///
 				h = getEditorPane().modelToView(0).height;
 			} catch (BadLocationException e) {
-				e.printStackTrace();
+				log.error("Error with model to view", e);
 			} catch (NullPointerException e) {
+				log.error("Error with model to view or getEditorPane", e);
 			}
 			/// on cherche la position dans le texte du caractère le plus proche du coin inférieur droit de la page ///
 			int off = getTextHandler().getAbsoluteOffset(lastPhrase,
@@ -283,6 +293,7 @@ public class SegmentedTextPanel extends JDesktopPane {
 				text = newText;
 			}
 		}
+		log.debug("End of buildPages");
 	}
 
 	public void showPage(int page) {

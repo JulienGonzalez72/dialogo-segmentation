@@ -21,7 +21,7 @@ public class LSTest {
 		final SegmentedTextFrame frame = new SegmentedTextFrame("Dialogo - Lecture segmentée"); // le titre
 
 		/// on initalise la fenetre avec les parametres necessaires a sa creation ///
-		frame.init(getTextFromFile("src/main/resources/textes/Amélie la sorcière.txt"), // le texte a  afficher
+		frame.init(getTextFromFile("ressources/textes/Amélie la sorcière.txt"), // le texte a  afficher
 				4, // le premier segment a  afficher
 				new Font(Font.MONOSPACED, Font.BOLD, 20), // les caracteristiques de la police (nom, style, taille)
 				100, // la position x de la fenetre
@@ -45,7 +45,7 @@ public class LSTest {
 				/// initialisation du nombre d'essais par segment ///
 				controler.setPhraseTrials(3);
 
-				/// active les contrÃ´les clavier ///
+				/// active les contrôles clavier ///
 				controler.setKeyEnabled(true);
 
 				/// on cree une usine de lecture qui va instancier notre thread personnalise ///

@@ -39,6 +39,8 @@ import org.lexidia.dialogo.segmentation.model.ReadingParameters;
 import org.lexidia.dialogo.segmentation.model.TextHandler;
 import org.lexidia.dialogo.segmentation.model.ToolParameters;
 import org.lexidia.dialogo.segmentation.reading.ReadThread;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SegmentedTextPanel extends JDesktopPane {
 
@@ -91,8 +93,8 @@ public class SegmentedTextPanel extends JDesktopPane {
 	private Mask fixedFrame;
 	
 	//object used to debug
-	private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(SegmentedTextPanel.class);
 
+	private static final Logger log = LoggerFactory.getLogger(SegmentedTextPanel.class);
 
 	public SegmentedTextPanel(SegmentedTextFrame fenetre) throws IOException {
 		

@@ -1,6 +1,6 @@
 package org.lexidia.dialogo.segmentation.main;
 
-import java.awt.Font;
+/*import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
@@ -11,7 +11,7 @@ import javax.swing.SwingUtilities;
 
 import org.lexidia.dialogo.segmentation.view.FenetreParametre;
 
-import com.alee.laf.WebLookAndFeel;
+import com.alee.laf.WebLookAndFeel;*/
 
 public class Main {
 

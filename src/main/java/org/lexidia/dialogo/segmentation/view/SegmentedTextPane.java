@@ -33,8 +33,8 @@ public class SegmentedTextPane extends JTextPane {
 
 	public SegmentedTextPane() {
 		setSelectionColor(new Color(0, 0, 0, 0));
-
-		/// mets les marges sur les cÃ´tÃ©s ///
+		
+		/// mets les marges sur les côtés ///
 		SimpleAttributeSet attrs = new SimpleAttributeSet();
 		StyleConstants.setLineSpacing(attrs, 1);
 		StyleConstants.setSpaceAbove(attrs, Constants.TEXTPANE_MARGING);
@@ -44,7 +44,7 @@ public class SegmentedTextPane extends JTextPane {
 	}
 
 	/**
-	 * surligne tout de dÃ©but Ã  fin avec la couleur spÃ©cifiÃ©e
+	 * surligne tout de début à fin avec la couleur spécifiée
 	 *
 	 */
 	public void surlignerPhrase(int debut, int fin, Color couleur) {
@@ -99,7 +99,7 @@ public class SegmentedTextPane extends JTextPane {
 	}
 
 	/**
-	 * EnlÃ¨ve tout le surlignage prÃ©sent entre les bornes start et end.
+	 * Enlève tout le surlignage présent entre les bornes start et end.
 	 */
 	public void removeHighlight(int start, int end) {
 		Highlight[] hl = getHighlighter().getHighlights();

@@ -21,6 +21,16 @@ public class ControllerText {
 	private Pilot pilot;
 
 	/**
+	 * Le lock du clic
+	 */
+	public static Object lock = new Object();
+
+	/**
+	 * Le lock de la saisie
+	 */
+	public static Object lockFill = new Object();
+
+	/**
 	 * Construit un contrôleur à partir de la fenêtre d'exercice correspondante.
 	 */
 	public ControllerText(SegmentedTextFrame frame) {
@@ -70,7 +80,7 @@ public class ControllerText {
 	public int getPhrasesCount() {
 		return p.getTextHandler().getPhrasesCount();
 	}
-	
+
 	/**
 	 * Retourne le contenu textuel du segment de numéro indiqué.
 	 */
@@ -133,24 +143,28 @@ public class ControllerText {
 	 * @highlightWrongWord si le mot est surligné en cas d'erreur.
 	 */
 	public boolean waitForClick(int n) {
-		p.getControlerMouse().setClicking(false);
-		while (true) {
-			Thread.yield();
-			if (p.getControlerMouse().isClicking()) {
-				/// cherche la position exacte dans le texte ///
-				int offset = p.getTextHandler().getAbsoluteOffset(p.getFirstShownPhraseIndex(),
-						p.getEditorPane().getCaretPosition());
-				/// si le clic est juste ///
-				if (p.getTextHandler().wordPause(offset)
-						&& p.getTextHandler().getPhraseIndex(offset) == pilot.getCurrentPhraseIndex()) {
-					return true;
-				}
-				/// si le clic est faux ///
-				else {
-					return false;
-				}
+
+		synchronized (lock) {
+			try {
+				lock.wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 		}
+
+		/// cherche la position exacte dans le texte ///
+		int offset = p.getTextHandler().getAbsoluteOffset(p.getFirstShownPhraseIndex(),
+				p.getEditorPane().getCaretPosition());
+		/// si le clic est juste ///
+		if (p.getTextHandler().wordPause(offset)
+				&& p.getTextHandler().getPhraseIndex(offset) == pilot.getCurrentPhraseIndex()) {
+			return true;
+		}
+		/// si le clic est faux ///
+		else {
+			return false;
+		}
+
 	}
 
 	/**
@@ -169,7 +183,8 @@ public class ControllerText {
 
 	private void highlightPhrase(Color c, int n) {
 		if (p.getTextHandler().getPhrase(n) != null) {
-			int debutRelatifSegment = p.getTextHandler().getRelativeStartPhrasePosition(p.getFirstShownPhraseIndex(), n);
+			int debutRelatifSegment = p.getTextHandler().getRelativeStartPhrasePosition(p.getFirstShownPhraseIndex(),
+					n);
 			int finRelativeSegment = debutRelatifSegment + p.getTextHandler().getPhrase(n).length();
 			p.getEditorPane().surlignerPhrase(debutRelatifSegment, finRelativeSegment, c);
 		}
@@ -306,7 +321,8 @@ public class ControllerText {
 			message += "<br/>Le patient a fait " + p.getNbErreurs() + (p.getNbErreurs() > 1 ? "s" : "") + ".";
 		}
 		if (showPhraseErrors) {
-			message += "<br/>Le patient a fait " + p.getNbErreurs() + (p.getNbErreurs() > 1 ? "s" : "") + " de segment.";
+			message += "<br/>Le patient a fait " + p.getNbErreurs() + (p.getNbErreurs() > 1 ? "s" : "")
+					+ " de segment.";
 		}
 		message += "</html>";
 		p.afficherCompteRendu(message);
@@ -469,7 +485,8 @@ public class ControllerText {
 	}
 
 	/**
-	 * Gèle la fenetre si b est <code>true</code>, la dégèle si b est <code>false</code>
+	 * Gèle la fenetre si b est <code>true</code>, la dégèle si b est
+	 * <code>false</code>
 	 */
 	public void freeze(boolean b) {
 		p.getFenetre().setResizable(!b);
@@ -598,13 +615,17 @@ public class ControllerText {
 			return true;
 		m.activate();
 		hint(m);
-		p.getControlerMask().setEnter(false);
-		while (true) {
-			Thread.yield();
-			if (p.getControlerMask().isEnter()) {
-				return m != null && m.getN() == h ? m.correctWord() : true;
+
+		synchronized (lockFill) {
+			try {
+				lockFill.wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 		}
+
+		return m != null && m.getN() == h ? m.correctWord() : true;
+
 	}
 
 	/**
@@ -620,23 +641,28 @@ public class ControllerText {
 		Mask m = getFixedFrame();
 		m.activate();
 		hint(m);
-		while (true) {
 
-			if (getFixedFrame() != m) {
-				return true;
+		if (getFixedFrame() != m) {
+			return true;
+		}
+
+		synchronized (lockFill) {
+			try {
+				lockFill.wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
+		}
 
-			Thread.yield();
-			if (p.getControlerMask().isEnter()) {
-				p.getControlerMask().setEnter(false);
+		if (getFixedFrame() != m) {
+			return true;
+		}
 
-				if (m.getJtf().getText().equals(m.getHiddenWord())) {
-					desactivateFixedFrame();
-					return true;
-				} else {
-					return false;
-				}
-			}
+		if (m.getJtf().getText().equals(m.getHiddenWord())) {
+			desactivateFixedFrame();
+			return true;
+		} else {
+			return false;
 		}
 
 	}

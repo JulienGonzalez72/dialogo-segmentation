@@ -21,7 +21,7 @@ public class TATTest {
 		final SegmentedTextFrame frame = new SegmentedTextFrame("Dialogo - Lecture segmentee"); // le titre
 
 		/// on initalise la fenetre avec les parametres necessaires a sa creation ///
-		frame.init(getTextFromFile("ressources/textes/Amélie la sorcière.txt"), // le texte a afficher
+		frame.init(getTextFromFile("resources/textes/Amélie la sorcière.txt"), // le texte a afficher
 				0, // le premier segment a afficher
 				new Font(Font.MONOSPACED, Font.BOLD, 20), // les caractéristiques de la police (nom, style, taille)
 				100, // la position x de la fenêtre
@@ -115,9 +115,11 @@ public class TATTest {
 					 * EXEMPLE POUR FENETRE FIXE
 					 ******************************/
 
-					// tant que la saisie n'est pas juste
+					//tant que la saisie n'est pas juste
 					
-					  //while (!controler.waitForFillFixedFrame(h)) { controler.doError(h); }
+					/*while (!getControler().waitForFillFixedFrame(h)) {
+						getControler().doError(h);
+					}*/
 					 
 
 					/**********************************
@@ -144,7 +146,7 @@ public class TATTest {
 	}
 
 	/**
-	 * Retourne le contenu du fichier .txt situé Ã  l'emplacement du paramètre.
+	 * Retourne le contenu du fichier .txt situé à l'emplacement du paramètre.
 	 */
 	private static String getTextFromFile(String emplacement) {
 		try {

@@ -118,7 +118,7 @@ public class SegmentedTextPanel extends JDesktopPane {
 	/**
 	 * S'exécute lorsque le panneau s'est bien intégré à la fenêtre.
 	 */
-	public void init(ToolParameters param) {
+	public void init(ToolParameters param){
 		setParameters(param);
 
 		setTextHandler(new TextHandler(param.getText()));
@@ -651,7 +651,10 @@ public class SegmentedTextPanel extends JDesktopPane {
 		this.panelSud = panelSud;
 	}
 
-	public JDesktopPane getPanelFixedFrame() {
+	public JDesktopPane getPanelFixedFrame(){
+		if(panelFixedFrame == null) {
+			System.out.println("panelFixedFrame is null, check in rParam if the fixed frame mode is enabled");
+		}
 		return panelFixedFrame;
 	}
 

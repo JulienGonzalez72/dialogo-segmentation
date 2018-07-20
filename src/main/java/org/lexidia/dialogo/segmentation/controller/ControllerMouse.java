@@ -17,11 +17,6 @@ public class ControllerMouse implements MouseListener {
 	 */
 	private int lastTextOffset;
 
-	/**
-	 * Si l'utilisateur est en train de cliquer.
-	 */
-	private boolean clicking;
-
 	public ControllerMouse(SegmentedTextPanel p, TextHandler handler) {
 		view = p;
 		this.handler = handler;
@@ -33,9 +28,12 @@ public class ControllerMouse implements MouseListener {
 	}
 
 	public void mousePressed(MouseEvent e) {
-		clicking = true;
 		lastTextOffset = handler.getAbsoluteOffset(view.getFirstShownPhraseIndex(),
 				view.getEditorPane().getCaretPosition());
+		
+		synchronized(ControllerText.lock) {
+			ControllerText.lock.notify();
+		}
 	}
 
 	public void mouseEntered(MouseEvent e) {
@@ -50,16 +48,8 @@ public class ControllerMouse implements MouseListener {
 		
 	}
 
-	public void mouseReleased(MouseEvent e) {
-		clicking = false;
-	}
-
-	public boolean isClicking() {
-		return clicking;
-	}
-
-	public void setClicking(boolean clicking) {
-		this.clicking = clicking;
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
 	}
 
 }

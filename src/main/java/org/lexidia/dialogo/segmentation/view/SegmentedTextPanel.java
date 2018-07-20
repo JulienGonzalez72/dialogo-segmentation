@@ -88,9 +88,11 @@ public class SegmentedTextPanel extends JDesktopPane {
 	private Mask fixedFrame;
 	
 	//object used to debug
+
 	private static final Logger log = LoggerFactory.getLogger(SegmentedTextPanel.class);
 
 	public SegmentedTextPanel(SegmentedTextFrame fenetre) throws IOException {
+		
 		
 		setControlerMask(new ControllerMask());
 		this.setFenetre(fenetre);
@@ -207,7 +209,7 @@ public class SegmentedTextPanel extends JDesktopPane {
 	 * Construit la mise en page du texte.
 	 */
 	public void buildPages(int startPhrase) {
-		log.debug("Start of buildPages");
+		log.info("Start of buildPages");
 		getPhrasesInFonctionOfPages().clear();
 		getEditorPane().removeAllHighlights();
 		/// récupère le texte entier à afficher ///
@@ -269,7 +271,7 @@ public class SegmentedTextPanel extends JDesktopPane {
 				text = newText;
 			}
 		}
-		log.debug("End of buildPages");
+		log.info("End of buildPages");
 	}
 
 	public void showPage(int page) {

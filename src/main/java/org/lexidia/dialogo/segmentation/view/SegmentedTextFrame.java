@@ -39,7 +39,6 @@ public class SegmentedTextFrame extends JFrame {
 		setTitle(titre);
 		setSize(800, 600);
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(true);
 		setMinimumSize(new Dimension(Constants.MIN_FENETRE_WIDTH, Constants.MIN_FENETRE_HEIGHT));
 	}

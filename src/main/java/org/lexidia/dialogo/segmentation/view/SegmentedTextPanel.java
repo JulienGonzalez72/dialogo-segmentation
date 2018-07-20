@@ -26,6 +26,8 @@ import javax.swing.JProgressBar;
 import javax.swing.UIManager;
 import javax.swing.text.BadLocationException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.lexidia.dialogo.segmentation.controller.ControllerMask;
 import org.lexidia.dialogo.segmentation.controller.ControllerMouse;
 import org.lexidia.dialogo.segmentation.main.Constants;
@@ -34,8 +36,6 @@ import org.lexidia.dialogo.segmentation.model.ReadingParameters;
 import org.lexidia.dialogo.segmentation.model.TextHandler;
 import org.lexidia.dialogo.segmentation.model.ToolParameters;
 import org.lexidia.dialogo.segmentation.reading.ReadThread;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class SegmentedTextPanel extends JDesktopPane {
 
@@ -89,11 +89,9 @@ public class SegmentedTextPanel extends JDesktopPane {
 	
 	//object used to debug
 
-	private static final Logger log = LoggerFactory.getLogger(SegmentedTextPanel.class);
+	private static final Log log = LogFactory.getLog(SegmentedTextPanel.class);
 
 	public SegmentedTextPanel(SegmentedTextFrame fenetre) throws IOException {
-		
-		
 		setControlerMask(new ControllerMask());
 		this.setFenetre(fenetre);
 		this.setLayout(new BorderLayout());

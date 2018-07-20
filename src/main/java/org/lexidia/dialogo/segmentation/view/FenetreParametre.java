@@ -1,6 +1,6 @@
 package org.lexidia.dialogo.segmentation.view;
 
-import java.awt.BorderLayout;
+/*import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -24,9 +24,9 @@ import javax.swing.ButtonGroup;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
+import javax.swing.JComboBox;*/
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+/*import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -43,9 +43,8 @@ import javax.swing.SwingConstants;
 import org.lexidia.dialogo.segmentation.controller.ControllerParam;
 import org.lexidia.dialogo.segmentation.main.Constants;
 import org.lexidia.dialogo.segmentation.main.Parametres;
-import org.lexidia.dialogo.segmentation.reading.ReadMode;
+import org.lexidia.dialogo.segmentation.reading.ReadMode;*/
 
-// TODO classe non fonctionnelle
 public class FenetreParametre extends JFrame {
 
 	/*public TextFrame fenetre;

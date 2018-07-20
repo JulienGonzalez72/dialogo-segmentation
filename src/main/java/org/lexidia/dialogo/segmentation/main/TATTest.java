@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import javax.swing.JFrame;
+
 import org.lexidia.dialogo.segmentation.controller.ControllerText;
 import org.lexidia.dialogo.segmentation.reading.ReadThread;
 import org.lexidia.dialogo.segmentation.reading.ReaderFactory;
@@ -17,6 +19,12 @@ import org.lexidia.dialogo.segmentation.view.SegmentedTextFrame;
 public class TATTest {
 
 	public static void main(String[] args) {
+		/// initialisation du système de log local ///
+		System.setProperty("org.apache.commons.logging.simplelog.logFile", "System.out");
+		System.setProperty("org.apache.commons.logging.simplelog.levelInBrackets", "true");
+		System.setProperty("org.apache.commons.logging.simplelog.defaultlog", "trace");
+		System.setProperty("org.apache.commons.logging.simplelog.showdatetime", "true");
+		
 		/// on cree la fenetre d'exercice ///
 		final SegmentedTextFrame frame = new SegmentedTextFrame("Dialogo - Lecture segmentee"); // le titre
 
@@ -28,6 +36,9 @@ public class TATTest {
 				100, // la position y de la fenêtre
 				500, // la largeur de la fenêtre
 				500); // la hauteur de la fenêtre
+		
+		/// on spécifie à la fenêtre d'elle termine le processus lorsqu'elle est fermée ///
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		/// on affiche la fenêtre ///
 		frame.start();

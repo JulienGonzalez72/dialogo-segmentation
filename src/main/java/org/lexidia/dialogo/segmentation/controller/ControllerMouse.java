@@ -8,19 +8,19 @@ import org.lexidia.dialogo.segmentation.view.SegmentedTextPanel;
 
 public class ControllerMouse implements MouseListener {
 
-	public static int nbErreurs;
 	private SegmentedTextPanel view;
 	private TextHandler handler;
 	
 	/**
-	 * Dernière position absolue du texte sur laquelle l'utilisateur a cliquÃ©.
+	 * Dernière position absolue du texte sur laquelle l'utilisateur a cliqué.
 	 */
 	private int lastTextOffset;
+	
+	private Object clickLock = new Object();
 
 	public ControllerMouse(SegmentedTextPanel p, TextHandler handler) {
 		view = p;
 		this.handler = handler;
-		nbErreurs = 0;
 	}
 	
 	public int getLastTextOffset() {
@@ -31,8 +31,8 @@ public class ControllerMouse implements MouseListener {
 		lastTextOffset = handler.getAbsoluteOffset(view.getFirstShownPhraseIndex(),
 				view.getEditorPane().getCaretPosition());
 		
-		synchronized(ControllerText.lock) {
-			ControllerText.lock.notify();
+		synchronized(clickLock) {
+			clickLock.notify();
 		}
 	}
 
@@ -50,6 +50,20 @@ public class ControllerMouse implements MouseListener {
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
+	}
+	
+	/**
+	 * Méthode bloquante jusqu'à ce que l'utilisateur ait cliqué sur la fenêtre.
+	 */
+	public void waitForClick() {
+		synchronized (clickLock) {
+			try {
+				clickLock.wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+			
 	}
 
 }

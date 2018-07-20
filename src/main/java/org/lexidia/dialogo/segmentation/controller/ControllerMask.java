@@ -7,10 +7,12 @@ import java.awt.event.KeyListener;
 
 public class ControllerMask implements ActionListener, KeyListener {
 
+	private Object fillLock = new Object();
+	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		synchronized (ControllerText.lockFill) {
-			ControllerText.lockFill.notify();
+		synchronized (fillLock) {
+			fillLock.notify();
 		}
 	}
 
@@ -24,6 +26,16 @@ public class ControllerMask implements ActionListener, KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {
+	}
+	
+	public void waitForFill() {
+		synchronized (fillLock) {
+			try {
+				fillLock.wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 }

@@ -21,16 +21,6 @@ public class ControllerText {
 	private Pilot pilot;
 
 	/**
-	 * Le lock du clic
-	 */
-	public static Object lock = new Object();
-
-	/**
-	 * Le lock de la saisie
-	 */
-	public static Object lockFill = new Object();
-
-	/**
 	 * Construit un contrôleur à partir de la fenêtre d'exercice correspondante.
 	 */
 	public ControllerText(SegmentedTextFrame frame) {
@@ -143,14 +133,7 @@ public class ControllerText {
 	 * @highlightWrongWord si le mot est surligné en cas d'erreur.
 	 */
 	public boolean waitForClick(int n) {
-
-		synchronized (lock) {
-			try {
-				lock.wait();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
+		p.getControlerMouse().waitForClick();
 
 		/// cherche la position exacte dans le texte ///
 		int offset = p.getTextHandler().getAbsoluteOffset(p.getFirstShownPhraseIndex(),
@@ -616,13 +599,7 @@ public class ControllerText {
 		m.activate();
 		hint(m);
 
-		synchronized (lockFill) {
-			try {
-				lockFill.wait();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
+		p.getControlerMask().waitForFill();
 
 		return m != null && m.getN() == h ? m.correctWord() : true;
 
@@ -646,13 +623,7 @@ public class ControllerText {
 			return true;
 		}
 
-		synchronized (lockFill) {
-			try {
-				lockFill.wait();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
+		p.getControlerMask().waitForFill();
 
 		if (getFixedFrame() != m) {
 			return true;

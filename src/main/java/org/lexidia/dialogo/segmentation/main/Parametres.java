@@ -1,6 +1,6 @@
 package org.lexidia.dialogo.segmentation.main;
 
-import java.awt.Color;
+/*import java.awt.Color;
 import java.awt.Font;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -13,7 +13,7 @@ import java.util.Properties;
 
 import org.lexidia.dialogo.segmentation.reading.ReadMode;
 import org.lexidia.dialogo.segmentation.view.FenetreParametre;
-import org.lexidia.dialogo.segmentation.view.SegmentedTextFrame;
+import org.lexidia.dialogo.segmentation.view.SegmentedTextFrame;*/
 
 @Deprecated
 public class Parametres {

@@ -1,6 +1,6 @@
 package org.lexidia.dialogo.segmentation.view;
 
-import java.awt.Dimension;
+/*import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -12,12 +12,12 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
+import javax.swing.JOptionPane;*/
 import javax.swing.JPanel;
-import javax.swing.JTextField;
+/*import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
-import org.lexidia.dialogo.segmentation.main.Constants;
+import org.lexidia.dialogo.segmentation.main.Constants;*/
 
 public class ControlPanel extends JPanel {
 

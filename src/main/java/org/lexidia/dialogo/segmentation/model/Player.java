@@ -13,7 +13,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 import org.lexidia.dialogo.segmentation.main.Constants;
-import org.lexidia.dialogo.segmentation.main.Parametres;
+//import org.lexidia.dialogo.segmentation.main.Parametres;
 
 /**
  * Classe pour tester le son.

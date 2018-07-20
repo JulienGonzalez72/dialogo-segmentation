@@ -10,12 +10,7 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -102,15 +97,15 @@ public class SegmentedTextPanel extends JDesktopPane {
 		setControlerMask(new ControllerMask());
 		this.setFenetre(fenetre);
 		this.setLayout(new BorderLayout());
-
+		
 		setEditorPane(new SegmentedTextPane());
 		getEditorPane().setEditable(false);
 		add(getEditorPane(), BorderLayout.CENTER);
-
+		
 		setProgressBar(new JProgressBar(0, 0));
 		getProgressBar().setStringPainted(true);
 		getProgressBar().setForeground(Color.GREEN);
-
+		
 		add(getPanelSud(), BorderLayout.SOUTH);
 
 	}
@@ -120,14 +115,14 @@ public class SegmentedTextPanel extends JDesktopPane {
 	 */
 	public void init(ToolParameters param){
 		setParameters(param);
-
+		
 		setTextHandler(new TextHandler(param.getText()));
 		getProgressBar().setMaximum(getTextHandler().getPhrasesCount());
-
+		
 		getProgressBar().setValue(param.getStartingPhrase());
 		getProgressBar().setString(param.getStartingPhrase() + "/" + (getTextHandler().getPhrasesCount() - 1));
 		setPageActuelle(0);
-
+		
 		/// construit la mise en page virtuelle ///
 		rebuildPages();
 		/// initialise le lecteur ///
@@ -151,7 +146,7 @@ public class SegmentedTextPanel extends JDesktopPane {
 		}
 		getPanelSud().setVisible(true);
 	}
-
+	
 	public void setParameters(ToolParameters param) {
 		this.setParam(getEditorPane().setParam(param));
 		premierSegment = param.getStartingPhrase();
@@ -160,7 +155,7 @@ public class SegmentedTextPanel extends JDesktopPane {
 		getEditorPane().setFont(param.getFont());
 		setNbEssaisRestantPourLeSegmentCourant(setNbEssaisParSegment(0));
 	}
-
+	
 	public void setCursor(String fileName) {
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Image img = tk.getImage("ressources/images/" + fileName);
@@ -171,26 +166,7 @@ public class SegmentedTextPanel extends JDesktopPane {
 	public String getCursorName() {
 		return getCursor().getName();
 	}
-
-	/**
-	 * Retourne le contenu du fichier .txt situé à l'emplacement du paramètre.
-	 */
-	public static String getTextFromFile(String emplacement) throws IOException {
-		File fichierTxt = new File(emplacement);
-		InputStream ips = null;
-		ips = new FileInputStream(fichierTxt);
-		InputStreamReader ipsr = new InputStreamReader(ips);
-		BufferedReader br = new BufferedReader(ipsr);
-		String toReturn = "";
-		String ligneCourante = br.readLine();
-		while (ligneCourante != null) {
-			toReturn += ligneCourante + " ";
-			ligneCourante = br.readLine();
-		}
-		br.close();
-		return toReturn;
-	}
-
+	
 	/**
 	 * passe a la page suivante et l'affiche
 	 *

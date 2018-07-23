@@ -32,10 +32,10 @@ public class TATTest {
 		frame.init(getTextFromFile("resources/textes/Amélie la sorcière.txt"), // le texte a afficher
 				0, // le premier segment a afficher
 				new Font(Font.MONOSPACED, Font.BOLD, 20), // les caractéristiques de la police (nom, style, taille)
-				100, // la position x de la fenêtre
-				100, // la position y de la fenêtre
-				500, // la largeur de la fenêtre
-				500); // la hauteur de la fenêtre
+				100, // la position x de la fenetre (en pixels)
+				100, // la position y de la fenetre (en pixels)
+				12, // la largeur de la fenetre (en cm)
+				12); // la hauteur de la fenetre (en cm)
 		
 		/// on spécifie à la fenêtre d'elle termine le processus lorsqu'elle est fermée ///
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

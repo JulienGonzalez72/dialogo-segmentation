@@ -466,6 +466,20 @@ public class ControllerText {
 	public Rectangle getBounds() {
 		return p.getEditorPane().getBounds();
 	}
+	
+	/**
+	 * Retourne la largeur de la fenêtre, en centimètres.
+	 */
+	public float getFrameWidth() {
+		return SegmentedTextFrame.pxToCm(p.getFenetre().getWidth());
+	}
+	
+	/**
+	 * Retourne la hauteur de la fenêtre, en centimètres.
+	 */
+	public float getFrameHeight() {
+		return SegmentedTextFrame.pxToCm(p.getFenetre().getHeight());
+	}
 
 	/**
 	 * Gèle la fenetre si b est <code>true</code>, la dégèle si b est

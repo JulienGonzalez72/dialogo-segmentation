@@ -19,6 +19,11 @@ public class TextHandler {
 	 * Texte formate
 	 */
 	private String txt;
+	
+	/**
+	 * Texte à afficher
+	 */
+	private String showText;
 
 	/**
 	 * Liste des segments associes a leurs numéros
@@ -120,7 +125,7 @@ public class TextHandler {
 	}
 
 	/**
-	 * Retourne l'indice du segment é la position indiquée.
+	 * Retourne l'indice du segment à la position indiquée.
 	 */
 	public int getPhraseIndex(int offset) {
 		if (offset >= getShowText().length())
@@ -136,7 +141,7 @@ public class TextHandler {
 	}
 
 	/**
-	 * Enléve les césures du texte avec césures jusqu'é la position indiquée.
+	 * Enléve les césures du texte avec césures jusqu'à la position indiquée.
 	 */
 	private String getTextWithCutPauses(int endOffset) {
 		StringBuilder b = new StringBuilder(getTxt());
@@ -328,9 +333,10 @@ public class TextHandler {
 				phrases.put(phrases.size(), phrase);
 			}
 		}
+		updateShowText();
 	}
-
-	public String getShowText() {
+	
+	private void updateShowText() {
 		String r = "";
 		String temp = getTxt().replace(Constants.PAUSE, "");
 		char[] tab = temp.toCharArray();
@@ -347,7 +353,11 @@ public class TextHandler {
 				r += tab[i];
 			}
 		}
-		return r;
+		showText = r;
+	}
+
+	public String getShowText() {
+		return showText;
 	}
 
 	/**

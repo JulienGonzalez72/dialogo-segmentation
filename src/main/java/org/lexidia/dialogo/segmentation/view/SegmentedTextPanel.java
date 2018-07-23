@@ -243,10 +243,10 @@ public class SegmentedTextPanel extends JDesktopPane {
 			for (int i = lastOffset; i < off; i++) {
 				int phraseIndex = getTextHandler().getPhraseIndex(i);
 				if (phraseIndex == -1) {
-					lastOffset = getTextHandler().getShowText().length();
+					lastOffset = text.length();
 				}
 				/// on ajoute le segment s'il rentre en entier ///
-				if (!phrases.contains(phraseIndex) && phraseIndex > lastPhrase
+				if (phraseIndex > lastPhrase && !phrases.contains(phraseIndex)
 						&& phraseIndex != getTextHandler().getPhraseIndex(off)) {
 					lastPhrase = phraseIndex;
 					phrases.add(phraseIndex);

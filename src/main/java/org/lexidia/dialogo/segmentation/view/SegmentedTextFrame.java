@@ -2,10 +2,9 @@ package org.lexidia.dialogo.segmentation.view;
 
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 import javax.swing.JFrame;
@@ -43,9 +42,22 @@ public class SegmentedTextFrame extends JFrame {
 		setMinimumSize(new Dimension(Constants.MIN_FENETRE_WIDTH, Constants.MIN_FENETRE_HEIGHT));
 	}
 
-	public void init(String text, int startingPhrase, Font font, int x, int y, int width, int height) {
-		setParameters(new ToolParameters(font, width, height, x, y, startingPhrase, text));
-
+	/**
+	 * Initialise la fenêtre en fonction de certains paramètres de base nécessaires à sa création.<br>
+	 * Cette méthode est nécessaire pour appeler la méthode {@link #start} qui affiche la fenêtre.
+	 * @param text le texte segmenté
+	 * @param startingPhrase le numéro du premier segment à afficher (en partant de 0)
+	 * @param font la police du texte
+	 * @param x la position x de la fenêtre (en pixels)
+	 * @param y la position y de la fenêtre (en pixels)
+	 * @param width la largeur de la fenêtre (en cm)
+	 * @param height la hauteur de la fenêtre (en cm)
+	 */
+	public void init(String text, int startingPhrase, Font font, int x, int y, float width, float height) {
+		int w = cmToPx(width);
+		int h = cmToPx(height);
+		setParameters(new ToolParameters(font, w, h, x, y, startingPhrase, text));
+		
 		addComponentListener(new ComponentAdapter() {
 			private int lastWidth = getWidth(), lastHeight = getHeight();
 
@@ -68,14 +80,6 @@ public class SegmentedTextFrame extends JFrame {
 			public void componentMoved(ComponentEvent e) {
 				SegmentedTextFrame.this.param.setPanX(SegmentedTextFrame.this.getX());
 				SegmentedTextFrame.this.param.setPanY(SegmentedTextFrame.this.getY());
-			}
-		});
-
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				//param.startingPhrase = pan.controlerGlobal.getCurrentPhraseIndex() + 1;
-				// param.stockerPreference();
 			}
 		});
 	}
@@ -124,5 +128,27 @@ public class SegmentedTextFrame extends JFrame {
 	public void setPreferencesExiste(boolean preferencesExiste) {
 		this.preferencesExiste = preferencesExiste;
 	}
-
+	
+	private static final float DOT_FACTOR = 1.25f;
+	private static final float INCH_VALUE = 2.54f;
+	
+	/**
+	 * Convertit une longueur des pixels aux centimètres.
+	 * @param px la valeur en pixels
+	 * @return la valeur en centimètres
+	 */
+	public static float pxToCm(int px) {
+		float dpi = Toolkit.getDefaultToolkit().getScreenResolution();
+		return px / dpi * INCH_VALUE / DOT_FACTOR;
+	}
+	
+	/**
+	 * Convertit une longueur des centimètres aux pixels.
+	 * @param px la valeur en centimètres
+	 * @return la valeur en pixels
+	 */
+	public static int cmToPx(float cm) {
+		float dpi = Toolkit.getDefaultToolkit().getScreenResolution();
+		return (int) (cm * dpi / INCH_VALUE * DOT_FACTOR);
+	}
 }

@@ -119,7 +119,7 @@ public class SegmentedTextPanel extends JDesktopPane {
 		
 		getProgressBar().setValue(param.getStartingPhrase());
 		getProgressBar().setString(param.getStartingPhrase() + "/" + (getTextHandler().getPhrasesCount() - 1));
-		setPageActuelle(0);
+		setCurrentPage(0);
 		
 		/// construit la mise en page virtuelle ///
 		rebuildPages();
@@ -170,7 +170,7 @@ public class SegmentedTextPanel extends JDesktopPane {
 	 *
 	 */
 	public void afficherPageSuivante() {
-		showPage(getPageActuelle() + 1);
+		showPage(getCurrentPage() + 1);
 		/*
 		 * editorPane.désurlignerTout(); if ((param.readMode == ReadMode.GUIDEE ||
 		 * param.readMode == ReadMode.ANTICIPE) && (controlerGlobal != null && player !=
@@ -184,19 +184,19 @@ public class SegmentedTextPanel extends JDesktopPane {
 	 */
 	public void rebuildPages() {
 		buildPages(getParam().getStartingPhrase());
-		setPageActuelle(0);
+		setCurrentPage(0);
 		afficherPageSuivante();
 		/// calcule le nombre de pages total ///
 		setNbPages(getPhrasesInFonctionOfPages().size());
 	}
 
 	public boolean hasNextPage() {
-		return getPageActuelle() < getNbPages();
+		return getCurrentPage() < getNbPages();
 	}
 
 	public void afficherPagePrecedente() {
-		if (getPageActuelle() > 0) {
-			showPage(getPageActuelle() - 1);
+		if (getCurrentPage() > 0) {
+			showPage(getCurrentPage() - 1);
 			getEditorPane().removeAllHighlights();
 		}
 	}
@@ -222,7 +222,7 @@ public class SegmentedTextPanel extends JDesktopPane {
 			/// hauteur des lignes ///
 			int h = 0;
 			try {
-				/// micro-attente (pour éviter certains bugs de synchronisation ///
+				/// micro-attente (pour éviter certains bugs de synchronisation) ///
 				Thread.sleep(10);
 			} catch (InterruptedException e1) {
 				log.error("Error with Thread.sleep", e1);
@@ -261,8 +261,10 @@ public class SegmentedTextPanel extends JDesktopPane {
 			String newText = getTextHandler().getShowText().substring(lastOffset);
 			/// dernière page ///
 			if (newText.equals(text)) {
-				if (!getPhrasesInFonctionOfPages().get(page - 1).contains(getTextHandler().getPhraseIndex(off))) {
-					getPhrasesInFonctionOfPages().get(page - 1).add(getTextHandler().getPhraseIndex(off));
+				int lastPhraseIndex = getTextHandler().getPhraseIndex(off);
+				if (!getPhrasesInFonctionOfPages().get(page - 1).contains(lastPhraseIndex)
+						&& lastPhraseIndex >= 0 && lastPhraseIndex < getTextHandler().getPhrasesCount()) {
+					getPhrasesInFonctionOfPages().get(page - 1).add(lastPhraseIndex);
 				}
 				break;
 			} else {
@@ -274,47 +276,33 @@ public class SegmentedTextPanel extends JDesktopPane {
 
 	public void showPage(int page) {
 		/// on ne fait rien si on est déjé sur cette page ///
-		if (getPageActuelle() == page) {
+		if (getCurrentPage() == page) {
 			return;
 		}
-		setPageActuelle(page);
-		String texteAfficher = "";
+		setCurrentPage(page);
+		String showText = "";
 		// on recupere les segments a afficher dans la page
 		List<String> liste = new ArrayList<String>();
-		for (Integer i : getPhrasesInFonctionOfPages().get(getPageActuelle())) {
+		for (Integer i : getPhrasesInFonctionOfPages().get(getCurrentPage())) {
 			liste.add(getTextHandler().getPhrase(i));
 		}
 		for (String string : liste) {
-			texteAfficher += string;
+			showText += string;
 		}
-		getEditorPane().setText(texteAfficher);
+		getEditorPane().setText(showText);
 
 	}
 
 	public int getFirstShownPhraseIndex() {
-		return getPhrasesInFonctionOfPages().get(getPageActuelle()).get(0);
+		return getPhrasesInFonctionOfPages().get(getCurrentPage()).get(0);
 	}
 
-	public void afficherCompteRendu(String message) {
+	public void showReport(String message) {
 		Object optionPaneBG = UIManager.get("OptionPane.background");
 		Object panelBG = UIManager.get("Panel.background");
 		try {
 			UIManager.put("OptionPane.background", Color.WHITE);
 			UIManager.put("Panel.background", Color.WHITE);
-			/*
-			 * switch (param.readMode) { case SEGMENTE: case SUIVI: <<<<<<< HEAD =======
-			 * 
-			 * >>>>>>> 80a9c7c8cb1ee3c12c78c000bb50e157e0aed560 message =
-			 * "L'exercice est terminé." + "\n" + "Le patient a fait " + nbErreurs +
-			 * " erreur" + (nbErreurs > 1 ? "s" : "") + " de clic.\n" + "Le patient a fait "
-			 * + nbErreursParSegment + " erreur" + (nbErreursParSegment > 1 ? "s" : "") +
-			 * " de segment."; break; case ANTICIPE: case GUIDEE: <<<<<<< HEAD message =
-			 * "L'exercice est terminé."; =======
-			 * 
-			 * message = "L'exercice est terminé.";
-			 * 
-			 * >>>>>>> 80a9c7c8cb1ee3c12c78c000bb50e157e0aed560 default: break; }
-			 */
 			JOptionPane.showMessageDialog(this, message, "Compte Rendu", JOptionPane.INFORMATION_MESSAGE);
 		} finally {
 			UIManager.put("OptionPane.background", optionPaneBG);
@@ -445,8 +433,8 @@ public class SegmentedTextPanel extends JDesktopPane {
 		// on recupere les segments a afficher dans la page
 		List<String> liste = new ArrayList<String>();
 
-		for (int i = 0; i < getPhrasesInFonctionOfPages().get(getPageActuelle()).size(); i++) {
-			int index = getPhrasesInFonctionOfPages().get(getPageActuelle()).get(i);
+		for (int i = 0; i < getPhrasesInFonctionOfPages().get(getCurrentPage()).size(); i++) {
+			int index = getPhrasesInFonctionOfPages().get(getCurrentPage()).get(i);
 			liste.add(getTextHandler().getPhrase(index));
 		}
 		for (int i = 0; i < liste.size(); i++) {
@@ -472,11 +460,11 @@ public class SegmentedTextPanel extends JDesktopPane {
 		this.textHandler = textHandler;
 	}
 
-	public int getPageActuelle() {
+	public int getCurrentPage() {
 		return pageActuelle;
 	}
 
-	public void setPageActuelle(int pageActuelle) {
+	public void setCurrentPage(int pageActuelle) {
 		this.pageActuelle = pageActuelle;
 	}
 

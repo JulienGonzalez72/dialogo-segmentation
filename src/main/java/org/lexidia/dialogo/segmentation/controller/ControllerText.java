@@ -308,7 +308,7 @@ public class ControllerText {
 					+ " de segment.";
 		}
 		message += "</html>";
-		p.afficherCompteRendu(message);
+		p.showReport(message);
 	}
 
 	/**

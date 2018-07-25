@@ -57,9 +57,21 @@ public class TextHandler {
 	}
 
 	private static String format(String str) {
+		String[] phrases = str.split(Constants.PAUSE);
+		for (int i = 0; i < phrases.length; i++) {
+			if (!isValidPhrase(phrases[i])) {
+				phrases[i] = "";
+			}
+		}
+		str = String.join(Constants.PAUSE, phrases);
 		return str.replace(" /", "/");
 	}
-
+	
+	private static boolean isValidPhrase(String phrase) {
+		return phrase.length() > 1
+				&& phrase.matches("(.|\\v)*[[a-z][A-Z][0-9][,;:!?.-]]+(.|\\v)*");
+	}
+	
 	public String[] getPhrases(int start, int end) {
 		List<String> list = new ArrayList<String>();
 		Iterator<Integer> keys = phrases.keySet().iterator();
@@ -71,7 +83,7 @@ public class TextHandler {
 		}
 		return list.toArray(new String[0]);
 	}
-
+	
 	public String[] getPhrases() {
 		return getPhrases(0, getPhrasesCount());
 	}
@@ -109,26 +121,26 @@ public class TextHandler {
 		}
 		return index;
 	}
-
+	
 	/**
-	 * Retourne la position absolue du segment indiqué en paramétre.
+	 * Retourne la position absolue du segment indiqué en paramètre.
 	 */
 	public int getPauseOffset(int phrase) {
 		return getPhrasesLength(0, phrase);
 	}
-
+	
 	/**
 	 * Retourne la position absolue du début du segment passé en paramétre.
 	 */
 	public int getPhraseOffset(int phrase) {
 		return getPhrasesLength(0, phrase - 1);
 	}
-
+	
 	/**
-	 * Retourne l'indice du segment à la position indiquée.
+	 * Retourne l'indice du segment à la position indiquée, ou -1 si la position est en dehors des limites du texte.
 	 */
 	public int getPhraseIndex(int offset) {
-		if (offset >= getShowText().length())
+		if (offset < 0 || offset >= getShowText().length())
 			return -1;
 		int index = 0;
 		for (int i = 0; i < offset; i++) {
@@ -141,7 +153,7 @@ public class TextHandler {
 	}
 
 	/**
-	 * Enléve les césures du texte avec césures jusqu'à la position indiquée.
+	 * Enlève les césures du texte avec césures jusqu'à la position indiquée.
 	 */
 	private String getTextWithCutPauses(int endOffset) {
 		StringBuilder b = new StringBuilder(getTxt());
@@ -156,7 +168,7 @@ public class TextHandler {
 		}
 		return b.toString();
 	}
-
+	
 	public int endWordPosition(int offset) {
 		for (int i = offset; i < getShowText().length(); i++) {
 			if (Character.isWhitespace(getShowText().charAt(i)) || isPunctuation(getShowText().charAt(i))) {
@@ -165,7 +177,7 @@ public class TextHandler {
 		}
 		return -1;
 	}
-
+	
 	public int startWordPosition(int offset) {
 		for (int i = Math.min(getShowText().length() - 1, offset); i >= 0; i--) {
 			if (Character.isWhitespace(getShowText().charAt(i)) || isPunctuation(getShowText().charAt(i))) {
@@ -174,7 +186,7 @@ public class TextHandler {
 		}
 		return -1;
 	}
-
+	
 	/**
 	 * Retourne la position du début du segment d'indice <i>phrase</i>, relative au
 	 * premier segment <i>startPhrase</i>.
@@ -182,14 +194,13 @@ public class TextHandler {
 	public int getRelativeStartPhrasePosition(int startPhrase, int phrase) {
 		return getRelativeOffset(startPhrase, getPhraseOffset(phrase));
 	}
-
+	
 	private static boolean isPunctuation(char c) {
-		return c == ',' || c == '.' || c == ';' || c == ':' || c == '!' || c == '?';
+		return c == ',' || c == '.' || c == ';' || c == ':' || c == '!' || c == '?' || c == '\u2026';
 	}
-
+	
 	/**
-	 * Indique si le mot sur lequel a cliqué l'utilisateur correspond bien é une
-	 * césure.
+	 * Indique si le mot sur lequel a cliqué l'utilisateur correspond bien à une césure.
 	 */
 	public boolean wordPause(int offset) {
 		int err = 0;
@@ -198,8 +209,8 @@ public class TextHandler {
 			if (correctPause(i)) {
 				return true;
 			}
-			/// évite le probléme de la ponctuation avec des espaces avant ///
-			if (i < txt.length() - 2 && isPunctuation(txt.charAt(i + 1))) {
+			/// évite le problème de la ponctuation avec des espaces avant ///
+			if (i < txt.length() - 1 && isPunctuation(txt.charAt(i + 1))) {
 				err--;
 			}
 			if (Character.isWhitespace(txt.charAt(i)) || isPunctuation(txt.charAt(i))) {
@@ -212,12 +223,12 @@ public class TextHandler {
 				return false;
 			}
 		}
-		return false;
+		return correctPause(txt.length());
 	}
 
 	/**
 	 * Retourne la position du caractére dans le texte en entier en indiquant la
-	 * position d'un caractÃ¨re cliqué Ã  partir d'un segment indiqué.
+	 * position d'un caractère cliqué à partir d'un segment indiqué.
 	 */
 	public int getAbsoluteOffset(int startPhrase, int offset) {
 		return getPhrasesLength(0, startPhrase - 1) + offset;
@@ -225,7 +236,7 @@ public class TextHandler {
 
 	/**
 	 * Ceci est l'opération inverse, elle permet d'obtenir la position par rapport
-	 * au premier segment affiché avec la position du caractÃ¨re dans tout le texte.
+	 * au premier segment affiché avec la position du caractère dans tout le texte.
 	 */
 	public int getRelativeOffset(int startPhrase, int offset) {
 		return offset - getPhrasesLength(0, startPhrase - 1);
@@ -237,10 +248,6 @@ public class TextHandler {
 			length += phrase.length();
 		}
 		return length;
-	}
-
-	public String removeHook(String s) {
-		return s.replace("[", "").replace("]", "");
 	}
 
 	@Override
@@ -326,12 +333,23 @@ public class TextHandler {
 				r += tab[i];
 			}
 		}
+		
 		setTxt(r);
 		phrases.clear();
-		for (String phrase : getTxt().split(Constants.PAUSE)) {
-			if (phrase.length() > 1) {
-				phrases.put(phrases.size(), phrase);
+		String[] ps = getTxt().split(Constants.PAUSE);
+		for (int i = 0; i < ps.length; i++) {
+			String phrase = ps[i];
+			/// enlève les retours chariot au début et les met à la fin du segment précédent ///
+			while (phrase.startsWith("\n")) {
+				phrase = phrase.substring(1);
+				if (i > 0) {
+					phrases.put(i - 1, phrases.get(i - 1) + "\n");
+				}
 			}
+			/// ajoute le segment s'il est bien formaté ///
+			//if (isValidPhrase(phrase)) {
+				phrases.put(i, phrase);
+			//}
 		}
 		updateShowText();
 	}
@@ -342,9 +360,7 @@ public class TextHandler {
 		char[] tab = temp.toCharArray();
 		for (int i = 0; i < tab.length; i++) {
 			if (holeTreatment) {
-				if (tab[i] == '[') {
-					i++;
-				} else if (tab[i] == ']') {
+				if (tab[i] == '[' || tab[i] == ']') {
 					i++;
 				}
 				r += tab[i];
@@ -490,7 +506,7 @@ public class TextHandler {
 		if (h.isHidden()) {
 			h.fill();
 
-			/// décale les trous du méme segment ///
+			/// décale les trous du même segment ///
 			for (int i = hole + 1; i < getHolesCount() && getPhraseOf(i) == getPhraseOf(hole); i++) {
 				holes.get(i).setStartOffset(holes.get(i).getStartOffset() - h.getShift());
 			}
@@ -529,7 +545,7 @@ public class TextHandler {
 		updateText();
 	}
 
-	public String getTxt() {
+	private String getTxt() {
 		return txt;
 	}
 
@@ -537,11 +553,11 @@ public class TextHandler {
 		this.txt = txt;
 	}
 
-	public Map<Integer, List<Hole>> getMotsParSegment() {
+	private Map<Integer, List<Hole>> getMotsParSegment() {
 		return motsParSegment;
 	}
 
-	public void setMotsParSegment(Map<Integer, List<Hole>> motsParSegment) {
+	private void setMotsParSegment(Map<Integer, List<Hole>> motsParSegment) {
 		this.motsParSegment = motsParSegment;
 	}
 

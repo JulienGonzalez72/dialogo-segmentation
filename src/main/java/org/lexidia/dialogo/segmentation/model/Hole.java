@@ -47,7 +47,7 @@ public class Hole {
 	}
 
 	/**
-	 * Retourne la diffÃ©rence de longueur entre le trou cachï¿½ et le mot.
+	 * Retourne la différence de longueur entre le trou caché et le mot.
 	 */
 	public int getShift() {
 		return holeLength() - word.length();

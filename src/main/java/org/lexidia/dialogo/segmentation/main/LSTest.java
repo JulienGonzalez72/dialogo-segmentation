@@ -29,8 +29,8 @@ public class LSTest {
 		final SegmentedTextFrame frame = new SegmentedTextFrame("Dialogo - Lecture segmentée"); // le titre
 
 		/// on initalise la fenetre avec les parametres necessaires a sa creation ///
-		frame.init(getTextFromFile("resources/textes/Amélie la sorcière.txt"), // le texte a  afficher
-				4, // le premier segment a  afficher
+		frame.init(getTextFromFile("resources/textes/Amélie la sorcière_oneline.txt"), // le texte a  afficher
+				0, // le premier segment a  afficher
 				new Font(Font.MONOSPACED, Font.BOLD, 20), // les caracteristiques de la police (nom, style, taille)
 				100, // la position x de la fenetre (en pixels)
 				100, // la position y de la fenetre (en pixels)
@@ -67,7 +67,7 @@ public class LSTest {
 				});
 
 				/// on demarre le thread au premier segment ///
-				controler.goTo(4);
+				controler.goTo(105);
 			}
 		});
 	}
@@ -128,7 +128,7 @@ public class LSTest {
 			String toReturn = "";
 			String ligneCourante = br.readLine();
 			while (ligneCourante != null) {
-				toReturn += ligneCourante + " ";
+				toReturn += ligneCourante + "\n";
 				ligneCourante = br.readLine();
 			}
 			br.close();

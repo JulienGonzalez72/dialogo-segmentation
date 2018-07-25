@@ -24,18 +24,18 @@ public class Pilot {
 	}
 
 	/**
-	 * Se place sur le segment de numero n et dÃ©marre l'algorithme de lecture.
+	 * Se place sur le segment de numero n et démarre l'algorithme de lecture.
 	 */
 	public void goTo(int n) throws IllegalArgumentException {
 		if (n < p.getParam().getStartingPhrase() || n > p.getTextHandler().getPhrasesCount() - 1) {
-			throw new IllegalArgumentException("NumÃ©ro de segment invalide : " + n
-					+ " (il doit Ãªtre compris entre " + p.getParam().getStartingPhrase() + " et " + p.getTextHandler().getPhrasesCount() + ")");
+			throw new IllegalArgumentException("Numéro de segment invalide : " + n
+					+ " (il doit être compris entre " + p.getParam().getStartingPhrase() + " et " + p.getTextHandler().getPhrasesCount() + ")");
 		}
 		if (readerFactory == null) {
-			throw new IllegalArgumentException("Usine de lecture non chargÃ©e !");
+			throw new IllegalArgumentException("Usine de lecture non chargée !");
 		}
 
-		/// empÃªche le redimensionnement de la fenÃªtre Ã  partir de la premiÃ¨re lecture ///
+		/// empêche le redimensionnement de la fenêtre à partir de la première lecture ///
 		p.getFenetre().setResizable(false);
 
 		// met a jour la barre de progression
@@ -58,8 +58,8 @@ public class Pilot {
 	}
 
 	/**
-	 * Essaye de passer au segment suivant, passe Ã  la page suivante si c'Ã©tait le
-	 * dernier segment de la page. DÃ©clenche une erreur si on Ã©tait au dernier
+	 * Essaye de passer au segment suivant, passe à la page suivante si c'était le
+	 * dernier segment de la page. Déclenche une erreur si on était au dernier
 	 * segment du texte.
 	 */
 	public void doNext() {
@@ -67,7 +67,7 @@ public class Pilot {
 	}
 
 	/**
-	 * Essaye de passer au segment prÃ©cÃ©dent. DÃ©clenche une erreur si on Ã©tait au
+	 * Essaye de passer au segment précédent. Déclenche une erreur si on était au
 	 * premier segment du texte.
 	 */
 	public void doPrevious() {
@@ -75,7 +75,7 @@ public class Pilot {
 	}
 
 	/**
-	 * Essaye d'arrÃªter l'enregistrement en cours.
+	 * Essaye d'arrêter l'enregistrement en cours.
 	 */
 	public void doStop() {
 		if (activeThread != null) {
@@ -84,8 +84,8 @@ public class Pilot {
 	}
 
 	/**
-	 * Essaye de reprendre l'enregistrement. Si il est dÃ©jÃ  dÃ©marrÃ©, reprend depuis
-	 * le dÃ©but.
+	 * Essaye de reprendre l'enregistrement. Si il est déjà démarré, reprend depuis
+	 * le début.
 	 */
 	public void doPlay() {
 		goTo(phrase);
@@ -125,7 +125,7 @@ public class Pilot {
 		if (activeThread != null) {
 			phrase = activeThread.getN();
 		}
-		/// met Ã  jour la barre de progression ///
+		/// met à jour la barre de progression ///
 		updateBar();
 	}
 

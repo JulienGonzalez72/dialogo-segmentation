@@ -361,23 +361,34 @@ public class ControllerText {
 	 * Applique un Font à l'exercice.
 	 * 
 	 * @throws IllegalArgumentException
-	 *             si l'exercice a déjé commencé.
+	 *             si l'exercice a déjà commencé.
 	 */
 	public void setFont(Font f) throws IllegalArgumentException {
 		if (pilot.hasStarted()) {
 			throw new IllegalArgumentException("Police inchangeable après le démarrage de l'exercice !");
 		}
 		p.getEditorPane().setFont(f);
+		p.rebuildPages();
 	}
 
 	/**
 	 * Change la taille de la police.
 	 * 
 	 * @throws IllegalArgumentException
-	 *             si l'exercice a déjé commencé.
+	 *             si l'exercice a déjà commencé.
 	 */
 	public void setFontSize(float fontSize) throws IllegalArgumentException {
 		setFont(p.getEditorPane().getFont().deriveFont(fontSize));
+	}
+	
+	/**
+	 * Régle l'écartement vertical entre les lignes.<br/>
+	 * 1 correspond à la hauteur d'une ligne selon la police utilisée (par défaut 0.8).<br/>
+	 * <b>Attention !</b> Si la taille de police est grande, il ne faut pas utiliser un espacement trop grand afin de permettre la mise en page.
+	 */
+	public void setLineSpacing(float lineSpacing) {
+		p.getEditorPane().setLineSpacing(lineSpacing);
+		p.rebuildPages();
 	}
 
 	/**
@@ -393,7 +404,7 @@ public class ControllerText {
 	 * Modifie les couleurs de surlignage pour l'exercice.<br/>
 	 * Certaines couleurs peuvent être initiliasées à <code>null</code> si elles ne
 	 * sont pas utilisées dans l'exercice. Ne peut pas fonctionner si du texte a
-	 * déjé été surligné.
+	 * déjà été surligné.
 	 * 
 	 * @param rightColor
 	 *            couleur de surlignage pour les segments passés avec succès

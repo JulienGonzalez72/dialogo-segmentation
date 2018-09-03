@@ -36,7 +36,7 @@ public class SegmentedTextPane extends JTextPane {
 		
 		/// mets les marges sur les côtés ///
 		SimpleAttributeSet attrs = new SimpleAttributeSet();
-		StyleConstants.setLineSpacing(attrs, 1);
+		StyleConstants.setLineSpacing(attrs, Constants.DEFAULT_LINE_SPACING);
 		StyleConstants.setSpaceAbove(attrs, Constants.TEXTPANE_MARGING);
 		StyleConstants.setLeftIndent(attrs, Constants.TEXTPANE_MARGING);
 		StyleConstants.setRightIndent(attrs, Constants.TEXTPANE_MARGING);
@@ -178,6 +178,12 @@ public class SegmentedTextPane extends JTextPane {
 
 	public void setTextReel(String textReel) {
 		this.textReel = textReel;
+	}
+	
+	public void setLineSpacing(float lineSpacing) {
+		SimpleAttributeSet attrs = new SimpleAttributeSet();
+		StyleConstants.setLineSpacing(attrs, lineSpacing);
+		getStyledDocument().setParagraphAttributes(0, 0, attrs, false);
 	}
 
 	/*

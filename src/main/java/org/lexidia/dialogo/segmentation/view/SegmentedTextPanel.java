@@ -200,8 +200,6 @@ public class SegmentedTextPanel extends JDesktopPane {
 			getEditorPane().removeAllHighlights();
 		}
 	}
-
-
 	
 	/**
 	 * Construit la mise en page du texte.

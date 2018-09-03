@@ -31,7 +31,7 @@ public class LSTest {
 		/// on initalise la fenetre avec les parametres necessaires a sa creation ///
 		frame.init(getTextFromFile("resources/textes/Amélie la sorcière_oneline.txt"), // le texte a  afficher
 				0, // le premier segment a  afficher
-				new Font(Font.MONOSPACED, Font.BOLD, 20), // les caracteristiques de la police (nom, style, taille)
+				new Font(Font.MONOSPACED, Font.BOLD, 32), // les caracteristiques de la police (nom, style, taille)
 				100, // la position x de la fenetre (en pixels)
 				100, // la position y de la fenetre (en pixels)
 				12, // la largeur de la fenetre (en cm)
@@ -52,7 +52,10 @@ public class LSTest {
 
 				/// initialisation des couleurs ///
 				controler.setHighlightColors(Color.GREEN, Color.RED, Color.CYAN);
-
+				
+				/// régle l'espacement entre les lignes ///
+				controler.setLineSpacing(0.5f);
+				
 				/// initialisation du nombre d'essais par segment ///
 				controler.setPhraseTrials(3);
 
@@ -67,7 +70,7 @@ public class LSTest {
 				});
 
 				/// on demarre le thread au premier segment ///
-				controler.goTo(105);
+				controler.goTo(0);
 			}
 		});
 	}

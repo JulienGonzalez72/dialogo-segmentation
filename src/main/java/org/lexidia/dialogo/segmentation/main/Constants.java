@@ -45,6 +45,11 @@ public final class Constants {
 	 * Taille des images dans le controleur du player
 	 */
 	public static final int CONTROL_IMAGE_SIZE = 40;
+	
+	/**
+	 * Espacement supplémentaire entre les lignes par défaut
+	 */
+	public static final float DEFAULT_LINE_SPACING = 0.8f;
 
 	/*
 	 * Valeurs par défaut des paramétres

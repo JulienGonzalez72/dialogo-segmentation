@@ -27,11 +27,11 @@ public class LSTest {
 		
 		/// on créé la fenetre d'exercice ///
 		final SegmentedTextFrame frame = new SegmentedTextFrame("Dialogo - Lecture segmentée"); // le titre
-
+		
 		/// on initalise la fenetre avec les parametres necessaires a sa creation ///
-		frame.init(getTextFromFile("resources/textes/Amélie la sorcière_oneline.txt"), // le texte a  afficher
+		frame.init(getTextFromFile("resources/textes/Amélie la sorcière.txt"), // le texte a  afficher
 				0, // le premier segment a  afficher
-				new Font(Font.MONOSPACED, Font.BOLD, 32), // les caracteristiques de la police (nom, style, taille)
+				new Font(Font.MONOSPACED, Font.BOLD, 22), // les caracteristiques de la police (nom, style, taille)
 				100, // la position x de la fenetre (en pixels)
 				100, // la position y de la fenetre (en pixels)
 				12, // la largeur de la fenetre (en cm)

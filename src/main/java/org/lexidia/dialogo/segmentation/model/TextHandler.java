@@ -196,7 +196,8 @@ public class TextHandler {
 	}
 	
 	private static boolean isPunctuation(char c) {
-		return c == ',' || c == '.' || c == ';' || c == ':' || c == '!' || c == '?' || c == '\u2026';
+		return c == ',' || c == '.' || c == ';' || c == ':' || c == '!'
+				|| c == '?' || c == '\u2026' || c == '»';
 	}
 	
 	/**
@@ -215,11 +216,8 @@ public class TextHandler {
 			}
 			if (Character.isWhitespace(txt.charAt(i)) || isPunctuation(txt.charAt(i))) {
 				err++;
-				if (err >= 2) {
-					return false;
-				}
 			}
-			if (Character.isAlphabetic(txt.charAt(i)) && err == 1) {
+			if (Character.isAlphabetic(txt.charAt(i)) && err >= 1) {
 				return false;
 			}
 		}

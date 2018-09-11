@@ -185,10 +185,5 @@ public class SegmentedTextPane extends JTextPane {
 		StyleConstants.setLineSpacing(attrs, lineSpacing);
 		getStyledDocument().setParagraphAttributes(0, 0, attrs, false);
 	}
-
-	/*
-	 * @Override public void paintComponent(Graphics g) { g.setColor(Color.YELLOW);
-	 * g.fillRect(0, 0, getWidth(), getHeight()); super.paintComponent(g); }
-	 */
-
+	
 }

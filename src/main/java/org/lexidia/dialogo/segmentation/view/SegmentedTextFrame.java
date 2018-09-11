@@ -70,10 +70,9 @@ public class SegmentedTextFrame extends JFrame {
 					lastWidth = getWidth();
 					lastHeight = getHeight();
 				}
-
+				
 				SegmentedTextFrame.this.param.setPanWidth(SegmentedTextFrame.this.getWidth());
 				SegmentedTextFrame.this.param.setPanHeight(SegmentedTextFrame.this.getHeight());
-
 			}
 
 			@Override

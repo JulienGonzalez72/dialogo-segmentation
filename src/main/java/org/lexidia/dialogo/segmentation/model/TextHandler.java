@@ -126,7 +126,7 @@ public class TextHandler {
 	 * Retourne la position absolue du segment indiqué en paramètre.
 	 */
 	public int getPauseOffset(int phrase) {
-		return getPhrasesLength(0, phrase);
+		return getPhrasesLength(0, phrase + 1);
 	}
 	
 	/**
@@ -150,6 +150,14 @@ public class TextHandler {
 			}
 		}
 		return index;
+	}
+	
+	/**
+	 * Retourne <code>true</code> si la position indiquée correspond au dernier caractère d'un segment.
+	 */
+	public boolean isPhraseLastOffset(int offset) {
+		return offset == getShowText().length() - 1
+				|| getPhraseIndex(offset + 1) > getPhraseIndex(offset);
 	}
 
 	/**
@@ -372,6 +380,20 @@ public class TextHandler {
 
 	public String getShowText() {
 		return showText;
+	}
+	
+	/**
+	 * Retourne tout le texte à partir du segment indiqué.
+	 */
+	public String getTextFrom(int startPhrase) {
+		if (startPhrase == 0) {
+			return getShowText();
+		}
+		String text = "";
+		for (int i = startPhrase; i < getPhrasesCount(); i++) {
+			text += getPhrase(i);
+		}
+		return text;
 	}
 
 	/**

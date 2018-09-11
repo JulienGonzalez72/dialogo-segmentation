@@ -31,44 +31,44 @@ public class LSTest {
 		/// on initalise la fenetre avec les parametres necessaires a sa creation ///
 		frame.init(getTextFromFile("resources/textes/Amélie la sorcière.txt"), // le texte a  afficher
 				0, // le premier segment a  afficher
-				new Font(Font.MONOSPACED, Font.BOLD, 22), // les caracteristiques de la police (nom, style, taille)
+				new Font(Font.DIALOG, Font.BOLD, 22), // les caracteristiques de la police (nom, style, taille)
 				100, // la position x de la fenetre (en pixels)
 				100, // la position y de la fenetre (en pixels)
-				12, // la largeur de la fenetre (en cm)
-				12); // la hauteur de la fenetre (en cm)
+				14.25f, // la largeur de la fenetre (en cm)
+				13f); // la hauteur de la fenetre (en cm)
 		
 		/// on spécifie à la fenêtre d'elle termine le processus lorsqu'elle est fermée ///
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		
 		/// on affiche la fenetre ///
 		frame.start();
-
+		
 		/// on execute les traitements seulement lorsque la fenetre d'exercice s'est
 		/// bien initilisee ///
 		frame.setOnInit(new Runnable() {
 			public void run() {
 				/// on recupere le contreleur ///
 				final ControllerText controler = new ControllerText(frame);
-
+				
 				/// initialisation des couleurs ///
 				controler.setHighlightColors(Color.GREEN, Color.RED, Color.CYAN);
 				
 				/// régle l'espacement entre les lignes ///
-				controler.setLineSpacing(0.5f);
+				controler.setLineSpacing(1f);
 				
 				/// initialisation du nombre d'essais par segment ///
 				controler.setPhraseTrials(3);
-
+				
 				/// active les contrôles clavier ///
 				controler.setKeyEnabled(true);
-
+				
 				/// on cree une usine de lecture qui va instancier notre thread personnalise ///
 				controler.setReaderFactory(new ReaderFactory() {
 					public ReadThread createReadThread() {
 						return new LSThread(controler);
 					}
 				});
-
+				
 				/// on demarre le thread au premier segment ///
 				controler.goTo(0);
 			}
@@ -83,35 +83,35 @@ public class LSTest {
 		public LSThread(ControllerText controler) {
 			super(controler);
 		}
-
+		
 		public void run() {
 			/// on repete l'operation jusqu'au dernier segment ou jusqu'a  ce que le thread
 			/// s'arrete ///
 			while (getN() < getControler().getPhrasesCount() && isRunning()) {
 				/// operation de mise a jour, indispensable au debut de chaque segment ///
 				getControler().updateCurrentPhrase();
-
+				
 				/// affichage de la page correspondant au segment actuel ///
 				getControler().showPage(getControler().getPageOfPhrase(getN()));
-
+								
 				/// on enleve le surlignage existant ///
 				getControler().removeAllHighlights();
-
+				
 				/// on attend un clic du patient ///
 				while (!getControler().waitForClick(getN()) && isRunning()) {
 					/// on comptabilise une erreur ///
 					getControler().countError();
-
+					
 					/// on surligne le mauvais mot ///
 					getControler().highlightWrongWord();
-
+					
 					/// lorsque le patient n'a plus d'essais restants ///
 					if (!getControler().hasMoreTrials()) {
 						/// surlignage du segment actuel ///
 						getControler().highlightCorrectionPhrase(getN());
 					}
 				}
-
+				
 				/// passage au prochain segment ///
 				setN(getN() + 1);
 			}

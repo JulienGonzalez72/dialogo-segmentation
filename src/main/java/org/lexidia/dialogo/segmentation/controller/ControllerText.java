@@ -444,7 +444,7 @@ public class ControllerText {
 	}
 
 	/**
-	 * Mets é jour la barre de progression et le numéro du segment en cours.<br/>
+	 * Mets à jour la barre de progression et le numéro du segment en cours.<br/>
 	 * A effectuer au début de chaque segment traité, mais pas plus d'une fois par
 	 * segment.
 	 */
@@ -452,7 +452,21 @@ public class ControllerText {
 		pilot.updateCurrentPhrase();
 		p.setNbErreursSegmentCourant(0);
 	}
-
+	
+	/**
+	 * Retourne le numéro du premier segment affiché de la page actuelle.
+	 */
+	public int getFirstShownPhraseIndex() {
+		return p.getFirstShownPhraseIndex();
+	}
+	
+	/**
+	 * Retourne le nombre de segments affiché actuellement.
+	 */
+	public int getShownPhrasesCount() {
+		return p.getPhrasesInFonctionOfPages().get(p.getCurrentPage()).size();
+	}
+	
 	/**
 	 * Active ou désactive les contrôles clavier (touche gauche pour répéter le
 	 * segment, touche espace pour arrêter/recommencer).

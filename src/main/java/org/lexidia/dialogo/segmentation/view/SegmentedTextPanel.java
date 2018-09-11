@@ -23,6 +23,7 @@ import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.text.BadLocationException;
 
@@ -30,7 +31,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.lexidia.dialogo.segmentation.controller.ControllerMask;
 import org.lexidia.dialogo.segmentation.controller.ControllerMouse;
-import org.lexidia.dialogo.segmentation.main.Constants;
 import org.lexidia.dialogo.segmentation.model.Player;
 import org.lexidia.dialogo.segmentation.model.ReadingParameters;
 import org.lexidia.dialogo.segmentation.model.TextHandler;
@@ -184,10 +184,6 @@ public class SegmentedTextPanel extends JDesktopPane {
 	 */
 	public void rebuildPages() {
 		buildPages(getParam().getStartingPhrase());
-		setCurrentPage(0);
-		afficherPageSuivante();
-		/// calcule le nombre de pages total ///
-		setNbPages(getPhrasesInFonctionOfPages().size());
 	}
 
 	public boolean hasNextPage() {
@@ -204,72 +200,30 @@ public class SegmentedTextPanel extends JDesktopPane {
 	/**
 	 * Construit la mise en page du texte.
 	 */
-	public void buildPages(int startPhrase) {
+	public void buildPages(final int startPhrase) {
 		log.info("Start of buildPages");
-		getPhrasesInFonctionOfPages().clear();
-		getEditorPane().removeAllHighlights();
-		/// récupère le texte entier à afficher ///
-		String text = getTextHandler().getShowText();
-		int lastOffset = 0;
-		int page = 1;
-		int lastPhrase = startPhrase - 1;
-		while (lastPhrase < getTextHandler().getPhrasesCount()) {
-			List<Integer> phrases = new ArrayList<>();
-			/// affiche le texte virtuellement ///
-			getEditorPane().setText(text);
-			/// hauteur des lignes ///
-			int h = 0;
-			try {
-				/// micro-attente (pour éviter certains bugs de synchronisation) ///
-				Thread.sleep(10);
-			} catch (InterruptedException e1) {
-				log.error("Error with Thread.sleep", e1);
-			}
-			try {
-				/// on récupère la hauteur des lignes en fonction de la police sélectionnée ///
-				h = getEditorPane().modelToView(0).height;
-			} catch (BadLocationException e) {
-				log.error("Error with model to view", e);
-			} catch (NullPointerException e) {
-				log.error("Error with model to view or getEditorPane", e);
-			}
-			/// on cherche la position dans le texte du caractère le plus proche du coin inférieur droit de la page ///
-			int off = getTextHandler().getAbsoluteOffset(lastPhrase,
-					getEditorPane().viewToModel(new Point((int) (getEditorPane().getWidth() - Constants.TEXTPANE_MARGING),
-							(int) (getEditorPane().getHeight() - h))));
-			/// on parcourt chaque caractère jusqu'à cette position ///
-			for (int i = lastOffset; i < off; i++) {
-				int phraseIndex = getTextHandler().getPhraseIndex(i);
-				if (phraseIndex == -1) {
-					lastOffset = text.length();
+		BuildPager pager = new BuildPager(getEditorPane(), getTextHandler());
+		Map<Integer, List<Integer>> pages = pager.getPages(startPhrase);
+		if (pages != null) {
+			setPhrasesInFonctionOfPages(pages);
+		}
+		/// redimensionne la fenêtre si même un seul segment ne rentre pas ///
+		else {
+			fenetre.setMinimumSize(pager.getMinimumSize());
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					buildPages(startPhrase);
 				}
-				/// on ajoute le segment s'il rentre en entier ///
-				if (phraseIndex > lastPhrase && !phrases.contains(phraseIndex)
-						&& phraseIndex != getTextHandler().getPhraseIndex(off)) {
-					lastPhrase = phraseIndex;
-					phrases.add(phraseIndex);
-					lastOffset = i;
-				}
-			}
-			/// enregistre tous les segments trouvés dans une page précise ///
-			if (!phrases.isEmpty()) {
-				getPhrasesInFonctionOfPages().put(page, phrases);
-				page++;
-			}
-			String newText = getTextHandler().getShowText().substring(lastOffset);
-			/// dernière page ///
-			if (newText.equals(text)) {
-				int lastPhraseIndex = getTextHandler().getPhraseIndex(off);
-				if (!getPhrasesInFonctionOfPages().get(page - 1).contains(lastPhraseIndex)
-						&& lastPhraseIndex >= 0 && lastPhraseIndex < getTextHandler().getPhrasesCount()) {
-					getPhrasesInFonctionOfPages().get(page - 1).add(lastPhraseIndex);
-				}
-				break;
-			} else {
-				text = newText;
-			}
+			});
+			return;
 		}
 		log.info("End of buildPages");
+		/// affiche la première page ///
+		setCurrentPage(0);
+		afficherPageSuivante();
+		/// calcule le nombre de pages total ///
+		setNbPages(getPhrasesInFonctionOfPages().size());
 	}
 
 	public void showPage(int page) {

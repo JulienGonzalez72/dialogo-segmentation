@@ -1,6 +1,5 @@
 package org.lexidia.dialogo.segmentation.view;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -22,7 +21,7 @@ public class BuildPager {
 	/**
 	 * Hauteur d'un caractère
 	 */
-	private int h;
+	private float h;
 	/**
 	 * Numéro de la page en cours de traitement
 	 */
@@ -47,7 +46,7 @@ public class BuildPager {
 		this.pages = new HashMap<>();
 		try {
 			/// on récupère la hauteur des lignes en fonction de la police sélectionnée ///
-			this.h = editorPane.getFontMetrics(editorPane.getFont()).getHeight();
+			this.h = editorPane.getFontMetrics(editorPane.getFont()).getHeight() * (1 + editorPane.getLineSpacing() / 2);
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
@@ -75,7 +74,6 @@ public class BuildPager {
 			
 			/// on cherche la position dans le texte du caractère le plus proche du coin inférieur droit de la page ///
 			int off = getLastVisibleOffset(lastPhrase);
-			editorPane.surlignerPhrase(off, off + 1, Color.ORANGE);
 			
 			/// on parcourt chaque caractère jusqu'à cette position ///
 			phrases = getPhrases(off);
@@ -167,7 +165,7 @@ public class BuildPager {
 	 */
 	private Point getBottomRight() {
 		return new Point((int) (editorPane.getWidth() - Constants.TEXTPANE_MARGING),
-				(int) (editorPane.getHeight() - h));
+				(int) (editorPane.getHeight() - h - Constants.TEXTPANE_MARGING));
 	}
 	
 	/**

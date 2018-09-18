@@ -2,6 +2,8 @@ package org.lexidia.dialogo.segmentation.view;
 
 import java.awt.Color;
 import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +30,7 @@ public class SegmentedTextPane extends JTextPane {
 
 	private ToolParameters param;
 	private HighlightParameters hParam = new HighlightParameters();
+	private float lineSpacing;
 
 	private String textReel;
 
@@ -36,7 +39,7 @@ public class SegmentedTextPane extends JTextPane {
 		
 		/// mets les marges sur les côtés ///
 		SimpleAttributeSet attrs = new SimpleAttributeSet();
-		StyleConstants.setLineSpacing(attrs, Constants.DEFAULT_LINE_SPACING);
+		StyleConstants.setLineSpacing(attrs, lineSpacing = Constants.DEFAULT_LINE_SPACING);
 		StyleConstants.setSpaceAbove(attrs, Constants.TEXTPANE_MARGING);
 		StyleConstants.setLeftIndent(attrs, Constants.TEXTPANE_MARGING);
 		StyleConstants.setRightIndent(attrs, Constants.TEXTPANE_MARGING);
@@ -181,9 +184,26 @@ public class SegmentedTextPane extends JTextPane {
 	}
 	
 	public void setLineSpacing(float lineSpacing) {
+		this.lineSpacing = lineSpacing;
 		SimpleAttributeSet attrs = new SimpleAttributeSet();
 		StyleConstants.setLineSpacing(attrs, lineSpacing);
 		getStyledDocument().setParagraphAttributes(0, 0, attrs, false);
+	}
+	
+	public float getLineSpacing() {
+		return lineSpacing;
+	}
+	
+	protected Rectangle debugRect;
+	
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		if (debugRect != null) {
+			java.awt.Graphics2D g2 = (Graphics2D) g;
+			g2.setColor(Color.RED);
+			g2.draw(debugRect);
+		}
 	}
 	
 }

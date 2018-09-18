@@ -18,7 +18,7 @@ import org.lexidia.dialogo.segmentation.view.SegmentedTextFrame;
 
 public class LSTest {
 
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		/// initialisation du système de log local ///
 		System.setProperty("org.apache.commons.logging.simplelog.logFile", "System.out");
 		System.setProperty("org.apache.commons.logging.simplelog.levelInBrackets", "true");
@@ -29,13 +29,13 @@ public class LSTest {
 		final SegmentedTextFrame frame = new SegmentedTextFrame("Dialogo - Lecture segmentée"); // le titre
 		
 		/// on initalise la fenetre avec les parametres necessaires a sa creation ///
-		frame.init(getTextFromFile("resources/textes/Amélie la sorcière.txt"), // le texte a  afficher
+		frame.init(getTextFromFile("resources/textes/20 000 lieux sous les mers").replace("\n", ""), // le texte a  afficher
 				0, // le premier segment a  afficher
 				new Font(Font.DIALOG, Font.BOLD, 22), // les caracteristiques de la police (nom, style, taille)
 				100, // la position x de la fenetre (en pixels)
 				100, // la position y de la fenetre (en pixels)
-				14.25f, // la largeur de la fenetre (en cm)
-				13f); // la hauteur de la fenetre (en cm)
+				16.25f, // la largeur de la fenetre (en cm)
+				15f); // la hauteur de la fenetre (en cm)
 		
 		/// on spécifie à la fenêtre d'elle termine le processus lorsqu'elle est fermée ///
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -96,6 +96,8 @@ public class LSTest {
 								
 				/// on enleve le surlignage existant ///
 				getControler().removeAllHighlights();
+				
+				getControler().highlightUntilPhrase(Color.GREEN, getN() - 1);
 				
 				/// on attend un clic du patient ///
 				while (!getControler().waitForClick(getN()) && isRunning()) {

@@ -51,6 +51,7 @@ public class BuildPager {
 			e.printStackTrace();
 		}
 		this.text = textHandler.getShowText();
+		this.editorPane.debugRects.clear();
 	}
 	
 	public Map<Integer, List<Integer>> getPages(int startPhrase) {
@@ -60,6 +61,7 @@ public class BuildPager {
 		page = 1;
 		lastPhrase = startPhrase;
 		text = textHandler.getTextFrom(startPhrase);
+		boolean ff = true;
 		while (lastPhrase < textHandler.getPhrasesCount()) {
 			List<Integer> phrases = new ArrayList<>();
 			/// affiche le texte virtuellement ///
@@ -72,11 +74,31 @@ public class BuildPager {
 				e.printStackTrace();
 			}
 			
-			/// on cherche la position dans le texte du caractère le plus proche du coin inférieur droit de la page ///
-			int off = getLastVisibleOffset(lastPhrase);
+			/*for (int i = 0; i < text.length(); i++) {
+				if (ff) {
+					try {
+						if (false) {
+							editorPane.debugRect = editorPane.modelToView(i);
+						}
+						else {
+							editorPane.debugRects.add(editorPane.modelToView(i));							
+						}
+					} catch (BadLocationException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			ff = false;*/
 			
-			/// on parcourt chaque caractère jusqu'à cette position ///
-			phrases = getPhrases(off);
+			/// cherche l'indice du dernier segment qui rentre ///
+			int phrase = getLastVisiblePhrase(lastPhrase);
+			
+			/// ajoute tous les segments qui rentrent ///
+			phrases = new ArrayList<>();
+			for (int i = lastPhrase; i <= phrase; i++) {
+				phrases.add(i);
+			}
+			lastPhrase = phrase + 1;
 			
 			/// enregistre tous les segments trouvés dans une page précise ///
 			if (!phrases.isEmpty()) {
@@ -90,13 +112,12 @@ public class BuildPager {
 				return null;
 			}
 			
-			String newText = textHandler.getShowText().substring(lastOffset);
+			String newText = textHandler.getTextFrom(lastPhrase);
 			/// dernière page ///
 			if (newText.equals(text)) {
-				int lastPhraseIndex = textHandler.getPhraseIndex(off);
-				if (!pages.get(page - 1).contains(lastPhraseIndex)
-						&& lastPhraseIndex >= 0 && lastPhraseIndex < textHandler.getPhrasesCount()) {
-					pages.get(page - 1).add(lastPhraseIndex);
+				if (!pages.get(page - 1).contains(phrase)
+						&& phrase >= 0 && phrase < textHandler.getPhrasesCount()) {
+					pages.get(page - 1).add(phrase);
 				}
 				break;
 			} else {
@@ -106,28 +127,6 @@ public class BuildPager {
 		
 		editorPane.repaint();
 		return pages;
-	}
-	
-	/**
-	 * Ajoute dans une liste tous les segments qui rentrent entièrement jusqu'à la position off dans l'editor pane.
-	 */
-	private List<Integer> getPhrases(int off) {
-		List<Integer> phrases = new ArrayList<>();
-		for (int i = lastOffset; i < off; i++) {
-			int phraseIndex = textHandler.getPhraseIndex(i);
-			if (phraseIndex == -1) {
-				lastOffset = text.length();
-			}
-			/// on ajoute le segment s'il rentre en entier ///
-			if (phraseIndex >= lastPhrase && !phrases.contains(phraseIndex)
-					&& phraseIndex != textHandler.getPhraseIndex(off)
-					&& textHandler.isPhraseLastOffset(i)) {
-				lastPhrase = phraseIndex + 1;
-				phrases.add(phraseIndex);
-				lastOffset = i;
-			}
-		}
-		return phrases;
 	}
 	
 	/**
@@ -153,19 +152,23 @@ public class BuildPager {
 	}
 	
 	/**
-	 * Cherche la position absolue du caractère le plus proche du coin inférieur droit de l'editor pane.
+	 * Cherche l'indice du dernier segment qui peut rentrer dans l'editor pane.
 	 */
-	private int getLastVisibleOffset(int phrase) {
-		return textHandler.getAbsoluteOffset(phrase,
-				editorPane.viewToModel(getEndPoint()));
-	}
-	
-	/**
-	 * Retourne le point qui correspond au coin inférieur gauche de l'editor pane.
-	 */
-	private Point getEndPoint() {
-		return new Point((int) Constants.TEXTPANE_MARGING,
-				(int) (editorPane.getHeight() - Constants.TEXTPANE_MARGING));
+	private int getLastVisiblePhrase(int startPhrase) {
+		for (int i = startPhrase; i < textHandler.getPhrasesCount(); i++) {
+			/// position de la fin du segment dans la page ///
+			int endOffset = textHandler.getRelativeOffset(startPhrase, textHandler.getPauseOffset(i) - 1);
+			try {
+				Rectangle bounds = editorPane.modelToView(endOffset);
+				/// s'il dépasse de l'editor pane ///
+				if (bounds.getY() > editorPane.getHeight() - bounds.getHeight() - Constants.TEXTPANE_MARGING) {
+					return i - 1;
+				}
+			} catch (BadLocationException e) {
+				e.printStackTrace();
+			}
+		}
+		return textHandler.getPhrasesCount() - 1;
 	}
 	
 	/**

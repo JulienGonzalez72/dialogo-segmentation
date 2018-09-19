@@ -124,14 +124,14 @@ public class TextHandler {
 	}
 	
 	/**
-	 * Retourne la position absolue du segment indiqué en paramètre.
+	 * Retourne la position absolue de la fin du segment passé en paramètre.
 	 */
 	public int getPauseOffset(int phrase) {
-		return getPhrasesLength(0, phrase + 1);
+		return getPhrasesLength(0, phrase);
 	}
 	
 	/**
-	 * Retourne la position absolue du début du segment passé en paramétre.
+	 * Retourne la position absolue du début du segment passé en paramètre.
 	 */
 	public int getPhraseOffset(int phrase) {
 		return getPhrasesLength(0, phrase - 1);

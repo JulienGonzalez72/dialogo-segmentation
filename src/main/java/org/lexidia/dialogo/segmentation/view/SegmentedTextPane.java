@@ -195,14 +195,19 @@ public class SegmentedTextPane extends JTextPane {
 	}
 	
 	protected Rectangle debugRect;
+	protected List<Rectangle> debugRects = new ArrayList<>();
 	
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		java.awt.Graphics2D g2 = (Graphics2D) g;
 		if (debugRect != null) {
-			java.awt.Graphics2D g2 = (Graphics2D) g;
-			g2.setColor(Color.RED);
+			g2.setColor(Color.BLUE);
 			g2.draw(debugRect);
+		}
+		for (Rectangle rect : debugRects) {
+			g2.setColor(Color.RED);
+			g2.draw(rect);
 		}
 	}
 	

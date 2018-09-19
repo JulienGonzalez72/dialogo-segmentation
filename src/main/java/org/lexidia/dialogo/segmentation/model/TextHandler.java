@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.lexidia.dialogo.segmentation.main.Constants;
 
 public class TextHandler {
@@ -63,7 +64,7 @@ public class TextHandler {
 				phrases[i] = "";
 			}
 		}
-		str = String.join(Constants.PAUSE, phrases);
+		str = StringUtils.join(phrases, Constants.PAUSE);
 		return str.replace(" /", "/");
 	}
 	

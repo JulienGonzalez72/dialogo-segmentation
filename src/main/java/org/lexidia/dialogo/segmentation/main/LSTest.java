@@ -31,11 +31,11 @@ public class LSTest {
 		/// on initalise la fenetre avec les parametres necessaires a sa creation ///
 		frame.init(getTextFromFile("resources/textes/20 000 lieux sous les mers").replace("\n", ""), // le texte a  afficher
 				0, // le premier segment a  afficher
-				new Font(Font.DIALOG, Font.BOLD, 22), // les caracteristiques de la police (nom, style, taille)
+				new Font(Font.DIALOG, Font.BOLD, args.length > 0 ? Integer.parseInt(args[0]) : 30), // les caracteristiques de la police (nom, style, taille)
 				100, // la position x de la fenetre (en pixels)
 				100, // la position y de la fenetre (en pixels)
-				16.25f, // la largeur de la fenetre (en cm)
-				15f); // la hauteur de la fenetre (en cm)
+				30.25f, // la largeur de la fenetre (en cm)
+				18f); // la hauteur de la fenetre (en cm)
 		
 		/// on spécifie à la fenêtre d'elle termine le processus lorsqu'elle est fermée ///
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -54,7 +54,7 @@ public class LSTest {
 				controler.setHighlightColors(Color.GREEN, Color.RED, Color.CYAN);
 				
 				/// régle l'espacement entre les lignes ///
-				controler.setLineSpacing(1f);
+				controler.setLineSpacing(args.length > 1 ? Float.parseFloat(args[1]) : 0.8f);
 				
 				/// initialisation du nombre d'essais par segment ///
 				controler.setPhraseTrials(3);

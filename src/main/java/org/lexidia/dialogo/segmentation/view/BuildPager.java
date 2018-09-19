@@ -157,15 +157,15 @@ public class BuildPager {
 	 */
 	private int getLastVisibleOffset(int phrase) {
 		return textHandler.getAbsoluteOffset(phrase,
-				editorPane.viewToModel(getBottomRight()));
+				editorPane.viewToModel(getEndPoint()));
 	}
 	
 	/**
-	 * Retourne le point qui correspond au coin inférieur droit de l'editor pane.
+	 * Retourne le point qui correspond au coin inférieur gauche de l'editor pane.
 	 */
-	private Point getBottomRight() {
-		return new Point((int) (editorPane.getWidth() - Constants.TEXTPANE_MARGING),
-				(int) (editorPane.getHeight() - h - Constants.TEXTPANE_MARGING));
+	private Point getEndPoint() {
+		return new Point((int) Constants.TEXTPANE_MARGING,
+				(int) (editorPane.getHeight() - Constants.TEXTPANE_MARGING));
 	}
 	
 	/**

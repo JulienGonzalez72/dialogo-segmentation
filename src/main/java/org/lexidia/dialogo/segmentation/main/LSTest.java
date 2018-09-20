@@ -35,7 +35,7 @@ public class LSTest {
 				100, // la position x de la fenetre (en pixels)
 				100, // la position y de la fenetre (en pixels)
 				15.25f, // la largeur de la fenetre (en cm)
-				12f); // la hauteur de la fenetre (en cm)
+				15f); // la hauteur de la fenetre (en cm)
 		
 		/// on spécifie à la fenêtre d'elle termine le processus lorsqu'elle est fermée ///
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -47,17 +47,23 @@ public class LSTest {
 		/// bien initilisee ///
 		frame.setOnInit(new Runnable() {
 			public void run() {
-				/// on recupere le contreleur ///
+				/// on recupere le contrôleur ///
 				final ControllerText controler = new ControllerText(frame);
 				
 				/// initialisation des couleurs ///
 				controler.setHighlightColors(Color.GREEN, Color.RED, Color.CYAN);
 				
-				/// régle l'espacement entre les lignes ///
-				controler.setLineSpacing(args.length > 1 ? Float.parseFloat(args[1]) : 0.25f);
+				/// règle l'espacement entre les lignes ///
+				controler.setLineSpacing(args.length > 1 ? Float.parseFloat(args[1]) : 0.5f);
 				
 				/// initialisation du nombre d'essais par segment ///
 				controler.setPhraseTrials(3);
+				
+				/// nombre maximal de segments par page ///
+				controler.setMaxPhrasesByPage(4);
+				
+				/// centre le texte verticallement ///
+				controler.setTextCenteredVertically(true);
 				
 				/// active les contrôles clavier ///
 				controler.setKeyEnabled(true);

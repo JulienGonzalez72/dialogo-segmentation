@@ -203,6 +203,7 @@ public class SegmentedTextPanel extends JDesktopPane {
 	public void buildPages(final int startPhrase) {
 		log.info("Start of buildPages");
 		BuildPager pager = new BuildPager(getEditorPane(), getTextHandler());
+		pager.setMaxPhrasesByPage(getParam().getMaxPhrases());
 		Map<Integer, List<Integer>> pages = pager.getPages(startPhrase);
 		if (pages != null) {
 			setPhrasesInFonctionOfPages(pages);
@@ -270,7 +271,7 @@ public class SegmentedTextPanel extends JDesktopPane {
 		if (getTextHandler().getPhrase(n) != null) {
 			int debutRelatifSegment = getTextHandler().getRelativeStartPhrasePosition(getFirstShownPhraseIndex(), n);
 			int finRelativeSegment = debutRelatifSegment + getTextHandler().getPhrase(n).length();
-			getEditorPane().surlignerPhrase(0, finRelativeSegment, getEditorPane().gethParam().getRightColor());
+			getEditorPane().highlightPhrase(0, finRelativeSegment, getEditorPane().gethParam().getRightColor());
 		}
 	}
 

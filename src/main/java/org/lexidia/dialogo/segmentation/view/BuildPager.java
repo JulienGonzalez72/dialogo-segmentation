@@ -1,7 +1,6 @@
 package org.lexidia.dialogo.segmentation.view;
 
 import java.awt.Dimension;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,10 +18,6 @@ public class BuildPager {
 	private TextHandler textHandler;
 	private Map<Integer, List<Integer>> pages;
 	/**
-	 * Hauteur d'un caractère
-	 */
-	private float h;
-	/**
 	 * Numéro de la page en cours de traitement
 	 */
 	private int page;
@@ -34,22 +29,13 @@ public class BuildPager {
 	 * Dernier segment à être mis en page
 	 */
 	private int lastPhrase;
-	/**
-	 * Indice du dernier caractère traité
-	 */
-	private int lastOffset;
 	private int minWidth, minHeight;
+	private int maxPhrases;
 	
 	public BuildPager(SegmentedTextPane editorPane, TextHandler textHandler) {
 		this.editorPane = editorPane;
 		this.textHandler = textHandler;
 		this.pages = new HashMap<>();
-		try {
-			/// on récupère la hauteur des lignes en fonction de la police sélectionnée ///
-			this.h = editorPane.getFontMetrics(editorPane.getFont()).getHeight() * (1 + editorPane.getLineSpacing() / 2);
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-		}
 		this.text = textHandler.getShowText();
 		this.editorPane.debugRects.clear();
 	}
@@ -57,11 +43,9 @@ public class BuildPager {
 	public Map<Integer, List<Integer>> getPages(int startPhrase) {
 		pages.clear();
 		editorPane.removeAllHighlights();
-		lastOffset = 0;
 		page = 1;
 		lastPhrase = startPhrase;
 		text = textHandler.getTextFrom(startPhrase);
-		boolean ff = true;
 		while (lastPhrase < textHandler.getPhrasesCount()) {
 			List<Integer> phrases = new ArrayList<>();
 			/// affiche le texte virtuellement ///
@@ -74,24 +58,13 @@ public class BuildPager {
 				e.printStackTrace();
 			}
 			
-			/*for (int i = 0; i < text.length(); i++) {
-				if (ff) {
-					try {
-						if (false) {
-							editorPane.debugRect = editorPane.modelToView(i);
-						}
-						else {
-							editorPane.debugRects.add(editorPane.modelToView(i));							
-						}
-					} catch (BadLocationException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-			ff = false;*/
-			
 			/// cherche l'indice du dernier segment qui rentre ///
 			int phrase = getLastVisiblePhrase(lastPhrase);
+			
+			/// nombre de segments maximum par page ///
+			if (maxPhrases > 0) {
+				phrase = Math.min(phrase, lastPhrase + maxPhrases - 1);
+			}
 			
 			/// ajoute tous les segments qui rentrent ///
 			phrases = new ArrayList<>();
@@ -184,6 +157,10 @@ public class BuildPager {
 	 */
 	public Dimension getMinimumSize() {
 		return new Dimension(minWidth, minHeight);
+	}
+	
+	public void setMaxPhrasesByPage(int maxPhrases) {
+		this.maxPhrases = maxPhrases;
 	}
 	
 }

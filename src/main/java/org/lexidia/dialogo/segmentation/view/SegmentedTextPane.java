@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JTextPane;
+import javax.swing.SwingUtilities;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter.Highlight;
@@ -19,6 +22,7 @@ import org.lexidia.dialogo.segmentation.model.ToolParameters;
 
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
+import javax.swing.text.View;
 
 public class SegmentedTextPane extends JTextPane {
 
@@ -31,6 +35,7 @@ public class SegmentedTextPane extends JTextPane {
 	private ToolParameters param;
 	private HighlightParameters hParam = new HighlightParameters();
 	private float lineSpacing;
+	private boolean center;
 
 	private String textReel;
 
@@ -44,13 +49,44 @@ public class SegmentedTextPane extends JTextPane {
 		StyleConstants.setLeftIndent(attrs, Constants.TEXTPANE_MARGING);
 		StyleConstants.setRightIndent(attrs, Constants.TEXTPANE_MARGING);
 		getStyledDocument().setParagraphAttributes(0, 0, attrs, false);
+		
+		getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+			}
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				/// centre le texte verticallement ///
+				if (center) {
+					centerText();
+				}
+			}
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+			}
+		});
 	}
-
+	
+	/**
+	 * Compte le nombre de lignes affichées.<br>
+	 * Source : <a href="http://www.camick.com/java/source/RXTextUtilities.java">http://www.camick.com/java/source/RXTextUtilities.java</a>
+	 */
+	private int getWrappedLines() {
+		int lines = 0;
+		View view = getUI().getRootView(this).getView(0);
+		int paragraphs = view.getViewCount();
+		for (int i = 0; i < paragraphs; i++)
+		{
+			lines += view.getView(i).getViewCount();
+		}
+		return lines;
+	}
+	
 	/**
 	 * surligne tout de début à fin avec la couleur spécifiée
 	 *
 	 */
-	public void surlignerPhrase(int debut, int fin, Color couleur) {
+	public void highlightPhrase(int debut, int fin, Color couleur) {
 		if (fin <= debut)
 			return;
 		try {
@@ -192,6 +228,33 @@ public class SegmentedTextPane extends JTextPane {
 	
 	public float getLineSpacing() {
 		return lineSpacing;
+	}
+	
+	private void setTopMargin(float topMargin) {
+		SimpleAttributeSet attrs = new SimpleAttributeSet();
+		StyleConstants.setSpaceAbove(attrs, topMargin);
+		getStyledDocument().setParagraphAttributes(0, 0, attrs, false);
+	}
+	
+	public void setCentered(boolean center) {
+		this.center = center;
+		if (!center) {
+			setTopMargin(Constants.TEXTPANE_MARGING);
+		}
+		else {
+			centerText();
+		}
+	}
+	
+	private void centerText() {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {				
+				int lines = getWrappedLines();
+				float lineHeight = getFontMetrics(getFont()).getHeight() * (lineSpacing + 1f);
+				setTopMargin(getHeight() / 2f - lines * lineHeight / 2f);
+			}
+		});
 	}
 	
 	protected Rectangle debugRect;

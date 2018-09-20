@@ -41,7 +41,22 @@ public class ControllerText {
 	public void showPage(int page) {
 		p.showPage(page);
 	}
-
+	
+	/**
+	 * Limite le nombre de segments de page. Si 0, la mise en page se fait à la limite de la fenêtre.
+	 */
+	public void setMaxPhrasesByPage(int maxPhrases) {
+		p.getParam().setMaxPhrases(maxPhrases);
+		p.rebuildPages();
+	}
+	
+	/**
+	 * Aligne ou pas le texte verticallement au milieu de la page (par défaut désactivé).
+	 */
+	public void setTextCenteredVertically(boolean centered) {
+		p.getEditorPane().setCentered(centered);
+	}
+	
 	/**
 	 * Joue un fichier .wav correspondant à un segment de phrase. On sortira de
 	 * cette fonction lorsque le fichier .wav aura été totalement joué. METHODE DE
@@ -97,12 +112,11 @@ public class ControllerText {
 	}
 
 	/**
-	 * Retourne le temps d'attente en millisecondes correspondant é l'enregistrement
+	 * Retourne le temps d'attente en millisecondes correspondant à l'enregistrement
 	 * courant.
 	 */
 	@Deprecated
 	public long getCurrentWaitTime() {
-		// TODO remettre le bon temps de pause (avec ReadingParameters)
 		return (long) (getCurrentPhraseDuration() * /* p.param.tempsPauseEnPourcentageDuTempsDeLecture / 100. */1);
 	}
 
@@ -169,7 +183,7 @@ public class ControllerText {
 			int debutRelatifSegment = p.getTextHandler().getRelativeStartPhrasePosition(p.getFirstShownPhraseIndex(),
 					n);
 			int finRelativeSegment = debutRelatifSegment + p.getTextHandler().getPhrase(n).length();
-			p.getEditorPane().surlignerPhrase(debutRelatifSegment, finRelativeSegment, c);
+			p.getEditorPane().highlightPhrase(debutRelatifSegment, finRelativeSegment, c);
 		}
 	}
 
@@ -256,7 +270,7 @@ public class ControllerText {
 	}
 
 	private void highlight(Color c, int start, int end) {
-		p.getEditorPane().surlignerPhrase(start, end, c);
+		p.getEditorPane().highlightPhrase(start, end, c);
 	}
 
 	/**

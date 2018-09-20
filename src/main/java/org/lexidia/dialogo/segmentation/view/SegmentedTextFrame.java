@@ -56,7 +56,7 @@ public class SegmentedTextFrame extends JFrame {
 	public void init(String text, int startingPhrase, Font font, int x, int y, float width, float height) {
 		int w = cmToPx(width);
 		int h = cmToPx(height);
-		setParameters(new ToolParameters(font, w, h, x, y, startingPhrase, text));
+		setParameters(new ToolParameters(font, w, h, x, y, startingPhrase, 0, text));
 		
 		addComponentListener(new ComponentAdapter() {
 			private int lastWidth = getWidth(), lastHeight = getHeight();
@@ -82,7 +82,7 @@ public class SegmentedTextFrame extends JFrame {
 			}
 		});
 	}
-
+	
 	public void setParameters(ToolParameters param) {
 		this.param = param;
 		setBounds(param.getPanX(), param.getPanY(), param.getPanWidth(), param.getPanHeight());

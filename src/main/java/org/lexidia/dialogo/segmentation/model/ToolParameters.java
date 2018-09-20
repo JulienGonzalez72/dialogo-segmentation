@@ -17,19 +17,29 @@ public class ToolParameters {
 	private int panX;
 	private int panY;
 	private int startingPhrase;
+	private int maxPhrases;
 	private String text;
 	private Color bgColor = Constants.BG_COLOR;
 	
-	public ToolParameters(Font font, int panWidth, int panHeight, int panX, int panY, int startingPhrase, String text) {
+	public ToolParameters(Font font, int panWidth, int panHeight, int panX, int panY, int startingPhrase, int maxPhrases, String text) {
 		this.setFont(font);
 		this.setPanWidth(panWidth);
 		this.setPanHeight(panHeight);
 		this.setPanX(panX);
 		this.setPanY(panY);
 		this.setStartingPhrase(startingPhrase);
+		this.setMaxPhrases(maxPhrases);
 		this.setText(text);
 	}
-
+	
+	public int getMaxPhrases() {
+		return maxPhrases;
+	}
+	
+	public void setMaxPhrases(int maxPhrases) {
+		this.maxPhrases = maxPhrases;
+	}
+	
 	public Font getFont() {
 		return font;
 	}

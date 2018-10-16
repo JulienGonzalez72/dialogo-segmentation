@@ -32,7 +32,7 @@ public class ControllerText {
 	 * Construit les pages à partir du segment de numero spécifié.
 	 */
 	public void buildPages(int startPhrase) {
-		p.buildPages(startPhrase);
+		p.buildPages(startPhrase,p.getrParam().getMaxSegmentByPage());
 	}
 
 	/**
@@ -513,6 +513,13 @@ public class ControllerText {
 	public void freeze(boolean b) {
 		p.getFenetre().setResizable(!b);
 	}
+	
+	/**
+	 * Definis le nombre maximum de segments à afficher par page
+	 */
+	public void setMaxSegmentByPage(int i) {
+		p.getrParam().setMaxSegmentByPage(i);
+	}
 
 	/*
 	 * Méthodes du texte à trou
@@ -540,7 +547,7 @@ public class ControllerText {
 
 	/**
 	 * 
-	 * Affiche tous les trous correspondant é la page et é partir du trou indiquée.
+	 * Affiche tous les trous correspondant à la page et à partir du trou indiquée.
 	 * Désaffiche au préalable tous les trous.
 	 */
 	public void showHolesInPage(int h) {
@@ -549,7 +556,7 @@ public class ControllerText {
 
 	/**
 	 * 
-	 * Affiche tous les trous correspondant é la page indiqué et é partir du trou
+	 * Affiche tous les trous correspondant à la page indiqué et à partir du trou
 	 * indiqué. Désaffiche au préalable tous les trous.
 	 */
 	public void showHolesInPage(int h, int page) {
@@ -603,7 +610,7 @@ public class ControllerText {
 	}
 
 	/**
-	 * Retourne le nombre de trous associï¿½s au segment n.
+	 * Retourne le nombre de trous associées au segment n.
 	 */
 	public int getHolesCount(int n) {
 		return p.getTextHandler().getHolesCount(n);
@@ -618,7 +625,7 @@ public class ControllerText {
 
 	/**
 	 * Définit le temps d'aperçu du mot en fonction du nombre de caractères. Mettre
-	 * é 0 pour un aperçu inexistant. Mettre é -1 pour un aperçu jusqu'é saisie.
+	 * à 0 pour un aperçu inexistant. Mettre à -1 pour un aperçu jusqu'à saisie.
 	 */
 	public void setHint(int value) {
 		if (value == -1) {

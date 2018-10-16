@@ -53,6 +53,9 @@ public class LSTest {
 				/// initialisation des couleurs ///
 				controler.setHighlightColors(Color.GREEN, Color.RED, Color.CYAN);
 				
+				//règle le nombre de segments par page
+				controler.setMaxSegmentByPage(1);
+				
 				/// régle l'espacement entre les lignes ///
 				controler.setLineSpacing(1f);
 				

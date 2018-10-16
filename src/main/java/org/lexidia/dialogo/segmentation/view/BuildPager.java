@@ -54,7 +54,7 @@ public class BuildPager {
 		this.text = textHandler.getShowText();
 	}
 	
-	public Map<Integer, List<Integer>> getPages(int startPhrase) {
+	public Map<Integer, List<Integer>> getPages(int startPhrase, int maxSegmentByPage) {
 		pages.clear();
 		editorPane.removeAllHighlights();
 		lastOffset = 0;
@@ -78,7 +78,7 @@ public class BuildPager {
 			editorPane.surlignerPhrase(off, off + 1, Color.ORANGE);
 			
 			/// on parcourt chaque caractère jusqu'à cette position ///
-			phrases = getPhrases(off);
+			phrases = getPhrases(off,maxSegmentByPage);
 			
 			/// enregistre tous les segments trouvés dans une page précise ///
 			if (!phrases.isEmpty()) {
@@ -113,7 +113,7 @@ public class BuildPager {
 	/**
 	 * Ajoute dans une liste tous les segments qui rentrent entièrement jusqu'à la position off dans l'editor pane.
 	 */
-	private List<Integer> getPhrases(int off) {
+	private List<Integer> getPhrases(int off, int maxSegmentByPage) {
 		List<Integer> phrases = new ArrayList<>();
 		for (int i = lastOffset; i < off; i++) {
 			int phraseIndex = textHandler.getPhraseIndex(i);
@@ -126,6 +126,10 @@ public class BuildPager {
 					&& textHandler.isPhraseLastOffset(i)) {
 				lastPhrase = phraseIndex + 1;
 				phrases.add(phraseIndex);
+				//on vérifie que l'on n'a pas plus de segments dans la page que autorisé
+				if(phrases.size() >= maxSegmentByPage) {
+					return phrases;
+				}
 				lastOffset = i;
 			}
 		}

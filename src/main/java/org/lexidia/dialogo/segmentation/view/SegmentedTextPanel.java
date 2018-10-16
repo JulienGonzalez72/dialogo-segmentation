@@ -183,7 +183,7 @@ public class SegmentedTextPanel extends JDesktopPane {
 	 * Construit les pages et affiche la première.
 	 */
 	public void rebuildPages() {
-		buildPages(getParam().getStartingPhrase());
+		buildPages(getParam().getStartingPhrase(),getrParam().getMaxSegmentByPage());
 	}
 
 	public boolean hasNextPage() {
@@ -200,10 +200,10 @@ public class SegmentedTextPanel extends JDesktopPane {
 	/**
 	 * Construit la mise en page du texte.
 	 */
-	public void buildPages(final int startPhrase) {
+	public void buildPages(final int startPhrase, final int maxSegmentByPage) {
 		log.info("Start of buildPages");
 		BuildPager pager = new BuildPager(getEditorPane(), getTextHandler());
-		Map<Integer, List<Integer>> pages = pager.getPages(startPhrase);
+		Map<Integer, List<Integer>> pages = pager.getPages(startPhrase,maxSegmentByPage);
 		if (pages != null) {
 			setPhrasesInFonctionOfPages(pages);
 		}
@@ -213,7 +213,7 @@ public class SegmentedTextPanel extends JDesktopPane {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					buildPages(startPhrase);
+					buildPages(startPhrase,maxSegmentByPage);
 				}
 			});
 			return;

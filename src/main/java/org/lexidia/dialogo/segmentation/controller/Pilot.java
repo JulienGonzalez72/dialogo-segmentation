@@ -37,7 +37,10 @@ public class Pilot {
 
 		/// empêche le redimensionnement de la fenêtre à partir de la première lecture ///
 		p.getFenetre().setResizable(false);
-
+		
+		/// fait disparaître les sliders qui servent à ajuster les marges ///
+		p.setSlidersVisible(false);
+		
 		// met a jour la barre de progression
 		updateBar();
 
@@ -51,7 +54,7 @@ public class Pilot {
 		
 		started = true;
 	}
-
+	
 	private void updateBar() {
 		p.getProgressBar().setValue(phrase + 1);
 		p.getProgressBar().setString((phrase + 1) + "/" + (p.getTextHandler().getPhrasesCount()));

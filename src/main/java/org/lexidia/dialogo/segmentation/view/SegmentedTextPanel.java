@@ -31,6 +31,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.lexidia.dialogo.segmentation.controller.ControllerMask;
 import org.lexidia.dialogo.segmentation.controller.ControllerMouse;
+import org.lexidia.dialogo.segmentation.main.Constants;
 import org.lexidia.dialogo.segmentation.model.Player;
 import org.lexidia.dialogo.segmentation.model.ReadingParameters;
 import org.lexidia.dialogo.segmentation.model.TextHandler;
@@ -70,49 +71,94 @@ public class SegmentedTextPanel extends JDesktopPane {
 	private Player player;
 	private ToolParameters param;
 	private ReadingParameters rParam = new ReadingParameters();
-
+	
 	/**
 	 * Barre de progression
 	 */
 	private JProgressBar progressBar;
-
+	
+	/// sliders pour ajuster les marges du texte ///
+	
+	private SegmentedSlider leftTopSlider;
+	private SegmentedSlider leftBottomSlider;
+	private SegmentedSlider topLeftSlider;
+	private SegmentedSlider topRightSlider;
+	private boolean hasReduce;
+	
 	/*
 	 * ///////////////////////////////////////////////////////////// Ci dessous les
 	 * attributs utilisés pour la gestion des trous
 	 */////////////////////////////////////////////////////////////
-
+	
 	private ControllerMask controlerMask;
 	private List<Mask> maskFrame = new ArrayList<>();
+	private JPanel borderPanel = new JPanel();
 	private JPanel panelSud = new JPanel();
 	private JDesktopPane panelFixedFrame = null;
 	private Mask fixedFrame;
 	
 	//object used to debug
-
+	
 	private static final Log log = LogFactory.getLog(SegmentedTextPanel.class);
-
+	
 	public SegmentedTextPanel(SegmentedTextFrame fenetre) throws IOException {
 		setControlerMask(new ControllerMask());
 		this.setFenetre(fenetre);
-		this.setLayout(new BorderLayout());
+		this.setLayout(null);
+		
+		borderPanel.setLayout(new BorderLayout());
 		
 		setEditorPane(new SegmentedTextPane());
 		getEditorPane().setEditable(false);
-		add(getEditorPane(), BorderLayout.CENTER);
+		borderPanel.add(getEditorPane(), BorderLayout.CENTER);
 		
 		setProgressBar(new JProgressBar(0, 0));
 		getProgressBar().setStringPainted(true);
 		getProgressBar().setForeground(Color.GREEN);
 		
-		add(getPanelSud(), BorderLayout.SOUTH);
-
+		borderPanel.add(getPanelSud(), BorderLayout.SOUTH);
 	}
-
+	
 	/**
 	 * S'exécute lorsque le panneau s'est bien intégré à la fenêtre.
 	 */
 	public void init(ToolParameters param){
 		setParameters(param);
+		
+		borderPanel.setBounds(0, 0, getWidth(), getHeight());
+		add(borderPanel);
+		getEditorPane().setLeftMargin(getWidth() / 2 * Constants.DEFAULT_LEFT_MARGIN_FACTOR);
+		getEditorPane().setRightMargin(getWidth() / 2 * Constants.DEFAULT_RIGHT_MARGIN_FACTOR);
+		getEditorPane().setTopMargin(getHeight() / 2 * Constants.DEFAULT_TOP_MARGIN_FACTOR);
+		getEditorPane().setBottomMargin(getHeight() / 2 * Constants.DEFAULT_BOTTOM_MARGIN_FACTOR);
+		
+		/// slider de marge en haut ///
+		leftTopSlider = new SegmentedSlider(SegmentedSlider.Position.TOP, this);
+		leftTopSlider.setBounds(0, (int) Constants.TEXTPANE_MARGIN,
+				(int) Constants.TEXTPANE_MARGIN, getHeight() / 2 - (int) Constants.TEXTPANE_MARGIN * 2);
+		leftTopSlider.init();
+		getEditorPane().add(leftTopSlider);
+		
+		/// slider de marge en bas ///
+		leftBottomSlider = new SegmentedSlider(SegmentedSlider.Position.BOTTOM, this);
+		leftBottomSlider.setBounds(0, getHeight() / 2,
+				(int) Constants.TEXTPANE_MARGIN, getHeight() / 2 - (int) Constants.TEXTPANE_MARGIN * 3);
+		leftBottomSlider.init();
+		getEditorPane().add(leftBottomSlider);
+		
+		/// slider de marge à gauche ///
+		topLeftSlider = new SegmentedSlider(SegmentedSlider.Position.LEFT, this);
+		topLeftSlider.setBounds((int) Constants.TEXTPANE_MARGIN, 0,
+				getWidth() / 2 - (int) Constants.TEXTPANE_MARGIN * 2, (int) Constants.TEXTPANE_MARGIN);
+		topLeftSlider.init();
+		getEditorPane().add(topLeftSlider);
+		
+		/// slider de marge à droite ///
+		topRightSlider = new SegmentedSlider(SegmentedSlider.Position.RIGHT, this);
+		topRightSlider.setBounds(getWidth() / 2 + (int) Constants.TEXTPANE_MARGIN * 2, 0,
+				getWidth() / 2 - (int) Constants.TEXTPANE_MARGIN * 4, (int) Constants.TEXTPANE_MARGIN);
+		topRightSlider.init();
+		getEditorPane().add(topRightSlider);
 		
 		setTextHandler(new TextHandler(param.getText()));
 		getProgressBar().setMaximum(getTextHandler().getPhrasesCount());
@@ -123,15 +169,16 @@ public class SegmentedTextPanel extends JDesktopPane {
 		
 		/// construit la mise en page virtuelle ///
 		rebuildPages();
+		
 		/// initialise le lecteur ///
 		setControlerMouse(new ControllerMouse(this, getTextHandler()));
 		getEditorPane().addMouseListener(getControlerMouse());
 		getEditorPane().requestFocus();
-
+		
 		if (getFenetre().getOnInit() != null) {
 			getFenetre().getOnInit().run();
 		}
-
+		
 		if (getrParam().isFixedField()) {
 			getPanelSud().setLayout(new BorderLayout());
 			setPanelFixedFrame(new JDesktopPane());
@@ -150,7 +197,7 @@ public class SegmentedTextPanel extends JDesktopPane {
 		premierSegment = param.getStartingPhrase();
 
 		getEditorPane().setBackground(param.getBgColor());
-		getEditorPane().setFont(param.getFont());
+		getEditorPane().setBaseFont(param.getFont());
 		setNbEssaisRestantPourLeSegmentCourant(setNbEssaisParSegment(0));
 	}
 	
@@ -169,14 +216,8 @@ public class SegmentedTextPanel extends JDesktopPane {
 	 * passe a la page suivante et l'affiche
 	 *
 	 */
-	public void afficherPageSuivante() {
+	public void showNextPage() {
 		showPage(getCurrentPage() + 1);
-		/*
-		 * editorPane.désurlignerTout(); if ((param.readMode == ReadMode.GUIDEE ||
-		 * param.readMode == ReadMode.ANTICIPE) && (controlerGlobal != null && player !=
-		 * null)) { controlerGlobal.highlightPhrase(param.rightColor,
-		 * player.getCurrentPhraseIndex()); }
-		 */
 	}
 
 	/**
@@ -185,11 +226,11 @@ public class SegmentedTextPanel extends JDesktopPane {
 	public void rebuildPages() {
 		buildPages(getParam().getStartingPhrase());
 	}
-
+	
 	public boolean hasNextPage() {
 		return getCurrentPage() < getNbPages();
 	}
-
+	
 	public void afficherPagePrecedente() {
 		if (getCurrentPage() > 0) {
 			showPage(getCurrentPage() - 1);
@@ -204,29 +245,60 @@ public class SegmentedTextPanel extends JDesktopPane {
 		log.info("Start of buildPages");
 		BuildPager pager = new BuildPager(getEditorPane(), getTextHandler());
 		pager.setMaxPhrasesByPage(getParam().getMaxPhrases());
+		pager.setHeight(getEditorPane().getHeight() - getEditorPane().getBottomMargin());
 		Map<Integer, List<Integer>> pages = pager.getPages(startPhrase);
 		if (pages != null) {
-			setPhrasesInFonctionOfPages(pages);
+			/// si on peut encore augmenter la taille de la police ///
+			if (getEditorPane().canIncreaseFontSize(Constants.FONT_CHANGE_VALUE) && !hasReduce) {
+				getEditorPane().hideText();
+				getEditorPane().resetFont();
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						buildPages(startPhrase);
+					}
+				});
+				return;
+			}
+			else {
+				setPhrasesInFonctionOfPages(pages);
+				hasReduce = false;
+			}
 		}
-		/// redimensionne la fenêtre si même un seul segment ne rentre pas ///
+		/// si même un seul segment ne rentre pas ///
 		else {
-			fenetre.setMinimumSize(pager.getMinimumSize());
+			getEditorPane().hideText();
+			getEditorPane().decreaseFontSize(Constants.FONT_CHANGE_VALUE);
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
+					hasReduce = true;
 					buildPages(startPhrase);
 				}
 			});
 			return;
 		}
+		getEditorPane().showText();
 		log.info("End of buildPages");
 		/// affiche la première page ///
 		setCurrentPage(0);
-		afficherPageSuivante();
+		showNextPage();
 		/// calcule le nombre de pages total ///
 		setNbPages(getPhrasesInFonctionOfPages().size());
 	}
-
+	
+	public void centerTextVertically() {
+		getEditorPane().centerText();
+		leftTopSlider.updateValue(getEditorPane());
+	}
+	
+	public void updateSliders() {
+		leftTopSlider.updateValue(getEditorPane());
+		leftBottomSlider.updateValue(getEditorPane());
+		topLeftSlider.updateValue(getEditorPane());
+		topRightSlider.updateValue(getEditorPane());
+	}
+	
 	public void showPage(int page) {
 		/// on ne fait rien si on est déjé sur cette page ///
 		if (getCurrentPage() == page) {
@@ -245,11 +317,11 @@ public class SegmentedTextPanel extends JDesktopPane {
 		getEditorPane().setText(showText);
 
 	}
-
+	
 	public int getFirstShownPhraseIndex() {
 		return getPhrasesInFonctionOfPages().get(getCurrentPage()).get(0);
 	}
-
+	
 	public void showReport(String message) {
 		Object optionPaneBG = UIManager.get("OptionPane.background");
 		Object panelBG = UIManager.get("Panel.background");
@@ -263,7 +335,14 @@ public class SegmentedTextPanel extends JDesktopPane {
 		}
 		getFenetre().setResizable(true);
 	}
-
+	
+	public void setSlidersVisible(boolean visible) {
+		leftTopSlider.setVisible(visible);
+		leftBottomSlider.setVisible(visible);
+		topLeftSlider.setVisible(visible);
+		topRightSlider.setVisible(visible);
+	}
+	
 	/**
 	 * Colorie tout jusqu'au segment n en couleur c
 	 */
@@ -274,7 +353,7 @@ public class SegmentedTextPanel extends JDesktopPane {
 			getEditorPane().highlightPhrase(0, finRelativeSegment, getEditorPane().gethParam().getRightColor());
 		}
 	}
-
+	
 	/**
 	 * Retourne la longueur du segment n
 	 */
@@ -283,12 +362,12 @@ public class SegmentedTextPanel extends JDesktopPane {
 		int fin = getPhrasesInFonctionOfPages().get(n).get(getPhrasesInFonctionOfPages().get(n).size() - 1);
 		return getTextHandler().getPhrasesLength(start, fin);
 	}
-
+	
 	////////////////////////////////////////////
 	///////////////////////////////////////////
 	//////////////////////////////////////////
 	/////////////////////////////////////////
-
+	
 	/**
 	 * Affiche une fenetre correspondant au mot dï¿½limitï¿½ par start et end, d'indice
 	 * numeroCourant, et met le masque correspondant dans la liste des masques
@@ -319,7 +398,7 @@ public class SegmentedTextPanel extends JDesktopPane {
 			}
 		}
 	}
-
+	
 	public void replaceAllMask() {
 		for (int i = 0; i < getMaskFrame().size(); i++) {
 			if (getMaskFrame().get(i).isVisible()) {
@@ -331,7 +410,7 @@ public class SegmentedTextPanel extends JDesktopPane {
 			}
 		}
 	}
-
+	
 	/**
 	 * replace une fenetre
 	 */
@@ -345,12 +424,12 @@ public class SegmentedTextPanel extends JDesktopPane {
 			e.printStackTrace();
 		}
 	}
-
+	
 	// donne le numero d'un masque
 	public int getNumero(Mask m) {
 		return getMaskFrame().indexOf(m);
 	}
-
+	
 	public void removeAllMasks() {
 		for (int i = 0; i < getMaskFrame().size(); i++) {
 			Mask m = getMaskFrame().get(i);
@@ -359,7 +438,7 @@ public class SegmentedTextPanel extends JDesktopPane {
 		}
 		getMaskFrame().clear();
 	}
-
+	
 	public void blink(final Color c) {
 		Timer blinkTimer = new Timer();
 		final long interval = 250;
@@ -380,7 +459,7 @@ public class SegmentedTextPanel extends JDesktopPane {
 			}
 		}, 0, interval);
 	}
-
+	
 	public void updateText() {
 		String texteAfficher = "";
 		// on recupere les segments a afficher dans la page
@@ -396,193 +475,193 @@ public class SegmentedTextPanel extends JDesktopPane {
 
 		getEditorPane().setText(texteAfficher);
 	}
-
+	
 	public SegmentedTextPane getEditorPane() {
 		return editorPane;
 	}
-
+	
 	public void setEditorPane(SegmentedTextPane editorPane) {
 		this.editorPane = editorPane;
 	}
-
+	
 	public TextHandler getTextHandler() {
 		return textHandler;
 	}
-
+	
 	public void setTextHandler(TextHandler textHandler) {
 		this.textHandler = textHandler;
 	}
-
+	
 	public int getCurrentPage() {
 		return pageActuelle;
 	}
-
+	
 	public void setCurrentPage(int pageActuelle) {
 		this.pageActuelle = pageActuelle;
 	}
-
+	
 	public int getNbPages() {
 		return nbPages;
 	}
-
+	
 	public void setNbPages(int nbPages) {
 		this.nbPages = nbPages;
 	}
-
+	
 	public int getNbEssaisParSegment() {
 		return nbEssaisParSegment;
 	}
-
+	
 	public int setNbEssaisParSegment(int nbEssaisParSegment) {
 		this.nbEssaisParSegment = nbEssaisParSegment;
 		return nbEssaisParSegment;
 	}
-
+	
 	public int getNbEssaisRestantPourLeSegmentCourant() {
 		return nbEssaisRestantPourLeSegmentCourant;
 	}
-
+	
 	public void setNbEssaisRestantPourLeSegmentCourant(int nbEssaisRestantPourLeSegmentCourant) {
 		this.nbEssaisRestantPourLeSegmentCourant = nbEssaisRestantPourLeSegmentCourant;
 	}
-
+	
 	public int getNbErreurs() {
 		return nbErreurs;
 	}
-
+	
 	public void setNbErreurs(int nbErreurs) {
 		this.nbErreurs = nbErreurs;
 	}
-
+	
 	public int getNbErreursParSegment() {
 		return nbErreursParSegment;
 	}
-
+	
 	public void setNbErreursParSegment(int nbErreursParSegment) {
 		this.nbErreursParSegment = nbErreursParSegment;
 	}
-
+	
 	public int getNbErreursSegmentCourant() {
 		return nbErreursSegmentCourant;
 	}
-
+	
 	public void setNbErreursSegmentCourant(int nbErreursSegmentCourant) {
 		this.nbErreursSegmentCourant = nbErreursSegmentCourant;
 	}
-
+	
 	public SegmentedTextFrame getFenetre() {
 		return fenetre;
 	}
-
+	
 	public void setFenetre(SegmentedTextFrame fenetre) {
 		this.fenetre = fenetre;
 	}
-
+	
 	public ControlPanel getControlPanel() {
 		return controlPanel;
 	}
-
+	
 	public void setControlPanel(ControlPanel controlPanel) {
 		this.controlPanel = controlPanel;
 	}
-
+	
 	public ControllerMouse getControlerMouse() {
 		return controlerMouse;
 	}
-
+	
 	public void setControlerMouse(ControllerMouse controlerMouse) {
 		this.controlerMouse = controlerMouse;
 	}
-
+	
 	public ReadThread getTask() {
 		return task;
 	}
-
+	
 	public void setTask(ReadThread task) {
 		this.task = task;
 	}
-
+	
 	public Map<Integer, List<Integer>> getPhrasesInFonctionOfPages() {
 		return phrasesInFonctionOfPages;
 	}
-
+	
 	public void setPhrasesInFonctionOfPages(Map<Integer, List<Integer>> phrasesInFonctionOfPages) {
 		this.phrasesInFonctionOfPages = phrasesInFonctionOfPages;
 	}
-
+	
 	public Player getPlayer() {
 		return player;
 	}
-
+	
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
-
+	
 	public ToolParameters getParam() {
 		return param;
 	}
-
+	
 	public void setParam(ToolParameters param) {
 		this.param = param;
 	}
-
+	
 	public ReadingParameters getrParam() {
 		return rParam;
 	}
-
+	
 	public void setrParam(ReadingParameters rParam) {
 		this.rParam = rParam;
 	}
-
+	
 	public JProgressBar getProgressBar() {
 		return progressBar;
 	}
-
+	
 	public void setProgressBar(JProgressBar progressBar) {
 		this.progressBar = progressBar;
 	}
-
+	
 	public ControllerMask getControlerMask() {
 		return controlerMask;
 	}
-
+	
 	public void setControlerMask(ControllerMask controlerMask) {
 		this.controlerMask = controlerMask;
 	}
-
+	
 	public List<Mask> getMaskFrame() {
 		return maskFrame;
 	}
-
+	
 	public void setMaskFrame(List<Mask> maskFrame) {
 		this.maskFrame = maskFrame;
 	}
-
+	
 	public JPanel getPanelSud() {
 		return panelSud;
 	}
-
+	
 	public void setPanelSud(JPanel panelSud) {
 		this.panelSud = panelSud;
 	}
-
+	
 	public JDesktopPane getPanelFixedFrame(){
 		if(panelFixedFrame == null) {
 			System.out.println("panelFixedFrame is null, check in rParam if the fixed frame mode is enabled");
 		}
 		return panelFixedFrame;
 	}
-
+	
 	public void setPanelFixedFrame(JDesktopPane panelFixedFrame) {
 		this.panelFixedFrame = panelFixedFrame;
 	}
-
+	
 	public Mask getFixedFrame() {
 		return fixedFrame;
 	}
-
+	
 	public void setFixedFrame(Mask fixedFrame) {
 		this.fixedFrame = fixedFrame;
 	}
-
+	
 }

@@ -24,7 +24,7 @@ public class ControllerKey implements KeyListener {
 			if (e.getWhen() - lastClick > Constants.LEFT_DELAY) {
 				pilot.goTo(pilot.getCurrentPhraseIndex());
 			}
-			/// retourne au segment précédent ///
+			/// retourne au segment precedent ///
 			else if (pilot.hasPreviousPhrase()) {
 				pilot.goTo(pilot.getCurrentPhraseIndex() - 1);
 			}

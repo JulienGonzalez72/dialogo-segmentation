@@ -15,18 +15,18 @@ import org.lexidia.dialogo.segmentation.model.TextHandler;
 import org.lexidia.dialogo.segmentation.model.ToolParameters;
 
 public class SegmentedTextFrame extends JFrame {
-
+	
 	private static final long serialVersionUID = 1L;
-
+	
 	/**
 	 * S'exécute lorsque la fenêtre et son conteneur se sont bien initialisés.
 	 */
 	private Runnable onInit;
-
+	
 	private SegmentedTextPanel pan;
 	private boolean preferencesExiste = true;
 	private ToolParameters param;
-
+	
 	public SegmentedTextFrame(String titre) {
 		setIconImage(getToolkit().getImage("icone.jpg"));
 		try {
@@ -64,7 +64,8 @@ public class SegmentedTextFrame extends JFrame {
 			@Override
 			public void componentResized(ComponentEvent e) {
 				/// lors d'un redimensionnement, refait la mise en page ///
-				if (isResizable() && pan.getEditorPane() != null && pan.getEditorPane().getWidth() > 0
+				if (isResizable() && pan.getEditorPane() != null
+						&& pan.getEditorPane().getWidth() > 0 && pan.getTextHandler() != null
 						&& (lastWidth != getWidth() || lastHeight != getHeight())) {
 					pan.rebuildPages();
 					lastWidth = getWidth();
@@ -83,12 +84,50 @@ public class SegmentedTextFrame extends JFrame {
 		});
 	}
 	
+	/**
+	 * Met en place une marge automatique sur les côtés proportionnelle à la largeur de la fenêtre.<br>
+	 * Le nombre <i>marginFactor</i> correspond au rapport de la marge sur la largeur de la fenêtre
+	 * lorsque la fenêtre est en plein écran.<br>
+	 * Par exemple, si <i>marginFactor</i> = 5 (valeur conseillée), un espacement égal à largeur de la fenêtre/5 sera mis en place
+	 * lorsque la fenêtre sera en plein écran. Ce rapport diminue au fur et à mesure que la taille de la fenêtre diminue
+	 * afin de ne pas écraser le texte.
+	 * @param marginFactor la facteur proportionnel à la largeur de la fenêtre (par défaut = 0)
+	 */
+	@Deprecated
+	public void setAutoMargin(float marginFactor) {
+		//this.marginFactor = marginFactor;
+		
+		if (pan.getEditorPane() != null && pan.getTextHandler() != null) {
+			double margin;
+			if (marginFactor > 0) {
+				int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
+				margin = getWidth() / marginFactor + (getWidth() - screenWidth) / (marginFactor * 2);
+				margin = Math.max(margin, Constants.TEXTPANE_MARGIN);
+			}
+			else {
+				margin = Constants.TEXTPANE_MARGIN;
+			}
+			pan.getEditorPane().setHorizontalMargin((int) margin);
+			pan.rebuildPages();
+		}
+	}
+	
+	/**
+	 * Met la fenêtre en plein écran (l'utilisateur voit uniquement la fenêtre d'exercice).<br>
+	 * Cette méthode doit être appelée avant la méthode {@link #start}.
+	 */
+	public void setFullScreen() {
+		setUndecorated(true);
+		setLocation(0, 0);
+		setSize(Toolkit.getDefaultToolkit().getScreenSize());
+	}
+	
 	public void setParameters(ToolParameters param) {
 		this.param = param;
 		setBounds(param.getPanX(), param.getPanY(), param.getPanWidth(), param.getPanHeight());
 		pan.setParameters(param);
 	}
-
+	
 	public void start() {
 		setVisible(true);
 		SwingUtilities.invokeLater(new Runnable() {

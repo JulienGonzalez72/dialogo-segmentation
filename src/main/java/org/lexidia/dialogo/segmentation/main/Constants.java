@@ -70,7 +70,7 @@ public final class Constants {
 	public static final int DEFAULT_PAN_Y = PARAMS_FRAME_Y;
 	public static final int DEFAULT_PAN_WIDTH = 800;
 	public static final int DEFAULT_PAN_HEIGHT = 600;
-
+	
 	/**
 	 * Temps d'attente entre chaque page
 	 */
@@ -81,13 +81,21 @@ public final class Constants {
 	 */
 	public static final String PAUSE = "/";
 
-	public static final float TEXTPANE_MARGING = 20f;
-
+	public static final float TEXTPANE_MARGIN = 20f;
+	
+	public static final float DEFAULT_AUTO_MARGIN = 0f;
+	public static final float DEFAULT_LEFT_MARGIN_FACTOR = 0.6f;
+	public static final float DEFAULT_RIGHT_MARGIN_FACTOR = 0.6f;
+	public static final float DEFAULT_TOP_MARGIN_FACTOR = 0.15f;
+	public static final float DEFAULT_BOTTOM_MARGIN_FACTOR = 0.15f;
+	
+	public static final float FONT_CHANGE_VALUE = 2f;
+	
 	/**
 	 * Vitesse de lecture (en fréquence)
 	 */
 	public static final long PLAYER_INTERVAL = 20;
-
+	
 	/**
 	 * Nom du texte de l'exercice courant
 	 */

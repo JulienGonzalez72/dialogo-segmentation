@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.KeyListener;
 
+import javax.swing.SwingUtilities;
 import javax.swing.text.BadLocationException;
 
 import org.lexidia.dialogo.segmentation.main.Constants;
@@ -16,10 +17,10 @@ import org.lexidia.dialogo.segmentation.view.SegmentedTextFrame;
 import org.lexidia.dialogo.segmentation.view.SegmentedTextPanel;
 
 public class ControllerText {
-
+	
 	private SegmentedTextPanel p;
 	private Pilot pilot;
-
+	
 	/**
 	 * Construit un contrôleur à partir de la fenêtre d'exercice correspondante.
 	 */
@@ -27,14 +28,14 @@ public class ControllerText {
 		this.p = frame.getPanel();
 		this.pilot = new Pilot(p);
 	}
-
+	
 	/**
 	 * Construit les pages à partir du segment de numero spécifié.
 	 */
 	public void buildPages(int startPhrase) {
 		p.buildPages(startPhrase);
 	}
-
+	
 	/**
 	 * Affiche la page indiquée.
 	 */
@@ -51,10 +52,10 @@ public class ControllerText {
 	}
 	
 	/**
-	 * Aligne ou pas le texte verticallement au milieu de la page (par défaut désactivé).
+	 * Aligne le texte verticallement en ajustant la marge en haut.
 	 */
-	public void setTextCenteredVertically(boolean centered) {
-		p.getEditorPane().setCentered(centered);
+	public void centerTextVertically() {
+		p.getEditorPane().centerText();
 	}
 	
 	/**
@@ -78,21 +79,21 @@ public class ControllerText {
 			}
 		}
 	}
-
+	
 	/**
 	 * Retourne le nombre de segments total du texte.
 	 */
 	public int getPhrasesCount() {
 		return p.getTextHandler().getPhrasesCount();
 	}
-
+	
 	/**
 	 * Retourne le contenu textuel du segment de numéro indiqué.
 	 */
 	public String getPhraseContent(int phrase) {
 		return p.getTextHandler().getPhrase(phrase);
 	}
-
+	
 	/**
 	 * Retourne la durée en millisecondes de l'enregistrement qui correspond au
 	 * segment de phrase indiqué.
@@ -102,7 +103,7 @@ public class ControllerText {
 		p.getPlayer().load(phrase);
 		return p.getPlayer().getDuration();
 	}
-
+	
 	/**
 	 * Retourne la durée en millisecondes de l'enregistrement courant.
 	 */
@@ -110,7 +111,7 @@ public class ControllerText {
 	public long getCurrentPhraseDuration() {
 		return p.getPlayer().getDuration();
 	}
-
+	
 	/**
 	 * Retourne le temps d'attente en millisecondes correspondant à l'enregistrement
 	 * courant.
@@ -119,7 +120,7 @@ public class ControllerText {
 	public long getCurrentWaitTime() {
 		return (long) (getCurrentPhraseDuration() * /* p.param.tempsPauseEnPourcentageDuTempsDeLecture / 100. */1);
 	}
-
+	
 	/**
 	 * Mets en pause le thread courant pendant un certain temps.
 	 * 
@@ -138,7 +139,7 @@ public class ControllerText {
 			Thread.currentThread().interrupt();
 		}
 	}
-
+	
 	/**
 	 * Attends un clic sur un mot du texte.<br/>
 	 * Retourne <code>true</code> si le mot correspond au dernier mot du segment n,
@@ -163,21 +164,21 @@ public class ControllerText {
 		}
 
 	}
-
+	
 	/**
 	 * Colorie le segment numero n avec la couleur de réussite.
 	 */
 	public void highlightPhrase(int n) {
 		highlightPhrase(p.getEditorPane().gethParam().getRightColor(), n);
 	}
-
+	
 	/**
 	 * Colorie le segment numero n avec la couleur de correction.
 	 */
 	public void highlightCorrectionPhrase(int n) {
 		highlightPhrase(p.getEditorPane().gethParam().getCorrectionColor(), n);
 	}
-
+	
 	private void highlightPhrase(Color c, int n) {
 		if (p.getTextHandler().getPhrase(n) != null) {
 			int debutRelatifSegment = p.getTextHandler().getRelativeStartPhrasePosition(p.getFirstShownPhraseIndex(),
@@ -186,7 +187,7 @@ public class ControllerText {
 			p.getEditorPane().highlightPhrase(debutRelatifSegment, finRelativeSegment, c);
 		}
 	}
-
+	
 	/**
 	 * Supprime tout le surlignage qui se trouve sur le segment <i>n</i>.<br/>
 	 */
@@ -195,7 +196,7 @@ public class ControllerText {
 		int finRelativeSegment = debutRelatifSegment + p.getTextHandler().getPhrase(n).length();
 		p.getEditorPane().removeHighlight(debutRelatifSegment, finRelativeSegment);
 	}
-
+	
 	/**
 	 * 
 	 * Arrête l'enregistrement courant et enlève tout le surlignage.
@@ -205,7 +206,7 @@ public class ControllerText {
 		p.getPlayer().stop();
 		p.getEditorPane().removeAllHighlights();
 	}
-
+	
 	/**
 	 * Charge un segment de phrase dans le lecteur sans le démarrer.<br>
 	 * Pas nécessaire si on démarre le lecteur directement avec la méthode
@@ -214,21 +215,21 @@ public class ControllerText {
 	public void loadSound(int phrase) {
 		p.getPlayer().load(phrase);
 	}
-
+	
 	/**
 	 * Enlève tout le surlignage d'erreur.
 	 */
 	public void removeWrongHighlights() {
-		p.getEditorPane().enleverSurlignageRouge();
+		p.getEditorPane().removeRedHighlight();
 	}
-
+	
 	/**
 	 * Enlève tout le surlignage présent.
 	 */
 	public void removeAllHighlights() {
 		p.getEditorPane().removeAllHighlights();
 	}
-
+	
 	/**
 	 * Retourne la page qui contient le segment, ou -1 si le segment n'existe pas.
 	 */
@@ -242,19 +243,19 @@ public class ControllerText {
 		}
 		return numeroPage;
 	}
-
+	
 	/**
 	 * Surligne tout depuis le début de la page jusqu'au segment de phrase indiqué.
 	 */
 	public void highlightUntilPhrase(Color c, int n) {
 		p.surlignerJusquaSegment(c, n);
 	}
-
+	
 	@Deprecated
 	public void incrementerErreurSegment() {
 		p.setNbErreursParSegment(p.getNbErreursParSegment() + 1);
 	}
-
+	
 	/**
 	 * Surligne le dernier mot sur lequel le patient a cliqué après avoir enlevé le
 	 * surlignage d'erreur existant.
@@ -268,11 +269,11 @@ public class ControllerText {
 				p.getTextHandler().endWordPosition(clickOffset));
 		highlight(p.getEditorPane().gethParam().getWrongColor(), startOffset, endOffset);
 	}
-
+	
 	private void highlight(Color c, int start, int end) {
 		p.getEditorPane().highlightPhrase(start, end, c);
 	}
-
+	
 	/**
 	 * Comptabilise une erreur.
 	 */
@@ -280,7 +281,7 @@ public class ControllerText {
 		p.setNbErreursSegmentCourant(p.getNbErreursSegmentCourant() + 1);
 		p.setNbErreurs(p.getNbErreurs() + 1);
 	}
-
+	
 	/**
 	 * Comptabilise une erreur de segment (lorsque le patient atteint le nombre
 	 * maximal d'erreurs tolérés par segment).
@@ -288,7 +289,7 @@ public class ControllerText {
 	public void countPhraseError() {
 		p.setNbErreursParSegment(p.getNbErreursParSegment() + 1);
 	}
-
+	
 	/**
 	 * Retourne <code>true</code> si il reste au moins un essai au patient pour le
 	 * segment courant.
@@ -296,14 +297,14 @@ public class ControllerText {
 	public boolean hasMoreTrials() {
 		return p.getNbErreursSegmentCourant() < p.getrParam().getToleratedErrors() + 1;
 	}
-
+	
 	/**
 	 * Modifie le nombre d'essais tolérés par segment.
 	 */
 	public void setPhraseTrials(int trials) {
 		p.getrParam().setToleratedErrors(trials);
 	}
-
+	
 	/**
 	 * Affiche le compte rendu de l'exercice.
 	 * 
@@ -324,7 +325,7 @@ public class ControllerText {
 		message += "</html>";
 		p.showReport(message);
 	}
-
+	
 	/**
 	 * Se place sur le segment de numero <i>n</i> et démarre l'algorithme de
 	 * lecture.
@@ -338,7 +339,7 @@ public class ControllerText {
 	public void goTo(int n) throws IllegalArgumentException {
 		pilot.goTo(n);
 	}
-
+	
 	/**
 	 * Essaye de passer au segment suivant, passe à la page suivante si c'était le
 	 * dernier segment de la page. Déclenche une erreur si on était au dernier
@@ -347,7 +348,7 @@ public class ControllerText {
 	public void doNext() {
 		pilot.doNext();
 	}
-
+	
 	/**
 	 * Essaye de passer au segment précédent. Déclenche une erreur si on était au
 	 * premier segment du texte.
@@ -355,14 +356,14 @@ public class ControllerText {
 	public void doPrevious() {
 		pilot.doPrevious();
 	}
-
+	
 	/**
 	 * Essaye d'arréter l'enregistrement en cours.
 	 */
 	public void doStop() {
 		pilot.doStop();
 	}
-
+	
 	/**
 	 * Essaye de reprendre l'enregistrement. Si il est déjà démarré, reprend depuis
 	 * le début.
@@ -370,7 +371,7 @@ public class ControllerText {
 	public void doPlay() {
 		pilot.doPlay();
 	}
-
+	
 	/**
 	 * Applique un Font à l'exercice.
 	 * 
@@ -381,10 +382,10 @@ public class ControllerText {
 		if (pilot.hasStarted()) {
 			throw new IllegalArgumentException("Police inchangeable après le démarrage de l'exercice !");
 		}
-		p.getEditorPane().setFont(f);
+		p.getEditorPane().setBaseFont(f);
 		p.rebuildPages();
 	}
-
+	
 	/**
 	 * Change la taille de la police.
 	 * 
@@ -398,7 +399,8 @@ public class ControllerText {
 	/**
 	 * Régle l'écartement vertical entre les lignes.<br/>
 	 * 1 correspond à la hauteur d'une ligne selon la police utilisée (par défaut 0.8).<br/>
-	 * <b>Attention !</b> Si la taille de police est grande, il ne faut pas utiliser un espacement trop grand afin de permettre la mise en page.
+	 * <b>Attention !</b> Si la taille de police est grande, il ne faut pas utiliser un espacement
+	 * trop grand afin de permettre la mise en page.
 	 */
 	public void setLineSpacing(float lineSpacing) {
 		p.getEditorPane().setLineSpacing(lineSpacing);
@@ -498,7 +500,7 @@ public class ControllerText {
 			}
 		}
 	}
-
+	
 	/**
 	 * Retourne le rectangle du panneau de l'exercice
 	 */
@@ -519,7 +521,64 @@ public class ControllerText {
 	public float getFrameHeight() {
 		return SegmentedTextFrame.pxToCm(p.getFenetre().getHeight());
 	}
-
+	
+	/**
+	 * Cache ou fait apparaître les sliders qui permettent d'ajuster les marges sur les côtés du texte.<br>
+	 * Ceux-ci sont automatiquement désactivés lorsque l'exercice démarre.<br>
+	 * Par défault, ils sont visibles lors du démarrage de la fenêtre.
+	 */
+	public void setMarginSlidersVisible(boolean visible) {
+		p.setSlidersVisible(visible);
+	}
+	
+	/**
+	 * Retourne la marge à gauche du texte.
+	 */
+	public float getLeftMargin() {
+		return p.getEditorPane().getLeftMargin();
+	}
+	
+	/**
+	 * Retourne la marge à droite du texte.
+	 */
+	public float getRightMargin() {
+		return p.getEditorPane().getRightMargin();
+	}
+	
+	/**
+	 * Retourne la marge en haut du texte.
+	 */
+	public float getTopMargin() {
+		return p.getEditorPane().getTopMargin();
+	}
+	
+	/**
+	 * Retourne la marge en bas du texte.
+	 */
+	public float getBottomMargin() {
+		return p.getEditorPane().getBottomMargin();
+	}
+	
+	/**
+	 * Applique les marges sur les côtés du texte.<br>
+	 * Par défaut, si paramètres ne sont pas modifiés,
+	 * des marges horizontales sont placées automatiquement.
+	 */
+	public void setMargin(final float leftMargin, final float rightMargin,
+			final float topMargin, final float bottomMargin) {
+		SwingUtilities.invokeLater(new Runnable() {	
+			@Override
+			public void run() {
+				p.getEditorPane().setLeftMargin(leftMargin);
+				p.getEditorPane().setRightMargin(rightMargin);
+				p.getEditorPane().setTopMargin(topMargin);
+				p.getEditorPane().setBottomMargin(bottomMargin);
+				p.updateSliders();
+				p.rebuildPages();
+			}
+		});
+	}
+	
 	/**
 	 * Gèle la fenetre si b est <code>true</code>, la dégèle si b est
 	 * <code>false</code>
@@ -527,31 +586,31 @@ public class ControllerText {
 	public void freeze(boolean b) {
 		p.getFenetre().setResizable(!b);
 	}
-
+	
 	/*
 	 * Méthodes du texte à trou
 	 */
-
+	
 	/////////////////////////////////////////////
 	////////////////////////////////////////////
 	///////////////////////////////////////////
 	//////////////////////////////////////////
 	/////////////////////////////////////////
-
+	
 	/**
 	 * Retourne true si le trou est le premier de son segment.
 	 */
 	public boolean isFirstInPhrase(int h) {
 		return !p.getTextHandler().hasPreviousHoleInPhrase(h);
 	}
-
+	
 	/**
 	 * Retourne false si le trou est le dernier de son segment
 	 */
 	public boolean isLastInPhrase(int h) {
 		return !p.getTextHandler().hasNextHoleInPhrase(h);
 	}
-
+	
 	/**
 	 * 
 	 * Affiche tous les trous correspondant é la page et é partir du trou indiquée.
@@ -560,7 +619,7 @@ public class ControllerText {
 	public void showHolesInPage(int h) {
 		showHolesInPage(h, getPageOf(h));
 	}
-
+	
 	/**
 	 * 
 	 * Affiche tous les trous correspondant é la page indiqué et é partir du trou
@@ -581,7 +640,7 @@ public class ControllerText {
 			}
 		}
 	}
-
+	
 	/**
 	 * Montre le trou h
 	 */
@@ -601,35 +660,35 @@ public class ControllerText {
 			e.printStackTrace();
 		}
 	}
-
+	
 	/**
 	 * Retourne la page correspondant au trou h
 	 */
 	public int getPageOf(int h) {
 		return getPageOfPhrase(getPhraseOf(h));
 	}
-
+	
 	/**
 	 * Retourne le segment correspondant au trou h
 	 */
 	public int getPhraseOf(int h) {
 		return p.getTextHandler().getPhraseOf(h);
 	}
-
+	
 	/**
 	 * Retourne le nombre de trous associï¿½s au segment n.
 	 */
 	public int getHolesCount(int n) {
 		return p.getTextHandler().getHolesCount(n);
 	}
-
+	
 	/**
 	 * Retourne le nombre de trous total dans le texte.
 	 */
 	public int getHolesCount() {
 		return p.getTextHandler().getHolesCount();
 	}
-
+	
 	/**
 	 * Définit le temps d'aperçu du mot en fonction du nombre de caractères. Mettre
 	 * é 0 pour un aperçu inexistant. Mettre é -1 pour un aperçu jusqu'é saisie.
@@ -640,7 +699,7 @@ public class ControllerText {
 		}
 		p.getrParam().setHintDuration(value);
 	}
-
+	
 	/**
 	 * Active la fenêtre du trou actuel. Montre l'aperçu du mot. Renvoie
 	 * <code>true</code> si le mot est bon, <code>false</code> sinon.
@@ -657,7 +716,7 @@ public class ControllerText {
 		return m != null && m.getN() == h ? m.correctWord() : true;
 
 	}
-
+	
 	/**
 	 * Active la fenêtre fixe. Colorier le masque actuel en cyan ( ou jaune si le
 	 * fond est cyan ). Montre l'aperçu du mot dans la fenêtre fixe. Attend une
@@ -690,7 +749,7 @@ public class ControllerText {
 		}
 
 	}
-
+	
 	/**
 	 * Affiche l'aperçu du mot sur le masque m
 	 */
@@ -701,35 +760,35 @@ public class ControllerText {
 		 */
 		m.setHint(p.getrParam().getHintDuration() * m.getNbCarac());
 	}
-
+	
 	/**
 	 * Enlève tous les masques
 	 */
 	public void removeAllMasks() {
 		p.removeAllMasks();
 	}
-
+	
 	/**
 	 * Fait clignoter l'exercice avec la couleur c
 	 */
 	public void blink(Color c) {
 		p.blink(c);
 	}
-
+	
 	/**
 	 * Colore le trou h en couleur c
 	 */
 	public void colorFixedFrame(int h, Color c) {
 		getMask(h).getJtf().setBackground(c);
 	}
-
+	
 	/**
 	 * Retourne la couleur de fond de l'exercice
 	 */
 	public Color getColorBackground() {
 		return p.getEditorPane().getBackground();
 	}
-
+	
 	/**
 	 * Retourne le masque du trou h
 	 */
@@ -741,7 +800,7 @@ public class ControllerText {
 		}
 		return null;
 	}
-
+	
 	/**
 	 * Crée une fenêtre de saisie fixe qui attends le resultat du trou h
 	 */
@@ -767,7 +826,7 @@ public class ControllerText {
 		p.setFixedFrame(frame);
 
 	}
-
+	
 	/**
 	 * Met le mode fenêtre fixe si <code>true</code>, met le mode fenêtre non fixe
 	 * si <code>false</code>
@@ -775,7 +834,7 @@ public class ControllerText {
 	public void setModeFixedField(boolean b) {
 		p.getrParam().setFixedField(b);
 	}
-
+	
 	/**
 	 * Cette méthode propose la gestion d'erreur suivante : Clignote avec la couleur
 	 * d'alerte. Incremente le nombre d'erreur. Reaffiche le hint. Si vous voulez un
@@ -798,7 +857,7 @@ public class ControllerText {
 		 */
 
 	}
-
+	
 	/**
 	 * Désactive la fênetre fixe
 	 * 
@@ -811,14 +870,14 @@ public class ControllerText {
 		}
 		getFixedFrame().dispose();
 	}
-
+	
 	/**
 	 * Retourne la fenêtre fixe
 	 */
 	private Mask getFixedFrame() {
 		return p.getFixedFrame();
 	}
-
+	
 	/**
 	 * Cache le trou h et le remplace par le bon mot
 	 */
@@ -829,7 +888,7 @@ public class ControllerText {
 		}
 		fillHole(h);
 	}
-
+	
 	/**
 	 * Remplace le trou h par le bon mot.
 	 */
@@ -839,7 +898,7 @@ public class ControllerText {
 			p.updateText();
 		}
 	}
-
+	
 	/**
 	 * Cache le trou h.
 	 */
@@ -850,14 +909,14 @@ public class ControllerText {
 			p.replaceAllMask();
 		}
 	}
-
+	
 	/**
 	 * Retourne <code>true</code> si le segment n contient au moins un trou.
 	 */
 	public boolean hasHole(int n) {
 		return p.getTextHandler().hasHole(n);
 	}
-
+	
 	/**
 	 * Retourne le numéro du premier trou à partir du segment indiqué.<br>
 	 * Retourne -1 s'il n'y a aucun trou après le segment.
@@ -865,7 +924,7 @@ public class ControllerText {
 	public int getFirstHole(int n) {
 		return p.getTextHandler().getFirstHole(n);
 	}
-
+	
 	/**
 	 * Desaffiche tous les trous puis montre uniquement le trou h
 	 */

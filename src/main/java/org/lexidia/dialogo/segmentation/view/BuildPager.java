@@ -31,6 +31,10 @@ public class BuildPager {
 	private int lastPhrase;
 	private int minWidth, minHeight;
 	private int maxPhrases;
+	/**
+	 * Hauteur du texte à mettre en page (par défaut, il correspond à la hauteur de l'editor pane)
+	 */
+	private float height;
 	
 	public BuildPager(SegmentedTextPane editorPane, TextHandler textHandler) {
 		this.editorPane = editorPane;
@@ -41,6 +45,9 @@ public class BuildPager {
 	}
 	
 	public Map<Integer, List<Integer>> getPages(int startPhrase) {
+		if (height == -1) {
+			height = editorPane.getHeight();
+		}
 		pages.clear();
 		editorPane.removeAllHighlights();
 		page = 1;
@@ -50,13 +57,6 @@ public class BuildPager {
 			List<Integer> phrases = new ArrayList<>();
 			/// affiche le texte virtuellement ///
 			editorPane.setText(text);
-			
-			try {
-				/// micro-attente (pour éviter certains bugs de synchronisation) ///
-				Thread.sleep(10);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
 			
 			/// cherche l'indice du dernier segment qui rentre ///
 			int phrase = getLastVisiblePhrase(lastPhrase);
@@ -81,7 +81,7 @@ public class BuildPager {
 			else {
 				Rectangle lastBounds = getLongestBounds(startPhrase);
 				minWidth = Math.max(lastBounds.x, editorPane.getWidth());
-				minHeight = Math.max(lastBounds.y, editorPane.getHeight());
+				minHeight = Math.max(lastBounds.y, (int) height);
 				return null;
 			}
 			
@@ -134,7 +134,7 @@ public class BuildPager {
 			try {
 				Rectangle bounds = editorPane.modelToView(endOffset);
 				/// s'il dépasse de l'editor pane ///
-				if (bounds.getY() > editorPane.getHeight() - bounds.getHeight() - Constants.TEXTPANE_MARGING) {
+				if (bounds.getY() > height - bounds.getHeight() - Constants.TEXTPANE_MARGIN) {
 					return i - 1;
 				}
 			} catch (BadLocationException e) {
@@ -161,6 +161,13 @@ public class BuildPager {
 	
 	public void setMaxPhrasesByPage(int maxPhrases) {
 		this.maxPhrases = maxPhrases;
+	}
+	
+	/**
+	 * Fixe la hauteur du texte pour chaque page.
+	 */
+	public void setHeight(float height) {
+		this.height = height;
 	}
 	
 }

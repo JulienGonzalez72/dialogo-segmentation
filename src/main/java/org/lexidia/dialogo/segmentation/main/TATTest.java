@@ -119,7 +119,7 @@ public class TATTest {
 
 				// tant qu'il reste un trou dans le segment
 				while (h > -1 && h < (getControler().getHolesCount(getN()) + firstHole)) {
-					// on montre uniquement les trous Ã  partir du trou actuel et de cette page
+					// on montre uniquement les trous à partir du trou actuel et de cette page
 					getControler().showHolesInPage(h);
 
 					/*******************************

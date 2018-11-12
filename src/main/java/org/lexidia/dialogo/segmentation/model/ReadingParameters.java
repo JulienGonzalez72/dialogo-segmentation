@@ -6,6 +6,7 @@ public class ReadingParameters {
 	private int repeatTime = 100;
 	private boolean fixedField = false;
 	private int hintDuration = 0;
+	private int maxSegmentByPage = 100;
 	//public boolean replayPhrase;
 
 	public ReadingParameters() {
@@ -42,6 +43,14 @@ public class ReadingParameters {
 
 	public void setHintDuration(int hintDuration) {
 		this.hintDuration = hintDuration;
+	}
+
+	public int getMaxSegmentByPage() {
+		return maxSegmentByPage;
+	}
+
+	public void setMaxSegmentByPage(int maxSegmentByPage) {
+		this.maxSegmentByPage = maxSegmentByPage;
 	}
 
 }

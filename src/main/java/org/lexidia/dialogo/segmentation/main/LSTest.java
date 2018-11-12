@@ -65,7 +65,7 @@ public class LSTest {
 				controler.setPhraseTrials(3);
 				
 				/// nombre maximal de segments par page ///
-				//controler.setMaxPhrasesByPage(5);
+				controler.setMaxPhrasesByPage(5);
 				
 				/// active les contrôles clavier ///
 				controler.setKeyEnabled(true);

@@ -17,18 +17,13 @@ import org.lexidia.dialogo.segmentation.reading.ReaderFactory;
 import org.lexidia.dialogo.segmentation.view.SegmentedTextFrame;
 
 public class LSTest {
-
-	/*
-	 * TODO espacement trop grand lors d'un \n dans le texte
-	 * Les sliders et le texte disparaissent lorsqu'on change de police
-	 */
+	
 	public static void main(final String[] args) {
 		/// initialisation du système de log local ///
 		System.setProperty("org.apache.commons.logging.simplelog.logFile", "System.out");
 		System.setProperty("org.apache.commons.logging.simplelog.levelInBrackets", "true");
 		System.setProperty("org.apache.commons.logging.simplelog.defaultlog", "trace");
 		System.setProperty("org.apache.commons.logging.simplelog.showdatetime", "true");
-		System.out.println((int) System.getProperty("line.separator").charAt(1));
 		
 		/// on créé la fenetre d'exercice ///
 		final SegmentedTextFrame frame = new SegmentedTextFrame("Dialogo - Lecture segmentée"); // le titre

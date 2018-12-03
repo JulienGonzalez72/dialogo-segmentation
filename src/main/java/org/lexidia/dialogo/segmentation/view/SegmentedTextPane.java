@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
@@ -241,9 +242,9 @@ public class SegmentedTextPane extends JTextPane {
 	}
 	
 	public void setTopMargin(float margin) {
-		SimpleAttributeSet attrs = new SimpleAttributeSet();
-		StyleConstants.setSpaceAbove(attrs, topMargin = margin);
-		getStyledDocument().setParagraphAttributes(0, 0, attrs, false);
+		Insets bounds = getMargin();
+		bounds.top = (int) (topMargin = margin);
+		setMargin(bounds);
 	}
 	
 	public void setHorizontalMargin(float margin) {
@@ -264,9 +265,9 @@ public class SegmentedTextPane extends JTextPane {
 	}
 	
 	public void setBottomMargin(float margin) {
-		SimpleAttributeSet attrs = new SimpleAttributeSet();
-		StyleConstants.setSpaceBelow(attrs, bottomMargin = margin);
-		getStyledDocument().setParagraphAttributes(0, 0, attrs, false);
+		Insets bounds = getMargin();
+		bounds.bottom = (int) (bottomMargin = margin);
+		setMargin(bounds);
 	}
 	
 	public float getLeftMargin() {

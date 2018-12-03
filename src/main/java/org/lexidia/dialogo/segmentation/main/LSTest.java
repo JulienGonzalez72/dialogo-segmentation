@@ -18,20 +18,25 @@ import org.lexidia.dialogo.segmentation.view.SegmentedTextFrame;
 
 public class LSTest {
 
+	/*
+	 * TODO espacement trop grand lors d'un \n dans le texte
+	 * Les sliders et le texte disparaissent lorsqu'on change de police
+	 */
 	public static void main(final String[] args) {
 		/// initialisation du système de log local ///
 		System.setProperty("org.apache.commons.logging.simplelog.logFile", "System.out");
 		System.setProperty("org.apache.commons.logging.simplelog.levelInBrackets", "true");
 		System.setProperty("org.apache.commons.logging.simplelog.defaultlog", "trace");
 		System.setProperty("org.apache.commons.logging.simplelog.showdatetime", "true");
+		System.out.println((int) System.getProperty("line.separator").charAt(1));
 		
 		/// on créé la fenetre d'exercice ///
 		final SegmentedTextFrame frame = new SegmentedTextFrame("Dialogo - Lecture segmentée"); // le titre
 		
 		/// on initalise la fenetre avec les parametres necessaires a sa creation ///
-		frame.init(getTextFromFile("resources/textes/Amélie la sorcière_oneline.txt"), // le texte a afficher
+		frame.init(getTextFromFile("resources/textes/Amélie la sorcière.txt"), // le texte a afficher
 				0, // le premier segment à afficher
-				new Font(Font.DIALOG, Font.BOLD, args.length > 0 ? Integer.parseInt(args[0]) : 16), // les caracteristiques de la police (nom, style, taille)
+				new Font(Font.DIALOG, Font.PLAIN, args.length > 0 ? Integer.parseInt(args[0]) : 20), // les caracteristiques de la police (nom, style, taille)
 				100, // la position x de la fenetre (en pixels)
 				100, // la position y de la fenetre (en pixels)
 				20.25f, // la largeur de la fenetre (en cm)
@@ -52,6 +57,7 @@ public class LSTest {
 			public void run() {
 				/// on recupere le contrôleur ///
 				final ControllerText controler = new ControllerText(frame);
+				new TestFrame(controler);
 				
 				//controler.setMargin(100, 200, 100, 300);
 				
@@ -59,13 +65,15 @@ public class LSTest {
 				controler.setHighlightColors(Color.GREEN, Color.RED, Color.CYAN);
 				
 				/// règle l'espacement entre les lignes ///
-				controler.setLineSpacing(args.length > 1 ? Float.parseFloat(args[1]) : 0.5f);
+				controler.setLineSpacing(args.length > 1 ? Float.parseFloat(args[1]) : 0f);
 				
 				/// initialisation du nombre d'essais par segment ///
 				controler.setPhraseTrials(3);
 				
 				/// nombre maximal de segments par page ///
 				controler.setMaxPhrasesByPage(5);
+				
+				//controler.setFont(new Font(Font.MONOSPACED, Font.ITALIC, 20));
 				
 				/// active les contrôles clavier ///
 				controler.setKeyEnabled(true);
@@ -78,7 +86,7 @@ public class LSTest {
 				});
 				
 				/// on demarre le thread au premier segment ///
-				//controler.goTo(10);
+				//controler.goTo(0);
 			}
 		});
 	}

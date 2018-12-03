@@ -65,7 +65,8 @@ public class TextHandler {
 			}
 		}
 		str = StringUtils.join(phrases, Constants.PAUSE);
-		return str.replace(" /", "/");
+		str = str.replace(" /", "/");
+		return str;
 	}
 	
 	private static boolean isValidPhrase(String phrase) {
@@ -340,7 +341,7 @@ public class TextHandler {
 				r += tab[i];
 			}
 		}
-		
+
 		setTxt(r);
 		phrases.clear();
 		String[] ps = getTxt().split(Constants.PAUSE);

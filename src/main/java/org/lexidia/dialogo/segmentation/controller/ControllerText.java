@@ -387,6 +387,13 @@ public class ControllerText {
 	}
 	
 	/**
+	 * Retourne la police non modifiée par la mise en page automatique.
+	 */
+	public Font getFont() {
+		return p.getEditorPane().getFont();
+	}
+	
+	/**
 	 * Change la taille de la police.
 	 * 
 	 * @throws IllegalArgumentException

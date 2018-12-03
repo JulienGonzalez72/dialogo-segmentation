@@ -195,7 +195,7 @@ public class SegmentedTextPanel extends JDesktopPane {
 	public void setParameters(ToolParameters param) {
 		this.setParam(getEditorPane().setParam(param));
 		premierSegment = param.getStartingPhrase();
-
+		
 		getEditorPane().setBackground(param.getBgColor());
 		getEditorPane().setBaseFont(param.getFont());
 		setNbEssaisRestantPourLeSegmentCourant(setNbEssaisParSegment(0));

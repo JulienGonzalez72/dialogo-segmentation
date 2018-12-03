@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JTextPane;
+import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
@@ -154,8 +155,8 @@ public class SegmentedTextPane extends JTextPane {
 	}
 	
 	public Rectangle getTextBounds(String str) {
-		return getFont().createGlyphVector(getFontMetrics(getFont()).getFontRenderContext(), str).getPixelBounds(null,
-				0, 0);
+		return getFont().createGlyphVector(getFontMetrics(getFont()).getFontRenderContext(), str)
+				.getPixelBounds(null, 0, 0);
 	}
 	
 	public float getSpacingFactor() {
@@ -321,6 +322,10 @@ public class SegmentedTextPane extends JTextPane {
 	public void setBaseFont(Font font) {
 		setFont(font);
 		this.baseFont = font;
+	}
+	
+	public Font getBaseFont() {
+		return baseFont;
 	}
 	
 	public void hideText() {

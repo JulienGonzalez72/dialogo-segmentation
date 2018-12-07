@@ -10,6 +10,7 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -166,6 +167,17 @@ public class SegmentedTextPanel extends JDesktopPane {
 		getProgressBar().setValue(param.getStartingPhrase());
 		getProgressBar().setString(param.getStartingPhrase() + "/" + (getTextHandler().getPhrasesCount() - 1));
 		setCurrentPage(0);
+		/*setTextHandler(new TextHandler(param.getText()));
+        if(LsSentenceNumberDisplayHolder.getInstance().isOn()){
+            SentenceNumber sn = LsSentenceNumberDisplayHolder.getInstance().getSentenceNumber();
+            getProgressBar().setMaximum(sn.getNumberOfSentences());
+            getProgressBar().setString(sn.toString());
+        }else{
+            getProgressBar().setMaximum(getTextHandler().getPhrasesCount());
+            getProgressBar().setString(param.getStartingPhrase() + "/" + (getTextHandler().getPhrasesCount() - 1));            
+        }
+        getProgressBar().setValue(param.getStartingPhrase());
+        setCurrentPage(0);*/
 		
 		/// construit la mise en page virtuelle ///
 		rebuildPages();
@@ -298,6 +310,16 @@ public class SegmentedTextPanel extends JDesktopPane {
 		topLeftSlider.updateValue(getEditorPane());
 		topRightSlider.updateValue(getEditorPane());
 	}
+	
+	/**
+	 * @author Haerwynn
+	 */
+	public void addCustomSliderListener(PropertyChangeListener sliderListener) {
+        leftTopSlider.setSliderListener(sliderListener);
+        leftBottomSlider.setSliderListener(sliderListener);
+        topLeftSlider.setSliderListener(sliderListener);
+        topRightSlider.setSliderListener(sliderListener);
+    }
 	
 	public void showPage(int page) {
 		/// on ne fait rien si on est déjé sur cette page ///

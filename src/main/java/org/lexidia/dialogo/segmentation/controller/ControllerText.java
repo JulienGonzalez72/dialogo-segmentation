@@ -600,6 +600,16 @@ public class ControllerText {
 	public void setMaxSegmentByPage(int i) {
 		p.getrParam().setMaxSegmentByPage(i);
 	}
+	
+	/**
+	 * @author Haerwynn
+	 */
+	public void addCustomKeyController(ControllerKey lsKeyController) {
+        if (p.getKeyListeners().length == 0 && lsKeyController!=null) {
+            lsKeyController.setPilot(pilot);
+            p.getEditorPane().addKeyListener(lsKeyController);
+        }
+    }
 
 	/*
 	 * Méthodes du texte à trou

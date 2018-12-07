@@ -81,7 +81,7 @@ public class LSTest {
 				});
 				
 				/// on demarre le thread au premier segment ///
-				//controler.goTo(0);
+				controler.goTo(0);
 			}
 		});
 	}

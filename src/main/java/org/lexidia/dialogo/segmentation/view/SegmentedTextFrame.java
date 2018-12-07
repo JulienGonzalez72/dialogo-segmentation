@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 
 import javax.swing.JFrame;
@@ -135,6 +136,14 @@ public class SegmentedTextFrame extends JFrame {
 			}
 		});
 	}
+	
+	/**
+	 * @author Haerwynn
+	 */
+	public void addCustomSliderListener(PropertyChangeListener sliderListener) {
+        if(pan==null)return;
+        pan.addCustomSliderListener(sliderListener);
+    }
 	
 	/**
 	 * Active ou désactive le traitement des textes à trou, c'est-à-dire que si cette option est activée (par défaut),

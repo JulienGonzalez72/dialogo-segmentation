@@ -5,6 +5,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Line2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.JSlider;
 import javax.swing.SwingConstants;
@@ -14,6 +16,8 @@ import javax.swing.event.ChangeListener;
 import org.lexidia.dialogo.segmentation.main.Constants;
 
 public class SegmentedSlider extends JSlider {
+
+	private PropertyChangeListener sliderListener;
 	
 	public enum Position {
 		LEFT, RIGHT, TOP, BOTTOM;
@@ -29,8 +33,14 @@ public class SegmentedSlider extends JSlider {
 		this.panel = panel;
 		setOrientation(position.isHorizontal() ? SwingConstants.HORIZONTAL : SwingConstants.VERTICAL);
 		setOpaque(false);
+		sliderListener=null;
 	}
 	
+
+	public void setSliderListener(PropertyChangeListener sliderListener) {
+		this.sliderListener=sliderListener;
+	}
+
 	public void init() {
 		setMinimum((int) Constants.TEXTPANE_MARGIN);
 		
@@ -86,19 +96,28 @@ public class SegmentedSlider extends JSlider {
 	
 	private void applyChanges(SegmentedTextPane editorPane) {
 		float v = getMarginValue(position);
+		String key=null;
 		switch (position) {
 			case BOTTOM:
 				editorPane.setBottomMargin(v);
+				key="bottomMargin";
 				break;
 			case LEFT:
 				editorPane.setLeftMargin(v);
+				key="leftMargin";
 				break;
 			case RIGHT:
 				editorPane.setRightMargin(v);
+				key="rightMargin";
 				break;
 			case TOP:
 				editorPane.setTopMargin(v);
+				key="topMargin";
 				break;
+		}
+		if(key!=null && sliderListener!=null){
+			PropertyChangeEvent evt = new PropertyChangeEvent(this, key, null, v);
+			sliderListener.propertyChange(evt);
 		}
 		panel.rebuildPages();
 	}

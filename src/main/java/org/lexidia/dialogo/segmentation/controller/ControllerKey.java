@@ -6,15 +6,19 @@ import org.lexidia.dialogo.segmentation.main.Constants;
 
 public class ControllerKey implements KeyListener {
 
-	private Pilot pilot;
+	protected Pilot pilot;
 
 	/**
 	 * Moment du dernier clic
 	 */
-	private long lastClick;
+	protected long lastClick;
 
 	public ControllerKey(Pilot pilot) {
 		this.pilot = pilot;
+	}
+	
+	public ControllerKey() {
+		this(null);
 	}
 	
 	@Override
@@ -49,6 +53,10 @@ public class ControllerKey implements KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
+	}
+	
+	public void setPilot(Pilot pilot) {
+		this.pilot = pilot;
 	}
 
 }

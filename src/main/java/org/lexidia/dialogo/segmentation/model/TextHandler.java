@@ -58,13 +58,13 @@ public class TextHandler {
 	}
 
 	private static String format(String str) {
-		String[] phrases = str.split(Constants.PAUSE);
+		/*String[] phrases = str.split(Constants.PAUSE);
 		for (int i = 0; i < phrases.length; i++) {
 			if (!isValidPhrase(phrases[i])) {
 				phrases[i] = "";
 			}
 		}
-		str = StringUtils.join(phrases, Constants.PAUSE);
+		str = StringUtils.join(phrases, Constants.PAUSE);*/
 		str = str.replace(" /", "/");
 		return str;
 	}

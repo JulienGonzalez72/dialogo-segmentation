@@ -26,6 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.plaf.basic.BasicProgressBarUI;
 import javax.swing.text.BadLocationException;
 
 import org.apache.commons.logging.Log;
@@ -115,6 +116,10 @@ public class SegmentedTextPanel extends JDesktopPane {
 		
 		setProgressBar(new JProgressBar(0, 0));
 		getProgressBar().setStringPainted(true);
+		getProgressBar().setUI(new BasicProgressBarUI() {
+		      protected Color getSelectionBackground() { return Color.black; }
+		      protected Color getSelectionForeground() { return Color.black; }
+		    });
 		getProgressBar().setForeground(Color.GREEN);
 		
 		borderPanel.add(getPanelSud(), BorderLayout.SOUTH);

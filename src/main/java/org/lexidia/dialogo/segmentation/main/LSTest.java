@@ -10,13 +10,25 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import javax.swing.JFrame;
+import javax.swing.UIManager;
 
 import org.lexidia.dialogo.segmentation.controller.ControllerText;
 import org.lexidia.dialogo.segmentation.reading.ReadThread;
 import org.lexidia.dialogo.segmentation.reading.ReaderFactory;
 import org.lexidia.dialogo.segmentation.view.SegmentedTextFrame;
 
+import com.alee.laf.WebLookAndFeel;
+
 public class LSTest {
+	
+	///
+	/// Constantes de test
+	///
+	
+	public static final boolean START_EXERCICE = false;
+	public static final boolean WEBLAF = true;
+	public static final boolean TEST_FRAME = false;
+	public static final int MAX_PHRASES_BY_PAGE = 0;
 	
 	public static void main(final String[] args) {
 		/// initialisation du système de log local ///
@@ -24,6 +36,11 @@ public class LSTest {
 		System.setProperty("org.apache.commons.logging.simplelog.levelInBrackets", "true");
 		System.setProperty("org.apache.commons.logging.simplelog.defaultlog", "trace");
 		System.setProperty("org.apache.commons.logging.simplelog.showdatetime", "true");
+		
+		/// installe le look & feel ///
+		if (WEBLAF) {
+			WebLookAndFeel.install();
+		}
 		
 		/// on créé la fenetre d'exercice ///
 		final SegmentedTextFrame frame = new SegmentedTextFrame("Dialogo - Lecture segmentée"); // le titre
@@ -52,7 +69,10 @@ public class LSTest {
 			public void run() {
 				/// on recupere le contrôleur ///
 				final ControllerText controler = new ControllerText(frame);
-				new TestFrame(controler);
+				
+				if (TEST_FRAME) {
+					new TestFrame(controler);
+				}
 				
 				//controler.setMargin(100, 200, 100, 300);
 				
@@ -66,7 +86,7 @@ public class LSTest {
 				controler.setPhraseTrials(3);
 				
 				/// nombre maximal de segments par page ///
-				controler.setMaxPhrasesByPage(5);
+				controler.setMaxPhrasesByPage(MAX_PHRASES_BY_PAGE);
 				
 				//controler.setFont(new Font(Font.MONOSPACED, Font.ITALIC, 20));
 				
@@ -81,7 +101,9 @@ public class LSTest {
 				});
 				
 				/// on demarre le thread au premier segment ///
-				controler.goTo(0);
+				if (START_EXERCICE) {
+					controler.goTo(0);
+				}
 			}
 		});
 	}

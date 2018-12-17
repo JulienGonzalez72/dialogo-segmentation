@@ -116,10 +116,11 @@ public class SegmentedTextPanel extends JDesktopPane {
 		
 		setProgressBar(new JProgressBar(0, 0));
 		getProgressBar().setStringPainted(true);
-		getProgressBar().setUI(new BasicProgressBarUI() {
+		/// ne fonctionne pas avec weblaf ///
+		/*getProgressBar().setUI(new BasicProgressBarUI() {
 		      protected Color getSelectionBackground() { return Color.black; }
 		      protected Color getSelectionForeground() { return Color.black; }
-		    });
+		    });*/
 		getProgressBar().setForeground(Color.GREEN);
 		
 		borderPanel.add(getPanelSud(), BorderLayout.SOUTH);

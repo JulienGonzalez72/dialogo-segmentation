@@ -36,9 +36,11 @@ public class SegmentedSlider extends JSlider {
 		sliderListener=null;
 	}
 	
-
+	/**
+	 * @author Haerwynn
+	 */
 	public void setSliderListener(PropertyChangeListener sliderListener) {
-		this.sliderListener=sliderListener;
+		this.sliderListener = sliderListener;
 	}
 
 	public void init() {
@@ -96,26 +98,26 @@ public class SegmentedSlider extends JSlider {
 	
 	private void applyChanges(SegmentedTextPane editorPane) {
 		float v = getMarginValue(position);
-		String key=null;
+		String key = null;
 		switch (position) {
 			case BOTTOM:
 				editorPane.setBottomMargin(v);
-				key="bottomMargin";
+				key = "bottomMargin";
 				break;
 			case LEFT:
 				editorPane.setLeftMargin(v);
-				key="leftMargin";
+				key = "leftMargin";
 				break;
 			case RIGHT:
 				editorPane.setRightMargin(v);
-				key="rightMargin";
+				key = "rightMargin";
 				break;
 			case TOP:
 				editorPane.setTopMargin(v);
-				key="topMargin";
+				key = "topMargin";
 				break;
 		}
-		if(key!=null && sliderListener!=null){
+		if (key != null && sliderListener != null){
 			PropertyChangeEvent evt = new PropertyChangeEvent(this, key, null, v);
 			sliderListener.propertyChange(evt);
 		}

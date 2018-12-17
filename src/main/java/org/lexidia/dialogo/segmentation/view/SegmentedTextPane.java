@@ -12,13 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JTextPane;
-import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter.Highlight;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.lexidia.dialogo.segmentation.main.Constants;
 import org.lexidia.dialogo.segmentation.model.HighlightParameters;
 import org.lexidia.dialogo.segmentation.model.ToolParameters;
@@ -30,6 +31,7 @@ import javax.swing.text.View;
 public class SegmentedTextPane extends JTextPane {
 	
 	private static final long serialVersionUID = 1L;
+	private static final Log log = LogFactory.getLog(SegmentedTextPane.class);
 	
 	private List<Object> redHighlightTags = new ArrayList<>();
 	private List<Object> blueHighlightTags = new ArrayList<>();
@@ -242,8 +244,9 @@ public class SegmentedTextPane extends JTextPane {
 	}
 	
 	public void setTopMargin(float margin) {
+		log.info("Top margin : " + margin);
 		Insets bounds = getMargin();
-		bounds.top = (int) (topMargin = margin);
+		bounds.top = (int) (bottomMargin = margin);
 		setMargin(bounds);
 	}
 	
@@ -253,18 +256,21 @@ public class SegmentedTextPane extends JTextPane {
 	}
 	
 	public void setLeftMargin(float margin) {
+		log.info("Left margin : " + margin);
 		SimpleAttributeSet attrs = new SimpleAttributeSet();
 		StyleConstants.setLeftIndent(attrs, leftMargin = margin);
 		getStyledDocument().setParagraphAttributes(0, 0, attrs, false);
 	}
 	
 	public void setRightMargin(float margin) {
+		log.info("Right margin : " + margin);
 		SimpleAttributeSet attrs = new SimpleAttributeSet();
 		StyleConstants.setRightIndent(attrs, rightMargin = margin);
 		getStyledDocument().setParagraphAttributes(0, 0, attrs, false);
 	}
 	
 	public void setBottomMargin(float margin) {
+		log.info("Bottom margin : " + margin);
 		Insets bounds = getMargin();
 		bounds.bottom = (int) (bottomMargin = margin);
 		setMargin(bounds);

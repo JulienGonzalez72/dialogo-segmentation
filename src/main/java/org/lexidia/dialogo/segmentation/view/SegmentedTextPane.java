@@ -246,7 +246,7 @@ public class SegmentedTextPane extends JTextPane {
 	public void setTopMargin(float margin) {
 		log.info("Top margin : " + margin);
 		Insets bounds = getMargin();
-		bounds.top = (int) (bottomMargin = margin);
+		bounds.top = (int) (topMargin = margin);
 		setMargin(bounds);
 	}
 	

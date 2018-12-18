@@ -33,7 +33,7 @@ public class SegmentedSlider extends JSlider {
 		this.panel = panel;
 		setOrientation(position.isHorizontal() ? SwingConstants.HORIZONTAL : SwingConstants.VERTICAL);
 		setOpaque(false);
-		sliderListener=null;
+		sliderListener = null;
 	}
 	
 	/**
@@ -117,7 +117,7 @@ public class SegmentedSlider extends JSlider {
 				key = "topMargin";
 				break;
 		}
-		if (key != null && sliderListener != null){
+		if (key != null && sliderListener != null) {
 			PropertyChangeEvent evt = new PropertyChangeEvent(this, key, null, v);
 			sliderListener.propertyChange(evt);
 		}

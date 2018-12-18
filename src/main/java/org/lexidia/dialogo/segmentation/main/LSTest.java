@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 
 import javax.swing.JFrame;
 import javax.swing.UIManager;
+import javax.swing.plaf.TextUI;
 
 import org.lexidia.dialogo.segmentation.controller.ControllerText;
 import org.lexidia.dialogo.segmentation.reading.ReadThread;
@@ -40,6 +41,7 @@ public class LSTest {
 		/// installe le look & feel ///
 		if (WEBLAF) {
 			WebLookAndFeel.install();
+			UIManager.put("TextPaneUI", javax.swing.plaf.basic.BasicTextPaneUI.class.getCanonicalName());
 		}
 		
 		/// on créé la fenetre d'exercice ///

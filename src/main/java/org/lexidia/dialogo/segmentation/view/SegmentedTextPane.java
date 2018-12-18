@@ -52,9 +52,8 @@ public class SegmentedTextPane extends JTextPane {
 		/// mets les marges sur les côtés ///
 		SimpleAttributeSet attrs = new SimpleAttributeSet();
 		StyleConstants.setLineSpacing(attrs, lineSpacing = Constants.DEFAULT_LINE_SPACING);
-		StyleConstants.setSpaceAbove(attrs, topMargin = Constants.TEXTPANE_MARGIN);
-		StyleConstants.setLeftIndent(attrs, leftMargin = Constants.TEXTPANE_MARGIN);
-		StyleConstants.setRightIndent(attrs, rightMargin = Constants.TEXTPANE_MARGIN);
+		StyleConstants.setSpaceAbove(attrs, 0);
+		StyleConstants.setSpaceBelow(attrs, 0);
 		getStyledDocument().setParagraphAttributes(0, 0, attrs, false);
 		
 		getDocument().addDocumentListener(new DocumentListener() {

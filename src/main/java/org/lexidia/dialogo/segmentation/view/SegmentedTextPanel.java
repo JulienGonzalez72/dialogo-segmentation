@@ -328,7 +328,7 @@ public class SegmentedTextPanel extends JDesktopPane {
     }
 	
 	public void showPage(int page) {
-		/// on ne fait rien si on est déjé sur cette page ///
+		/// on ne fait rien si on est déjà sur cette page ///
 		if (getCurrentPage() == page) {
 			return;
 		}

@@ -1,11 +1,11 @@
 Vous allez répéter en articulant distinctement les phrases que vous allez entendre /
-Amélie la sorcière de John Himmelman /
-Loin... /
+Amélie la sorcière de John Himmelman / 
+Loin... / 
 Au coeur de la forêt /
 vivait une gentille vieille sorcière /
 elle s'appelait Amélie. /
 Un matin, /
-tandis [qu'elle] se [balanéait] /
+tandis [qu'elle] se [balançait] /
 Amélie décida /
 dans [son] fauteuil [à] bascule, /
 qu'il faisait [franchement] trop beau /
@@ -21,7 +21,7 @@ Elle rajouta des fleurs /
 de-ci de-là dans la prairie. /
 Elle apprit aux castors /
 une nouvelle danse. /
-Elle donna des leéons de chant /
+Elle donna des leçons de chant /
 aux arbres alentour. /
 Mais tout cela /
 lui sembla insuffisant. /

@@ -76,13 +76,13 @@ public class LSTest {
 					new TestFrame(controler);
 				}
 				
-				//controler.setMargin(100, 200, 100, 300);
+				controler.setMargin(500, 500, 200, 200);
 				
 				/// initialisation des couleurs ///
 				controler.setHighlightColors(Color.GREEN, Color.RED, Color.CYAN);
 				
 				/// règle l'espacement entre les lignes ///
-				controler.setLineSpacing(args.length > 1 ? Float.parseFloat(args[1]) : 0f);
+				controler.setLineSpacing(args.length > 1 ? Float.parseFloat(args[1]) : 0.2f);
 				
 				/// initialisation du nombre d'essais par segment ///
 				controler.setPhraseTrials(3);

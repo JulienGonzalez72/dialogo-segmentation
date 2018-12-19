@@ -26,9 +26,10 @@ public class LSTest {
 	/// Constantes de test
 	///
 	
-	public static final boolean START_EXERCICE = false;
+	public static final boolean START_EXERCICE = true;
 	public static final boolean WEBLAF = true;
 	public static final boolean TEST_FRAME = false;
+	public static final boolean WRAPPED_TEXT = false;
 	public static final int MAX_PHRASES_BY_PAGE = 0;
 	
 	public static void main(final String[] args) {
@@ -47,8 +48,9 @@ public class LSTest {
 		/// on créé la fenetre d'exercice ///
 		final SegmentedTextFrame frame = new SegmentedTextFrame("Dialogo - Lecture segmentée"); // le titre
 		
+		String file = "resources/textes/Amélie la sorcière" + (WRAPPED_TEXT ? "" : "_oneline") + ".txt";
 		/// on initalise la fenetre avec les parametres necessaires a sa creation ///
-		frame.init(getTextFromFile("resources/textes/Amélie la sorcière.txt"), // le texte a afficher
+		frame.init(getTextFromFile(file), // le texte a afficher
 				0, // le premier segment à afficher
 				new Font(Font.DIALOG, Font.PLAIN, args.length > 0 ? Integer.parseInt(args[0]) : 20), // les caracteristiques de la police (nom, style, taille)
 				100, // la position x de la fenetre (en pixels)

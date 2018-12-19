@@ -66,8 +66,8 @@ public class TextHandler {
 		}
 		str = StringUtils.join(phrases, Constants.PAUSE);*/
 		str = str
-				.replace(" /", "/")
-				.replace(" \n", "\n")
+				.replace("/ ", " /")
+				.replace("/\n", "\n/")
 				.replace("\n", "\r");
 		return str;
 	}

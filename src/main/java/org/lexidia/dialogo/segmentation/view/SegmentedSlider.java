@@ -17,6 +17,11 @@ import org.lexidia.dialogo.segmentation.main.Constants;
 
 public class SegmentedSlider extends JSlider {
 
+	/**
+	 * décalage du slider de la marge du bas dû à la barre de progression
+	 */
+	private static final float BOTTOM_EXPLICIT_MARGIN = 15;
+	
 	private PropertyChangeListener sliderListener;
 	
 	public enum Position {
@@ -27,10 +32,12 @@ public class SegmentedSlider extends JSlider {
 	}
 	private Position position;
 	private SegmentedTextPanel panel;
+	private float margin;
 	
-	public SegmentedSlider(final Position position, final SegmentedTextPanel panel) {
+	public SegmentedSlider(final Position position, final SegmentedTextPanel panel, final float margin) {
 		this.position = position;
 		this.panel = panel;
+		this.margin = margin;
 		setOrientation(position.isHorizontal() ? SwingConstants.HORIZONTAL : SwingConstants.VERTICAL);
 		setOpaque(false);
 		sliderListener = null;
@@ -42,13 +49,13 @@ public class SegmentedSlider extends JSlider {
 	public void setSliderListener(PropertyChangeListener sliderListener) {
 		this.sliderListener = sliderListener;
 	}
-
+	
 	public void init() {
-		setMinimum((int) Constants.TEXTPANE_MARGIN);
+		setMinimum((int) margin);
 		
 		final SegmentedTextPane editorPane = panel.getEditorPane();
 		/// ajuste la valeur de départ ///
-		setMaximum(position.isHorizontal() ? getWidth() : getHeight());
+		setMaximum((position.isHorizontal() ? getWidth() : getHeight()) + getMinimum());
 		updateValue(editorPane);
 		
 		/// changement de valeur ///
@@ -84,13 +91,13 @@ public class SegmentedSlider extends JSlider {
 				setValue((int) editorPane.getBottomMargin());
 				break;
 			case LEFT:
-				setValue((int) editorPane.getLeftMargin() - getMinimum());
+				setValue((int) editorPane.getLeftMargin());
 				break;
 			case RIGHT:
-				setValue(getMaximum() - (int) editorPane.getRightMargin() + getMinimum());
+				setValue(getMaximum() - (int) editorPane.getRightMargin());
 				break;
 			case TOP:
-				setValue(getMaximum() - (int) editorPane.getTopMargin() + getMinimum());
+				setValue(getMaximum() - (int) editorPane.getTopMargin());
 				break;
 		}
 		editorPane.setLine(null);
@@ -129,21 +136,23 @@ public class SegmentedSlider extends JSlider {
 		switch (position) {
 			case BOTTOM:
 				editorPane.setLine(new Line2D.Float(
-						getX() + getWidth(), editorPane.getHeight() - v - getMinimum() * 2,
-						editorPane.getWidth(), editorPane.getHeight() - v - getMinimum() * 2));
+						getX() + getWidth(), editorPane.getHeight() - v,
+						editorPane.getWidth(), editorPane.getHeight() - v));
 				break;
 			case LEFT:
 				editorPane.setLine(new Line2D.Float(
-						v, getY() + getHeight(), v, editorPane.getHeight()));
+						v, getY() + getHeight(),
+						v, editorPane.getHeight()));
 				break;
 			case RIGHT:
 				editorPane.setLine(new Line2D.Float(
-						editorPane.getWidth() - v - getMinimum(), getY() + getHeight(),
-						editorPane.getWidth() - v - getMinimum(), editorPane.getHeight()));
+						editorPane.getWidth() - v, getY() + getHeight(),
+						editorPane.getWidth() - v, editorPane.getHeight()));
 				break;
 			case TOP:
 				editorPane.setLine(new Line2D.Float(
-						getX() + getWidth(), v, editorPane.getWidth(), v));
+						getX() + getWidth(), v,
+						editorPane.getWidth(), v));
 				break;
 		}
 		editorPane.repaint();
@@ -152,7 +161,7 @@ public class SegmentedSlider extends JSlider {
 	private float getMarginValue(Position position) {
 		switch (position) {
 			case BOTTOM:
-				return getValue() - getMinimum();
+				return getValue() - BOTTOM_EXPLICIT_MARGIN;
 			case LEFT:
 				return getValue();
 			case RIGHT:

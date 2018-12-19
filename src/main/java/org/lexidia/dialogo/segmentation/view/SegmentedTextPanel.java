@@ -140,30 +140,30 @@ public class SegmentedTextPanel extends JDesktopPane {
 		getEditorPane().setBottomMargin(getHeight() / 2 * Constants.DEFAULT_BOTTOM_MARGIN_FACTOR);
 		
 		/// slider de marge en haut ///
-		leftTopSlider = new SegmentedSlider(SegmentedSlider.Position.TOP, this);
+		leftTopSlider = new SegmentedSlider(SegmentedSlider.Position.TOP, this, Constants.TEXTPANE_MARGIN);
 		leftTopSlider.setBounds(0, (int) Constants.TEXTPANE_MARGIN,
 				(int) Constants.TEXTPANE_MARGIN, getHeight() / 2 - (int) Constants.TEXTPANE_MARGIN * 2);
 		leftTopSlider.init();
 		getEditorPane().add(leftTopSlider);
 		
 		/// slider de marge en bas ///
-		leftBottomSlider = new SegmentedSlider(SegmentedSlider.Position.BOTTOM, this);
+		leftBottomSlider = new SegmentedSlider(SegmentedSlider.Position.BOTTOM, this, Constants.TEXTPANE_MARGIN * 3);
 		leftBottomSlider.setBounds(0, getHeight() / 2,
 				(int) Constants.TEXTPANE_MARGIN, getHeight() / 2 - (int) Constants.TEXTPANE_MARGIN * 3);
 		leftBottomSlider.init();
 		getEditorPane().add(leftBottomSlider);
 		
 		/// slider de marge à gauche ///
-		topLeftSlider = new SegmentedSlider(SegmentedSlider.Position.LEFT, this);
+		topLeftSlider = new SegmentedSlider(SegmentedSlider.Position.LEFT, this, Constants.TEXTPANE_MARGIN);
 		topLeftSlider.setBounds((int) Constants.TEXTPANE_MARGIN, 0,
 				getWidth() / 2 - (int) Constants.TEXTPANE_MARGIN * 2, (int) Constants.TEXTPANE_MARGIN);
 		topLeftSlider.init();
 		getEditorPane().add(topLeftSlider);
 		
 		/// slider de marge à droite ///
-		topRightSlider = new SegmentedSlider(SegmentedSlider.Position.RIGHT, this);
+		topRightSlider = new SegmentedSlider(SegmentedSlider.Position.RIGHT, this, Constants.TEXTPANE_MARGIN * 4);
 		topRightSlider.setBounds(getWidth() / 2 + (int) Constants.TEXTPANE_MARGIN * 2, 0,
-				getWidth() / 2 - (int) Constants.TEXTPANE_MARGIN * 4, (int) Constants.TEXTPANE_MARGIN);
+				getWidth() / 2 - (int) Constants.TEXTPANE_MARGIN * 6, (int) Constants.TEXTPANE_MARGIN);
 		topRightSlider.init();
 		getEditorPane().add(topRightSlider);
 		

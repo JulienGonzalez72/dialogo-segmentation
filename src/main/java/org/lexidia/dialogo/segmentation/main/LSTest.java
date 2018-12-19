@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 
 import javax.swing.JFrame;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.TextUI;
 
 import org.lexidia.dialogo.segmentation.controller.ControllerText;
@@ -26,8 +27,8 @@ public class LSTest {
 	/// Constantes de test
 	///
 	
-	public static final boolean START_EXERCICE = true;
-	public static final boolean WEBLAF = true;
+	public static final boolean START_EXERCICE = false;
+	public static final boolean WEBLAF = false;
 	public static final boolean TEST_FRAME = false;
 	public static final boolean WRAPPED_TEXT = false;
 	public static final int MAX_PHRASES_BY_PAGE = 0;
@@ -39,10 +40,20 @@ public class LSTest {
 		System.setProperty("org.apache.commons.logging.simplelog.defaultlog", "trace");
 		System.setProperty("org.apache.commons.logging.simplelog.showdatetime", "true");
 		
-		/// installe le look & feel ///
+		/// installe le look & feel WebLaF ///
 		if (WEBLAF) {
 			WebLookAndFeel.install();
 			UIManager.put("TextPaneUI", javax.swing.plaf.basic.BasicTextPaneUI.class.getCanonicalName());
+		}
+		/// ou le look & feel de Windows ///
+		else {
+			try {
+				UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+			} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+					| UnsupportedLookAndFeelException e) {
+				e.printStackTrace();
+				System.exit(-1);
+			}
 		}
 		
 		/// on créé la fenetre d'exercice ///

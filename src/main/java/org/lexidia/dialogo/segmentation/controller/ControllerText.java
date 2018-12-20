@@ -1,5 +1,7 @@
 package org.lexidia.dialogo.segmentation.controller;
 
+import static org.lexidia.dialogo.segmentation.main.Assert.*;
+
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
@@ -33,6 +35,7 @@ public class ControllerText {
 	 * Construit les pages à partir du segment de numero spécifié.
 	 */
 	public void buildPages(int startPhrase) {
+		assertPositiveOrNull(startPhrase, "startPhrase");
 		p.buildPages(startPhrase);
 	}
 	
@@ -40,13 +43,15 @@ public class ControllerText {
 	 * Affiche la page indiquée.
 	 */
 	public void showPage(int page) {
+		assertPositiveOrNull(page, "page");
 		p.showPage(page);
 	}
 	
 	/**
 	 * Limite le nombre de segments de page. Si 0, la mise en page se fait à la limite de la fenêtre.
 	 */
-	public void setMaxPhrasesByPage(int maxPhrases) {
+	public void setMaxPhrasesByPage(int maxPhrases) throws IllegalArgumentException {
+		assertPositiveOrNull(maxPhrases, "maxPhrases");
 		p.getParam().setMaxPhrases(maxPhrases);
 		p.rebuildPages();
 	}
@@ -91,6 +96,7 @@ public class ControllerText {
 	 * Retourne le contenu textuel du segment de numéro indiqué.
 	 */
 	public String getPhraseContent(int phrase) {
+		assertPositiveOrNull(phrase, "phrase");
 		return p.getTextHandler().getPhrase(phrase);
 	}
 	
@@ -127,10 +133,12 @@ public class ControllerText {
 	 * @param time
 	 *            le temps de pause, en millisecondes
 	 * @param cursorName
-	 *            le type de curseur é définir pendant l'attente (peut étre
+	 *            le type de curseur à définir pendant l'attente (peut être
 	 *            Constants.CURSOR_SPEAK ou Constants.CURSOR_LISTEN)
 	 */
-	public void doWait(long time, String cursorName) {
+	public void doWait(long time, String cursorName) throws IllegalArgumentException {
+		assertPositiveOrNull(time, "time");
+		assertContains(cursorName, "cursorName", Constants.CURSOR_SPEAK, Constants.CURSOR_LISTEN);
 		try {
 			p.setCursor(cursorName);
 			Thread.sleep(time);
@@ -144,10 +152,9 @@ public class ControllerText {
 	 * Attends un clic sur un mot du texte.<br/>
 	 * Retourne <code>true</code> si le mot correspond au dernier mot du segment n,
 	 * <code>false</code> si c'est le mauvais mot.
-	 * 
-	 * @highlightWrongWord si le mot est surligné en cas d'erreur.
 	 */
-	public boolean waitForClick(int n) {
+	public boolean waitForClick(int n) throws IllegalArgumentException {
+		assertPositiveOrNull(n, "n");
 		p.getControlerMouse().waitForClick();
 
 		/// cherche la position exacte dans le texte ///
@@ -168,18 +175,20 @@ public class ControllerText {
 	/**
 	 * Colorie le segment numero n avec la couleur de réussite.
 	 */
-	public void highlightPhrase(int n) {
+	public void highlightPhrase(int n) throws IllegalArgumentException {
 		highlightPhrase(p.getEditorPane().gethParam().getRightColor(), n);
 	}
 	
 	/**
 	 * Colorie le segment numero n avec la couleur de correction.
 	 */
-	public void highlightCorrectionPhrase(int n) {
+	public void highlightCorrectionPhrase(int n) throws IllegalArgumentException {
 		highlightPhrase(p.getEditorPane().gethParam().getCorrectionColor(), n);
 	}
 	
-	private void highlightPhrase(Color c, int n) {
+	private void highlightPhrase(Color c, int n) throws IllegalArgumentException {
+		assertNotNull(c, "color");
+		assertPositiveOrNull(n, "n");
 		if (p.getTextHandler().getPhrase(n) != null) {
 			int debutRelatifSegment = p.getTextHandler().getRelativeStartPhrasePosition(p.getFirstShownPhraseIndex(),
 					n);
@@ -191,7 +200,8 @@ public class ControllerText {
 	/**
 	 * Supprime tout le surlignage qui se trouve sur le segment <i>n</i>.<br/>
 	 */
-	public void removeHighlightPhrase(int n) {
+	public void removeHighlightPhrase(int n) throws IllegalArgumentException {
+		assertPositiveOrNull(n, "n");
 		int debutRelatifSegment = p.getTextHandler().getRelativeStartPhrasePosition(p.getFirstShownPhraseIndex(), n);
 		int finRelativeSegment = debutRelatifSegment + p.getTextHandler().getPhrase(n).length();
 		p.getEditorPane().removeHighlight(debutRelatifSegment, finRelativeSegment);
@@ -233,7 +243,7 @@ public class ControllerText {
 	/**
 	 * Retourne la page qui contient le segment, ou -1 si le segment n'existe pas.
 	 */
-	public int getPageOfPhrase(int n) {
+	public int getPageOfPhrase(int n) throws IllegalArgumentException {
 		int numeroPage = -1;
 		for (Integer i : p.getPhrasesInFonctionOfPages().keySet()) {
 			if (p.getPhrasesInFonctionOfPages().get(i).contains(n)) {
@@ -245,10 +255,13 @@ public class ControllerText {
 	}
 	
 	/**
-	 * Surligne tout depuis le début de la page jusqu'au segment de phrase indiqué.
+	 * Surligne tout depuis le début de la page jusqu'au segment de phrase indiqué.<br/>
+	 * n peut être négatif (rien ne sera surligné mais aucune exception ne sera déclenchée).
+	 * @throws IllegalArgumentException si color est null
 	 */
-	public void highlightUntilPhrase(Color c, int n) {
-		p.surlignerJusquaSegment(c, n);
+	public void highlightUntilPhrase(Color color, int n) throws IllegalArgumentException {
+		assertNotNull(color, "color");
+		p.highlightUntilPhrase(color, n);
 	}
 	
 	@Deprecated
@@ -267,10 +280,15 @@ public class ControllerText {
 				p.getTextHandler().startWordPosition(clickOffset) + 1);
 		int endOffset = p.getTextHandler().getRelativeOffset(p.getFirstShownPhraseIndex(),
 				p.getTextHandler().endWordPosition(clickOffset));
-		highlight(p.getEditorPane().gethParam().getWrongColor(), startOffset, endOffset);
+		if (endOffset > startOffset) {
+			highlight(p.getEditorPane().gethParam().getWrongColor(), startOffset, endOffset);
+		}
 	}
 	
-	private void highlight(Color c, int start, int end) {
+	private void highlight(Color c, int start, int end) throws IllegalArgumentException {
+		assertNotNull(c, "color");
+		assertPositiveOrNull(start, "start");
+		assertGreater(end, start, "end");
 		p.getEditorPane().highlightPhrase(start, end, c);
 	}
 	
@@ -327,7 +345,7 @@ public class ControllerText {
 	}
 	
 	/**
-	 * Se place sur le segment de numero <i>n</i> et démarre l'algorithme de
+	 * Se place sur le segment de numéro <i>n</i> et démarre l'algorithme de
 	 * lecture.
 	 * 
 	 * @throws IllegalArgumentException
@@ -375,13 +393,12 @@ public class ControllerText {
 	/**
 	 * Applique un Font à l'exercice.
 	 * 
-	 * @throws IllegalArgumentException
-	 *             si l'exercice a déjà commencé.
+	 * @throws IllegalStateException si l'exercice a déjà commencé.
+	 * @throws IllegalArgumentException si f est null ou invalide.
 	 */
-	public void setFont(Font f) throws IllegalArgumentException {
-		if (pilot.hasStarted()) {
-			throw new IllegalArgumentException("Police inchangeable après le démarrage de l'exercice !");
-		}
+	public void setFont(Font f) throws IllegalStateException, IllegalArgumentException {
+		assertNotStarted(pilot, "change font");
+		assertFont(f);
 		p.getEditorPane().setBaseFont(f);
 		p.rebuildPages();
 	}
@@ -395,11 +412,11 @@ public class ControllerText {
 	
 	/**
 	 * Change la taille de la police.
-	 * 
-	 * @throws IllegalArgumentException
-	 *             si l'exercice a déjà commencé.
+	 * @throws IllegalStateException si l'exercice a déjà commencé.
+	 * @throws IllegalArgumentException si fontSize est nul ou négatif.
 	 */
-	public void setFontSize(float fontSize) throws IllegalArgumentException {
+	public void setFontSize(float fontSize) throws IllegalStateException, IllegalArgumentException {
+		assertPositive(fontSize, "fontSize");
 		setFont(p.getEditorPane().getFont().deriveFont(fontSize));
 	}
 	
@@ -408,10 +425,21 @@ public class ControllerText {
 	 * 1 correspond à la hauteur d'une ligne selon la police utilisée (par défaut 0.8).<br/>
 	 * <b>Attention !</b> Si la taille de police est grande, il ne faut pas utiliser un espacement
 	 * trop grand afin de permettre la mise en page.
+	 * @throws IllegalStateException si l'exercice a déjà commencé.
+	 * @throws IllegalArgumentException si lineSpacing < 0
 	 */
-	public void setLineSpacing(float lineSpacing) {
+	public void setLineSpacing(float lineSpacing) throws IllegalArgumentException {
+		assertNotStarted(pilot, "change line spacing");
+		assertPositiveOrNull(lineSpacing, "lineSpacing");
 		p.getEditorPane().setLineSpacing(lineSpacing);
 		p.rebuildPages();
+	}
+	
+	/**
+	 * Retourne l'écartement vertical relatif actuel entre les lignes.
+	 */
+	public float getLineSpacing() {
+		return p.getEditorPane().getLineSpacing();
 	}
 
 	/**
@@ -572,7 +600,12 @@ public class ControllerText {
 	 * des marges horizontales sont placées automatiquement.
 	 */
 	public void setMargin(final float leftMargin, final float rightMargin,
-			final float topMargin, final float bottomMargin) {
+			final float topMargin, final float bottomMargin) throws IllegalArgumentException, IllegalStateException {
+		assertNotStarted(pilot, "change margin");
+		assertPositiveOrNull(leftMargin, "leftMargin");
+		assertPositiveOrNull(rightMargin, "rightMargin");
+		assertPositiveOrNull(topMargin, "topMargin");
+		assertPositiveOrNull(bottomMargin, "bottomMargin");
 		SwingUtilities.invokeLater(new Runnable() {	
 			@Override
 			public void run() {
@@ -605,7 +638,7 @@ public class ControllerText {
 	 * @author Haerwynn
 	 */
 	public void addCustomKeyController(ControllerKey lsKeyController) {
-        if (p.getKeyListeners().length == 0 && lsKeyController!=null) {
+        if (p.getKeyListeners().length == 0 && lsKeyController != null) {
             lsKeyController.setPilot(pilot);
             p.getEditorPane().addKeyListener(lsKeyController);
         }

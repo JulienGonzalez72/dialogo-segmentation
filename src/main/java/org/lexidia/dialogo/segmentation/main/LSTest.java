@@ -29,7 +29,7 @@ public class LSTest {
 	
 	public static final boolean START_EXERCICE = false;
 	public static final boolean WEBLAF = false;
-	public static final boolean TEST_FRAME = false;
+	public static final boolean TEST_FRAME = true;
 	public static final boolean WRAPPED_TEXT = false;
 	public static final int MAX_PHRASES_BY_PAGE = 0;
 	

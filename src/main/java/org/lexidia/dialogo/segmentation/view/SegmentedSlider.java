@@ -20,7 +20,7 @@ public class SegmentedSlider extends JSlider {
 	/**
 	 * décalage du slider de la marge du bas dû à la barre de progression
 	 */
-	private static final float BOTTOM_EXPLICIT_MARGIN = 15;
+	public static final float BOTTOM_EXPLICIT_MARGIN = 15;
 	
 	private PropertyChangeListener sliderListener;
 	

@@ -92,11 +92,11 @@ public class TextHandler {
 	public String[] getPhrases() {
 		return getPhrases(0, getPhrasesCount());
 	}
-
+	
 	public String getPhrase(int index) {
 		return phrases.get(index);
 	}
-
+	
 	/**
 	 * Nombre de segments total
 	 */

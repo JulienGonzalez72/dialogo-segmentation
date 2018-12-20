@@ -33,6 +33,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.lexidia.dialogo.segmentation.controller.ControllerMask;
 import org.lexidia.dialogo.segmentation.controller.ControllerMouse;
+import org.lexidia.dialogo.segmentation.main.Assert;
 import org.lexidia.dialogo.segmentation.main.Constants;
 import org.lexidia.dialogo.segmentation.model.Player;
 import org.lexidia.dialogo.segmentation.model.ReadingParameters;
@@ -156,7 +157,7 @@ public class SegmentedTextPanel extends JDesktopPane {
 		/// slider de marge à gauche ///
 		topLeftSlider = new SegmentedSlider(SegmentedSlider.Position.LEFT, this, Constants.TEXTPANE_MARGIN);
 		topLeftSlider.setBounds((int) Constants.TEXTPANE_MARGIN, 0,
-				getWidth() / 2 - (int) Constants.TEXTPANE_MARGIN * 2, (int) Constants.TEXTPANE_MARGIN);
+				getWidth() / 2 - (int) Constants.TEXTPANE_MARGIN, (int) Constants.TEXTPANE_MARGIN);
 		topLeftSlider.init();
 		getEditorPane().add(topLeftSlider);
 		
@@ -260,6 +261,7 @@ public class SegmentedTextPanel extends JDesktopPane {
 	 * Construit la mise en page du texte.
 	 */
 	public void buildPages(final int startPhrase) {
+		Assert.assertPositiveOrNull(startPhrase, "startPhrase");
 		log.info("Start of buildPages");
 		BuildPager pager = new BuildPager(getEditorPane(), getTextHandler());
 		pager.setMaxPhrasesByPage(getParam().getMaxPhrases());
@@ -372,10 +374,10 @@ public class SegmentedTextPanel extends JDesktopPane {
 	}
 	
 	/**
-	 * Colorie tout jusqu'au segment n en couleur c
+	 * Colorie tout jusqu'au segment n (inclus) en couleur c
 	 */
-	public void surlignerJusquaSegment(Color c, int n) {
-		if (getTextHandler().getPhrase(n) != null) {
+	public void highlightUntilPhrase(Color c, int n) {
+		if (n >= 0 && getTextHandler().getPhrase(n) != null) {
 			int debutRelatifSegment = getTextHandler().getRelativeStartPhrasePosition(getFirstShownPhraseIndex(), n);
 			int finRelativeSegment = debutRelatifSegment + getTextHandler().getPhrase(n).length();
 			getEditorPane().highlightPhrase(0, finRelativeSegment, getEditorPane().gethParam().getRightColor());

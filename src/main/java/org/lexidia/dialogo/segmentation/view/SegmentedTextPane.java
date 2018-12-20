@@ -20,6 +20,7 @@ import javax.swing.text.Highlighter.Highlight;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.lexidia.dialogo.segmentation.main.Assert;
 import org.lexidia.dialogo.segmentation.main.Constants;
 import org.lexidia.dialogo.segmentation.model.HighlightParameters;
 import org.lexidia.dialogo.segmentation.model.ToolParameters;
@@ -48,6 +49,7 @@ public class SegmentedTextPane extends JTextPane {
 	
 	public SegmentedTextPane() {
 		setSelectionColor(new Color(0, 0, 0, 0));
+		setSelectedTextColor(Color.BLACK);
 		
 		/// mets les marges sur les côtés ///
 		SimpleAttributeSet attrs = new SimpleAttributeSet();
@@ -326,6 +328,7 @@ public class SegmentedTextPane extends JTextPane {
 	 * Modifie la police de base de l'editor pane.
 	 */
 	public void setBaseFont(Font font) {
+		Assert.assertFont(font);
 		setFont(font);
 		this.baseFont = font;
 	}
@@ -352,7 +355,11 @@ public class SegmentedTextPane extends JTextPane {
 	
 	@Override
 	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
+		try {
+			super.paintComponent(g);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			return;
+		}
 		java.awt.Graphics2D g2 = (Graphics2D) g;
 		if (line != null) {
 			g2.setColor(new Color(0, 0, 0, 100));

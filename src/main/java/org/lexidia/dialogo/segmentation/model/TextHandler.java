@@ -320,7 +320,7 @@ public class TextHandler {
 
 	private void updateText() {
 		String r = "";
-		String temp = originText.replace(" /", "/");
+		String temp = originText.replace("  /", " /");
 		char[] tab = temp.toCharArray();
 		boolean dansCrochet = false;
 		int numeroTrou = 0;

@@ -61,7 +61,7 @@ public class LSTest {
 		
 		String file = "resources/textes/Amélie la sorcière" + (WRAPPED_TEXT ? "" : "_oneline") + ".txt";
 		/// on initalise la fenetre avec les parametres necessaires a sa creation ///
-		frame.init(getTextFromFile(file), // le texte a afficher
+		frame.init(getTextFromFile("resources/textes/20 000 lieux sous les mers"), // le texte a afficher
 				0, // le premier segment à afficher
 				new Font(Font.DIALOG, Font.PLAIN, args.length > 0 ? Integer.parseInt(args[0]) : 20), // les caracteristiques de la police (nom, style, taille)
 				100, // la position x de la fenetre (en pixels)

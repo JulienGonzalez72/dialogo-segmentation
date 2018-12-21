@@ -33,6 +33,8 @@ public class LSTest {
 	public static final boolean WRAPPED_TEXT = false;
 	public static final int MAX_PHRASES_BY_PAGE = 0;
 	
+	private static TestFrame tf;
+	
 	public static void main(final String[] args) {
 		/// initialisation du système de log local ///
 		System.setProperty("org.apache.commons.logging.simplelog.logFile", "System.out");
@@ -86,10 +88,10 @@ public class LSTest {
 				final ControllerText controler = new ControllerText(frame);
 				
 				if (TEST_FRAME) {
-					new TestFrame(controler);
+					tf = new TestFrame(controler);
 				}
 				
-				controler.setMargin(500, 500, 200, 200);
+				//controler.setMargin(500, 500, 200, 200);
 				
 				/// initialisation des couleurs ///
 				controler.setHighlightColors(Color.GREEN, Color.RED, Color.CYAN);
@@ -145,7 +147,9 @@ public class LSTest {
 				/// on enleve le surlignage existant ///
 				getControler().removeAllHighlights();
 				
-				getControler().highlightUntilPhrase(Color.GREEN, getN() - 1);
+				if (tf == null || tf.highlightFromStart()) {
+					getControler().highlightUntilPhrase(Color.GREEN, getN() - 1);
+				}
 				
 				/// on attend un clic du patient ///
 				while (!getControler().waitForClick(getN()) && isRunning()) {

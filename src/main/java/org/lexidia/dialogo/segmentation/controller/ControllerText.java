@@ -7,6 +7,7 @@ import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.KeyListener;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.SwingUtilities;
 import javax.swing.text.BadLocationException;
@@ -32,7 +33,7 @@ public class ControllerText {
 	}
 	
 	/**
-	 * Construit les pages à partir du segment de numero spécifié.
+	 * Construit les pages à partir du segment de numéro spécifié.
 	 */
 	public void buildPages(int startPhrase) {
 		assertPositiveOrNull(startPhrase, "startPhrase");
@@ -129,12 +130,10 @@ public class ControllerText {
 	
 	/**
 	 * Mets en pause le thread courant pendant un certain temps.
-	 * 
-	 * @param time
-	 *            le temps de pause, en millisecondes
-	 * @param cursorName
-	 *            le type de curseur à définir pendant l'attente (peut être
-	 *            Constants.CURSOR_SPEAK ou Constants.CURSOR_LISTEN)
+	 * @param time le temps de pause, en millisecondes
+	 * @param cursorName le type de curseur à définir pendant l'attente
+	 * (peut être Constants.CURSOR_SPEAK ou Constants.CURSOR_LISTEN)
+	 * @throws IllegalArgumentException si time est négatif ou si cursor n'est pas valide.
 	 */
 	public void doWait(long time, String cursorName) throws IllegalArgumentException {
 		assertPositiveOrNull(time, "time");
@@ -152,11 +151,12 @@ public class ControllerText {
 	 * Attends un clic sur un mot du texte.<br/>
 	 * Retourne <code>true</code> si le mot correspond au dernier mot du segment n,
 	 * <code>false</code> si c'est le mauvais mot.
+	 * @throws IllegalArgumentException si n est négatif.
 	 */
 	public boolean waitForClick(int n) throws IllegalArgumentException {
 		assertPositiveOrNull(n, "n");
 		p.getControlerMouse().waitForClick();
-
+		
 		/// cherche la position exacte dans le texte ///
 		int offset = p.getTextHandler().getAbsoluteOffset(p.getFirstShownPhraseIndex(),
 				p.getEditorPane().getCaretPosition());
@@ -173,14 +173,16 @@ public class ControllerText {
 	}
 	
 	/**
-	 * Colorie le segment numero n avec la couleur de réussite.
+	 * Colorie le segment numéro n avec la couleur de réussite.
+	 * @throws IllegalArgumentException si n est négatif.
 	 */
 	public void highlightPhrase(int n) throws IllegalArgumentException {
 		highlightPhrase(p.getEditorPane().gethParam().getRightColor(), n);
 	}
 	
 	/**
-	 * Colorie le segment numero n avec la couleur de correction.
+	 * Colorie le segment numéro n avec la couleur de correction.
+	 * @throws IllegalArgumentException si n est négatif.
 	 */
 	public void highlightCorrectionPhrase(int n) throws IllegalArgumentException {
 		highlightPhrase(p.getEditorPane().gethParam().getCorrectionColor(), n);
@@ -199,6 +201,7 @@ public class ControllerText {
 	
 	/**
 	 * Supprime tout le surlignage qui se trouve sur le segment <i>n</i>.<br/>
+	 * @throws IllegalArgumentException si n est négatif.
 	 */
 	public void removeHighlightPhrase(int n) throws IllegalArgumentException {
 		assertPositiveOrNull(n, "n");
@@ -208,7 +211,6 @@ public class ControllerText {
 	}
 	
 	/**
-	 * 
 	 * Arrête l'enregistrement courant et enlève tout le surlignage.
 	 */
 	@Deprecated
@@ -617,6 +619,62 @@ public class ControllerText {
 				p.rebuildPages();
 			}
 		});
+	}
+	
+	public void setLeftMargin(final float leftMargin) {
+		assertNotStarted(pilot, "change margin");
+		assertPositiveOrNull(leftMargin, "leftMargin");
+		SwingUtilities.invokeLater(new Runnable() {	
+			@Override
+			public void run() {
+				p.getEditorPane().setLeftMargin(leftMargin);
+				p.updateSliders();
+				p.rebuildPages();
+			}
+		});
+	}
+	
+	public void setRightMargin(final float rightMargin) {
+		assertNotStarted(pilot, "change margin");
+		assertPositiveOrNull(rightMargin, "rightMargin");
+		SwingUtilities.invokeLater(new Runnable() {	
+			@Override
+			public void run() {
+				p.getEditorPane().setRightMargin(rightMargin);
+				p.updateSliders();
+				p.rebuildPages();
+			}
+		});
+	}
+	
+	public void setTopMargin(final float topMargin) {
+		assertNotStarted(pilot, "change margin");
+		assertPositiveOrNull(topMargin, "topMargin");
+		SwingUtilities.invokeLater(new Runnable() {	
+			@Override
+			public void run() {
+				p.getEditorPane().setTopMargin(topMargin);
+				p.updateSliders();
+				p.rebuildPages();
+			}
+		});
+	}
+	
+	public void setBottomMargin(final float bottomMargin) {
+		assertNotStarted(pilot, "change margin");
+		assertPositiveOrNull(bottomMargin, "bottomMargin");
+		SwingUtilities.invokeLater(new Runnable() {	
+			@Override
+			public void run() {
+				p.getEditorPane().setBottomMargin(bottomMargin);
+				p.updateSliders();
+				p.rebuildPages();
+			}
+		});
+	}
+	
+	public void addCustomSliderListener(PropertyChangeListener sliderListener) {
+		p.addCustomSliderListener(sliderListener);
 	}
 	
 	/**

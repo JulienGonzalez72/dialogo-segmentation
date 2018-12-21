@@ -1,14 +1,16 @@
 package org.lexidia.dialogo.segmentation.main;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.*;
-import javax.swing.event.ListDataListener;
 
 import org.lexidia.dialogo.segmentation.controller.ControllerText;
 
@@ -19,7 +21,12 @@ public class TestFrame extends JFrame {
 	private JTextField fontSizeField = new JTextField(8);
 	private JComboBox<String> fontCombo = new JComboBox<>();
 	private JTextField interlineField = new JTextField(8);
+	private JCheckBox highlightCheck = new JCheckBox("surlignage vert");
+	private JTextField[] marginFields = new JTextField[4];
+	private String[] marginLabels = {"Marge du haut", "Marge du bas", "Marge de gauche", "Marge de droite"};
 	private JButton startButton = new JButton("Démarrer l'exercice");
+	
+	private boolean highlightFromStart;
 	
 	public TestFrame(ControllerText controller) {
 		this.controller = controller;
@@ -27,7 +34,7 @@ public class TestFrame extends JFrame {
 	}
 	
 	public void init() {
-		setSize(300, 300);
+		setSize(300, 400);
 		setResizable(false);
 		setAlwaysOnTop(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -81,17 +88,84 @@ public class TestFrame extends JFrame {
 		interlinePanel.add(interlineField);
 		panel.add(interlinePanel);
 		
+		JPanel highlightPanel = new JPanel();
+		highlightCheck.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (highlightFromStart) {
+					controller.removeAllHighlights();
+				}
+				else {
+					controller.highlightUntilPhrase(Color.GREEN, controller.getCurrentPhraseIndex() - 1);
+				}
+				highlightFromStart = !highlightFromStart;
+			}
+		});
+		panel.add(highlightPanel);
+		
+		JPanel marginPanel = new JPanel();
+		for (int i = 0; i < marginFields.length; i++) {
+			marginFields[i] = new JTextField(6);
+			/// initialise le texte des marges ///
+			switch (i) {
+				case 0 : marginFields[0].setText(String.valueOf(controller.getTopMargin())); break;
+				case 1 : marginFields[1].setText(String.valueOf(controller.getBottomMargin())); break;
+				case 2 : marginFields[2].setText(String.valueOf(controller.getLeftMargin())); break;
+				case 3 : marginFields[3].setText(String.valueOf(controller.getRightMargin())); break;
+			}
+			final int index = i;
+			/// modifie les marges en fonction du texte rentré ///
+			marginFields[i].addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					float v;
+					try {
+						v = Float.parseFloat(marginFields[index].getText());
+						switch (index) {
+							case 0 : controller.setTopMargin(v); break;
+							case 1 : controller.setBottomMargin(v); break;
+							case 2 : controller.setLeftMargin(v); break;
+							case 3 : controller.setRightMargin(v); break;
+						}
+					} catch (NumberFormatException ex) {
+					}
+				}
+			});
+			marginPanel.add(new JLabel(marginLabels[i]));
+			marginPanel.add(marginFields[i]);
+		}
+		panel.add(marginPanel);
+		
+		/// met à jour le texte des marges à chaque déplacement d'un slider ///
+		controller.addCustomSliderListener(new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				float v = (float) evt.getNewValue();
+				switch (evt.getPropertyName()) {
+					case "topMargin" : marginFields[0].setText(String.valueOf(v)); break;
+					case "bottomMargin" : marginFields[1].setText(String.valueOf(v)); break;
+					case "leftMargin" : marginFields[2].setText(String.valueOf(v)); break;
+					case "rightMargin" : marginFields[3].setText(String.valueOf(v)); break;
+				}
+			}
+		});
+		
 		JPanel startPanel = new JPanel();
 		startButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				controller.goTo(0);
+				startButton.setEnabled(false);
 			}
 		});
 		startPanel.add(startButton);
 		panel.add(startPanel);
 		
 		setVisible(true);
+	}
+	
+	public boolean highlightFromStart() {
+		return highlightFromStart;
 	}
 	
 }

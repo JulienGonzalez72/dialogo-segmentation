@@ -18,8 +18,9 @@ import org.lexidia.dialogo.segmentation.main.Constants;
 public class SegmentedSlider extends JSlider {
 
 	/**
-	 * décalage du slider de la marge du bas dû à la barre de progression
+	 * décalage du slider de la marge du bas dû à la barre de progression (à ne plus utiliser)
 	 */
+	@Deprecated
 	public static final float BOTTOM_EXPLICIT_MARGIN = 15;
 	
 	private PropertyChangeListener sliderListener;
@@ -161,7 +162,7 @@ public class SegmentedSlider extends JSlider {
 	private float getMarginValue(Position position) {
 		switch (position) {
 			case BOTTOM:
-				return getValue() - BOTTOM_EXPLICIT_MARGIN;
+				return getValue();
 			case LEFT:
 				return getValue();
 			case RIGHT:

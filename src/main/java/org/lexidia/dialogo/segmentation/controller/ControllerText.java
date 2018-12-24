@@ -35,17 +35,25 @@ public class ControllerText {
 	/**
 	 * Construit les pages à partir du segment de numéro spécifié.
 	 */
-	public void buildPages(int startPhrase) {
+	public void buildPages(final int startPhrase) {
 		assertPositiveOrNull(startPhrase, "startPhrase");
-		p.buildPages(startPhrase);
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				p.buildPages(startPhrase);
+			}
+		});
 	}
 	
 	/**
 	 * Affiche la page indiquée.
 	 */
-	public void showPage(int page) {
+	public void showPage(final int page) {
 		assertPositiveOrNull(page, "page");
-		p.showPage(page);
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				p.showPage(page);
+			}
+		});
 	}
 	
 	/**
@@ -54,14 +62,22 @@ public class ControllerText {
 	public void setMaxPhrasesByPage(int maxPhrases) throws IllegalArgumentException {
 		assertPositiveOrNull(maxPhrases, "maxPhrases");
 		p.getParam().setMaxPhrases(maxPhrases);
-		p.rebuildPages();
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				p.rebuildPages();
+			}
+		});
 	}
 	
 	/**
 	 * Aligne le texte verticallement en ajustant la marge en haut.
 	 */
 	public void centerTextVertically() {
-		p.getEditorPane().centerText();
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				p.getEditorPane().centerText();
+			}
+		});
 	}
 	
 	/**
@@ -188,14 +204,18 @@ public class ControllerText {
 		highlightPhrase(p.getEditorPane().gethParam().getCorrectionColor(), n);
 	}
 	
-	private void highlightPhrase(Color c, int n) throws IllegalArgumentException {
+	private void highlightPhrase(final Color c, int n) throws IllegalArgumentException {
 		assertNotNull(c, "color");
 		assertPositiveOrNull(n, "n");
 		if (p.getTextHandler().getPhrase(n) != null) {
-			int debutRelatifSegment = p.getTextHandler().getRelativeStartPhrasePosition(p.getFirstShownPhraseIndex(),
+			final int debutRelatifSegment = p.getTextHandler().getRelativeStartPhrasePosition(p.getFirstShownPhraseIndex(),
 					n);
-			int finRelativeSegment = debutRelatifSegment + p.getTextHandler().getPhrase(n).length();
-			p.getEditorPane().highlightPhrase(debutRelatifSegment, finRelativeSegment, c);
+			final int finRelativeSegment = debutRelatifSegment + p.getTextHandler().getPhrase(n).length();
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					p.getEditorPane().highlightPhrase(debutRelatifSegment, finRelativeSegment, c);
+				}
+			});
 		}
 	}
 	
@@ -205,9 +225,13 @@ public class ControllerText {
 	 */
 	public void removeHighlightPhrase(int n) throws IllegalArgumentException {
 		assertPositiveOrNull(n, "n");
-		int debutRelatifSegment = p.getTextHandler().getRelativeStartPhrasePosition(p.getFirstShownPhraseIndex(), n);
-		int finRelativeSegment = debutRelatifSegment + p.getTextHandler().getPhrase(n).length();
-		p.getEditorPane().removeHighlight(debutRelatifSegment, finRelativeSegment);
+		final int debutRelatifSegment = p.getTextHandler().getRelativeStartPhrasePosition(p.getFirstShownPhraseIndex(), n);
+		final int finRelativeSegment = debutRelatifSegment + p.getTextHandler().getPhrase(n).length();
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				p.getEditorPane().removeHighlight(debutRelatifSegment, finRelativeSegment);
+			}
+		});
 	}
 	
 	/**
@@ -232,14 +256,22 @@ public class ControllerText {
 	 * Enlève tout le surlignage d'erreur.
 	 */
 	public void removeWrongHighlights() {
-		p.getEditorPane().removeRedHighlight();
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				p.getEditorPane().removeRedHighlight();
+			}
+		});
 	}
 	
 	/**
 	 * Enlève tout le surlignage présent.
 	 */
 	public void removeAllHighlights() {
-		p.getEditorPane().removeAllHighlights();
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				p.getEditorPane().removeAllHighlights();
+			}
+		});
 	}
 	
 	/**
@@ -261,9 +293,13 @@ public class ControllerText {
 	 * n peut être négatif (rien ne sera surligné mais aucune exception ne sera déclenchée).
 	 * @throws IllegalArgumentException si color est null
 	 */
-	public void highlightUntilPhrase(Color color, int n) throws IllegalArgumentException {
+	public void highlightUntilPhrase(final Color color, final int n) throws IllegalArgumentException {
 		assertNotNull(color, "color");
-		p.highlightUntilPhrase(color, n);
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				p.highlightUntilPhrase(color, n);
+			}
+		});
 	}
 	
 	@Deprecated
@@ -287,11 +323,15 @@ public class ControllerText {
 		}
 	}
 	
-	private void highlight(Color c, int start, int end) throws IllegalArgumentException {
+	private void highlight(final Color c, final int start, final int end) throws IllegalArgumentException {
 		assertNotNull(c, "color");
 		assertPositiveOrNull(start, "start");
 		assertGreater(end, start, "end");
-		p.getEditorPane().highlightPhrase(start, end, c);
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				p.getEditorPane().highlightPhrase(start, end, c);
+			}
+		});
 	}
 	
 	/**
@@ -398,11 +438,15 @@ public class ControllerText {
 	 * @throws IllegalStateException si l'exercice a déjà commencé.
 	 * @throws IllegalArgumentException si f est null ou invalide.
 	 */
-	public void setFont(Font f) throws IllegalStateException, IllegalArgumentException {
+	public void setFont(final Font f) throws IllegalStateException, IllegalArgumentException {
 		assertNotStarted(pilot, "change font");
 		assertFont(f);
-		p.getEditorPane().setBaseFont(f);
-		p.rebuildPages();
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				p.getEditorPane().setBaseFont(f);
+				p.rebuildPages();
+			}
+		});
 	}
 	
 	/**
@@ -428,13 +472,17 @@ public class ControllerText {
 	 * <b>Attention !</b> Si la taille de police est grande, il ne faut pas utiliser un espacement
 	 * trop grand afin de permettre la mise en page.
 	 * @throws IllegalStateException si l'exercice a déjà commencé.
-	 * @throws IllegalArgumentException si lineSpacing < 0
+	 * @throws IllegalArgumentException si lineSpacing < 0.
 	 */
-	public void setLineSpacing(float lineSpacing) throws IllegalArgumentException {
+	public void setLineSpacing(final float lineSpacing) throws IllegalArgumentException {
 		assertNotStarted(pilot, "change line spacing");
 		assertPositiveOrNull(lineSpacing, "lineSpacing");
-		p.getEditorPane().setLineSpacing(lineSpacing);
-		p.rebuildPages();
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				p.getEditorPane().setLineSpacing(lineSpacing);
+				p.rebuildPages();
+			}
+		});
 	}
 	
 	/**
@@ -450,7 +498,11 @@ public class ControllerText {
 	 */
 	public void end() {
 		pilot.end();
-		p.rebuildPages();
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				p.rebuildPages();
+			}
+		});
 	}
 
 	/**
@@ -470,15 +522,23 @@ public class ControllerText {
 		p.getEditorPane().gethParam().setRightColor(rightColor);
 		p.getEditorPane().gethParam().setWrongColor(wrongColor);
 		p.getEditorPane().gethParam().setCorrectionColor(correctionColor);
-		p.getEditorPane().updateColors();
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				p.getEditorPane().updateColors();
+			}
+		});
 	}
 
 	/**
 	 * Change la couleur de fond de l'exercice.
 	 */
-	public void setBackgroundColor(Color color) {
+	public void setBackgroundColor(final Color color) {
 		p.getParam().setBgColor(color);
-		p.getEditorPane().setBackground(color);
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				p.getEditorPane().setBackground(color);
+			}
+		});
 	}
 
 	/**
@@ -564,8 +624,12 @@ public class ControllerText {
 	 * Ceux-ci sont automatiquement désactivés lorsque l'exercice démarre.<br>
 	 * Par défault, ils sont visibles lors du démarrage de la fenêtre.
 	 */
-	public void setMarginSlidersVisible(boolean visible) {
-		p.setSlidersVisible(visible);
+	public void setMarginSlidersVisible(final boolean visible) {
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				p.setSlidersVisible(visible);
+			}
+		});
 	}
 	
 	/**
@@ -600,6 +664,9 @@ public class ControllerText {
 	 * Applique les marges sur les côtés du texte.<br>
 	 * Par défaut, si paramètres ne sont pas modifiés,
 	 * des marges horizontales sont placées automatiquement.
+	 * @throws IllegalStateException si l'exercice a déjà commencé.
+	 * @throws IllegalArgumentException si leftMargin < 0, rightMargin < 0,
+	 * topMargin < 0 ou bottomMargin < 0.
 	 */
 	public void setMargin(final float leftMargin, final float rightMargin,
 			final float topMargin, final float bottomMargin) throws IllegalArgumentException, IllegalStateException {
@@ -608,65 +675,89 @@ public class ControllerText {
 		assertPositiveOrNull(rightMargin, "rightMargin");
 		assertPositiveOrNull(topMargin, "topMargin");
 		assertPositiveOrNull(bottomMargin, "bottomMargin");
-		SwingUtilities.invokeLater(new Runnable() {	
-			@Override
+		setMargin(new Runnable() {
 			public void run() {
-				p.getEditorPane().setLeftMargin(leftMargin);
-				p.getEditorPane().setRightMargin(rightMargin);
-				p.getEditorPane().setTopMargin(topMargin);
-				p.getEditorPane().setBottomMargin(bottomMargin);
-				p.updateSliders();
-				p.rebuildPages();
+				p.getEditorPane().setLeftMargin(leftMargin > 0
+						? leftMargin : p.getDefaultLeftMargin());
+				p.getEditorPane().setRightMargin(rightMargin > 0
+						? rightMargin : p.getDefaultRightMargin());
+				p.getEditorPane().setTopMargin(topMargin > 0
+						? topMargin : p.getDefaultTopMargin());
+				p.getEditorPane().setBottomMargin(bottomMargin > 0
+						? bottomMargin : p.getDefaultBottomMargin());
 			}
 		});
 	}
 	
-	public void setLeftMargin(final float leftMargin) {
+	/**
+	 * Applique une marge à gauche du texte.
+	 * @throws IllegalArgumentException si l'exercice a déjà commencé.
+	 * @throws IllegalStateException si leftMargin < 0.
+	 */
+	public void setLeftMargin(final float leftMargin) throws IllegalArgumentException, IllegalStateException {
 		assertNotStarted(pilot, "change margin");
 		assertPositiveOrNull(leftMargin, "leftMargin");
-		SwingUtilities.invokeLater(new Runnable() {	
-			@Override
+		setMargin(new Runnable() {
 			public void run() {
-				p.getEditorPane().setLeftMargin(leftMargin);
-				p.updateSliders();
-				p.rebuildPages();
+				p.getEditorPane().setLeftMargin(leftMargin > 0
+						? leftMargin : p.getDefaultLeftMargin());
 			}
 		});
 	}
 	
-	public void setRightMargin(final float rightMargin) {
+	/**
+	 * Applique une marge à droite du texte.
+	 * @throws IllegalArgumentException si l'exercice a déjà commencé.
+	 * @throws IllegalStateException si rightMargin < 0.
+	 */
+	public void setRightMargin(final float rightMargin) throws IllegalArgumentException, IllegalStateException {
 		assertNotStarted(pilot, "change margin");
 		assertPositiveOrNull(rightMargin, "rightMargin");
-		SwingUtilities.invokeLater(new Runnable() {	
-			@Override
+		setMargin(new Runnable() {
 			public void run() {
-				p.getEditorPane().setRightMargin(rightMargin);
-				p.updateSliders();
-				p.rebuildPages();
+				p.getEditorPane().setRightMargin(rightMargin > 0
+						? rightMargin : p.getDefaultRightMargin());
 			}
 		});
 	}
 	
-	public void setTopMargin(final float topMargin) {
+	/**
+	 * Applique une marge en haut du texte.
+	 * @throws IllegalArgumentException si l'exercice a déjà commencé.
+	 * @throws IllegalStateException si topMargin < 0.
+	 */
+	public void setTopMargin(final float topMargin) throws IllegalArgumentException, IllegalStateException {
 		assertNotStarted(pilot, "change margin");
 		assertPositiveOrNull(topMargin, "topMargin");
-		SwingUtilities.invokeLater(new Runnable() {	
-			@Override
+		setMargin(new Runnable() {
 			public void run() {
-				p.getEditorPane().setTopMargin(topMargin);
-				p.updateSliders();
-				p.rebuildPages();
+				p.getEditorPane().setTopMargin(topMargin > 0
+						? topMargin : p.getDefaultTopMargin());
 			}
 		});
 	}
 	
-	public void setBottomMargin(final float bottomMargin) {
+	/**
+	 * Applique une marge en bas du texte.
+	 * @throws IllegalArgumentException si l'exercice a déjà commencé.
+	 * @throws IllegalStateException si bottomMargin < 0.
+	 */
+	public void setBottomMargin(final float bottomMargin) throws IllegalArgumentException, IllegalStateException {
 		assertNotStarted(pilot, "change margin");
 		assertPositiveOrNull(bottomMargin, "bottomMargin");
+		setMargin(new Runnable() {
+			public void run() {
+				p.getEditorPane().setBottomMargin(bottomMargin > 0
+						? bottomMargin : p.getDefaultBottomMargin());				
+			}
+		});
+	}
+	
+	private void setMargin(final Runnable action) {
 		SwingUtilities.invokeLater(new Runnable() {	
 			@Override
 			public void run() {
-				p.getEditorPane().setBottomMargin(bottomMargin);
+				action.run();
 				p.updateSliders();
 				p.rebuildPages();
 			}

@@ -135,10 +135,10 @@ public class SegmentedTextPanel extends JDesktopPane {
 		
 		borderPanel.setBounds(0, 0, getWidth(), getHeight());
 		add(borderPanel);
-		getEditorPane().setLeftMargin(getWidth() / 2 * Constants.DEFAULT_LEFT_MARGIN_FACTOR);
-		getEditorPane().setRightMargin(getWidth() / 2 * Constants.DEFAULT_RIGHT_MARGIN_FACTOR);
-		getEditorPane().setTopMargin(getHeight() / 2 * Constants.DEFAULT_TOP_MARGIN_FACTOR);
-		getEditorPane().setBottomMargin(getHeight() / 2 * Constants.DEFAULT_BOTTOM_MARGIN_FACTOR);
+		getEditorPane().setLeftMargin(getDefaultLeftMargin());
+		getEditorPane().setRightMargin(getDefaultRightMargin());
+		getEditorPane().setTopMargin(getDefaultTopMargin());
+		getEditorPane().setBottomMargin(getDefaultBottomMargin());
 		
 		/// slider de marge en haut ///
 		leftTopSlider = new SegmentedSlider(SegmentedSlider.Position.TOP, this, Constants.TEXTPANE_MARGIN);
@@ -209,6 +209,22 @@ public class SegmentedTextPanel extends JDesktopPane {
 			getPanelSud().add(getProgressBar());
 		}
 		getPanelSud().setVisible(true);
+	}
+	
+	public float getDefaultTopMargin() {
+		return getHeight() / 2 * Constants.DEFAULT_TOP_MARGIN_FACTOR;
+	}
+	
+	public float getDefaultRightMargin() {
+		return getWidth() / 2 * Constants.DEFAULT_RIGHT_MARGIN_FACTOR;
+	}
+	
+	public float getDefaultLeftMargin() {
+		return getWidth() / 2 * Constants.DEFAULT_LEFT_MARGIN_FACTOR;
+	}
+	
+	public float getDefaultBottomMargin() {
+		return getHeight() / 2 * Constants.DEFAULT_BOTTOM_MARGIN_FACTOR;
 	}
 	
 	public void setParameters(ToolParameters param) {

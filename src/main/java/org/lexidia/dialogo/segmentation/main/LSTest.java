@@ -12,7 +12,6 @@ import java.io.InputStreamReader;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.plaf.TextUI;
 
 import org.lexidia.dialogo.segmentation.controller.ControllerText;
 import org.lexidia.dialogo.segmentation.reading.ReadThread;
@@ -61,7 +60,7 @@ public class LSTest {
 		/// on créé la fenetre d'exercice ///
 		final SegmentedTextFrame frame = new SegmentedTextFrame("Dialogo - Lecture segmentée"); // le titre
 		
-		String file = "resources/textes/Amélie la sorcière" + (WRAPPED_TEXT ? "" : "_oneline") + ".txt";
+		//String file = "resources/textes/Amélie la sorcière" + (WRAPPED_TEXT ? "" : "_oneline") + ".txt";
 		/// on initalise la fenetre avec les parametres necessaires a sa creation ///
 		frame.init(getTextFromFile("resources/textes/20 000 lieux sous les mers"), // le texte a afficher
 				0, // le premier segment à afficher

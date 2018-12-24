@@ -50,7 +50,8 @@ public class TestFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					controller.setFontSize(Integer.parseInt(fontSizeField.getText()));
-				} catch (NumberFormatException ex) {
+				} catch (IllegalArgumentException | IllegalStateException ex) {
+					error(ex);
 				}
 			}
 		});
@@ -65,8 +66,14 @@ public class TestFrame extends JFrame {
 		fontCombo.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				Font oldFont = controller.getFont();
-				controller.setFont(new Font((String) e.getItem(), oldFont.getStyle(), oldFont.getSize()));
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					Font oldFont = controller.getFont();
+					try {
+						controller.setFont(new Font((String) e.getItem(), oldFont.getStyle(), oldFont.getSize()));
+					} catch (IllegalArgumentException | IllegalStateException ex) {
+						error(ex);
+					}
+				}
 			}
 		});
 		fontPanel.add(new JLabel("Police :"));
@@ -80,7 +87,8 @@ public class TestFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					controller.setLineSpacing(Float.parseFloat(interlineField.getText()));
-				} catch (NumberFormatException ex) {
+				} catch (IllegalArgumentException | IllegalStateException ex) {
+					error(ex);
 				}
 			}
 		});
@@ -101,6 +109,7 @@ public class TestFrame extends JFrame {
 				highlightFromStart = !highlightFromStart;
 			}
 		});
+		highlightPanel.add(highlightCheck);
 		panel.add(highlightPanel);
 		
 		JPanel marginPanel = new JPanel();
@@ -108,10 +117,10 @@ public class TestFrame extends JFrame {
 			marginFields[i] = new JTextField(6);
 			/// initialise le texte des marges ///
 			switch (i) {
-				case 0 : marginFields[0].setText(String.valueOf(controller.getTopMargin())); break;
-				case 1 : marginFields[1].setText(String.valueOf(controller.getBottomMargin())); break;
-				case 2 : marginFields[2].setText(String.valueOf(controller.getLeftMargin())); break;
-				case 3 : marginFields[3].setText(String.valueOf(controller.getRightMargin())); break;
+				case 0 : marginFields[0].setText(String.valueOf(truncate(controller.getTopMargin()))); break;
+				case 1 : marginFields[1].setText(String.valueOf(truncate(controller.getBottomMargin()))); break;
+				case 2 : marginFields[2].setText(String.valueOf(truncate(controller.getLeftMargin()))); break;
+				case 3 : marginFields[3].setText(String.valueOf(truncate(controller.getRightMargin()))); break;
 			}
 			final int index = i;
 			/// modifie les marges en fonction du texte rentré ///
@@ -127,7 +136,8 @@ public class TestFrame extends JFrame {
 							case 2 : controller.setLeftMargin(v); break;
 							case 3 : controller.setRightMargin(v); break;
 						}
-					} catch (NumberFormatException ex) {
+					} catch (IllegalArgumentException ex) {
+						error(ex);
 					}
 				}
 			});
@@ -141,6 +151,7 @@ public class TestFrame extends JFrame {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				float v = (float) evt.getNewValue();
+				v = truncate(v);
 				switch (evt.getPropertyName()) {
 					case "topMargin" : marginFields[0].setText(String.valueOf(v)); break;
 					case "bottomMargin" : marginFields[1].setText(String.valueOf(v)); break;
@@ -162,6 +173,15 @@ public class TestFrame extends JFrame {
 		panel.add(startPanel);
 		
 		setVisible(true);
+	}
+	
+	private static void error(Exception ex) {
+		JOptionPane.showMessageDialog(null, ex.getMessage(), "Erreur !",
+				JOptionPane.ERROR_MESSAGE);
+	}
+	
+	private static float truncate(float value) {
+		return (int) (value * 100) / 100f;
 	}
 	
 	public boolean highlightFromStart() {

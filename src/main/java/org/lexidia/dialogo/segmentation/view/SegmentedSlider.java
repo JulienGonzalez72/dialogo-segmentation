@@ -13,8 +13,6 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.lexidia.dialogo.segmentation.main.Constants;
-
 public class SegmentedSlider extends JSlider {
 
 	/**
@@ -95,10 +93,10 @@ public class SegmentedSlider extends JSlider {
 				setValue((int) editorPane.getLeftMargin());
 				break;
 			case RIGHT:
-				setValue(getMaximum() - (int) editorPane.getRightMargin());
+				setValue(getMaximum() - (int) editorPane.getRightMargin() + getMinimum());
 				break;
 			case TOP:
-				setValue(getMaximum() - (int) editorPane.getTopMargin());
+				setValue(getMaximum() - (int) editorPane.getTopMargin() + getMinimum());
 				break;
 		}
 		editorPane.setLine(null);

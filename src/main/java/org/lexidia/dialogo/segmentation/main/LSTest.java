@@ -146,6 +146,7 @@ public class LSTest {
 				/// on enleve le surlignage existant ///
 				getControler().removeAllHighlights();
 				
+				/// on surligne tous les segments passes (si cette option est activee) ///
 				if (tf == null || tf.highlightFromStart()) {
 					getControler().highlightUntilPhrase(Color.GREEN, getN() - 1);
 				}

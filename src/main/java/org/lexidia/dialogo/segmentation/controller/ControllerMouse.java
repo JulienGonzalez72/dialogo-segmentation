@@ -31,7 +31,7 @@ public class ControllerMouse implements MouseListener {
 		lastTextOffset = handler.getAbsoluteOffset(view.getFirstShownPhraseIndex(),
 				view.getEditorPane().getCaretPosition());
 		
-		synchronized(clickLock) {
+		synchronized (clickLock) {
 			clickLock.notify();
 		}
 	}

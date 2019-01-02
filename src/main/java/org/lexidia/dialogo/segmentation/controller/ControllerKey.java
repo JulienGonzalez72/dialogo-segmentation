@@ -18,7 +18,11 @@ public class ControllerKey implements KeyListener {
 	}
 	
 	public ControllerKey() {
-		this(null);
+		this.pilot = null;
+	}
+	
+	public void setPilot(Pilot pilot) {
+		this.pilot = pilot;
 	}
 	
 	@Override
@@ -53,10 +57,6 @@ public class ControllerKey implements KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-	}
-	
-	public void setPilot(Pilot pilot) {
-		this.pilot = pilot;
 	}
 
 }

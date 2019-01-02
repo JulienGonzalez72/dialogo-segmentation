@@ -35,11 +35,14 @@ import org.lexidia.dialogo.segmentation.controller.ControllerMask;
 import org.lexidia.dialogo.segmentation.controller.ControllerMouse;
 import org.lexidia.dialogo.segmentation.main.Assert;
 import org.lexidia.dialogo.segmentation.main.Constants;
+import org.lexidia.dialogo.segmentation.model.LsSentenceNumberDisplayHolder;
 import org.lexidia.dialogo.segmentation.model.Player;
 import org.lexidia.dialogo.segmentation.model.ReadingParameters;
 import org.lexidia.dialogo.segmentation.model.TextHandler;
 import org.lexidia.dialogo.segmentation.model.ToolParameters;
 import org.lexidia.dialogo.segmentation.reading.ReadThread;
+
+import fr.lexiphone.player.impl.SentenceNumber;
 
 public class SegmentedTextPanel extends JDesktopPane {
 
@@ -172,19 +175,16 @@ public class SegmentedTextPanel extends JDesktopPane {
 		getProgressBar().setMaximum(getTextHandler().getPhrasesCount());
 		
 		getProgressBar().setValue(param.getStartingPhrase());
-		getProgressBar().setString(param.getStartingPhrase() + "/" + (getTextHandler().getPhrasesCount() - 1));
-		setCurrentPage(0);
-		/*setTextHandler(new TextHandler(param.getText()));
-        if(LsSentenceNumberDisplayHolder.getInstance().isOn()){
+		//getProgressBar().setString(param.getStartingPhrase() + "/" + (getTextHandler().getPhrasesCount() - 1));
+		if (LsSentenceNumberDisplayHolder.getInstance().isOn()) {
             SentenceNumber sn = LsSentenceNumberDisplayHolder.getInstance().getSentenceNumber();
             getProgressBar().setMaximum(sn.getNumberOfSentences());
             getProgressBar().setString(sn.toString());
-        }else{
+        } else {
             getProgressBar().setMaximum(getTextHandler().getPhrasesCount());
             getProgressBar().setString(param.getStartingPhrase() + "/" + (getTextHandler().getPhrasesCount() - 1));            
         }
-        getProgressBar().setValue(param.getStartingPhrase());
-        setCurrentPage(0);*/
+		setCurrentPage(0);
 		
 		/// construit la mise en page virtuelle ///
 		rebuildPages();

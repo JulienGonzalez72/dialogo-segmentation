@@ -3,6 +3,8 @@ package org.lexidia.dialogo.segmentation.main;
 import java.awt.Font;
 import java.util.Arrays;
 
+import javax.swing.SwingUtilities;
+
 import org.lexidia.dialogo.segmentation.controller.Pilot;
 
 /**
@@ -42,6 +44,7 @@ public final class Assert {
 		}
 	}
 	
+	@SafeVarargs
 	public static <T> void assertContains(T obj, String varName, T... possibleValues) throws IllegalArgumentException {
 		if (Arrays.binarySearch(possibleValues, obj, null) < 0) {
 			error("Unacceptable value for " + varName + " (possible values are " + Arrays.toString(possibleValues) + ")");
@@ -54,9 +57,21 @@ public final class Assert {
 		}
 	}
 	
+	public static void assertGreaterOrEquals(double d1, double d2, String varName) throws IllegalArgumentException {
+		if (d1 < d2) {
+			error(varName + " (" + d1 + ") must be greater or equals than " + d2 + " !");
+		}
+	}
+	
 	public static void assertNotStarted(Pilot pilot, String action) throws IllegalStateException {
 		if (pilot.hasStarted()) {
 			throw new IllegalStateException("Can't " + action + " while the exercise has started !");
+		}
+	}
+	
+	public static void assertSwingThread(String action) throws IllegalThreadStateException {
+		if (!SwingUtilities.isEventDispatchThread()) {
+			throw new IllegalThreadStateException("Trying to " + action + " in a no-Swing Thread !");
 		}
 	}
 	

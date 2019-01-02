@@ -1,8 +1,11 @@
 package org.lexidia.dialogo.segmentation.controller;
 
+import org.lexidia.dialogo.segmentation.model.LsSentenceNumberDisplayHolder;
 import org.lexidia.dialogo.segmentation.reading.ReadThread;
 import org.lexidia.dialogo.segmentation.reading.ReaderFactory;
 import org.lexidia.dialogo.segmentation.view.SegmentedTextPanel;
+
+import fr.lexiphone.player.impl.SentenceNumber;
 
 public class Pilot {
 
@@ -58,6 +61,15 @@ public class Pilot {
 	private void updateBar() {
 		p.getProgressBar().setValue(phrase + 1);
 		p.getProgressBar().setString((phrase + 1) + "/" + (p.getTextHandler().getPhrasesCount()));
+		if (LsSentenceNumberDisplayHolder.getInstance().isOn()) {
+            SentenceNumber sn = LsSentenceNumberDisplayHolder.getInstance().getSentenceNumber();
+            sn.setRealSentenceNumber(phrase);
+            //p.getProgressBar().setMaximum(sn.getNumberOfSentences());
+            p.getProgressBar().setString(sn.toString());
+        } else {
+            p.getProgressBar().setValue(phrase + 1);
+            p.getProgressBar().setString((phrase + 1) + "/" + (p.getTextHandler().getPhrasesCount()));
+        }
 	}
 
 	/**

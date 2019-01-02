@@ -34,8 +34,9 @@ public class ControllerText {
 	
 	/**
 	 * Construit les pages à partir du segment de numéro spécifié.
+	 * @throws IllegalArgumentException su startPhrase est négatif.
 	 */
-	public void buildPages(final int startPhrase) {
+	public void buildPages(final int startPhrase) throws IllegalArgumentException {
 		assertPositiveOrNull(startPhrase, "startPhrase");
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -46,8 +47,9 @@ public class ControllerText {
 	
 	/**
 	 * Affiche la page indiquée.
+	 * @throws IllegalArgumentException si page est négatif.
 	 */
-	public void showPage(final int page) {
+	public void showPage(final int page) throws IllegalArgumentException {
 		assertPositiveOrNull(page, "page");
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -58,6 +60,7 @@ public class ControllerText {
 	
 	/**
 	 * Limite le nombre de segments de page. Si 0, la mise en page se fait à la limite de la fenêtre.
+	 * @throws IllegalArgumentException si maxPhrases < 0.
 	 */
 	public void setMaxPhrasesByPage(int maxPhrases) throws IllegalArgumentException {
 		assertPositiveOrNull(maxPhrases, "maxPhrases");
@@ -112,9 +115,9 @@ public class ControllerText {
 	/**
 	 * Retourne le contenu textuel du segment de numéro indiqué.
 	 */
-	public String getPhraseContent(int phrase) {
-		assertPositiveOrNull(phrase, "phrase");
-		return p.getTextHandler().getPhrase(phrase);
+	public String getPhraseContent(int n) {
+		assertPositiveOrNull(n, "n");
+		return p.getTextHandler().getPhrase(n);
 	}
 	
 	/**
@@ -275,9 +278,9 @@ public class ControllerText {
 	}
 	
 	/**
-	 * Retourne la page qui contient le segment, ou -1 si le segment n'existe pas.
+	 * Retourne la page qui contient le segment n, ou -1 si le segment n'existe pas.
 	 */
-	public int getPageOfPhrase(int n) throws IllegalArgumentException {
+	public int getPageOfPhrase(int n) {
 		int numeroPage = -1;
 		for (Integer i : p.getPhrasesInFonctionOfPages().keySet()) {
 			if (p.getPhrasesInFonctionOfPages().get(i).contains(n)) {
@@ -300,11 +303,6 @@ public class ControllerText {
 				p.highlightUntilPhrase(color, n);
 			}
 		});
-	}
-	
-	@Deprecated
-	public void incrementerErreurSegment() {
-		p.setNbErreursParSegment(p.getNbErreursParSegment() + 1);
 	}
 	
 	/**
@@ -383,7 +381,12 @@ public class ControllerText {
 					+ " de segment.";
 		}
 		message += "</html>";
-		p.showReport(message);
+		final String finalMessage = message;
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				p.showReport(finalMessage);
+			}
+		});
 	}
 	
 	/**
@@ -540,14 +543,14 @@ public class ControllerText {
 			}
 		});
 	}
-
+	
 	/**
 	 * Retourne le numéro du segment courant (en partant de 0).
 	 */
 	public int getCurrentPhraseIndex() {
 		return pilot.getCurrentPhraseIndex();
 	}
-
+	
 	/**
 	 * Charge une usine de lecture (nécessaire pour appeler la méthode
 	 * {@link #goTo(int)}).
@@ -555,15 +558,19 @@ public class ControllerText {
 	public void setReaderFactory(ReaderFactory readerFactory) {
 		pilot.setReaderFactory(readerFactory);
 	}
-
+	
 	/**
 	 * Mets à jour la barre de progression et le numéro du segment en cours.<br/>
 	 * A effectuer au début de chaque segment traité, mais pas plus d'une fois par
 	 * segment.
 	 */
 	public void updateCurrentPhrase() {
-		pilot.updateCurrentPhrase();
-		p.setNbErreursSegmentCourant(0);
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				pilot.updateCurrentPhrase();
+				p.setNbErreursSegmentCourant(0);
+			}
+		});
 	}
 	
 	/**
@@ -584,18 +591,22 @@ public class ControllerText {
 	 * Active ou désactive les contrôles clavier (touche gauche pour répéter le
 	 * segment, touche espace pour arrêter/recommencer).
 	 */
-	public void setKeyEnabled(boolean keyEnabled) {
-		/// ajoute un contrôle clavier ///
-		if (keyEnabled && p.getKeyListeners().length == 0) {
-			ControllerKey controlerKey = new ControllerKey(pilot);
-			p.getEditorPane().addKeyListener(controlerKey);
-		}
-		/// retire les contrôles clavier ///
-		else if (!keyEnabled && p.getKeyListeners().length >= 1) {
-			for (KeyListener listener : p.getKeyListeners()) {
-				p.removeKeyListener(listener);
+	public void setKeyEnabled(final boolean keyEnabled) {
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				/// ajoute un contrôle clavier ///
+				if (keyEnabled && p.getKeyListeners().length == 0) {
+					ControllerKey controlerKey = new ControllerKey(pilot);
+					p.getEditorPane().addKeyListener(controlerKey);
+				}
+				/// retire les contrôles clavier ///
+				else if (!keyEnabled && p.getKeyListeners().length >= 1) {
+					for (KeyListener listener : p.getKeyListeners()) {
+						p.removeKeyListener(listener);
+					}
+				}
 			}
-		}
+		});
 	}
 	
 	/**
@@ -764,16 +775,25 @@ public class ControllerText {
 		});
 	}
 	
-	public void addCustomSliderListener(PropertyChangeListener sliderListener) {
-		p.addCustomSliderListener(sliderListener);
+	public void addCustomSliderListener(final PropertyChangeListener sliderListener) {
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				p.addCustomSliderListener(sliderListener);
+			}
+		});
 	}
 	
 	/**
 	 * Gèle la fenetre si b est <code>true</code>, la dégèle si b est
 	 * <code>false</code>
 	 */
-	public void freeze(boolean b) {
-		p.getFenetre().setResizable(!b);
+	public void freeze(final boolean b) {
+		SwingUtilities.invokeLater(new Runnable() {	
+			@Override
+			public void run() {
+				p.getFenetre().setResizable(!b); 
+			}
+		});
 	}
 	
 	/**
@@ -786,10 +806,14 @@ public class ControllerText {
 	/**
 	 * @author Haerwynn
 	 */
-	public void addCustomKeyController(ControllerKey lsKeyController) {
+	public void addCustomKeyController(final ControllerKey lsKeyController) {
         if (p.getKeyListeners().length == 0 && lsKeyController != null) {
-            lsKeyController.setPilot(pilot);
-            p.getEditorPane().addKeyListener(lsKeyController);
+        	SwingUtilities.invokeLater(new Runnable() {
+    			public void run() {
+    				lsKeyController.setPilot(pilot);
+    				p.getEditorPane().addKeyListener(lsKeyController);
+    			}
+    		});
         }
     }
 
@@ -831,46 +855,61 @@ public class ControllerText {
 	 * Affiche tous les trous correspondant à la page indiqué et à partir du trou
 	 * indiqué. Désaffiche au préalable tous les trous.
 	 */
-	public void showHolesInPage(int h, int page) {
+	public void showHolesInPage(final int h, final int page) {
+		assertPositiveOrNull(h, "h");
+		assertPositiveOrNull(page, "page");
+		
 		// réinitialisation des trous
 		removeAllMasks();
-		// pour tous les trous
-		for (int i = 0; i < p.getTextHandler().getHolesCount(); i++) {
-			// si ce trou est dans la meme page que h
-			if (getPageOf(i) == page) {
-				// si ce trou est après le trou h ou est le trou h
-				if (i >= h) {
-					// on affiche ce trou
-					showHole(i);
+		SwingUtilities.invokeLater(new Runnable() {	
+			@Override
+			public void run() {
+				// pour tous les trous
+				for (int i = 0; i < p.getTextHandler().getHolesCount(); i++) {
+					// si ce trou est dans la meme page que h
+					if (getPageOf(i) == page) {
+						// si ce trou est après le trou h ou est le trou h
+						if (i >= h) {
+							// on affiche ce trou
+							showHole(i);
+						}
+					}
 				}
 			}
-		}
+		});
 	}
 	
 	/**
 	 * Montre le trou h
 	 */
-	private void showHole(int h) {
-
+	private void showHole(final int h) {
+		assertPositiveOrNull(h, "h");
+		
 		/// on cache le trou avant de montrer la fenêtre ///
 		hideHole(h);
 
 		int startPhrase = p.getPhrasesInFonctionOfPages().get(getPageOf(h)).get(0);
 
-		int start = p.getTextHandler().getRelativeOffset(startPhrase, p.getTextHandler().getHoleStartOffset(h));
-		int end = p.getTextHandler().getRelativeOffset(startPhrase, p.getTextHandler().getHoleEndOffset(h));
+		final int start = p.getTextHandler().getRelativeOffset(startPhrase, p.getTextHandler().getHoleStartOffset(h));
+		final int end = p.getTextHandler().getRelativeOffset(startPhrase, p.getTextHandler().getHoleEndOffset(h));
 
-		try {
-			p.showFrame(start, end, h);
-		} catch (BadLocationException e) {
-			e.printStackTrace();
-		}
+		SwingUtilities.invokeLater(new Runnable() {	
+			@Override
+			public void run() {
+				try {
+					p.showFrame(start, end, h);
+				} catch (BadLocationException e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 	
 	/**
 	 * Retourne la page correspondant au trou h
 	 */
 	public int getPageOf(int h) {
+		assertPositiveOrNull(h, "h");
 		return getPageOfPhrase(getPhraseOf(h));
 	}
 	
@@ -900,6 +939,8 @@ public class ControllerText {
 	 * à 0 pour un aperçu inexistant. Mettre à -1 pour un aperçu jusqu'à saisie.
 	 */
 	public void setHint(int value) {
+		assertGreaterOrEquals(value, -1, "value");
+		
 		if (value == -1) {
 			value = 99999;
 		}
@@ -910,15 +951,18 @@ public class ControllerText {
 	 * Active la fenêtre du trou actuel. Montre l'aperçu du mot. Renvoie
 	 * <code>true</code> si le mot est bon, <code>false</code> sinon.
 	 */
-	public boolean waitForFill(int h) {
+	public boolean waitForFill(int h) throws IllegalThreadStateException {
+		assertSwingThread("call waitForFill");
+		assertPositiveOrNull(h, "h");
+		
 		Mask m = getMask(h);
 		if (m == null)
 			return true;
 		m.activate();
 		hint(m);
-
+		
 		p.getControlerMask().waitForFill();
-
+		
 		return m != null && m.getN() == h ? m.correctWord() : true;
 
 	}
@@ -930,6 +974,9 @@ public class ControllerText {
 	 * faux : renvoie <code>false</code>;
 	 */
 	public boolean waitForFillFixedFrame(int h) {
+		assertSwingThread("call waitForFillFixedFrame");
+		assertPositiveOrNull(h, "h");
+		
 		colorFixedFrame(h, getColorBackground() != Color.cyan ? Color.cyan : Color.YELLOW);
 		activateInputFixedFrame(h);
 
@@ -959,33 +1006,55 @@ public class ControllerText {
 	/**
 	 * Affiche l'aperçu du mot sur le masque m
 	 */
-	private void hint(Mask m) {
+	private void hint(final Mask mask) {
 		/*
 		 * if (p.param.timeToShowWord == -1) { m.setHint(); } else {
 		 * m.setHint(p.param.timeToShowWord * m.getNbCarac()); }
 		 */
-		m.setHint(p.getrParam().getHintDuration() * m.getNbCarac());
+		assertNotNull(mask, "mask");
+		SwingUtilities.invokeLater(new Runnable() {	
+			@Override
+			public void run() {
+				mask.setHint(p.getrParam().getHintDuration() * mask.getNbCarac());
+			}
+		});
 	}
 	
 	/**
 	 * Enlève tous les masques
 	 */
 	public void removeAllMasks() {
-		p.removeAllMasks();
+		SwingUtilities.invokeLater(new Runnable() {	
+			@Override
+			public void run() {
+				p.removeAllMasks();
+			}
+		});
 	}
 	
 	/**
 	 * Fait clignoter l'exercice avec la couleur c
 	 */
-	public void blink(Color c) {
-		p.blink(c);
+	public void blink(final Color c) {
+		SwingUtilities.invokeLater(new Runnable() {	
+			@Override
+			public void run() {
+				p.blink(c);
+			}
+		});
 	}
 	
 	/**
 	 * Colore le trou h en couleur c
 	 */
-	public void colorFixedFrame(int h, Color c) {
-		getMask(h).getJtf().setBackground(c);
+	public void colorFixedFrame(final int h, final Color c) {
+		assertPositiveOrNull(h, "h");
+		SwingUtilities.invokeLater(new Runnable() {	
+			@Override
+			public void run() {
+				getMask(h).getJtf().setBackground(c);
+			}
+		});
 	}
 	
 	/**
@@ -1010,27 +1079,30 @@ public class ControllerText {
 	/**
 	 * Crée une fenêtre de saisie fixe qui attends le resultat du trou h
 	 */
-	public void activateInputFixedFrame(int h) {
-
-		Mask frame = new Mask();
-		((javax.swing.plaf.basic.BasicInternalFrameUI) frame.getUI()).setNorthPane(null);
-		frame.setBorder(null);
-		frame.setBounds(0, 0, p.getPanelFixedFrame().getWidth(), p.getPanelFixedFrame().getHeight());
-
-		p.getPanelFixedFrame().add(frame);
-
-		Font f = new Font(p.getEditorPane().getFont().getFontName(), p.getEditorPane().getFont().getStyle(),
-				p.getEditorPane().getFont().getSize() * 7 / 10);
-
-		frame.initField(f, p.getControlerMask());
-		frame.setN(h);
-		frame.setHiddenWord(p.getTextHandler().getHiddendWord(h));
-		frame.toFront();
-		frame.setVisible(true);
-		frame.activate();
-
-		p.setFixedFrame(frame);
-
+	public void activateInputFixedFrame(final int h) {
+		SwingUtilities.invokeLater(new Runnable() {	
+			@Override
+			public void run() {
+				Mask frame = new Mask();
+				((javax.swing.plaf.basic.BasicInternalFrameUI) frame.getUI()).setNorthPane(null);
+				frame.setBorder(null);
+				frame.setBounds(0, 0, p.getPanelFixedFrame().getWidth(), p.getPanelFixedFrame().getHeight());
+				
+				p.getPanelFixedFrame().add(frame);
+				
+				Font f = new Font(p.getEditorPane().getFont().getFontName(), p.getEditorPane().getFont().getStyle(),
+						p.getEditorPane().getFont().getSize() * 7 / 10);
+				
+				frame.initField(f, p.getControlerMask());
+				frame.setN(h);
+				frame.setHiddenWord(p.getTextHandler().getHiddendWord(h));
+				frame.toFront();
+				frame.setVisible(true);
+				frame.activate();
+				
+				p.setFixedFrame(frame);
+			}
+		});
 	}
 	
 	/**
@@ -1046,17 +1118,22 @@ public class ControllerText {
 	 * d'alerte. Incremente le nombre d'erreur. Reaffiche le hint. Si vous voulez un
 	 * traitement d'erreur personnalisé ne pas utiliser cette méthode.
 	 */
-	public void doError(int h) {
-		blink(Constants.ALERT_COLOR);
-		countError();
-		// on reaffiche le hint
-		if (p.getrParam().isFixedField()) {
-			getFixedFrame().getJtf().setText("");
-			hint(getFixedFrame());
-		} else {
-			getMask(h).getJtf().setText("");
-			hint(getMask(h));
-		}
+	public void doError(final int h) {
+		SwingUtilities.invokeLater(new Runnable() {	
+			@Override
+			public void run() {
+				blink(Constants.ALERT_COLOR);
+				countError();
+				// on reaffiche le hint
+				if (p.getrParam().isFixedField()) {
+					getFixedFrame().getJtf().setText("");
+					hint(getFixedFrame());
+				} else {
+					getMask(h).getJtf().setText("");
+					hint(getMask(h));
+				}
+			}
+		});
 		/*
 		 * if (p.rParam.replayPhrase) { play(p.pilot.getCurrentPhraseIndex());
 		 * doWait(getCurrentWaitTime(), Constants.CURSOR_LISTEN); }
@@ -1067,14 +1144,18 @@ public class ControllerText {
 	/**
 	 * Désactive la fênetre fixe
 	 * 
-	 * @throws lance
-	 *             une erreur si elle est null.
+	 * @throws RuntimeException si elle est null.
 	 */
 	public void desactivateFixedFrame() {
 		if (getFixedFrame() == null) {
 			throw new RuntimeException("La fenêtre fixe est null");
 		}
-		getFixedFrame().dispose();
+		SwingUtilities.invokeLater(new Runnable() {	
+			@Override
+			public void run() {
+				getFixedFrame().dispose();
+			}
+		});
 	}
 	
 	/**
@@ -1087,32 +1168,47 @@ public class ControllerText {
 	/**
 	 * Cache le trou h et le remplace par le bon mot
 	 */
-	public void replaceMaskByWord(int h) {
-		Mask m = getMask(h);
-		if (m != null) {
-			m.setVisible(false);
-		}
-		fillHole(h);
+	public void replaceMaskByWord(final int h) {
+		SwingUtilities.invokeLater(new Runnable() {	
+			@Override
+			public void run() {
+				Mask m = getMask(h);
+				if (m != null) {
+					m.setVisible(false);
+				}
+				fillHole(h);
+			}
+		});
 	}
 	
 	/**
 	 * Remplace le trou h par le bon mot.
 	 */
-	public void fillHole(int h) {
+	public void fillHole(final int h) {
 		if (p.getTextHandler().isHidden(h)) {
-			p.getTextHandler().fillHole(h);
-			p.updateText();
+			SwingUtilities.invokeLater(new Runnable() {	
+				@Override
+				public void run() {
+					p.getTextHandler().fillHole(h);
+					p.updateText();
+				}
+			});
 		}
 	}
 	
 	/**
 	 * Cache le trou h.
 	 */
-	public void hideHole(int h) {
+	public void hideHole(final int h) {
 		if (!p.getTextHandler().isHidden(h)) {
-			p.getTextHandler().hideHole(h);
-			p.updateText();
-			p.replaceAllMask();
+			SwingUtilities.invokeLater(new Runnable() {	
+				@Override
+				public void run() {
+					p.getTextHandler().hideHole(h);
+					p.updateText();
+					p.replaceAllMask();
+				}
+			});
 		}
 	}
 	
@@ -1134,9 +1230,15 @@ public class ControllerText {
 	/**
 	 * Desaffiche tous les trous puis montre uniquement le trou h
 	 */
-	public void showJustHole(int h) {
-		removeAllMasks();
-		showHole(h);
+	public void showJustHole(final int h) {
+		assertPositiveOrNull(h, "h");
+		SwingUtilities.invokeLater(new Runnable() {	
+			@Override
+			public void run() {
+				removeAllMasks();
+				showHole(h);
+			}
+		});
 	}
 
 }

@@ -1,6 +1,14 @@
 package org.lexidia.dialogo.segmentation.controller;
 
-import static org.lexidia.dialogo.segmentation.main.Assert.*;
+import static org.lexidia.dialogo.segmentation.main.Assert.assertContains;
+import static org.lexidia.dialogo.segmentation.main.Assert.assertFont;
+import static org.lexidia.dialogo.segmentation.main.Assert.assertGreater;
+import static org.lexidia.dialogo.segmentation.main.Assert.assertGreaterOrEquals;
+import static org.lexidia.dialogo.segmentation.main.Assert.assertNotNull;
+import static org.lexidia.dialogo.segmentation.main.Assert.assertNotStarted;
+import static org.lexidia.dialogo.segmentation.main.Assert.assertPositive;
+import static org.lexidia.dialogo.segmentation.main.Assert.assertPositiveOrNull;
+import static org.lexidia.dialogo.segmentation.main.Assert.assertSwingThread;
 
 import java.awt.Color;
 import java.awt.Cursor;
@@ -8,10 +16,17 @@ import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.KeyListener;
 import java.beans.PropertyChangeListener;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.SwingUtilities;
 import javax.swing.text.BadLocationException;
 
+import org.lexidia.dialogo.segmentation.dispatcher.Event;
+import org.lexidia.dialogo.segmentation.dispatcher.EventDispacher;
+import org.lexidia.dialogo.segmentation.dispatcher.JSONAble;
+import org.lexidia.dialogo.segmentation.dispatcher.json.JSONAbleFont;
 import org.lexidia.dialogo.segmentation.main.Constants;
 import org.lexidia.dialogo.segmentation.reading.ReadThread;
 import org.lexidia.dialogo.segmentation.reading.ReaderFactory;
@@ -21,6 +36,7 @@ import org.lexidia.dialogo.segmentation.view.SegmentedTextPanel;
 
 public class ControllerText {
 	
+	private EventDispacher ed;
 	private SegmentedTextPanel p;
 	private Pilot pilot;
 	
@@ -30,6 +46,11 @@ public class ControllerText {
 	public ControllerText(SegmentedTextFrame frame) {
 		this.p = frame.getPanel();
 		this.pilot = new Pilot(p);
+		try {
+			this.ed = new EventDispacher();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -437,7 +458,7 @@ public class ControllerText {
 	
 	/**
 	 * Applique un Font à l'exercice.
-	 * 
+	 * Event : CHANGE_POLICE
 	 * @throws IllegalStateException si l'exercice a déjà commencé.
 	 * @throws IllegalArgumentException si f est null ou invalide.
 	 */
@@ -450,6 +471,9 @@ public class ControllerText {
 				p.rebuildPages();
 			}
 		});
+		List<JSONAble> params = new ArrayList<>();
+		params.add(new JSONAbleFont(f));
+		ed.dispatch(Event.setFont,params);
 	}
 	
 	/**
@@ -802,20 +826,6 @@ public class ControllerText {
 	public void setMaxSegmentByPage(int i) {
 		p.getrParam().setMaxSegmentByPage(i);
 	}
-	
-	/**
-	 * @author Haerwynn
-	 */
-	public void addCustomKeyController(final ControllerKey lsKeyController) {
-        if (p.getKeyListeners().length == 0 && lsKeyController != null) {
-        	SwingUtilities.invokeLater(new Runnable() {
-    			public void run() {
-    				lsKeyController.setPilot(pilot);
-    				p.getEditorPane().addKeyListener(lsKeyController);
-    			}
-    		});
-        }
-    }
 
 	/*
 	 * Méthodes du texte à trou

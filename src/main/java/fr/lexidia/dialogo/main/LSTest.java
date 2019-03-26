@@ -60,10 +60,10 @@ public class LSTest {
 		/// on créé la fenetre d'exercice ///
 		final SegmentedTextFrame frame = new SegmentedTextFrame("Dialogo - Lecture segmentée"); // le titre
 
-		// String file = "resources/textes/Amélie la sorcière" + (WRAPPED_TEXT ? "" :
-		// "_oneline") + ".txt";
+		String file = "resources/textes/Amélie la sorcière" + (WRAPPED_TEXT ? "" : "_oneline") + ".txt";
+		//String file = "resources/textes/20 000 lieux sous les mers";	
 		/// on initalise la fenetre avec les parametres necessaires a sa creation ///
-		frame.init(getTextFromFile("resources/textes/20 000 lieux sous les mers"), // le texte a afficher
+		frame.init(getTextFromFile(file), // le texte a afficher
 				0, // le premier segment à afficher
 				new Font(Font.DIALOG, Font.PLAIN, args.length > 0 ? Integer.parseInt(args[0]) : 20), // les
 																										// caracteristiques

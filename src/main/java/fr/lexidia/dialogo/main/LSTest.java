@@ -80,7 +80,8 @@ public class LSTest {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		/// met la fenêtre en plein écran ///
-		frame.setFullScreen();
+		//TODO remettre en plein écran
+		//frame.setFullScreen();
 
 		/// on affiche la fenetre ///
 		frame.start();
@@ -90,7 +91,7 @@ public class LSTest {
 		frame.setOnInit(new Runnable() {
 			public void run() {
 				/// on recupere le contrôleur ///
-				final ControllerText controler = new ControllerText(frame);
+				final ControllerText controler = new ControllerText(frame,true);
 
 				if (TEST_FRAME) {
 					tf = new TestFrame(controler);
@@ -134,7 +135,7 @@ public class LSTest {
 	 * Ceci est notre algorithme de lecture personnalise, il doit heriter de
 	 * ReadThread et definir un constructeur identique.
 	 */
-	static class LSThread extends ReadThread {
+	 public static class LSThread extends ReadThread {
 		public LSThread(ControllerText controler) {
 			super(controler);
 		}
@@ -181,7 +182,7 @@ public class LSTest {
 	/**
 	 * Retourne le contenu du fichier .txt situe a  l'emplacement du parametre.
 	 */
-	private static String getTextFromFile(String emplacement) {
+	public static String getTextFromFile(String emplacement) {
 		try {
 			File fichierTxt = new File(emplacement);
 			InputStream ips = null;

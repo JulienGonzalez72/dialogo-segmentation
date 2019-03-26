@@ -118,9 +118,8 @@ public class SegmentedTextFrame extends JFrame {
 	 * Cette méthode doit être appelée avant la méthode {@link #start}.
 	 */
 	public void setFullScreen() {
-		//TODO remettre en plein écran
-		//setExtendedState(JFrame.MAXIMIZED_BOTH);
-		//setUndecorated(true);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setUndecorated(true);
 	}
 	
 	public void setParameters(ToolParameters param) {

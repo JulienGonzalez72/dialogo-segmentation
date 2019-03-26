@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.json.JSONObject;
 
+import fr.lexidia.dialogo.utils.json.JSONTransformer;
+
 public class EventDispatcher {
 
 	private String user;
@@ -29,7 +31,7 @@ public class EventDispatcher {
 	 *params = int, string, boolean, long...
 	 *objects = other objects
 	 */
-	public boolean dispatch(Event e, List<Object> params, List<JSONAble> objects) {
+	public boolean dispatch(Event e, List<Object> objects) {
 		System.out.println("DISPACHING : " + e.toString());
 		JSONObject j = new JSONObject();
 		j.put("user", user);
@@ -37,12 +39,7 @@ public class EventDispatcher {
 		j.put("event", e.toString());
 		if (objects != null) {
 			for (int i = 0; i < objects.size(); i++) {
-				j.put("object" + i, objects.get(i).toJson());
-			}
-		}
-		if (params != null) {
-			for (int i = 0; i < params.size(); i++) {
-				j.put("params" + i, params.get(i));
+				j.put("object" + i, JSONTransformer.toJSON(objects.get(i)));
 			}
 		}
 		client.sendMessage(j.toString());

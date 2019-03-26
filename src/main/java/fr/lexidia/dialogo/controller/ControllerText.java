@@ -25,12 +25,9 @@ import javax.swing.text.BadLocationException;
 
 import fr.lexidia.dialogo.dispatcher.Event;
 import fr.lexidia.dialogo.dispatcher.EventDispatcher;
-import fr.lexidia.dialogo.dispatcher.JSONAble;
 import fr.lexidia.dialogo.main.Constants;
 import fr.lexidia.dialogo.reading.ReadThread;
 import fr.lexidia.dialogo.reading.ReaderFactory;
-import fr.lexidia.dialogo.utils.json.ColorJ;
-import fr.lexidia.dialogo.utils.json.FontJ;
 import fr.lexidia.dialogo.view.Mask;
 import fr.lexidia.dialogo.view.SegmentedTextFrame;
 import fr.lexidia.dialogo.view.SegmentedTextPanel;
@@ -44,13 +41,21 @@ public class ControllerText {
 	/**
 	 * Construit un contrôleur à partir de la fenêtre d'exercice correspondante.
 	 */
-	public ControllerText(SegmentedTextFrame frame) {
+	public ControllerText(SegmentedTextFrame frame, boolean isPatient) {
 		this.p = frame.getPanel();
 		this.pilot = new Pilot(p);
-		try {
-			this.ed = new EventDispatcher();
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
+		if(isPatient) {
+			try {
+				this.ed = new EventDispatcher();
+			} catch (URISyntaxException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private void dispatch(Event e, List<Object> params) {
+		if (ed != null) {
+			ed.dispatch(e, params);
 		}
 	}
 	
@@ -65,9 +70,9 @@ public class ControllerText {
 				p.buildPages(startPhrase);
 			}
 		});
-		List<Object> object = new ArrayList<>();
-		object.add(startPhrase);
-		ed.dispatch(Event.buildPages,object,null);
+		List<Object> params = new ArrayList<>();
+		params.add(startPhrase);
+		dispatch(Event.buildPages,params);
 	}
 	
 	/**
@@ -475,9 +480,9 @@ public class ControllerText {
 				p.rebuildPages();
 			}
 		});
-		List<JSONAble> objects = new ArrayList<>();
-		objects.add(new FontJ(f));
-		ed.dispatch(Event.setFont,null,objects);
+		List<Object> params = new ArrayList<>();
+		params.add(f);
+		dispatch(Event.setFont,params);
 	}
 	
 	/**
@@ -1056,9 +1061,9 @@ public class ControllerText {
 				p.blink(c);
 			}
 		});
-		List<JSONAble> object = new ArrayList<>();
-		object.add(new ColorJ(c));
-		ed.dispatch(Event.blink,null,object);
+		List<Object> params = new ArrayList<>();
+		params.add(c);
+		dispatch(Event.blink,params);
 	}
 	
 	/**
@@ -1122,7 +1127,7 @@ public class ControllerText {
 		});
 		List<Object> params = new ArrayList<>();
 		params.add(h);
-		ed.dispatch(Event.activateInputFixedFrame,params,null);
+		dispatch(Event.activateInputFixedFrame,params);
 	}
 	
 	/**

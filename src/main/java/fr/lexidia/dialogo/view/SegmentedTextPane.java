@@ -17,6 +17,9 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter.Highlight;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.View;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -25,10 +28,6 @@ import fr.lexidia.dialogo.main.Assert;
 import fr.lexidia.dialogo.main.Constants;
 import fr.lexidia.dialogo.model.HighlightParameters;
 import fr.lexidia.dialogo.model.ToolParameters;
-
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.View;
 
 public class SegmentedTextPane extends JTextPane {
 	
@@ -245,13 +244,6 @@ public class SegmentedTextPane extends JTextPane {
 		setTopMargin(getHeight() / 2f - lines * lineHeight / 2f);
 	}
 	
-	public void setTopMargin(float margin) {
-		log.info("Top margin : " + margin);
-		Insets bounds = getMargin();
-		bounds.top = (int) (topMargin = margin);
-		setMargin(bounds);
-	}
-	
 	public void setHorizontalMargin(float margin) {
 		setLeftMargin(margin);
 		setRightMargin(margin);
@@ -269,6 +261,13 @@ public class SegmentedTextPane extends JTextPane {
 		SimpleAttributeSet attrs = new SimpleAttributeSet();
 		StyleConstants.setRightIndent(attrs, rightMargin = margin);
 		getStyledDocument().setParagraphAttributes(0, 0, attrs, false);
+	}
+	
+	public void setTopMargin(float margin) {
+		log.info("Top margin : " + margin);
+		Insets bounds = getMargin();
+		bounds.top = (int) (topMargin = margin);
+		setMargin(bounds);
 	}
 	
 	public void setBottomMargin(float margin) {

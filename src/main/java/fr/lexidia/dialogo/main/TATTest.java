@@ -12,21 +12,22 @@ import java.io.InputStreamReader;
 import javax.swing.JFrame;
 
 import fr.lexidia.dialogo.controller.ControllerText;
+import fr.lexidia.dialogo.dispatcher.EventDispatcher;
 import fr.lexidia.dialogo.reading.ReadThread;
 import fr.lexidia.dialogo.reading.ReaderFactory;
 import fr.lexidia.dialogo.view.SegmentedTextFrame;
 
 public class TATTest {
 
-	public static void main(String[] args) {
+	public static void main(String[] args, EventDispatcher ed) {
 		/// initialisation du système de log local ///
 		System.setProperty("org.apache.commons.logging.simplelog.logFile", "System.out");
 		System.setProperty("org.apache.commons.logging.simplelog.levelInBrackets", "true");
 		System.setProperty("org.apache.commons.logging.simplelog.defaultlog", "trace");
 		System.setProperty("org.apache.commons.logging.simplelog.showdatetime", "true");
 		
-		/// on cree la fenetre d'exercice ///
-		final SegmentedTextFrame frame = new SegmentedTextFrame("Dialogo - Lecture segmentee"); // le titre
+		/// on cree la fenetre d'exercice avec son eventDispacher ///
+		final SegmentedTextFrame frame = new SegmentedTextFrame("Dialogo - Lecture segmentee",ed); // le titre
 
 		/// on initalise la fenetre avec les parametres necessaires a sa creation ///
 		frame.init(getTextFromFile("resources/textes/Amélie la sorcière_oneline.txt"), // le texte a afficher
@@ -57,7 +58,7 @@ public class TATTest {
 				controler.setPhraseTrials(3);
 
 				/// active les contrôles clavier ///
-				controler.setKeyEnabled(true);
+				controler.setKeyEnabled(ed);
 				
 				/// désactive le mode fenêtre fixe ///
 				controler.setModeFixedField(false);

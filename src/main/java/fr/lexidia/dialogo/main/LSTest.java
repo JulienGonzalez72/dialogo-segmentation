@@ -13,9 +13,8 @@ import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import com.alee.laf.WebLookAndFeel;
-
 import fr.lexidia.dialogo.controller.ControllerText;
+import fr.lexidia.dialogo.dispatcher.EventDispatcher;
 import fr.lexidia.dialogo.reading.ReadThread;
 import fr.lexidia.dialogo.reading.ReaderFactory;
 import fr.lexidia.dialogo.view.SegmentedTextFrame;
@@ -27,14 +26,14 @@ public class LSTest {
 	///
 
 	public static final boolean START_EXERCICE = false;
-	public static final boolean WEBLAF = false;
-	public static final boolean TEST_FRAME = true;
 	public static final boolean WRAPPED_TEXT = false;
 	public static final int MAX_PHRASES_BY_PAGE = 0;
-
+	
+	public static boolean distantParam_highlightFromStart;
 	private static TestFrame tf;
 
-	public static void main(final String[] args) {
+	public LSTest(String[] args, EventDispatcher ed) {
+		
 		/// initialisation du système de log local ///
 		System.setProperty("org.apache.commons.logging.simplelog.logFile", "System.out");
 		System.setProperty("org.apache.commons.logging.simplelog.levelInBrackets", "true");
@@ -42,30 +41,24 @@ public class LSTest {
 		System.setProperty("org.apache.commons.logging.simplelog.showdatetime", "true");
 
 		/// installe le look & feel WebLaF ///
-		if (WEBLAF) {
-			WebLookAndFeel.install();
-			UIManager.put("TextPaneUI", javax.swing.plaf.basic.BasicTextPaneUI.class.getCanonicalName());
-		}
-		/// ou le look & feel de Windows ///
-		else {
-			try {
-				UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-			} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-					| UnsupportedLookAndFeelException e) {
-				e.printStackTrace();
-				System.exit(-1);
-			}
+		//WebLookAndFeel.install();
+		//UIManager.put("TextPaneUI", javax.swing.plaf.basic.BasicTextPaneUI.class.getCanonicalName());
+		try {
+			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+				| UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
 		}
 
-		/// on créé la fenetre d'exercice ///
-		final SegmentedTextFrame frame = new SegmentedTextFrame("Dialogo - Lecture segmentée"); // le titre
+		/// on créé la fenetre d'exercice avec son eventDispacher ///
+		final SegmentedTextFrame frame = new SegmentedTextFrame("Dialogo - Lecture segmentée",ed); // le titre
 
 		String file = "resources/textes/Amélie la sorcière" + (WRAPPED_TEXT ? "" : "_oneline") + ".txt";
 		//String file = "resources/textes/20 000 lieux sous les mers";	
 		/// on initalise la fenetre avec les parametres necessaires a sa creation ///
 		frame.init(getTextFromFile(file), // le texte a afficher
 				0, // le premier segment à afficher
-				new Font(Font.DIALOG, Font.PLAIN, args.length > 0 ? Integer.parseInt(args[0]) : 20), // les
+				new Font(Font.DIALOG, Font.PLAIN, 20), // les
 																										// caracteristiques
 																										// de la police
 																										// (nom, style,
@@ -90,13 +83,14 @@ public class LSTest {
 		/// bien initilisee ///
 		frame.setOnInit(new Runnable() {
 			public void run() {
-				/// on recupere le contrôleur ///
-				final ControllerText controler = new ControllerText(frame,true);
-
-				if (TEST_FRAME) {
-					tf = new TestFrame(controler);
-				}
-
+				/// on recupere le contrôleur///
+				final ControllerText controler = new ControllerText(frame);
+				ed.addControllerText(controler);
+				if (!ed.isPatient()) {
+					frame.setTitle("THERAPIST VIEW OF PATIENT FRAME");
+					tf = new TestFrame(controler,ed);
+				} 
+				
 				// controler.setMargin(500, 500, 200, 200);
 
 				/// initialisation des couleurs ///
@@ -114,7 +108,10 @@ public class LSTest {
 				// controler.setFont(new Font(Font.MONOSPACED, Font.ITALIC, 20));
 
 				/// active les contrôles clavier ///
-				controler.setKeyEnabled(true);
+				controler.setKeyEnabled(ed);
+				
+				// active les contrôles souris ///
+				controler.setMouseEnabled(ed.isPatient());
 
 				/// on cree une usine de lecture qui va instancier notre thread personnalise ///
 				controler.setReaderFactory(new ReaderFactory() {
@@ -154,7 +151,7 @@ public class LSTest {
 				getControler().removeAllHighlights();
 
 				/// on surligne tous les segments passes (si cette option est activee) ///
-				if (tf == null || tf.highlightFromStart()) {
+				if (tf == null ? distantParam_highlightFromStart : tf.highlightFromStart()) {
 					getControler().highlightUntilPhrase(Color.GREEN, getN() - 1);
 				}
 

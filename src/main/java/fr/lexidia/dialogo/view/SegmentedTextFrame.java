@@ -11,6 +11,7 @@ import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+import fr.lexidia.dialogo.dispatcher.EventDispatcher;
 import fr.lexidia.dialogo.main.Constants;
 import fr.lexidia.dialogo.model.TextHandler;
 import fr.lexidia.dialogo.model.ToolParameters;
@@ -28,10 +29,10 @@ public class SegmentedTextFrame extends JFrame {
 	private boolean preferencesExiste = true;
 	private ToolParameters param;
 	
-	public SegmentedTextFrame(String titre) {
+	public SegmentedTextFrame(String titre, EventDispatcher ed) {
 		setIconImage(getToolkit().getImage("icone.jpg"));
 		try {
-			pan = new SegmentedTextPanel(this);
+			pan = new SegmentedTextPanel(this,ed);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

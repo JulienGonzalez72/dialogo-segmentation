@@ -1,4 +1,5 @@
 package fr.lexidia.dialogo.utils.json;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -9,10 +10,6 @@ import java.util.stream.Collectors;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * V = 1.0
- * @author Gonzalez
- */
 public class JSONTransformer {
 	
 	/**
@@ -86,5 +83,5 @@ public class JSONTransformer {
 				.findFirst()
 				.orElse(null);
 	}
-	
+
 }

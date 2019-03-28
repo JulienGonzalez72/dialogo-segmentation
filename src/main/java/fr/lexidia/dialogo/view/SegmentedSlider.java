@@ -13,6 +13,8 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import fr.lexidia.dialogo.dispatcher.EventDispatcher;
+
 public class SegmentedSlider extends JSlider {
 
 	/**
@@ -32,8 +34,10 @@ public class SegmentedSlider extends JSlider {
 	private Position position;
 	private SegmentedTextPanel panel;
 	private float margin;
+	private EventDispatcher ed;
 	
-	public SegmentedSlider(final Position position, final SegmentedTextPanel panel, final float margin) {
+	public SegmentedSlider(final Position position, final SegmentedTextPanel panel, final float margin, EventDispatcher ed) {
+		this.ed = ed;
 		this.position = position;
 		this.panel = panel;
 		this.margin = margin;
@@ -108,18 +112,22 @@ public class SegmentedSlider extends JSlider {
 		switch (position) {
 			case BOTTOM:
 				editorPane.setBottomMargin(v);
+				ed.dispatch("param_marginB", v);
 				key = "bottomMargin";
 				break;
 			case LEFT:
 				editorPane.setLeftMargin(v);
+				ed.dispatch("param_marginL", v);
 				key = "leftMargin";
 				break;
 			case RIGHT:
 				editorPane.setRightMargin(v);
+				ed.dispatch("param_marginR", v);
 				key = "rightMargin";
 				break;
 			case TOP:
 				editorPane.setTopMargin(v);
+				ed.dispatch("param_marginT", v);
 				key = "topMargin";
 				break;
 		}

@@ -1,7 +1,9 @@
 package fr.lexidia.dialogo.controller;
 
-import java.awt.event.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
+import fr.lexidia.dialogo.dispatcher.EventDispatcher;
 import fr.lexidia.dialogo.main.Constants;
 
 public class ControllerKey implements KeyListener {
@@ -12,9 +14,11 @@ public class ControllerKey implements KeyListener {
 	 * Moment du dernier clic
 	 */
 	protected long lastClick;
+	protected EventDispatcher ed;
 
-	public ControllerKey(Pilot pilot) {
+	public ControllerKey(Pilot pilot, EventDispatcher ed) {
 		this.pilot = pilot;
+		this.ed = ed;
 	}
 	
 	public ControllerKey() {
@@ -25,21 +29,30 @@ public class ControllerKey implements KeyListener {
 		this.pilot = pilot;
 	}
 	
+	public void simuleKeyPressed(int keyCode, long when) {
+		doWhenKeyPressed(keyCode,when);
+	}
+	
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+		doWhenKeyPressed(e.getKeyCode(),e.getWhen());
+		ed.dispatch("keyEvent",e.getKeyCode(),e.getWhen());
+	}
+
+	private void doWhenKeyPressed(int code, long when) {
+		if (code == KeyEvent.VK_LEFT) {
 			/// recommence le segment ///
-			if (e.getWhen() - lastClick > Constants.LEFT_DELAY) {
+			if (when - lastClick > Constants.LEFT_DELAY) {
 				pilot.goTo(pilot.getCurrentPhraseIndex());
 			}
 			/// retourne au segment precedent ///
 			else if (pilot.hasPreviousPhrase()) {
 				pilot.goTo(pilot.getCurrentPhraseIndex() - 1);
 			}
-			lastClick = e.getWhen();
+			lastClick = when;
 		}
 
-		else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+		else if (code == KeyEvent.VK_SPACE) {
 			/// pause ///
 			if (pilot.isRunning()) {
 				pilot.doStop();

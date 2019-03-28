@@ -26,7 +26,6 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.plaf.basic.BasicProgressBarUI;
 import javax.swing.text.BadLocationException;
 
 import org.apache.commons.logging.Log;
@@ -34,6 +33,7 @@ import org.apache.commons.logging.LogFactory;
 
 import fr.lexidia.dialogo.controller.ControllerMask;
 import fr.lexidia.dialogo.controller.ControllerMouse;
+import fr.lexidia.dialogo.dispatcher.EventDispatcher;
 import fr.lexidia.dialogo.main.Assert;
 import fr.lexidia.dialogo.main.Constants;
 import fr.lexidia.dialogo.model.LsSentenceNumberDisplayHolder;
@@ -56,6 +56,7 @@ public class SegmentedTextPanel extends JDesktopPane {
 	private int nbPages;
 	private int nbEssaisParSegment;
 	private int nbEssaisRestantPourLeSegmentCourant;
+	private EventDispatcher ed;
 	/**
 	 * Nombre d'erreurs total.
 	 */
@@ -107,7 +108,8 @@ public class SegmentedTextPanel extends JDesktopPane {
 	
 	private static final Log log = LogFactory.getLog(SegmentedTextPanel.class);
 	
-	public SegmentedTextPanel(SegmentedTextFrame fenetre) throws IOException {
+	public SegmentedTextPanel(SegmentedTextFrame fenetre, EventDispatcher ed) throws IOException {
+		this.ed = ed;
 		setControlerMask(new ControllerMask());
 		this.setFenetre(fenetre);
 		this.setLayout(null);
@@ -144,28 +146,28 @@ public class SegmentedTextPanel extends JDesktopPane {
 		getEditorPane().setBottomMargin(getDefaultBottomMargin());
 		
 		/// slider de marge en haut ///
-		leftTopSlider = new SegmentedSlider(SegmentedSlider.Position.TOP, this, Constants.TEXTPANE_MARGIN);
+		leftTopSlider = new SegmentedSlider(SegmentedSlider.Position.TOP, this, Constants.TEXTPANE_MARGIN,ed);
 		leftTopSlider.setBounds(0, (int) Constants.TEXTPANE_MARGIN,
 				(int) Constants.TEXTPANE_MARGIN, getHeight() / 2 - (int) Constants.TEXTPANE_MARGIN * 2);
 		leftTopSlider.init();
 		getEditorPane().add(leftTopSlider);
 		
 		/// slider de marge en bas ///
-		leftBottomSlider = new SegmentedSlider(SegmentedSlider.Position.BOTTOM, this, Constants.TEXTPANE_MARGIN * 3);
+		leftBottomSlider = new SegmentedSlider(SegmentedSlider.Position.BOTTOM, this, Constants.TEXTPANE_MARGIN * 3,ed);
 		leftBottomSlider.setBounds(0, getHeight() / 2,
 				(int) Constants.TEXTPANE_MARGIN, getHeight() / 2 - (int) Constants.TEXTPANE_MARGIN * 3);
 		leftBottomSlider.init();
 		getEditorPane().add(leftBottomSlider);
 		
 		/// slider de marge à gauche ///
-		topLeftSlider = new SegmentedSlider(SegmentedSlider.Position.LEFT, this, Constants.TEXTPANE_MARGIN);
+		topLeftSlider = new SegmentedSlider(SegmentedSlider.Position.LEFT, this, Constants.TEXTPANE_MARGIN,ed);
 		topLeftSlider.setBounds((int) Constants.TEXTPANE_MARGIN, 0,
 				getWidth() / 2 - (int) Constants.TEXTPANE_MARGIN, (int) Constants.TEXTPANE_MARGIN);
 		topLeftSlider.init();
 		getEditorPane().add(topLeftSlider);
 		
 		/// slider de marge à droite ///
-		topRightSlider = new SegmentedSlider(SegmentedSlider.Position.RIGHT, this, Constants.TEXTPANE_MARGIN * 4);
+		topRightSlider = new SegmentedSlider(SegmentedSlider.Position.RIGHT, this, Constants.TEXTPANE_MARGIN * 4,ed);
 		topRightSlider.setBounds(getWidth() / 2 + (int) Constants.TEXTPANE_MARGIN * 2, 0,
 				getWidth() / 2 - (int) Constants.TEXTPANE_MARGIN * 6, (int) Constants.TEXTPANE_MARGIN);
 		topRightSlider.init();
@@ -190,7 +192,7 @@ public class SegmentedTextPanel extends JDesktopPane {
 		rebuildPages();
 		
 		/// initialise le lecteur ///
-		setControlerMouse(new ControllerMouse(this, getTextHandler()));
+		setControlerMouse(new ControllerMouse(this, getTextHandler(),ed));
 		getEditorPane().addMouseListener(getControlerMouse());
 		getEditorPane().requestFocus();
 		

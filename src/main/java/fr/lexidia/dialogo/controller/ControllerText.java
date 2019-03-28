@@ -16,14 +16,10 @@ import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.KeyListener;
 import java.beans.PropertyChangeListener;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.SwingUtilities;
 import javax.swing.text.BadLocationException;
 
-import fr.lexidia.dialogo.dispatcher.Event;
 import fr.lexidia.dialogo.dispatcher.EventDispatcher;
 import fr.lexidia.dialogo.main.Constants;
 import fr.lexidia.dialogo.reading.ReadThread;
@@ -34,30 +30,35 @@ import fr.lexidia.dialogo.view.SegmentedTextPanel;
 
 public class ControllerText {
 	
-	private EventDispatcher ed;
 	private SegmentedTextPanel p;
 	private Pilot pilot;
+	private ControllerKey ck;
 	
 	/**
 	 * Construit un contrôleur à partir de la fenêtre d'exercice correspondante.
 	 */
-	public ControllerText(SegmentedTextFrame frame, boolean isPatient) {
+	public ControllerText(SegmentedTextFrame frame) {
 		this.p = frame.getPanel();
 		this.pilot = new Pilot(p);
-		if(isPatient) {
-			try {
-				this.ed = new EventDispatcher();
-			} catch (URISyntaxException e) {
-				e.printStackTrace();
-			}
-		}
 	}
 	
-	private void dispatch(Event e, List<Object> params) {
-		if (ed != null) {
-			ed.dispatch(e, params);
-		}
+	/**
+	 * Simule un click
+	 */
+	public void mousePressed(int carret) {
+		p.getControlerMouse().simuleMousePressed(carret);
 	}
+	
+	/**
+	 * Simule l'appuie d'une touche après un appel distant
+	 */
+	 public void keyEvent(int code, long when) {
+		 if(ck == null) {
+			 ck = new ControllerKey(pilot,null);			
+		 }
+		 ck.simuleKeyPressed(code,when);
+	 }
+	 
 	
 	/**
 	 * Construit les pages à partir du segment de numéro spécifié.
@@ -70,9 +71,6 @@ public class ControllerText {
 				p.buildPages(startPhrase);
 			}
 		});
-		List<Object> params = new ArrayList<>();
-		params.add(startPhrase);
-		dispatch(Event.buildPages,params);
 	}
 	
 	/**
@@ -218,7 +216,6 @@ public class ControllerText {
 		else {
 			return false;
 		}
-
 	}
 	
 	/**
@@ -480,9 +477,6 @@ public class ControllerText {
 				p.rebuildPages();
 			}
 		});
-		List<Object> params = new ArrayList<>();
-		params.add(f);
-		dispatch(Event.setFont,params);
 	}
 	
 	/**
@@ -624,13 +618,14 @@ public class ControllerText {
 	 * Active ou désactive les contrôles clavier (touche gauche pour répéter le
 	 * segment, touche espace pour arrêter/recommencer).
 	 */
-	public void setKeyEnabled(final boolean keyEnabled) {
+	public void setKeyEnabled(EventDispatcher ed) {
+		boolean keyEnabled = ed.isPatient();
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				/// ajoute un contrôle clavier ///
 				if (keyEnabled && p.getKeyListeners().length == 0) {
-					ControllerKey controlerKey = new ControllerKey(pilot);
-					p.getEditorPane().addKeyListener(controlerKey);
+					ck = new ControllerKey(pilot,ed);
+					p.getEditorPane().addKeyListener(ck);
 				}
 				/// retire les contrôles clavier ///
 				else if (!keyEnabled && p.getKeyListeners().length >= 1) {
@@ -983,7 +978,6 @@ public class ControllerText {
 		p.getControlerMask().waitForFill();
 		
 		return m != null && m.getN() == h ? m.correctWord() : true;
-
 	}
 	
 	/**
@@ -1019,7 +1013,6 @@ public class ControllerText {
 		} else {
 			return false;
 		}
-
 	}
 	
 	/**
@@ -1061,9 +1054,6 @@ public class ControllerText {
 				p.blink(c);
 			}
 		});
-		List<Object> params = new ArrayList<>();
-		params.add(c);
-		dispatch(Event.blink,params);
 	}
 	
 	/**
@@ -1125,9 +1115,6 @@ public class ControllerText {
 				p.setFixedFrame(frame);
 			}
 		});
-		List<Object> params = new ArrayList<>();
-		params.add(h);
-		dispatch(Event.activateInputFixedFrame,params);
 	}
 	
 	/**
@@ -1163,7 +1150,6 @@ public class ControllerText {
 		 * if (p.rParam.replayPhrase) { play(p.pilot.getCurrentPhraseIndex());
 		 * doWait(getCurrentWaitTime(), Constants.CURSOR_LISTEN); }
 		 */
-
 	}
 	
 	/**
@@ -1266,8 +1252,8 @@ public class ControllerText {
 		});
 	}
 
-	public EventDispatcher getEventDispatcher() {
-		return ed;
+	public void setMouseEnabled(boolean patient) {
+		p.getControlerMouse().setEnabled(patient);
 	}
 
 }

@@ -240,4 +240,5 @@ public class SegmentedTextFrame extends JFrame {
 		float dpi = Toolkit.getDefaultToolkit().getScreenResolution();
 		return (int) (cm * dpi / INCH_VALUE * DOT_FACTOR);
 	}
+
 }

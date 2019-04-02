@@ -56,8 +56,7 @@ public class SegmentedTextPane extends JTextPane {
 		StyleConstants.setLineSpacing(attrs, lineSpacing = Constants.DEFAULT_LINE_SPACING);
 		StyleConstants.setSpaceAbove(attrs, 0);
 		StyleConstants.setSpaceBelow(attrs, 0);
-		getStyledDocument().setParagraphAttributes(0, 0, attrs, false);
-		
+		getStyledDocument().setParagraphAttributes(0, 0, attrs, false);	
 		getDocument().addDocumentListener(new DocumentListener() {
 			@Override
 			public void removeUpdate(DocumentEvent e) {

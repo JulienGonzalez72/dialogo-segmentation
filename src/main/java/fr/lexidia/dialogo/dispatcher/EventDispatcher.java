@@ -12,24 +12,27 @@ import fr.lexidia.dialogo.main.LSTest;
 
 public class EventDispatcher {
 
+	private boolean test = false;
 	private String user;
 	private String dest;
 	private boolean isPatient;
-	private final ClientEndPoint client;
+	private ClientEndPoint client;
 	private Object lock = new Object();
 	private ControllerText ctl;
 
 	public EventDispatcher(String user, String dest, boolean isPatient, String ip) throws URISyntaxException {
-		String uri = "ws://"+ip+":8080/WebSocketTest/test";
-		this.user = user;
-		this.dest = dest;
-		this.isPatient = isPatient;
-		client = new ClientEndPoint(new URI(uri + "/" + user));
-		client.addMessageHandler(new ClientEndPoint.MessageHandler() {
-			public void handleMessage(String message) {
-				read(message);
-			}
-		});
+		if(!test) {
+			String uri = "ws://"+ip+":8080/WebSocketTest/test";
+			this.user = user;
+			this.dest = dest;
+			this.isPatient = isPatient;
+			client = new ClientEndPoint(new URI(uri + "/" + user));
+			client.addMessageHandler(new ClientEndPoint.MessageHandler() {
+				public void handleMessage(String message) {
+					read(message);
+				}
+			});	
+		}		
 	}
 
 	public void addControllerText(ControllerText ctl) {
@@ -41,6 +44,9 @@ public class EventDispatcher {
 	 * objects = other objects
 	 */
 	public boolean dispatch(String e, Object... objects) {
+		if(test) {
+			return true;
+		}
 		System.out.println("DISPACHING : " + e.toString());
 		JSONObject j = new JSONObject();
 		j.put("user", user);
@@ -100,6 +106,9 @@ public class EventDispatcher {
 		switch (event) {
 		case "keyEvent":
 			ctl.keyEvent(jo.getInt("0"),jo.getLong("1"));
+			break;
+		case "resize":
+			ctl.reSize(jo.getInt("0"),jo.getInt("1"));
 			break;
 		case "mousePressed":
 			int carret = jo.getInt("0");

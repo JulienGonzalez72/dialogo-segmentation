@@ -57,8 +57,8 @@ public class BuildPager {
 			List<Integer> phrases = new ArrayList<>();
 			/// affiche le texte virtuellement ///
 			editorPane.setText(text);
-			
-			/// cherche l'indice du dernier segment qui rentre ///
+					
+			/// cherche l'indice du dernier segment qui rentre ///			
 			int phrase = getLastVisiblePhrase(lastPhrase);
 			
 			/// nombre de segments maximum par page ///

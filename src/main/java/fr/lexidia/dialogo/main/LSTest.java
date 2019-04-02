@@ -83,6 +83,13 @@ public class LSTest {
 		/// bien initilisee ///
 		frame.setOnInit(new Runnable() {
 			public void run() {
+				//1995-531
+				System.out.println("/////////////");
+				System.out.println(frame.getWidth()+"//"+frame.getHeight());
+				System.out.println(frame.getContentPane().getWidth()+"//"+frame.getContentPane().getHeight());
+				frame.setSize(frame.getWidth(),frame.getHeight());
+				frame.getContentPane().setSize(frame.getContentPane().getWidth(),frame.getContentPane().getHeight());
+				System.out.println("/////////////");
 				/// on recupere le contrôleur///
 				final ControllerText controler = new ControllerText(frame);
 				ed.addControllerText(controler);

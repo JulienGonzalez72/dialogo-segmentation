@@ -122,11 +122,6 @@ public class SegmentedTextPanel extends JDesktopPane {
 		
 		setProgressBar(new JProgressBar(0, 0));
 		getProgressBar().setStringPainted(true);
-		/// ne fonctionne pas avec weblaf ///
-		/*getProgressBar().setUI(new BasicProgressBarUI() {
-		      protected Color getSelectionBackground() { return Color.black; }
-		      protected Color getSelectionForeground() { return Color.black; }
-		    });*/
 		getProgressBar().setForeground(Color.GREEN);
 		
 		borderPanel.add(getPanelSud(), BorderLayout.SOUTH);
@@ -138,7 +133,10 @@ public class SegmentedTextPanel extends JDesktopPane {
 	public void init(ToolParameters param){
 		setParameters(param);
 		
-		borderPanel.setBounds(0, 0, getWidth(), getHeight());
+		//TODO check this
+		setLayout(new GridLayout(1, 1));
+		//borderPanel.setBounds(0, 0, getWidth(), getHeight());
+		
 		add(borderPanel);
 		getEditorPane().setLeftMargin(getDefaultLeftMargin());
 		getEditorPane().setRightMargin(getDefaultRightMargin());
@@ -172,7 +170,6 @@ public class SegmentedTextPanel extends JDesktopPane {
 				getWidth() / 2 - (int) Constants.TEXTPANE_MARGIN * 6, (int) Constants.TEXTPANE_MARGIN);
 		topRightSlider.init();
 		getEditorPane().add(topRightSlider);
-		
 		setTextHandler(new TextHandler(param.getText()));
 		getProgressBar().setMaximum(getTextHandler().getPhrasesCount());
 		
@@ -187,10 +184,14 @@ public class SegmentedTextPanel extends JDesktopPane {
             getProgressBar().setString(param.getStartingPhrase() + "/" + (getTextHandler().getPhrasesCount() - 1));            
         }
 		setCurrentPage(0);
-		
 		/// construit la mise en page virtuelle ///
-		rebuildPages();
-		
+		SwingUtilities.invokeLater(new Runnable() {		
+			@Override
+			public void run() {
+				rebuildPages();
+			}
+		});
+
 		/// initialise le lecteur ///
 		setControlerMouse(new ControllerMouse(this, getTextHandler(),ed));
 		getEditorPane().addMouseListener(getControlerMouse());

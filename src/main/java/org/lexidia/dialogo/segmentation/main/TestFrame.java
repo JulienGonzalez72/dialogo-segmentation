@@ -16,6 +16,8 @@ import org.lexidia.dialogo.segmentation.controller.ControllerText;
 
 public class TestFrame extends JFrame {
 	
+	private static final long serialVersionUID = 1L;
+	
 	private ControllerText controller;
 	private JPanel panel;
 	private JTextField fontSizeField = new JTextField(8);
@@ -34,8 +36,8 @@ public class TestFrame extends JFrame {
 	}
 	
 	public void init() {
-		setSize(300, 400);
-		setResizable(false);
+		setSize(350, 500);
+		setResizable(true);
 		setAlwaysOnTop(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		

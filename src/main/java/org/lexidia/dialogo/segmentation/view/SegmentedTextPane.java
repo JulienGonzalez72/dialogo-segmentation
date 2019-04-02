@@ -293,6 +293,22 @@ public class SegmentedTextPane extends JTextPane {
 		return bottomMargin;
 	}
 	
+	public void setRelativeLeftMargin(float margin) {
+		setLeftMargin(getWidth() * margin);
+	}
+	
+	public void setRelativeRightMargin(float margin) {
+		setRightMargin(getWidth() * margin);
+	}
+	
+	public void setRelativeTopMargin(float margin) {
+		setTopMargin(getHeight() * margin);
+	}
+	
+	public void setRelativeBottomMargin(float margin) {
+		setBottomMargin(getHeight() * margin);
+	}
+	
 	/**
 	 * Diminue la taille de la police courante.
 	 */

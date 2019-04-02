@@ -90,8 +90,6 @@ public class LSTest {
 					tf = new TestFrame(controler);
 				}
 				
-				//controler.setMargin(500, 500, 200, 200);
-				
 				/// initialisation des couleurs ///
 				controler.setHighlightColors(Color.GREEN, Color.RED, Color.CYAN);
 				

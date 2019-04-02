@@ -775,6 +775,70 @@ public class ControllerText {
 		});
 	}
 	
+	/**
+	 * Applique des marges relatives à la taille de la fenêtre des quatre côtés du texte.<br>
+	 * Chaque valeur doit être strictement comprise entre 0 (marge minimum, par défaut) et 1 (taille de la fenêtre).
+	 * @throws IllegalArgumentException
+	 * @throws IllegalStateException si l'exercice a déjà commencé.
+	 */
+	public void setRelativeMargin(final float leftMargin, final float rightMargin,
+			final float topMargin, final float bottomMargin) throws IllegalArgumentException, IllegalStateException {
+		assertNotStarted(pilot, "change margin");
+		assertStrictlyBetween(leftMargin, 0, 1, "leftMargin");
+		assertStrictlyBetween(rightMargin, 0, 1, "rightMargin");
+		assertStrictlyBetween(topMargin, 0, 1, "topMargin");
+		assertStrictlyBetween(bottomMargin, 0, 1, "bottomMargin");
+		setMargin(new Runnable() {
+			@Override
+			public void run() {
+				p.getEditorPane().setRelativeLeftMargin(leftMargin);
+				p.getEditorPane().setRelativeRightMargin(rightMargin);
+				p.getEditorPane().setRelativeTopMargin(topMargin);
+				p.getEditorPane().setRelativeBottomMargin(bottomMargin);
+			}
+		});
+	}
+	
+	public void setRelativeLeftMargin(final float leftMargin) throws IllegalArgumentException, IllegalStateException {
+		assertNotStarted(pilot, "change margin");
+		assertPositiveOrNull(leftMargin, "leftMargin");
+		setMargin(new Runnable() {
+			public void run() {
+				p.getEditorPane().setRelativeLeftMargin(leftMargin);				
+			}
+		});
+	}
+	
+	public void setRelativeTopMargin(final float topMargin) throws IllegalArgumentException, IllegalStateException {
+		assertNotStarted(pilot, "change margin");
+		assertPositiveOrNull(topMargin, "topMargin");
+		setMargin(new Runnable() {
+			public void run() {
+				p.getEditorPane().setRelativeTopMargin(topMargin);				
+			}
+		});
+	}
+	
+	public void setRelativeRightMargin(final float rightMargin) throws IllegalArgumentException, IllegalStateException {
+		assertNotStarted(pilot, "change margin");
+		assertPositiveOrNull(rightMargin, "rightMargin");
+		setMargin(new Runnable() {
+			public void run() {
+				p.getEditorPane().setRelativeRightMargin(rightMargin);				
+			}
+		});
+	}
+	
+	public void setRelativeBottomMargin(final float bottomMargin) throws IllegalArgumentException, IllegalStateException {
+		assertNotStarted(pilot, "change margin");
+		assertPositiveOrNull(bottomMargin, "bottomMargin");
+		setMargin(new Runnable() {
+			public void run() {
+				p.getEditorPane().setRelativeBottomMargin(bottomMargin);				
+			}
+		});
+	}
+	
 	public void addCustomSliderListener(final PropertyChangeListener sliderListener) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {

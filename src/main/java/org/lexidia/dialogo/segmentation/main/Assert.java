@@ -63,6 +63,18 @@ public final class Assert {
 		}
 	}
 	
+	public static void assertBetween(double d, double min, double max, String varName) throws IllegalArgumentException {
+		if (d < min || d > max) {
+			error(varName + " (" + d + ") must be between " + min + " and " + max + " !");
+		}
+	}
+	
+	public static void assertStrictlyBetween(double d, double min, double max, String varName) throws IllegalArgumentException {
+		if (d <= min || d >= max) {
+			error(varName + " (" + d + ") must be strictly between " + min + " and " + max + " !");
+		}
+	}
+	
 	public static void assertNotStarted(Pilot pilot, String action) throws IllegalStateException {
 		if (pilot.hasStarted()) {
 			throw new IllegalStateException("Can't " + action + " while the exercise has started !");

@@ -12,7 +12,7 @@ import fr.lexidia.dialogo.main.LSTest;
 
 public class EventDispatcher {
 
-	private boolean test = false;
+	private boolean test = true;
 	private String user;
 	private String dest;
 	private boolean isPatient;

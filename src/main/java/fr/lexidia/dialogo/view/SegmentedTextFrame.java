@@ -76,11 +76,13 @@ public class SegmentedTextFrame extends JFrame {
 		lastHeight = getHeight();
 		addComponentListener(new ComponentAdapter() {
 			@Override
-			public void componentResized(ComponentEvent e) {
+			public void componentResized(ComponentEvent e) {								
 				if (ed.isPatient()) {
 					ed.dispatch("resize", getWidth(), getHeight(),Toolkit.getDefaultToolkit().getScreenResolution());
+					doComponentResized();
+				} else {
+				
 				}
-				doComponentResized();
 			}
 
 			@Override
@@ -92,9 +94,6 @@ public class SegmentedTextFrame extends JFrame {
 	}
 
 	public void doComponentResized() {
-		System.out.println();
-		System.out.println("DOCOMPONENT RESIZED");
-		System.out.println(pan.getWidth()+"//"+pan.getHeight());
 		/// lors d'un redimensionnement, refait la mise en page ///
 		if (isResizable() && pan.getEditorPane() != null && pan.getEditorPane().getWidth() > 0
 				&& pan.getTextHandler() != null && (lastWidth != getWidth() || lastHeight != getHeight())) {

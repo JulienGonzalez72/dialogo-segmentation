@@ -1303,8 +1303,8 @@ public class ControllerText {
 	 * Change la taille de la fenêtre
 	 */
 	public void reSize(int w, int h) {
-		p.getFenetre().setSize(w,h);
-		p.getFenetre().doComponentResized();
+		//p.getFenetre().setSize(w,h);
+		//p.getFenetre().doComponentResized();
 	}
 
 }

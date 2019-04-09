@@ -28,12 +28,12 @@ public class LSTest {
 	public static final boolean START_EXERCICE = false;
 	public static final boolean WRAPPED_TEXT = false;
 	public static final int MAX_PHRASES_BY_PAGE = 0;
-	
+
 	public static boolean distantParam_highlightFromStart;
 	private static TestFrame tf;
 
 	public LSTest(String[] args, EventDispatcher ed) {
-		
+
 		/// initialisation du système de log local ///
 		System.setProperty("org.apache.commons.logging.simplelog.logFile", "System.out");
 		System.setProperty("org.apache.commons.logging.simplelog.levelInBrackets", "true");
@@ -41,8 +41,9 @@ public class LSTest {
 		System.setProperty("org.apache.commons.logging.simplelog.showdatetime", "true");
 
 		/// installe le look & feel WebLaF ///
-		//WebLookAndFeel.install();
-		//UIManager.put("TextPaneUI", javax.swing.plaf.basic.BasicTextPaneUI.class.getCanonicalName());
+		// WebLookAndFeel.install();
+		// UIManager.put("TextPaneUI",
+		/// javax.swing.plaf.basic.BasicTextPaneUI.class.getCanonicalName());
 		try {
 			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
@@ -51,18 +52,18 @@ public class LSTest {
 		}
 
 		/// on créé la fenetre d'exercice avec son eventDispacher ///
-		final SegmentedTextFrame frame = new SegmentedTextFrame("Dialogo - Lecture segmentée",ed); // le titre
+		final SegmentedTextFrame frame = new SegmentedTextFrame("Dialogo - Lecture segmentée", ed); // le titre
 
 		String file = "resources/textes/Amélie la sorcière" + (WRAPPED_TEXT ? "" : "_oneline") + ".txt";
-		//String file = "resources/textes/20 000 lieux sous les mers";	
+		// String file = "resources/textes/20 000 lieux sous les mers";
 		/// on initalise la fenetre avec les parametres necessaires a sa creation ///
 		frame.init(getTextFromFile(file), // le texte a afficher
 				0, // le premier segment à afficher
 				new Font(Font.DIALOG, Font.PLAIN, 20), // les
-																										// caracteristiques
-																										// de la police
-																										// (nom, style,
-																										// taille)
+														// caracteristiques
+														// de la police
+														// (nom, style,
+														// taille)
 				100, // la position x de la fenetre (en pixels)
 				100, // la position y de la fenetre (en pixels)
 				20.25f, // la largeur de la fenetre (en cm)
@@ -73,8 +74,8 @@ public class LSTest {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		/// met la fenêtre en plein écran ///
-		//TODO remettre en plein écran
-		//frame.setFullScreen();
+		// TODO remettre en plein écran
+		// frame.setFullScreen();
 
 		/// on affiche la fenetre ///
 		frame.start();
@@ -83,21 +84,14 @@ public class LSTest {
 		/// bien initilisee ///
 		frame.setOnInit(new Runnable() {
 			public void run() {
-				//1995-531
-				System.out.println("/////////////");
-				System.out.println(frame.getWidth()+"//"+frame.getHeight());
-				System.out.println(frame.getContentPane().getWidth()+"//"+frame.getContentPane().getHeight());
-				frame.setSize(frame.getWidth(),frame.getHeight());
-				frame.getContentPane().setSize(frame.getContentPane().getWidth(),frame.getContentPane().getHeight());
-				System.out.println("/////////////");
 				/// on recupere le contrôleur///
 				final ControllerText controler = new ControllerText(frame);
 				ed.addControllerText(controler);
 				if (!ed.isPatient()) {
 					frame.setTitle("THERAPIST VIEW OF PATIENT FRAME");
-					tf = new TestFrame(controler,ed);
-				} 
-				
+					tf = new TestFrame(controler, ed);
+				}
+
 				// controler.setMargin(500, 500, 200, 200);
 
 				/// initialisation des couleurs ///
@@ -116,7 +110,7 @@ public class LSTest {
 
 				/// active les contrôles clavier ///
 				controler.setKeyEnabled(ed);
-				
+
 				// active les contrôles souris ///
 				controler.setMouseEnabled(ed.isPatient());
 
@@ -139,7 +133,7 @@ public class LSTest {
 	 * Ceci est notre algorithme de lecture personnalise, il doit heriter de
 	 * ReadThread et definir un constructeur identique.
 	 */
-	 public static class LSThread extends ReadThread {
+	public static class LSThread extends ReadThread {
 		public LSThread(ControllerText controler) {
 			super(controler);
 		}

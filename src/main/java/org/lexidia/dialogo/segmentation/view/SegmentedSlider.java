@@ -14,6 +14,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 public class SegmentedSlider extends JSlider {
+	
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * décalage du slider de la marge du bas dû à la barre de progression (à ne plus utiliser)

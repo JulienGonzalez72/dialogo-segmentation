@@ -839,6 +839,22 @@ public class ControllerText {
 		});
 	}
 	
+	public float getRelativeLeftMargin() {
+		return p.getEditorPane().getRelativeLeftMargin();
+	}
+	
+	public float getRelativeRightMargin() {
+		return p.getEditorPane().getRelativeRightMargin();
+	}
+	
+	public float getRelativeTopMargin() {
+		return p.getEditorPane().getRelativeTopMargin();
+	}
+	
+	public float getRelativeBottomMargin() {
+		return p.getEditorPane().getRelativeBottomMargin();
+	}
+	
 	public void addCustomSliderListener(final PropertyChangeListener sliderListener) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {

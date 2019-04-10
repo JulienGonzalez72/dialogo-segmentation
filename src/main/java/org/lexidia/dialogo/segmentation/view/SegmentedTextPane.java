@@ -294,19 +294,35 @@ public class SegmentedTextPane extends JTextPane {
 	}
 	
 	public void setRelativeLeftMargin(float margin) {
-		setLeftMargin(getWidth() * margin);
+		setLeftMargin(margin * getWidth());
 	}
 	
 	public void setRelativeRightMargin(float margin) {
-		setRightMargin(getWidth() * margin);
+		setRightMargin(margin * getWidth());
 	}
 	
 	public void setRelativeTopMargin(float margin) {
-		setTopMargin(getHeight() * margin);
+		setTopMargin(margin * getHeight());
 	}
 	
 	public void setRelativeBottomMargin(float margin) {
-		setBottomMargin(getHeight() * margin);
+		setBottomMargin(margin * getHeight());
+	}
+	
+	public float getRelativeLeftMargin() {
+		return leftMargin / getWidth();
+	}
+	
+	public float getRelativeRightMargin() {
+		return rightMargin / getWidth();
+	}
+	
+	public float getRelativeTopMargin() {
+		return topMargin / getHeight();
+	}
+	
+	public float getRelativeBottomMargin() {
+		return bottomMargin / getHeight();
 	}
 	
 	/**
